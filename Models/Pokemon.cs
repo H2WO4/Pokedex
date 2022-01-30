@@ -1,4 +1,5 @@
 using Pokemons.Interfaces;
+using Pokemons.Enums;
 
 namespace Pokemons.Models
 {
@@ -15,12 +16,19 @@ namespace Pokemons.Models
 		# endregion
 
 		# region Properties
-		// Inherited from the Species
+		// Inherited from the Species - Important infos
 		public int ID { get => this._species.ID; }
 		public string Name { get => this._species.Name; }
 		public PokemonSpecies Species { get => this._species; }
 		public List<PokemonType> Types { get => this._species.Types; }
 		public Dictionary<string, int> BaseStats { get => this._species.Stats; }
+
+		// Inherited from the Species - Flavor
+		public string Genus { get => this._species.Genus; }
+		public PokeClass Class { get => this._species.Class; }
+		public int Height { get => this._species.Height; }
+		public int Weight { get => this._species.Weight; }
+
 
 		// Unique per Pokemon
 		public int Level { get => this._level; }
@@ -41,10 +49,10 @@ namespace Pokemons.Models
 		{
 			var max = (int)Math.Floor(Math.Log10(this.Stats.Select(pair => pair.Value).Max())+1);
 			return string.Join('\n', new string[]{
-				$"No.  {this.ID, 3}      \"{this._nickname}\" - {this.Name}",
-				$"Lvl: {this._level, 3}      " + string.Join('-', this.Types),
-				$"HP : {this.HP, 3}      Atk  : {this.Atk, 3}      Def  : {this.Def, 3}",
-				$"Spd: {this.Spd, 3}      S.Atk: {this.SpAtk, 3}      S.Def: {this.SpDef, 3}",
+				$"No.  {this.ID, 4}      \"{this._nickname}\" - {this.Name}",
+				$"Lvl: {this._level, 4}      " + string.Join('-', this.Types),
+				$"HP : {this.HP, 4}      Atk  : {this.Atk, 4}      Def  : {this.Def, 4}",
+				$"Spd: {this.Spd, 4}      S.Atk: {this.SpAtk, 4}      S.Def: {this.SpDef, 4}",
 			}); }
 		}
 		public virtual Dictionary<string, int> Stats
@@ -129,7 +137,7 @@ namespace Pokemons.Models
 			this.setIV("spd", spd);
 		}
 
-		public double getEffectiveness(PokemonType attacker) => attacker.calculateWeakness(this._species.Types);
+		public double getAffinity(PokemonType attacker) => attacker.calculateAffinity(this._species.Types);
 
 		public override string ToString() => this._nickname;
 		# endregion

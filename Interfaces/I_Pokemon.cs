@@ -31,7 +31,7 @@ namespace Pokemons.Interfaces
 		# region Methods
 		void setIV(string stat, int val);
 		void setIVs(int hp, int atk, int def, int spAtk, int spDef, int spd);
-		double getEffectiveness(PokemonType attacker);
+		double getAffinity(PokemonType attacker);
 		# endregion
 	}
 }

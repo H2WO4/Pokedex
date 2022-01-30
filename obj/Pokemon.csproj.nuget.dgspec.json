@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\arthu\\Documents\\GitHub\\C-Sharp\\Pokemon\\Pokemon.csproj": {}
+    "E:\\Desktop\\Programation\\Github\\Pokedex\\Pokemon.csproj": {}
   },
   "projects": {
-    "C:\\Users\\arthu\\Documents\\GitHub\\C-Sharp\\Pokemon\\Pokemon.csproj": {
+    "E:\\Desktop\\Programation\\Github\\Pokedex\\Pokemon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\arthu\\Documents\\GitHub\\C-Sharp\\Pokemon\\Pokemon.csproj",
+        "projectUniqueName": "E:\\Desktop\\Programation\\Github\\Pokedex\\Pokemon.csproj",
         "projectName": "Pokemon",
-        "projectPath": "C:\\Users\\arthu\\Documents\\GitHub\\C-Sharp\\Pokemon\\Pokemon.csproj",
-        "packagesPath": "C:\\Users\\arthu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\arthu\\Documents\\GitHub\\C-Sharp\\Pokemon\\obj\\",
+        "projectPath": "E:\\Desktop\\Programation\\Github\\Pokedex\\Pokemon.csproj",
+        "packagesPath": "C:\\Users\\Arthur\\.nuget\\packages\\",
+        "outputPath": "E:\\Desktop\\Programation\\Github\\Pokedex\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\arthu\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Arthur\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -52,7 +52,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

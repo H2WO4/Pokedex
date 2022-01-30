@@ -9,7 +9,7 @@ namespace Pokemons.Models
 		protected string _name = "";
 		protected (int, int, int) _color = (0, 0, 0);
 
-		public static Dictionary<PokemonType, Dictionary<PokemonType, double>> _weaknesses = new Dictionary<PokemonType, Dictionary<PokemonType, double>>();
+		public static Dictionary<string, Dictionary<string, double>> _affinities = new Dictionary<string, Dictionary<string, double>>();
 		# endregion
 
 		# region Properties
@@ -33,41 +33,60 @@ namespace Pokemons.Models
 				this._color = color;
 			else throw new ArgumentException("Color channels must be between 0-255");
 
-			_weaknesses[this] = new Dictionary<PokemonType, double>();
+			_affinities[name] = new Dictionary<string, double>();
 		}
 		# endregion
 
 		# region Methods
-		public static double getWeakness(PokemonType attacker, PokemonType defender) => _weaknesses[attacker][defender];
-		public static void setWeakness(PokemonType attacker, PokemonType defender, double value) => _weaknesses[attacker][defender] = value;
+		// GetWeakness
+		public static double getAffinity(PokemonType attacker, PokemonType defender) =>
+			_affinities[attacker.Name][defender.Name];
+		public static double getAffinity(string attacker, string defender) =>
+			_affinities[attacker][defender];
 
-		public void setWeaknesses(Dictionary<PokemonType, double> weaknesses) => weaknesses.ToList().ForEach(pair => PokemonType.setWeakness(this, pair.Key, pair.Value));
+		// SetWeakness
+		public static void setAffinity(PokemonType attacker, PokemonType defender, double value) =>
+			_affinities[attacker.Name][defender.Name] = value;
+		public static void setAffinity(string attacker, string defender, double value) =>
+			_affinities[attacker][defender] = value;
 
-		public static double calculateWeakness(PokemonType attacker, IEnumerable<PokemonType> defenders) =>
-			defenders.Select(defender => getWeakness(attacker, defender)).Aggregate((a,b) => a * b);
+		// SetWeaknesses
+		public void setAffinities(Dictionary<PokemonType, double> weaknesses) =>
+			weaknesses.ToList().ForEach(pair => PokemonType.setAffinity(this, pair.Key, pair.Value));
+		public void setAffinities(Dictionary<string, double> weaknesses) =>
+			weaknesses.ToList().ForEach(pair => PokemonType.setAffinity(this.Name, pair.Key, pair.Value));
+
+		// Static CalculateWeakness
+		public static double calculateAffinity(PokemonType attacker, IEnumerable<PokemonType> defenders) =>
+			defenders.Select(defender => getAffinity(attacker, defender)).Aggregate((a,b) => a * b);
 		
-		public double calculateWeakness(IEnumerable<PokemonType> defenders) => PokemonType.calculateWeakness(this, defenders);
+		// Non-Static CalculateWeakness
+		public double calculateAffinity(IEnumerable<PokemonType> defenders) =>
+			PokemonType.calculateAffinity(this, defenders);
 
-		public static void displayWeaknessTable()
+		public static void displayAffinityTable()
 		{
-			List<PokemonType> types = _weaknesses.Select(pair => pair.Key).ToList();
+			List<string> types = _affinities.Select(pair => pair.Key).ToList();
 
-			int maxLen = types.Select(type => type.Name.Length).Max();
+			int maxLen = types.Select(type => type.Length).Max();
 			var output = new StringBuilder("".PadRight(maxLen));
 			
-			types.ForEach(defender => output.Append(defender.Name.PadLeft(maxLen+2)));
+			types.ForEach(defender => output.Append(defender.PadLeft(maxLen+2)));
 			output.AppendLine();
 
 			types.ForEach(attacker => {
-				output.Append(attacker.Name.PadRight(maxLen));
-				types.ForEach(defender => output.Append(getWeakness(attacker, defender).ToString().PadLeft(maxLen+2)));
+				output.Append(attacker.PadRight(maxLen));
+				types.Select(type => getAffinity(attacker, type))
+					.Select(affinity => affinity == 0 ? "-" :
+										affinity == 0.5 ? "1/2" :
+										affinity == 1 ? "1" :
+										"*2*").ToList()
+					.ForEach(affinity => output.Append(affinity.PadLeft(maxLen+2)));
 				output.AppendLine();
 			});
 
 			Console.WriteLine(output);
 		}
-
-		public override string ToString() => this.Name;
 		# endregion
 	}
 }

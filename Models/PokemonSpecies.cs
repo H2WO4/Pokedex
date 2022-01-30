@@ -17,6 +17,7 @@ namespace Pokemons.Models
 		protected int _height;
 		protected int _weight;
 		protected string _genus;
+		protected int _generation;
 		# endregion
 
 		# region Properties
@@ -27,10 +28,11 @@ namespace Pokemons.Models
 		public Dictionary<string, int> Stats { get => this._baseStats; }
 
 		// Flavor
+		public string Genus { get => this._genus; }
 		public PokeClass Class { get => this._class; }
 		public int Height { get => this._height; }
 		public int Weight { get => this._weight; }
-		public string Genus { get => this._genus; }
+		public int Generation { get => this._generation; }
 		#endregion
 
 		# region Constructors
@@ -39,7 +41,7 @@ namespace Pokemons.Models
 			List<PokemonType> types,
 			Dictionary<string, int> stats,
 
-			string genus, PokeClass class_,
+			int generation, string genus, PokeClass class_,
 			int height,	int weight
 		)
 		{
@@ -48,6 +50,7 @@ namespace Pokemons.Models
 			this._types = types;
 			this._baseStats = stats;
 
+			this._generation = generation;
 			this._genus = genus;
 			this._class = class_;
 			this._height = height;

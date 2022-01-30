@@ -13,11 +13,11 @@ namespace Pokemons.Interfaces
 		Dictionary<string, int> Stats { get; }
 
 		// Flavor
-		// TODO: Evolution class
+		string Genus { get; }
 		PokeClass Class { get; }
 		int Height { get; }
 		int Weight { get; }
-		string Genus { get; }
+		int Generation { get; }
 		# endregion
 	}
 }

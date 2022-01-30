@@ -1,83 +1,118 @@
+# Imports
 import json
 import os
 import shutil
 
+# Delete the old folder
 shutil.rmtree("Models\\Pokemons")
 os.mkdir("Models\\Pokemons")
 
+# Load the json file
 data = {}
-with open("..\\Data\\pokemon.json", encoding="utf-8") as f:
+with open("Data\\pokemon.json", encoding="utf-8") as f:
 	data = json.load(f)
 
 i = 1
+# For each pokemon
 for poke in data.values():
-	# if i > 10: break
+	# Potential loop breaker for testing
+	if i > 30: break
 	# if poke["name"] != "pikachu": continue
 
+	# Find the name to use in file names
 	className: str = poke["name"].title()
-	if '-' in className: continue
-	with open(f"Models\\Pokemons\\{className}Species.cs", 'w', encoding="utf-8") as f:
-		class_ = 'PokeClass.Baby' if poke["is_baby"] else 'PokeClass.Mythical' if poke["is_mythical"] else 'PokeClass.Legendary' if poke["is_legendary"] else 'PokeClass.Normal'
 
-		outfile = r"""using Pokemons.Models.PokemonTypes;
+	# If there's an hypen, it's a form, and does not warrant a class (yet)
+	if '-' in className: continue
+
+	# Create the Species class, by opening a file
+	with open(f"Models\\Pokemons\\{className}.cs", 'w', encoding="utf-8") as f:
+		# Find the class the pokemon belongs to
+		class_ = \
+			'PokeClass.Baby' if poke["is_baby"] else \
+			'PokeClass.Mythical' if poke["is_mythical"] else \
+			'PokeClass.Legendary' if poke["is_legendary"] else \
+			'PokeClass.Normal'
+
+		# Find the generation the pokemon belongs to
+		generation = \
+			1 if poke["generation"] == "generation-i" else \
+			2 if poke["generation"] == "generation-ii" else \
+			3 if poke["generation"] == "generation-iii" else \
+			4 if poke["generation"] == "generation-iv" else \
+			5 if poke["generation"] == "generation-v" else \
+			6 if poke["generation"] == "generation-vi" else \
+			7 if poke["generation"] == "generation-vii" else \
+			8
+
+		# Load the template code
+		outfile = f"""
+
+using Pokemons.Models.PokemonTypes;
 using Pokemons.Enums;
 
 namespace Pokemons.Models.Pokemons
-{
-	public class ___Species : PokemonSpecies
-	{
+{{
+	public class {className}Species : PokemonSpecies
+	{{
 		# region Class Variables
-		private static ___Species? _singleton;
+		private static {className}Species? _singleton;
 		# endregion
 
 		# region Properties
-		public static ___Species Singleton { get => _singleton is null ? _singleton = new ___Species() : _singleton; }
+		public static {className}Species Singleton {{ get => _singleton is null ? _singleton = new {className}Species() : _singleton; }}
 		# endregion
 
 		# region Constructor
-		public ___Species() : base(
-			_id_, "___",
-			new List<PokemonType>(){
-				Type_type_.Singleton,
-			},
-			new Dictionary<string, int>(){
-				{"hp", _hp_},
-				{"atk", _atk_},
-				{"def", _def_},
-				{"spAtk", _spAtk_},
-				{"spDef", _spDef_},
-				{"spd", _spd_},
-			},
+		public {className}Species() : base(
+			{poke['id']}, "{className}",
+			new List<PokemonType>(){{
+				{r'''
+				'''.join([f'Type{type_.title()}.Singleton,' for type_ in poke['types']])}
+			}},
+			new Dictionary<string, int>(){{
+				{{"hp", {poke['stats']['hp']}}},
+				{{"atk", {poke['stats']['attack']}}},
+				{{"def", {poke['stats']['defense']}}},
+				{{"spAtk", {poke['stats']['special-attack']}}},
+				{{"spDef", {poke['stats']['special-defense']}}},
+				{{"spd", {poke['stats']['speed']}}},
+			}},
 
-			"_genus_", _class_,
-			_height_, _weight_
-		) {}
+			{generation}, "{poke['genera']['en']}", {class_},
+			{poke['height']}, {poke['weight']}
+		) {{}}
 		# endregion
-	}
-}"""\
-			.replace('___', className).replace('_id_', str(poke["id"])).replace('_type_', poke["types"][0].title())\
-			.replace('_hp_', str(poke["stats"]["hp"])).replace('_atk_', str(poke["stats"]["attack"])).replace('_def_', str(poke["stats"]["defense"]))\
-			.replace('_spAtk_', str(poke["stats"]["special-attack"])).replace('_spDef_', str(poke["stats"]["special-defense"])).replace('_spd_', str(poke["stats"]["speed"]))\
-			.replace('_class_', class_).replace('_height_', str(poke["height"])).replace('_weight_', str(poke["weight"])).replace('_genus_', poke["genera"]["en"])\
-			.split('\n')
-		
-		if len(poke["types"]) > 1:
-			outfile.insert(19, r"				Type_type_.Singleton,".replace('_type_', poke["types"][1].title()))
-		outfile = '\n'.join(outfile)
+	}}
+}}
+
+"""[2:-2]
+		# ↑ Delete the first two and last two newlines, here for readability
+
+		# Write the code to the file
 		f.write(outfile)
 	
-	with open(f"Models\\Pokemons\\{className}.cs", 'w') as f:
-		outfile = r"""namespace Pokemons.Models.Pokemons
-{
-	public class ___ : Pokemon
-	{
+	# # Create the class, by opening a file
+	# with open(f"Models\\Pokemons\\{className}.cs", 'w') as f:
+		# Load the template code, and format it with the actual data
+		outfile = f"""
+
+namespace Pokemons.Models.Pokemons
+{{
+	public class {className} : Pokemon
+	{{
 		# region Constructor
-		public ___(int level) : base(___Species.Singleton, level) {}
-		public ___(int level, string nickname) : base(___Species.Singleton, level, nickname) {}
-		public ___(int level, string nickname, Dictionary<string, int> evs) : base(___Species.Singleton, level, nickname, evs) {}
+		public {className}(int level) : base({className}Species.Singleton, level) {{}}
+		public {className}(int level, string nickname) : base({className}Species.Singleton, level, nickname) {{}}
+		public {className}(int level, string nickname, Dictionary<string, int> evs) : base({className}Species.Singleton, level, nickname, evs) {{}}
 		# endregion
-	}
-}""".replace('___', className)
+	}}
+}}
+
+"""[:-2]
+		# ↑ Delete the first last two newlines, here for readability
+
+		# Append the code to the file
 		f.write(outfile)
 	
 	i += 1

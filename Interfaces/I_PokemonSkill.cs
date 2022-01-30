@@ -17,7 +17,7 @@ namespace Pokemons.Interfaces
 		# endregion
 
 		# region Methods
-		public void onUse(Pokemon user, List<Pokemon> targets);
+		public void onUse(Pokemon user, List<Pokemon> targets, List<PokemonSkill> skillQueue);
 		# endregion
 	}
 }
