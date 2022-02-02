@@ -1,3 +1,7 @@
 Data/*_raw.json
 Data/*.py
 Models/Pokemons/*.cs
+!Models/Pokemons/Arceus.cs
+bin/
+obj/
+.vscode/

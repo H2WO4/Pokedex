@@ -37,12 +37,12 @@ namespace Pokedex.Models
 		public PokemonSkill[] Moves { get => this._moves; }
 
 		// Stats
-		public virtual int HP { get => (int)Math.Floor(0.02 * (this.BaseStats["hp"] + this._ivs["hp"]) * this._level) + this._level + 10; }
-		public virtual int Atk { get => (int)Math.Floor(0.02 * (this.BaseStats["atk"] + this._ivs["atk"]) * this._level) + 5; }
-		public virtual int Def { get => (int)Math.Floor(0.02 * (this.BaseStats["def"] + this._ivs["def"]) * this._level) + 5; }
-		public virtual int SpAtk { get => (int)Math.Floor(0.02 * (this.BaseStats["spAtk"] + this._ivs["spAtk"]) * this._level) + 5; }
-		public virtual int SpDef { get => (int)Math.Floor(0.02 * (this.BaseStats["spDef"] + this._ivs["spDef"]) * this._level) + 5; }
-		public virtual int Spd { get => (int)Math.Floor(0.02 * (this.BaseStats["spd"] + this._ivs["spd"]) * this._level) + 5; }
+		public virtual int HP { get => (int)Math.Floor((2 * this.BaseStats["hp"] + this._ivs["hp"] + Math.Floor(this._evs["hp"] / 4d)) * this._level / 100d) + this._level + 10; }
+		public virtual int Atk { get => (int)((Math.Floor((2 * this.BaseStats["atk"] + this._ivs["atk"] + Math.Floor(this._evs["atk"] / 4d)) * this._level / 100d) + 5) * 1); }
+		public virtual int Def { get => (int)((Math.Floor((2 * this.BaseStats["def"] + this._ivs["def"] + Math.Floor(this._evs["def"] / 4d)) * this._level / 100d) + 5) * 1); }
+		public virtual int SpAtk { get => (int)((Math.Floor((2 * this.BaseStats["spAtk"] + this._ivs["spAtk"] + Math.Floor(this._evs["spAtk"] / 4d)) * this._level / 100d) + 5) * 1); }
+		public virtual int SpDef { get => (int)((Math.Floor((2 * this.BaseStats["spDef"] + this._ivs["spDef"] + Math.Floor(this._evs["spDef"] / 4d)) * this._level / 100d) + 5) * 1); }
+		public virtual int Spd { get => (int)((Math.Floor((2 * this.BaseStats["spd"] + this._ivs["spd"] + Math.Floor(this._evs["spd"] / 4d)) * this._level / 100d) + 5) * 1); }
 
 		// Others
 		public string PokedexEntry { get
@@ -138,12 +138,47 @@ namespace Pokedex.Models
 			this.setIV("spd", spd);
 		}
 
+		public void setEV(string stat, int val)
+		{
+			var total = this._evs.Where(pair => pair.Key != stat)
+				.Select(pair => pair.Value)
+				.Aggregate((a, b) => a + b);
+			
+			if (total + val <= 510)
+				if (val <= 255)
+					this._evs[stat] = val;
+				else throw new ArgumentException("Singular EV surpass 252");
+			else throw new ArgumentException("Total EVs surpass 510");
+		}
+		private void unsafeSetEV(string stat, int val)
+		{
+			if (val <= 252)
+				this._evs[stat] = val;
+			else throw new ArgumentException("Singular EV surpass 252");
+		}
+
+		public void setEVs(int hp, int atk, int def, int spAtk, int spDef, int spd)
+		{
+			if (hp + atk + def + spAtk + spDef + spd <= 510)
+			{
+				this.unsafeSetEV("hp", hp);
+				this.unsafeSetEV("atk", atk);
+				this.unsafeSetEV("def", def);
+				this.unsafeSetEV("spAtk", spAtk);
+				this.unsafeSetEV("spDef", spDef);
+				this.unsafeSetEV("spd", spd);
+			}
+			else throw new ArgumentException("Total EVs surpass 510");
+		}
+
 		public void setMoves(PokemonSkill move1, PokemonSkill move2, PokemonSkill move3, PokemonSkill move4) =>
 			this._moves = new PokemonSkill[4]{move1, move2, move3, move4};
 
-		public double getAffinity(PokemonType attacker) => attacker.calculateAffinity(this._species.Types);
+		public double getAffinity(PokemonType attacker) =>
+			attacker.calculateAffinity(this._species.Types);
 
-		public override string ToString() => this._nickname;
+		public override string ToString() =>
+			this._nickname;
 		# endregion
 	}
 }

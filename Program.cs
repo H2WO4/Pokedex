@@ -244,7 +244,8 @@ namespace Pokedex
 		static void Main(String[] args)
 		{
 			initializeTypes();
-			var thunder = new SkillThunder();
+
+			/* var thunder = new SkillThunder();
 
 			Random random = new Random();
 			Assembly.GetAssembly(typeof(Pokemon))!.GetTypes() // Load the object Pokemon
@@ -253,7 +254,7 @@ namespace Pokedex
 				//.Where(poke => poke.Species.Class == PokeClass.Mythical) // Filter them
 				.OrderBy(_ => random.Next()) // Shuffle them
 				.Take(10).ToList() // Take 10 of them
-				.ForEach(poke => Console.WriteLine($"{poke.PokedexEntry}\n")); // Print them
+				.ForEach(poke => Console.WriteLine($"{poke.PokedexEntry}\n")); // Print them */
 			
 			// PokemonType.displayAffinityTable();
 			// Console.WriteLine(thunder.PokedexEntry);
