@@ -1,7 +1,12 @@
+# Ignore raw data files and the the data processing scripts
 Data/*_raw.json
 Data/*.py
+
+# Ignore Pokémons, except Arceus because he's best boy
 Models/Pokemons/*.cs
 !Models/Pokemons/Arceus.cs
+
+# Ignore compilation & project files
 bin/
 obj/
 .vscode/
