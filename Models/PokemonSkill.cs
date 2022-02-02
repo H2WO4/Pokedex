@@ -1,7 +1,7 @@
-using Pokemons.Interfaces;
-using Pokemons.Enums;
+using Pokedex.Interfaces;
+using Pokedex.Enums;
 
-namespace Pokemons.Models
+namespace Pokedex.Models
 {
 	public abstract class PokemonSkill : I_PokemonSkill
 	{

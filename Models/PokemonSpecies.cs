@@ -1,7 +1,7 @@
-using Pokemons.Interfaces;
-using Pokemons.Enums;
+using Pokedex.Interfaces;
+using Pokedex.Enums;
 
-namespace Pokemons.Models
+namespace Pokedex.Models
 {
 	public abstract class PokemonSpecies : I_PokemonSpecies
 	{
@@ -13,11 +13,11 @@ namespace Pokemons.Models
 		protected Dictionary<string, int> _baseStats = new Dictionary<string, int>();
 
 		// Flavor
+		protected int _generation;
 		protected PokeClass _class;
 		protected int _height;
 		protected int _weight;
 		protected string _genus;
-		protected int _generation;
 		# endregion
 
 		# region Properties
@@ -28,11 +28,11 @@ namespace Pokemons.Models
 		public Dictionary<string, int> Stats { get => this._baseStats; }
 
 		// Flavor
+		public int Generation { get => this._generation; }
 		public string Genus { get => this._genus; }
 		public PokeClass Class { get => this._class; }
 		public int Height { get => this._height; }
 		public int Weight { get => this._weight; }
-		public int Generation { get => this._generation; }
 		#endregion
 
 		# region Constructors
@@ -60,7 +60,6 @@ namespace Pokemons.Models
 		# endregion
 
 		# region Methods
-		public override string ToString() => this.Name;
 		# endregion
 	}
 }

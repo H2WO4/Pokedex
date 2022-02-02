@@ -1,4 +1,4 @@
-namespace Pokemons.Enums
+namespace Pokedex.Enums
 {
 	public enum PokeClass
 	{

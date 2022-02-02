@@ -1,7 +1,7 @@
-using Pokemons.Models;
-using Pokemons.Enums;
+using Pokedex.Models;
+using Pokedex.Enums;
 
-namespace Pokemons.Interfaces
+namespace Pokedex.Interfaces
 {
 	public interface I_PokemonSpecies
 	{

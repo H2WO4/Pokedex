@@ -1,4 +1,4 @@
-namespace Pokemons.Models.PokemonTypes
+namespace Pokedex.Models.PokemonTypes
 {
 	public class TypeFlying : PokemonType
 	{

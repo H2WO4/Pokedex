@@ -1,7 +1,7 @@
-using Pokemons.Enums;
-using Pokemons.Models.PokemonTypes;
+using Pokedex.Enums;
+using Pokedex.Models.PokemonTypes;
 
-namespace Pokemons.Models.PokemonSkills
+namespace Pokedex.Models.PokemonSkills
 {
 	public class SkillThunder : PokemonSkill
 	{

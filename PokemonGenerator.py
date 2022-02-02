@@ -16,7 +16,7 @@ i = 1
 # For each pokemon
 for poke in data.values():
 	# Potential loop breaker for testing
-	if i > 30: break
+	if i > 25: break
 	# if poke["name"] != "pikachu": continue
 
 	# Find the name to use in file names
@@ -26,6 +26,7 @@ for poke in data.values():
 	if '-' in className: continue
 
 	# Create the Species class, by opening a file
+	# with open(f"Models\\Pokemons\\{className}Species.cs", 'w', encoding="utf-8") as f:
 	with open(f"Models\\Pokemons\\{className}.cs", 'w', encoding="utf-8") as f:
 		# Find the class the pokemon belongs to
 		class_ = \
@@ -48,10 +49,10 @@ for poke in data.values():
 		# Load the template code
 		outfile = f"""
 
-using Pokemons.Models.PokemonTypes;
-using Pokemons.Enums;
+using Pokedex.Models.PokemonTypes;
+using Pokedex.Enums;
 
-namespace Pokemons.Models.Pokemons
+namespace Pokedex.Models.Pokemons
 {{
 	public class {className}Species : PokemonSpecies
 	{{
@@ -92,12 +93,12 @@ namespace Pokemons.Models.Pokemons
 		# Write the code to the file
 		f.write(outfile)
 	
-	# # Create the class, by opening a file
+	# Create the class, by opening a file
 	# with open(f"Models\\Pokemons\\{className}.cs", 'w') as f:
 		# Load the template code, and format it with the actual data
 		outfile = f"""
 
-namespace Pokemons.Models.Pokemons
+namespace Pokedex.Models.Pokemons
 {{
 	public class {className} : Pokemon
 	{{
@@ -110,7 +111,7 @@ namespace Pokemons.Models.Pokemons
 }}
 
 """[:-2]
-		# ↑ Delete the first last two newlines, here for readability
+		# ↑ Delete the first and last two newlines, here for readability
 
 		# Append the code to the file
 		f.write(outfile)

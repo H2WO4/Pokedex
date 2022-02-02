@@ -1,6 +1,6 @@
-using Pokemons.Models;
+using Pokedex.Models;
 
-namespace Pokemons.Interfaces
+namespace Pokedex.Interfaces
 {
 	public interface I_Pokemon
 	{
@@ -18,6 +18,8 @@ namespace Pokemons.Interfaces
 		Dictionary<string, int> IVs { get; }
 		Dictionary<string, int> EVs { get; }
 
+		PokemonSkill[] Moves { get; }
+
 		// Stats
 		int HP { get; }
 		int Atk { get; }
@@ -31,6 +33,7 @@ namespace Pokemons.Interfaces
 		# region Methods
 		void setIV(string stat, int val);
 		void setIVs(int hp, int atk, int def, int spAtk, int spDef, int spd);
+		void setMoves(PokemonSkill move1, PokemonSkill move2, PokemonSkill move3, PokemonSkill move4);
 		double getAffinity(PokemonType attacker);
 		# endregion
 	}

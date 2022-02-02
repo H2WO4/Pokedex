@@ -1,6 +1,6 @@
-using Pokemons.Models;
+using Pokedex.Models;
 
-namespace Pokemons.Interfaces
+namespace Pokedex.Interfaces
 {
 	public interface I_PokemonType
 	{

@@ -1,7 +1,7 @@
 using System.Text;
-using Pokemons.Interfaces;
+using Pokedex.Interfaces;
 
-namespace Pokemons.Models
+namespace Pokedex.Models
 {
 	public abstract class PokemonType : I_PokemonType
 	{
@@ -68,25 +68,27 @@ namespace Pokemons.Models
 		{
 			List<string> types = _affinities.Select(pair => pair.Key).ToList();
 
-			int maxLen = types.Select(type => type.Length).Max();
-			var output = new StringBuilder("".PadRight(maxLen));
+			int maxLen = types.Select(type => type.Length).Max()+1;
+			var output = new StringBuilder("".PadRight(maxLen+1));
 			
-			types.ForEach(defender => output.Append(defender.PadLeft(maxLen+2)));
+			types.ForEach(defender => output.Append(' ' + defender.PadLeft(maxLen - (maxLen-defender.Length)/2).PadRight(maxLen)));
 			output.AppendLine();
 
 			types.ForEach(attacker => {
-				output.Append(attacker.PadRight(maxLen));
+				output.Append(attacker.PadLeft(maxLen - (maxLen-attacker.Length)/2).PadRight(maxLen)+ ' ');
 				types.Select(type => getAffinity(attacker, type))
 					.Select(affinity => affinity == 0 ? "-" :
 										affinity == 0.5 ? "1/2" :
-										affinity == 1 ? "1" :
-										"*2*").ToList()
-					.ForEach(affinity => output.Append(affinity.PadLeft(maxLen+2)));
-				output.AppendLine();
+										affinity == 1 ? "" :
+										"2").ToList()
+					.ForEach(affinity => output.Append('|' + affinity.PadLeft(maxLen - (maxLen-affinity.Length)/2).PadRight(maxLen)));
+				output.AppendLine("|");
 			});
 
 			Console.WriteLine(output);
 		}
+		
+		public override string ToString() => this._name;
 		# endregion
 	}
 }

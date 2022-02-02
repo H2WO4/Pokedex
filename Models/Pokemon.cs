@@ -1,7 +1,7 @@
-using Pokemons.Interfaces;
-using Pokemons.Enums;
+using Pokedex.Interfaces;
+using Pokedex.Enums;
 
-namespace Pokemons.Models
+namespace Pokedex.Models
 {
 	public abstract class Pokemon : I_Pokemon
 	{
@@ -11,8 +11,7 @@ namespace Pokemons.Models
 		protected int _level;
 		protected Dictionary<string, int> _ivs;
 		protected Dictionary<string, int> _evs;
-
-		protected List<PokemonSkill> _moves;
+		protected PokemonSkill[] _moves;
 		# endregion
 
 		# region Properties
@@ -35,14 +34,15 @@ namespace Pokemons.Models
 		public string Nickname { get => this._nickname; set => this._nickname = value; }
 		public Dictionary<string, int> IVs { get => this._ivs; }
 		public Dictionary<string, int> EVs { get => this._evs; }
+		public PokemonSkill[] Moves { get => this._moves; }
 
 		// Stats
-		public int HP { get => (int)Math.Floor(0.02 * (this.BaseStats["hp"] + this._ivs["hp"]) * this._level) + this._level + 10; }
-		public int Atk { get => (int)Math.Floor(0.02 * (this.BaseStats["atk"] + this._ivs["atk"]) * this._level) + 5; }
-		public int Def { get => (int)Math.Floor(0.02 * (this.BaseStats["def"] + this._ivs["def"]) * this._level) + 5; }
-		public int SpAtk { get => (int)Math.Floor(0.02 * (this.BaseStats["spAtk"] + this._ivs["spAtk"]) * this._level) + 5; }
-		public int SpDef { get => (int)Math.Floor(0.02 * (this.BaseStats["spDef"] + this._ivs["spDef"]) * this._level) + 5; }
-		public int Spd { get => (int)Math.Floor(0.02 * (this.BaseStats["spd"] + this._ivs["spd"]) * this._level) + 5; }
+		public virtual int HP { get => (int)Math.Floor(0.02 * (this.BaseStats["hp"] + this._ivs["hp"]) * this._level) + this._level + 10; }
+		public virtual int Atk { get => (int)Math.Floor(0.02 * (this.BaseStats["atk"] + this._ivs["atk"]) * this._level) + 5; }
+		public virtual int Def { get => (int)Math.Floor(0.02 * (this.BaseStats["def"] + this._ivs["def"]) * this._level) + 5; }
+		public virtual int SpAtk { get => (int)Math.Floor(0.02 * (this.BaseStats["spAtk"] + this._ivs["spAtk"]) * this._level) + 5; }
+		public virtual int SpDef { get => (int)Math.Floor(0.02 * (this.BaseStats["spDef"] + this._ivs["spDef"]) * this._level) + 5; }
+		public virtual int Spd { get => (int)Math.Floor(0.02 * (this.BaseStats["spd"] + this._ivs["spd"]) * this._level) + 5; }
 
 		// Others
 		public string PokedexEntry { get
@@ -98,7 +98,7 @@ namespace Pokemons.Models
 				{"spd", 0},
 			};
 
-			this._moves = new List<PokemonSkill>();
+			this._moves = new PokemonSkill[4];
 		}
 		public Pokemon
 		(
@@ -126,7 +126,8 @@ namespace Pokemons.Models
 		# endregion
 
 		# region Methods
-		public void setIV(string stat, int val) => this._ivs[stat] = val;
+		public void setIV(string stat, int val) =>
+			this._ivs[stat] = val;
 		public void setIVs(int hp, int atk, int def, int spAtk, int spDef, int spd)
 		{
 			this.setIV("hp", hp);
@@ -136,6 +137,9 @@ namespace Pokemons.Models
 			this.setIV("spDef", spDef);
 			this.setIV("spd", spd);
 		}
+
+		public void setMoves(PokemonSkill move1, PokemonSkill move2, PokemonSkill move3, PokemonSkill move4) =>
+			this._moves = new PokemonSkill[4]{move1, move2, move3, move4};
 
 		public double getAffinity(PokemonType attacker) => attacker.calculateAffinity(this._species.Types);
 
