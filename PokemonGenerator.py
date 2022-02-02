@@ -103,9 +103,14 @@ namespace Pokedex.Models.Pokemons
 	public class {className} : Pokemon
 	{{
 		# region Constructor
-		public {className}(int level) : base({className}Species.Singleton, level) {{}}
-		public {className}(int level, string nickname) : base({className}Species.Singleton, level, nickname) {{}}
-		public {className}(int level, string nickname, Dictionary<string, int> evs) : base({className}Species.Singleton, level, nickname, evs) {{}}
+		public {className}(int level)
+			: base({className}Species.Singleton, level) {{}}
+		public {className}(int level, string nickname)
+			: base({className}Species.Singleton, level, nickname) {{}}
+		public {className}(int level, string nickname, Nature nature)
+			: base({className}Species.Singleton, level, nickname, nature) {{}}
+		public {className}(int level, string nickname, Nature nature, Dictionary<string, int> evs)
+			: base({className}Species.Singleton, level, nickname, nature, evs) {{}}
 		# endregion
 	}}
 }}

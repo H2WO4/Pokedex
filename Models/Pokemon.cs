@@ -11,6 +11,7 @@ namespace Pokedex.Models
 		protected int _level;
 		protected Dictionary<string, int> _ivs;
 		protected Dictionary<string, int> _evs;
+		protected Nature _nature;
 		protected PokemonSkill[] _moves;
 		# endregion
 
@@ -34,15 +35,93 @@ namespace Pokedex.Models
 		public string Nickname { get => this._nickname; set => this._nickname = value; }
 		public Dictionary<string, int> IVs { get => this._ivs; }
 		public Dictionary<string, int> EVs { get => this._evs; }
+		public Nature Nature { get => this._nature; set => this._nature = value; }
 		public PokemonSkill[] Moves { get => this._moves; }
 
 		// Stats
-		public virtual int HP { get => (int)Math.Floor((2 * this.BaseStats["hp"] + this._ivs["hp"] + Math.Floor(this._evs["hp"] / 4d)) * this._level / 100d) + this._level + 10; }
-		public virtual int Atk { get => (int)((Math.Floor((2 * this.BaseStats["atk"] + this._ivs["atk"] + Math.Floor(this._evs["atk"] / 4d)) * this._level / 100d) + 5) * 1); }
-		public virtual int Def { get => (int)((Math.Floor((2 * this.BaseStats["def"] + this._ivs["def"] + Math.Floor(this._evs["def"] / 4d)) * this._level / 100d) + 5) * 1); }
-		public virtual int SpAtk { get => (int)((Math.Floor((2 * this.BaseStats["spAtk"] + this._ivs["spAtk"] + Math.Floor(this._evs["spAtk"] / 4d)) * this._level / 100d) + 5) * 1); }
-		public virtual int SpDef { get => (int)((Math.Floor((2 * this.BaseStats["spDef"] + this._ivs["spDef"] + Math.Floor(this._evs["spDef"] / 4d)) * this._level / 100d) + 5) * 1); }
-		public virtual int Spd { get => (int)((Math.Floor((2 * this.BaseStats["spd"] + this._ivs["spd"] + Math.Floor(this._evs["spd"] / 4d)) * this._level / 100d) + 5) * 1); }
+		public virtual int HP { get =>
+			(int)Math.Floor(
+				(this.BaseStats["hp"] * 2 // Base stat
+				 + this._ivs["hp"] // IV
+				 + Math.Floor(this._evs["hp"] / 4d) // EVs
+				) * this._level / 100d // Adjust for level part 1
+			) + this._level + 10; // Adjust for level part 2
+		}
+		public virtual int Atk { get =>
+			(int)(
+				(Math.Floor(
+					(this.BaseStats["atk"] * 2 // Base stat
+					+ this._ivs["atk"] // IV
+					+ Math.Floor(this._evs["atk"] / 4d) // EV
+					) * this._level / 100d // Asjust for level
+				) + 5) // Flat value
+				* (
+					this._nature.HasFlag(Nature.PlusAtk) ? 1.1 : // Increasing Nature
+					this._nature.HasFlag(Nature.MinusAtk) ? 0.9 : // Decreasing Nature
+					1 // Neutral Nature
+				)
+			);
+		}
+		public virtual int Def { get =>
+			(int)(
+				(Math.Floor(
+					(this.BaseStats["def"] * 2 // Base stat
+					+ this._ivs["def"] // IV
+					+ Math.Floor(this._evs["def"] / 4d) // EV
+					) * this._level / 100d // Asjust for level
+				) + 5) // Flat value
+				* (
+					this._nature.HasFlag(Nature.PlusDef) ? 1.1 : // Increasing Nature
+					this._nature.HasFlag(Nature.MinusDef) ? 0.9 : // Decreasing Nature
+					1 // Neutral Nature
+				)
+			);
+		}
+		public virtual int SpAtk { get =>
+			(int)(
+				(Math.Floor(
+					(this.BaseStats["spAtk"] * 2 // Base stat
+					+ this._ivs["spAtk"] // IV
+					+ Math.Floor(this._evs["spAtk"] / 4d) // EV
+					) * this._level / 100d // Asjust for level
+				) + 5) // Flat value
+				* (
+					this._nature.HasFlag(Nature.PlusSpAtk) ? 1.1 : // Increasing Nature
+					this._nature.HasFlag(Nature.MinusSpAtk) ? 0.9 : // Decreasing Nature
+					1 // Neutral Nature
+				)
+			);
+		}
+		public virtual int SpDef { get =>
+			(int)(
+				(Math.Floor(
+					(this.BaseStats["spDef"] * 2 // Base stat
+					+ this._ivs["spDef"] // IV
+					+ Math.Floor(this._evs["spDef"] / 4d) // EV
+					) * this._level / 100d // Asjust for level
+				) + 5) // Flat value
+				* (
+					this._nature.HasFlag(Nature.PlusSpDef) ? 1.1 : // Increasing Nature
+					this._nature.HasFlag(Nature.MinusSpDef) ? 0.9 : // Decreasing Nature
+					1 // Neutral Nature
+				)
+			);
+		}
+		public virtual int Spd { get =>
+			(int)(
+				(Math.Floor(
+					(this.BaseStats["spd"] * 2 // Base stat
+					+ this._ivs["spd"] // IV
+					+ Math.Floor(this._evs["spd"] / 4d) // EV
+					) * this._level / 100d // Asjust for level
+				) + 5) // Flat value
+				* (
+					this._nature.HasFlag(Nature.PlusSpd) ? 1.1 : // Increasing Nature
+					this._nature.HasFlag(Nature.MinusSpd) ? 0.9 : // Decreasing Nature
+					1 // Neutral Nature
+				)
+			);
+		}
 
 		// Others
 		public string PokedexEntry { get
@@ -51,6 +130,7 @@ namespace Pokedex.Models
 			return string.Join('\n', new string[]{
 				$"No.  {this.ID, 4}      \"{this._nickname}\" - {this.Name}",
 				$"Lvl: {this._level, 4}      " + string.Join('-', this.Types),
+				$"{this._nature}",
 				$"HP : {this.HP, 4}      Atk  : {this.Atk, 4}      Def  : {this.Def, 4}",
 				$"Spd: {this.Spd, 4}      S.Atk: {this.SpAtk, 4}      S.Def: {this.SpDef, 4}",
 			}); }
@@ -79,14 +159,15 @@ namespace Pokedex.Models
 				this._level = level;
 			else throw new ArgumentException("Level must be between 1-100");
 
-			var random = new Random();
+			var rnd = new Random();
+
 			this._ivs = new Dictionary<string, int>(){
-				{"hp", random.Next(0, 32)},
-				{"atk", random.Next(0, 32)},
-				{"def", random.Next(0, 32)},
-				{"spAtk", random.Next(0, 32)},
-				{"spDef", random.Next(0, 32)},
-				{"spd", random.Next(0, 32)},
+				{"hp", rnd.Next(0, 32)},
+				{"atk", rnd.Next(0, 32)},
+				{"def", rnd.Next(0, 32)},
+				{"spAtk", rnd.Next(0, 32)},
+				{"spDef", rnd.Next(0, 32)},
+				{"spd", rnd.Next(0, 32)},
 			};
 
 			this._evs = new Dictionary<string, int>(){
@@ -97,6 +178,9 @@ namespace Pokedex.Models
 				{"spDef", 0},
 				{"spd", 0},
 			};
+
+			var natures = Nature.GetValues(typeof(Nature));
+			this._nature = (Nature)natures.GetValue(rnd.Next(12, natures.Length))!;
 
 			this._moves = new PokemonSkill[4];
 		}
@@ -116,8 +200,19 @@ namespace Pokedex.Models
 			PokemonSpecies species,
 			int level,
 			string nickname,
-			Dictionary<string, int> evs
+			Nature nature
 		) : this(species, level, nickname)
+		{
+			this._nature = nature;
+		}
+		public Pokemon
+		(
+			PokemonSpecies species,
+			int level,
+			string nickname,
+			Nature nature,
+			Dictionary<string, int> evs
+		) : this(species, level, nickname, nature)
 		{
 			if (evs.Keys.SequenceEqual(new string[]{"hp", "atk", "def", "spAtk", "spDef", "spd"}))
 				this._evs = evs;

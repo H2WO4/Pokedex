@@ -1,6 +1,7 @@
 ﻿using Pokedex.Models;
 using Pokedex.Enums;
 using System.Reflection;
+using Pokedex.Models.Pokemons;
 using Pokedex.Models.PokemonSkills;
 using Pokedex.Models.PokemonTypes;
 
@@ -244,6 +245,8 @@ namespace Pokedex
 		static void Main(String[] args)
 		{
 			initializeTypes();
+			var pika = new Pikachu(100);
+			Console.WriteLine(pika.PokedexEntry);
 
 			/* var thunder = new SkillThunder();
 
