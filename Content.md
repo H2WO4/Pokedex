@@ -1,7 +1,11 @@
 # Attacks
 
 - Godslayer - Déicide - かみごりし
-  - Power: 70 - Light? / Dark?
+  - Power: 70 - Light
+  - Accuracy: 100%
+  - Double damage to Legendaries and Mythicals
+- Dream's End - Rêve Terminal - ゆめのはて
+  - Power: 70 - Dark
   - Accuracy: 100%
   - Double damage to Legendaries and Mythicals
 - Chauvinist - Chauvin - はいがいしゅぎ
@@ -32,12 +36,20 @@
   - Based on a rooster
   - Mostly defensive - still all-around
   - Ability: Jingoism
-  - Evolve into: Napol
 - Napol - Napol - ナポル
   - Normal-Light
   - Based on a rooster and Napoleon
   - Mostly defensive - still all-around
   - Abilty: Jingoism
+
+<br>
+
+- Gobgob - Gobgob - ゴブゴブ
+  - Dark
+- Hobgob - Hobgob - ホブゴブ
+  - Dark-Fighting
+- Hobhob - Hobhob - ホブホブ
+  - Dark-Fighting
 
 # Types
 

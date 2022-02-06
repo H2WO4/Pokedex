@@ -6,7 +6,7 @@ namespace Pokedex.Models
 	{
 		# region Variables
 		private PokemonSkill _skill;
-		private List<I_Event> _eventQueue;
+		private CombatInstance _context;
 		#endregion
 
 		#region Properties
@@ -14,15 +14,19 @@ namespace Pokedex.Models
 		# endregion
 
 		# region Constructors
-		public SkillEvent(PokemonSkill skill, ref List<I_Event> eventQueue)
+		public SkillEvent
+		(
+			PokemonSkill skill,
+			CombatInstance context
+		)
 		{
 			this._skill = skill;
-			this._eventQueue = eventQueue;
+			this._context = context;
 		}
 		# endregion
 
 		# region Methods
-		public void update()
+		public void Update()
 		{
 			throw new NotImplementedException();
 		}

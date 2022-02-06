@@ -11,7 +11,7 @@ namespace Pokedex
 	{
 		static void initializeTypes()
 		{
-			TypeNormal.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeNormal.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 1},
 				{"Water", 1}, {"Electric", 1},
 				{"Grass", 1}, {"Ice", 1},
@@ -23,7 +23,7 @@ namespace Pokedex
 				{"Steel", 0.5}, {"Fairy", 2},
 				{"Light", 1}
 			});
-			TypeFire.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeFire.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 0.5},
 				{"Water", 0.5}, {"Electric", 1},
 				{"Grass", 2}, {"Ice", 2},
@@ -35,7 +35,7 @@ namespace Pokedex
 				{"Steel", 2}, {"Fairy", 1},
 				{"Light", 1}
 			});
-			TypeWater.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeWater.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 2},
 				{"Water", 0.5}, {"Electric", 1},
 				{"Grass", 0.5}, {"Ice", 1},
@@ -47,7 +47,7 @@ namespace Pokedex
 				{"Steel", 1}, {"Fairy", 1},
 				{"Light", 0.5}
 			});
-			TypeElectric.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeElectric.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 2},
 				{"Water", 2}, {"Electric", 0.5},
 				{"Grass", 0.5}, {"Ice", 1},
@@ -59,7 +59,7 @@ namespace Pokedex
 				{"Steel", 1}, {"Fairy", 1},
 				{"Light", 0.5}
 			});
-			TypeGrass.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeGrass.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 0.5},
 				{"Water", 2}, {"Electric", 1},
 				{"Grass", 0.5}, {"Ice", 1},
@@ -71,7 +71,7 @@ namespace Pokedex
 				{"Steel", 0.5}, {"Fairy", 1},
 				{"Light", 1}
 			});
-			TypeIce.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeIce.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 0.5},
 				{"Water", 0.5}, {"Electric", 1},
 				{"Grass", 2}, {"Ice", 0.5},
@@ -83,7 +83,7 @@ namespace Pokedex
 				{"Steel", 0.5}, {"Fairy", 1},
 				{"Light", 2}
 			});
-			TypeFighting.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeFighting.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 2}, {"Fire", 1},
 				{"Water", 1}, {"Electric", 1},
 				{"Grass", 1}, {"Ice", 2},
@@ -95,7 +95,7 @@ namespace Pokedex
 				{"Steel", 2}, {"Fairy", 0.5},
 				{"Light", 1}
 			});
-			TypePoison.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypePoison.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 1},
 				{"Water", 1}, {"Electric", 1},
 				{"Grass", 2}, {"Ice", 1},
@@ -107,7 +107,7 @@ namespace Pokedex
 				{"Steel", 0}, {"Fairy", 2},
 				{"Light", 1}
 			});
-			TypeGround.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeGround.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 2},
 				{"Water", 1}, {"Electric", 2},
 				{"Grass", 0.5}, {"Ice", 1},
@@ -119,7 +119,7 @@ namespace Pokedex
 				{"Steel", 2}, {"Fairy", 1},
 				{"Light", 0.5}
 			});
-			TypeFlying.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeFlying.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 1},
 				{"Water", 1}, {"Electric", 0.5},
 				{"Grass", 2}, {"Ice", 1},
@@ -131,7 +131,7 @@ namespace Pokedex
 				{"Steel", 0.5}, {"Fairy", 1},
 				{"Light", 1}
 			});
-			TypePsychic.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypePsychic.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 1},
 				{"Water", 1}, {"Electric", 1},
 				{"Grass", 1}, {"Ice", 1},
@@ -143,7 +143,7 @@ namespace Pokedex
 				{"Steel", 0.5}, {"Fairy", 1},
 				{"Light", 2}
 			});
-			TypeBug.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeBug.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 0.5},
 				{"Water", 1}, {"Electric", 0.5},
 				{"Grass", 2}, {"Ice", 1},
@@ -155,7 +155,7 @@ namespace Pokedex
 				{"Steel", 0.5}, {"Fairy", 0.5},
 				{"Light", 1}
 			});
-			TypeRock.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeRock.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 2},
 				{"Water", 1}, {"Electric", 1},
 				{"Grass", 1}, {"Ice", 2},
@@ -167,7 +167,7 @@ namespace Pokedex
 				{"Steel", 0.5}, {"Fairy", 1},
 				{"Light", 1}
 			});
-			TypeGhost.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeGhost.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 0}, {"Fire", 1},
 				{"Water", 1}, {"Electric", 1},
 				{"Grass", 1}, {"Ice", 1},
@@ -179,7 +179,7 @@ namespace Pokedex
 				{"Steel", 1}, {"Fairy", 1},
 				{"Light", 1}
 			});
-			TypeDragon.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeDragon.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 1},
 				{"Water", 1}, {"Electric", 1},
 				{"Grass", 1}, {"Ice", 0.5},
@@ -191,7 +191,7 @@ namespace Pokedex
 				{"Steel", 0.5}, {"Fairy", 0},
 				{"Light", 2}
 			});
-			TypeDark.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeDark.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 1},
 				{"Water", 1}, {"Electric", 1},
 				{"Grass", 1}, {"Ice", 1},
@@ -203,7 +203,7 @@ namespace Pokedex
 				{"Steel", 1}, {"Fairy", 0.5},
 				{"Light", 2}
 			});
-			TypeSteel.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeSteel.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 0.5},
 				{"Water", 0.5}, {"Electric", 0.5},
 				{"Grass", 1}, {"Ice", 2},
@@ -215,7 +215,7 @@ namespace Pokedex
 				{"Steel", 0.5}, {"Fairy", 2},
 				{"Light", 1}
 			});
-			TypeFairy.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeFairy.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 0.5},
 				{"Water", 1}, {"Electric", 1},
 				{"Grass", 1}, {"Ice", 1},
@@ -227,7 +227,7 @@ namespace Pokedex
 				{"Steel", 0.5}, {"Fairy", 1},
 				{"Light", 0}
 			});
-			TypeLight.Singleton.setAffinities(new Dictionary<string, double>(){
+			TypeLight.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 1},
 				{"Water", 2}, {"Electric", 2},
 				{"Grass", 1}, {"Ice", 0.5},

@@ -31,9 +31,9 @@ namespace Pokedex.Interfaces
 		# endregion
 
 		# region Methods
-		void setIV(string stat, int val);
-		void setIVs(int hp, int atk, int def, int spAtk, int spDef, int spd);
-		void setMoves(PokemonSkill move1, PokemonSkill move2, PokemonSkill move3, PokemonSkill move4);
+		void SetIV(string stat, int val);
+		void SetIVs(int hp, int atk, int def, int spAtk, int spDef, int spd);
+		void SetMoves(PokemonSkill move1, PokemonSkill move2, PokemonSkill move3, PokemonSkill move4);
 		double getAffinity(PokemonType attacker);
 		# endregion
 	}

@@ -124,8 +124,7 @@ namespace Pokedex.Models
 		}
 
 		// Others
-		public string PokedexEntry { get
-		{
+		public string PokedexEntry { get {
 			var max = (int)Math.Floor(Math.Log10(this.Stats.Select(pair => pair.Value).Max())+1);
 			return string.Join('\n', new string[]{
 				$"No.  {this.ID, 4}      \"{this._nickname}\" - {this.Name}",
@@ -135,9 +134,8 @@ namespace Pokedex.Models
 				$"Spd: {this.Spd, 4}      S.Atk: {this.SpAtk, 4}      S.Def: {this.SpDef, 4}",
 			}); }
 		}
-		public virtual Dictionary<string, int> Stats
-		{
-			get => new Dictionary<string, int>() 
+		public virtual Dictionary<string, int> Stats { get =>
+			new Dictionary<string, int>() 
 			{
 				{ "hp", this.HP }, { "atk", this.Atk }, { "def", this.Def },
 				{ "spAtk", this.SpAtk }, { "spDef", this.SpDef }, { "spd", this.Spd },
@@ -180,7 +178,7 @@ namespace Pokedex.Models
 			};
 
 			var natures = Nature.GetValues(typeof(Nature));
-			this._nature = (Nature)natures.GetValue(rnd.Next(12, natures.Length))!;
+			this._nature = (Nature)natures.GetValue(rnd.Next(13, natures.Length))!;
 
 			this._moves = new PokemonSkill[4];
 		}
@@ -221,19 +219,18 @@ namespace Pokedex.Models
 		# endregion
 
 		# region Methods
-		public void setIV(string stat, int val) =>
-			this._ivs[stat] = val;
-		public void setIVs(int hp, int atk, int def, int spAtk, int spDef, int spd)
+		public void SetIV(string stat, int val) => this._ivs[stat] = val;
+		public void SetIVs(int hp, int atk, int def, int spAtk, int spDef, int spd)
 		{
-			this.setIV("hp", hp);
-			this.setIV("atk", atk);
-			this.setIV("def", def);
-			this.setIV("spAtk", spAtk);
-			this.setIV("spDef", spDef);
-			this.setIV("spd", spd);
+			this.SetIV("hp", hp);
+			this.SetIV("atk", atk);
+			this.SetIV("def", def);
+			this.SetIV("spAtk", spAtk);
+			this.SetIV("spDef", spDef);
+			this.SetIV("spd", spd);
 		}
 
-		public void setEV(string stat, int val)
+		public void SetEV(string stat, int val)
 		{
 			var total = this._evs.Where(pair => pair.Key != stat)
 				.Select(pair => pair.Value)
@@ -245,35 +242,34 @@ namespace Pokedex.Models
 				else throw new ArgumentException("Singular EV surpass 252");
 			else throw new ArgumentException("Total EVs surpass 510");
 		}
-		private void unsafeSetEV(string stat, int val)
+		private void SetEVUnsafe(string stat, int val)
 		{
 			if (val <= 252)
 				this._evs[stat] = val;
 			else throw new ArgumentException("Singular EV surpass 252");
 		}
 
-		public void setEVs(int hp, int atk, int def, int spAtk, int spDef, int spd)
+		public void SetEVs(int hp, int atk, int def, int spAtk, int spDef, int spd)
 		{
 			if (hp + atk + def + spAtk + spDef + spd <= 510)
 			{
-				this.unsafeSetEV("hp", hp);
-				this.unsafeSetEV("atk", atk);
-				this.unsafeSetEV("def", def);
-				this.unsafeSetEV("spAtk", spAtk);
-				this.unsafeSetEV("spDef", spDef);
-				this.unsafeSetEV("spd", spd);
+				this.SetEVUnsafe("hp", hp);
+				this.SetEVUnsafe("atk", atk);
+				this.SetEVUnsafe("def", def);
+				this.SetEVUnsafe("spAtk", spAtk);
+				this.SetEVUnsafe("spDef", spDef);
+				this.SetEVUnsafe("spd", spd);
 			}
 			else throw new ArgumentException("Total EVs surpass 510");
 		}
 
-		public void setMoves(PokemonSkill move1, PokemonSkill move2, PokemonSkill move3, PokemonSkill move4) =>
+		public void SetMoves(PokemonSkill move1, PokemonSkill move2, PokemonSkill move3, PokemonSkill move4) =>
 			this._moves = new PokemonSkill[4]{move1, move2, move3, move4};
 
 		public double getAffinity(PokemonType attacker) =>
-			attacker.calculateAffinity(this._species.Types);
+			attacker.CalculateAffinity(this._species.Types);
 
-		public override string ToString() =>
-			this._nickname;
+		public override string ToString() => this._nickname;
 		# endregion
 	}
 }

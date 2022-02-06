@@ -15,7 +15,7 @@ namespace Pokedex.Models.PokemonSkills
 			TypeElectric.Singleton
 		){}
 
-		public override void onUse(Pokemon user, List<Pokemon> targets, List<PokemonSkill> skillQueue)
+		public override void OnUse(Pokemon user, List<Pokemon> targets, List<PokemonSkill> skillQueue)
 		{
 			throw new NotImplementedException();
 		}

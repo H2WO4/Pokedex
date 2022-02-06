@@ -61,7 +61,7 @@ namespace Pokedex.Models
 		# endregion
 
 		# region Methods
-		public abstract void onUse(Pokemon user, List<Pokemon> targets, List<PokemonSkill> skillQueue);
+		public abstract void OnUse(Pokemon user, List<Pokemon> targets, List<PokemonSkill> skillQueue);
 		# endregion
 	}
 }

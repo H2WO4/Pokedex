@@ -39,32 +39,32 @@ namespace Pokedex.Models
 
 		# region Methods
 		// GetWeakness
-		public static double getAffinity(PokemonType attacker, PokemonType defender) =>
+		public static double GetAffinity(PokemonType attacker, PokemonType defender) =>
 			_affinities[attacker.Name][defender.Name];
-		public static double getAffinity(string attacker, string defender) =>
+		public static double GetAffinity(string attacker, string defender) =>
 			_affinities[attacker][defender];
 
 		// SetWeakness
-		public static void setAffinity(PokemonType attacker, PokemonType defender, double value) =>
+		public static void SetAffinity(PokemonType attacker, PokemonType defender, double value) =>
 			_affinities[attacker.Name][defender.Name] = value;
-		public static void setAffinity(string attacker, string defender, double value) =>
+		public static void SetAffinity(string attacker, string defender, double value) =>
 			_affinities[attacker][defender] = value;
 
 		// SetWeaknesses
-		public void setAffinities(Dictionary<PokemonType, double> weaknesses) =>
-			weaknesses.ToList().ForEach(pair => PokemonType.setAffinity(this, pair.Key, pair.Value));
-		public void setAffinities(Dictionary<string, double> weaknesses) =>
-			weaknesses.ToList().ForEach(pair => PokemonType.setAffinity(this.Name, pair.Key, pair.Value));
+		public void SetAffinities(Dictionary<PokemonType, double> weaknesses) =>
+			weaknesses.ToList().ForEach(pair => PokemonType.SetAffinity(this, pair.Key, pair.Value));
+		public void SetAffinities(Dictionary<string, double> weaknesses) =>
+			weaknesses.ToList().ForEach(pair => PokemonType.SetAffinity(this.Name, pair.Key, pair.Value));
 
 		// Static CalculateWeakness
-		public static double calculateAffinity(PokemonType attacker, IEnumerable<PokemonType> defenders) =>
-			defenders.Select(defender => getAffinity(attacker, defender)).Aggregate((a,b) => a * b);
+		public static double CalculateAffinity(PokemonType attacker, IEnumerable<PokemonType> defenders) =>
+			defenders.Select(defender => GetAffinity(attacker, defender)).Aggregate((a,b) => a * b);
 		
 		// Non-Static CalculateWeakness
-		public double calculateAffinity(IEnumerable<PokemonType> defenders) =>
-			PokemonType.calculateAffinity(this, defenders);
+		public double CalculateAffinity(IEnumerable<PokemonType> defenders) =>
+			PokemonType.CalculateAffinity(this, defenders);
 
-		public static void displayAffinityTable()
+		public static void DisplayAffinityTable()
 		{
 			List<string> types = _affinities.Select(pair => pair.Key).ToList();
 
@@ -76,7 +76,7 @@ namespace Pokedex.Models
 
 			types.ForEach(attacker => {
 				output.Append(attacker.PadLeft(maxLen - (maxLen-attacker.Length)/2).PadRight(maxLen)+ ' ');
-				types.Select(type => getAffinity(attacker, type))
+				types.Select(type => GetAffinity(attacker, type))
 					.Select(affinity => affinity == 0 ? "-" :
 										affinity == 0.5 ? "1/2" :
 										affinity == 1 ? "" :

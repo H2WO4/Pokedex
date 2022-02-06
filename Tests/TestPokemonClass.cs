@@ -19,8 +19,8 @@ namespace Tests
 		public void PokemonStats()
 		{
 			var arceus = new Arceus(100);
-			arceus.setIVs(0, 0, 0, 0, 0, 0);
-			arceus.setEVs(0, 0, 0, 0, 0, 0);
+			arceus.SetIVs(0, 0, 0, 0, 0, 0);
+			arceus.SetEVs(0, 0, 0, 0, 0, 0);
 			arceus.Nature = Nature.Hardy;
 
 			Assert.AreEqual(arceus.HP, 350, $"HP stat should be 350, is {arceus.HP}");
@@ -35,8 +35,8 @@ namespace Tests
 		public void PokemonIVs()
 		{
 			var arceus = new Arceus(100);
-			arceus.setIVs(31, 31, 31, 31, 31, 31);
-			arceus.setEVs(0, 0, 0, 0, 0, 0);
+			arceus.SetIVs(31, 31, 31, 31, 31, 31);
+			arceus.SetEVs(0, 0, 0, 0, 0, 0);
 			arceus.Nature = Nature.Hardy;
 
 			Assert.AreEqual(arceus.HP, 381, $"HP stat should be 381, is {arceus.HP}");
@@ -51,8 +51,8 @@ namespace Tests
 		public void PokemonEVs()
 		{
 			var arceus = new Arceus(100);
-			arceus.setIVs(0, 0, 0, 0, 0, 0);
-			arceus.setEVs(85, 85, 85, 85, 85, 85);
+			arceus.SetIVs(0, 0, 0, 0, 0, 0);
+			arceus.SetEVs(85, 85, 85, 85, 85, 85);
 			arceus.Nature = Nature.Hardy;
 
 			Assert.AreEqual(arceus.HP, 371, $"HP stat should be 371, is {arceus.HP}");
@@ -68,16 +68,16 @@ namespace Tests
 		{
 			var arceus = new Arceus(100);
 
-			Assert.ThrowsException<ArgumentException>(() => arceus.setEVs(100, 100, 100, 100, 100, 11), "EVs whose total surpass 510 were accepted, whereas it should not");
-			Assert.ThrowsException<ArgumentException>(() => arceus.setEVs(256, 0, 0, 0, 0, 0), "EV above 252 was accepted, whereas it should not");
+			Assert.ThrowsException<ArgumentException>(() => arceus.SetEVs(100, 100, 100, 100, 100, 11), "EVs whose total surpass 510 were accepted, whereas it should not");
+			Assert.ThrowsException<ArgumentException>(() => arceus.SetEVs(256, 0, 0, 0, 0, 0), "EV above 252 was accepted, whereas it should not");
 		}
 
 		[TestMethod]
 		public void PokemonNature()
 		{
 			var arceus = new Arceus(100);
-			arceus.setIVs(0, 0, 0, 0, 0, 0);
-			arceus.setEVs(0, 0, 0, 0, 0, 0);
+			arceus.SetIVs(0, 0, 0, 0, 0, 0);
+			arceus.SetEVs(0, 0, 0, 0, 0, 0);
 			
 			arceus.Nature = Nature.Lonely;
 			Assert.AreEqual(arceus.Atk, 269, $"Atk stat should be 269, is {arceus.Atk}");

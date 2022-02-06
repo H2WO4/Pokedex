@@ -65,7 +65,7 @@ namespace Pokedex.Models
 				int num;
 				if (action.Length == 2 && action[0] == "move" && int.TryParse(action[1], out num))
 				{
-					this._eventQueue.Add(new SkillEvent(this._activeA.Moves[num], ref this._eventQueue));
+					this._eventQueue.Add(new SkillEvent(this._activeA.Moves[num], this));
 					turnAOver = true;
 				}
 				else if (action.Length == 2 && action[0] == "switch" && int.TryParse(action[1], out num))
