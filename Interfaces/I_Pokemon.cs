@@ -27,7 +27,6 @@ namespace Pokedex.Interfaces
 		int SpAtk { get; }
 		int SpDef { get; }
 		int Spd { get; }
-		Dictionary<string, int> Stats { get; }
 		# endregion
 
 		# region Methods

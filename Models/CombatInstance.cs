@@ -60,25 +60,51 @@ namespace Pokedex.Models
 			var turnAOver = false;
 			while (!turnAOver)
 			{
-				string[] action = Console.ReadLine()!.Split(' ');
+				// Read the command
+				string[] action = Console.ReadLine()!
+					.Split(' ').ToList()
+					.Select(x => x.ToLower()).ToArray();
 
-				int num;
-				if (action.Length == 2 && action[0] == "move" && int.TryParse(action[1], out num))
+				// Use a move
+				if (action[0] == "move" && action.Length == 2)
 				{
-					this._eventQueue.Add(new SkillEvent(this._activeA.Moves[num], this));
-					turnAOver = true;
-				}
-				else if (action.Length == 2 && action[0] == "switch" && int.TryParse(action[1], out num))
-				{
-					if (num <= this._teamA.Count)
+					PokemonSkill? move = this._activeA.Moves.ToList().Find(x => x.Name.ToLower() == action[1]);
+					if (move != null)
 					{
-
+						
+						this._eventQueue.Add(
+							new SkillEvent(
+								this._activeA,
+								Team.TeamA,
+								move,
+								this
+							)
+						);
+						turnAOver = true;
 					}
-					else
-						Console.WriteLine("Incorrect Pokémon");
+					else Console.WriteLine("Invalid move");
 				}
-				else
-					Console.WriteLine("Incorrect command");
+
+				// Switch the Pokémon
+				else if (action[0] == "switch" && action.Length == 2)
+				{
+					Pokemon? pokemon = this._teamA.Find(x => x.Name.ToLower() == action[1]);
+					if (pokemon != null)
+					{
+						this._eventQueue.Add(
+							new SwitchEvent(
+								Team.TeamA,
+								pokemon,
+								this
+							)
+						);
+					}
+					else Console.WriteLine("Invalid Pokémon");
+				}
+				
+				// Error message
+				else Console.WriteLine("Incorrect command");
+
 			}
 
 			return false;

@@ -6,14 +6,14 @@ namespace Pokedex.Models
 	public abstract class PokemonSkill : I_PokemonSkill
 	{
 		# region Variables
-		private string _name;
-		private SkillClass _class;
-		private int? _power;
-		private int? _accuracy;
-		private int _maxPp;
-		private int _pp;
-		private int _priority;
-		private PokemonType _type;
+		protected string _name;
+		protected SkillClass _class;
+		protected int? _power;
+		protected int? _accuracy;
+		protected int _maxPp;
+		protected int _pp;
+		protected int _priority;
+		protected PokemonType _type;
 		# endregion
 
 		# region Properties

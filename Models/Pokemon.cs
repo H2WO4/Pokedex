@@ -124,22 +124,14 @@ namespace Pokedex.Models
 		}
 
 		// Others
-		public string PokedexEntry { get {
-			var max = (int)Math.Floor(Math.Log10(this.Stats.Select(pair => pair.Value).Max())+1);
-			return string.Join('\n', new string[]{
+		public string PokedexEntry { get =>
+			string.Join('\n', new string[]{
 				$"No.  {this.ID, 4}      \"{this._nickname}\" - {this.Name}",
 				$"Lvl: {this._level, 4}      " + string.Join('-', this.Types),
 				$"{this._nature}",
 				$"HP : {this.HP, 4}      Atk  : {this.Atk, 4}      Def  : {this.Def, 4}",
 				$"Spd: {this.Spd, 4}      S.Atk: {this.SpAtk, 4}      S.Def: {this.SpDef, 4}",
-			}); }
-		}
-		public virtual Dictionary<string, int> Stats { get =>
-			new Dictionary<string, int>() 
-			{
-				{ "hp", this.HP }, { "atk", this.Atk }, { "def", this.Def },
-				{ "spAtk", this.SpAtk }, { "spDef", this.SpDef }, { "spd", this.Spd },
-			};
+			});
 		}
 		#endregion
 
