@@ -3,7 +3,7 @@ using Pokedex.Enums;
 
 namespace Pokedex.Interfaces
 {
-	public interface I_PokemonSkill
+	public interface I_PokemonMove
 	{
 		# region Properties
 		string Name { get; }
@@ -17,7 +17,7 @@ namespace Pokedex.Interfaces
 		# endregion
 
 		# region Methods
-		public void OnUse(Pokemon user, List<Pokemon> targets, List<PokemonSkill> skillQueue);
+		void OnUse(Pokemon user, List<Pokemon> targets, List<PokemonMove> skillQueue);
 		# endregion
 	}
 }

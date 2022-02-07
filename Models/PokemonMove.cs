@@ -3,7 +3,7 @@ using Pokedex.Enums;
 
 namespace Pokedex.Models
 {
-	public abstract class PokemonSkill : I_PokemonSkill
+	public abstract class PokemonMove : I_PokemonMove
 	{
 		# region Variables
 		protected string _name;
@@ -36,7 +36,7 @@ namespace Pokedex.Models
 		# endregion
 
 		# region Constructors
-		public PokemonSkill(
+		public PokemonMove(
 			string name,
 			SkillClass class_,
 			int? power,
@@ -61,7 +61,7 @@ namespace Pokedex.Models
 		# endregion
 
 		# region Methods
-		public abstract void OnUse(Pokemon user, List<Pokemon> targets, List<PokemonSkill> skillQueue);
+		public abstract void OnUse(Pokemon user, List<Pokemon> targets, List<PokemonMove> skillQueue);
 		# endregion
 	}
 }

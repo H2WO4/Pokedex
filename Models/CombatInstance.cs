@@ -1,5 +1,6 @@
 using Pokedex.Interfaces;
 using Pokedex.Enums;
+using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models
 {
@@ -49,7 +50,7 @@ namespace Pokedex.Models
 			}
 			else throw new ArgumentException("Too many Pokemons in Team B");
 
-			this._weather = Weather.Clear;
+			this._weather = WeatherClear.Singleton;
 			this._eventQueue = new List<I_Event>();
 		}
 		# endregion
@@ -68,7 +69,7 @@ namespace Pokedex.Models
 				// Use a move
 				if (action[0] == "move" && action.Length == 2)
 				{
-					PokemonSkill? move = this._activeA.Moves.ToList().Find(x => x.Name.ToLower() == action[1]);
+					PokemonMove? move = this._activeA.Moves.ToList().Find(x => x.Name.ToLower() == action[1]);
 					if (move != null)
 					{
 						

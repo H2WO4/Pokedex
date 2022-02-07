@@ -8,7 +8,7 @@ namespace Pokedex.Models
 		# region Variables
 		protected Pokemon _origin;
 		protected Team _originTeam;
-		protected PokemonSkill _skill;
+		protected PokemonMove _skill;
 		protected CombatInstance _context;
 		#endregion
 
@@ -22,7 +22,7 @@ namespace Pokedex.Models
 		(
 			Pokemon origin,
 			Team originTeam,
-			PokemonSkill skill,
+			PokemonMove skill,
 			CombatInstance context
 		)
 		{

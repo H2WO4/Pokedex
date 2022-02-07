@@ -1,4 +1,3 @@
-using Pokedex.Enums;
 using Pokedex.Models;
 
 namespace Pokedex.Interfaces

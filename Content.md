@@ -92,13 +92,13 @@
 <br>
 
 - Sandstorm - Tempête de Sable - 砂あらし
-  - Rock → 150% SpDef
+  - ~~Rock → 150% SpDef~~
   - All but Rock & Steel & Ground → 1/16 HP damage
 
 <br>
 
 - Hail - Grêle - あられ
-  - Ice → 150% Speed
+  - ~~Ice → 150% Speed~~
   - All but Ice → 1/16 HP damage
 
 <br>
@@ -115,7 +115,7 @@
 <br>
 
 - Magnetic Storm - Tempête Magnétique - 磁気あらし
-  - Steel → 150% Spd
+  - Steel → 150% Pow
   - Psychic → 50% Pow
 
 <br>

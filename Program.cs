@@ -245,8 +245,8 @@ namespace Pokedex
 		static void Main(String[] args)
 		{
 			initializeTypes();
-			var pika = new Pikachu(100);
-			Console.WriteLine(pika.PokedexEntry);
+			var arceus = new Arceus(100);
+			Console.WriteLine(arceus.PokedexEntry);
 
 			/* var thunder = new SkillThunder();
 

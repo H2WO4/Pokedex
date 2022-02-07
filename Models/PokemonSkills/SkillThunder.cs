@@ -3,7 +3,7 @@ using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.PokemonSkills
 {
-	public class SkillThunder : PokemonSkill
+	public class SkillThunder : PokemonMove
 	{
 		public SkillThunder() : base(
 			"Thunder",
@@ -15,7 +15,7 @@ namespace Pokedex.Models.PokemonSkills
 			TypeElectric.Singleton
 		){}
 
-		public override void OnUse(Pokemon user, List<Pokemon> targets, List<PokemonSkill> skillQueue)
+		public override void OnUse(Pokemon user, List<Pokemon> targets, List<PokemonMove> skillQueue)
 		{
 			throw new NotImplementedException();
 		}

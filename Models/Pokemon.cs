@@ -12,7 +12,7 @@ namespace Pokedex.Models
 		protected Dictionary<string, int> _ivs;
 		protected Dictionary<string, int> _evs;
 		protected Nature _nature;
-		protected PokemonSkill[] _moves;
+		protected PokemonMove[] _moves;
 		# endregion
 
 		# region Properties
@@ -36,7 +36,7 @@ namespace Pokedex.Models
 		public Dictionary<string, int> IVs { get => this._ivs; }
 		public Dictionary<string, int> EVs { get => this._evs; }
 		public Nature Nature { get => this._nature; set => this._nature = value; }
-		public PokemonSkill[] Moves { get => this._moves; }
+		public PokemonMove[] Moves { get => this._moves; }
 
 		// Stats
 		public virtual int HP { get =>
@@ -126,9 +126,9 @@ namespace Pokedex.Models
 		// Others
 		public string PokedexEntry { get =>
 			string.Join('\n', new string[]{
-				$"No.  {this.ID, 4}      \"{this._nickname}\" - {this.Name}",
-				$"Lvl: {this._level, 4}      " + string.Join('-', this.Types),
-				$"{this._nature}",
+				$"\"{this._nickname}\" - {this.Name}",
+				$"No.  {this.ID, 4}      {this.Genus}",
+				$"Lvl: {this._level, 4}      {this._nature, -11}      " + string.Join('-', this.Types),
 				$"HP : {this.HP, 4}      Atk  : {this.Atk, 4}      Def  : {this.Def, 4}",
 				$"Spd: {this.Spd, 4}      S.Atk: {this.SpAtk, 4}      S.Def: {this.SpDef, 4}",
 			});
@@ -170,9 +170,9 @@ namespace Pokedex.Models
 			};
 
 			var natures = Nature.GetValues(typeof(Nature));
-			this._nature = (Nature)natures.GetValue(rnd.Next(13, natures.Length))!;
+			this._nature = (Nature)natures.GetValue(rnd.Next(14, natures.Length))!;
 
-			this._moves = new PokemonSkill[4];
+			this._moves = new PokemonMove[4];
 		}
 		public Pokemon
 		(
@@ -255,8 +255,8 @@ namespace Pokedex.Models
 			else throw new ArgumentException("Total EVs surpass 510");
 		}
 
-		public void SetMoves(PokemonSkill move1, PokemonSkill move2, PokemonSkill move3, PokemonSkill move4) =>
-			this._moves = new PokemonSkill[4]{move1, move2, move3, move4};
+		public void SetMoves(PokemonMove move1, PokemonMove move2, PokemonMove move3, PokemonMove move4) =>
+			this._moves = new PokemonMove[4]{move1, move2, move3, move4};
 
 		public double getAffinity(PokemonType attacker) =>
 			attacker.CalculateAffinity(this._species.Types);

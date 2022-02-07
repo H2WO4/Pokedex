@@ -2,6 +2,9 @@
 Data/*_raw.json
 Data/*.py
 
+# Ignore the test results
+TestResults/
+
 # Ignore Pokémons, except Arceus because he's best boy
 Models/Pokemons/*.cs
 !Models/Pokemons/Arceus.cs

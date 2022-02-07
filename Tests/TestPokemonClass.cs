@@ -8,11 +8,15 @@ namespace Tests
 	public class TestPokemonClass
 	{
 		[TestMethod]
-		public void PokemonName()
+		public void PokemonAttributes()
 		{
 			var arceus = new Arceus(100);
+			arceus.Nickname = "Arcy";
 
 			Assert.AreEqual(arceus.Name, "Arceus", $"Name should be 'Arceus', is {arceus.Name}");
+			Assert.AreEqual(arceus.Nickname, "Arcy", $"Nickname should be 'Arcy', is {arceus.Nickname}");
+			Assert.AreEqual(arceus.Genus, "Alpha Pokémon", $"Genus should be 'Alpha Pokémon', is {arceus.Genus}");
+			Assert.AreEqual(arceus.ID, 493, $"ID should be 493', is {arceus.ID}");
 		}
 
 		[TestMethod]
@@ -68,8 +72,16 @@ namespace Tests
 		{
 			var arceus = new Arceus(100);
 
-			Assert.ThrowsException<ArgumentException>(() => arceus.SetEVs(100, 100, 100, 100, 100, 11), "EVs whose total surpass 510 were accepted, whereas it should not");
-			Assert.ThrowsException<ArgumentException>(() => arceus.SetEVs(256, 0, 0, 0, 0, 0), "EV above 252 was accepted, whereas it should not");
+			Assert.ThrowsException<ArgumentException>
+			(
+				() => arceus.SetEVs(100, 100, 100, 100, 100, 11),
+				"EVs whose total surpass 510 were accepted, whereas it should not"
+			);
+			Assert.ThrowsException<ArgumentException>
+			(
+				() => arceus.SetEVs(256, 0, 0, 0, 0, 0),
+				"EV above 252 was accepted, whereas it should not"
+			);
 		}
 
 		[TestMethod]
