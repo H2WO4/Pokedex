@@ -132,7 +132,7 @@ namespace Pokedex
 				{"Light", 1}
 			});
 			TypePsychic.Singleton.SetAffinities(new Dictionary<string, double>(){
-				{"Normal", 1}, {"Fire", 1},
+				{"Normal", 0.5}, {"Fire", 1},
 				{"Water", 1}, {"Electric", 1},
 				{"Grass", 1}, {"Ice", 1},
 				{"Fighting", 2}, {"Poison", 2},
@@ -140,7 +140,7 @@ namespace Pokedex
 				{"Psychic", 0.5}, {"Bug", 1},
 				{"Rock", 1}, {"Ghost", 1},
 				{"Dragon", 1}, {"Dark", 0},
-				{"Steel", 0.5}, {"Fairy", 1},
+				{"Steel", 2}, {"Fairy", 1},
 				{"Light", 2}
 			});
 			TypeBug.Singleton.SetAffinities(new Dictionary<string, double>(){

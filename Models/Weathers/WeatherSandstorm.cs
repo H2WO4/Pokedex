@@ -13,6 +13,8 @@ namespace Pokedex.Models.Weathers
         # region Constructors
         protected WeatherSandstorm() : base("Sandstorm")
         {
+            this._typePower.Add("Rock", 1.5f);
+
             this._typeSelector.Add("Rock");
             this._typeSelector.Add("Steel");
             this._typeSelector.Add("Ground");

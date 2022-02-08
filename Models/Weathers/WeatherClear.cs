@@ -1,5 +1,3 @@
-using Pokedex.Models.PokemonTypes;
-
 namespace Pokedex.Models.Weathers
 {
     public class WeatherClear : Weather

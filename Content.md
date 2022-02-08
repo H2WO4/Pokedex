@@ -77,9 +77,9 @@
 - Clear - Clair - はれ
   - No effect
 
-<br>
+---
 
-- Sunny - Soleil - ひでり
+- Zenith - Zénith - てんちょう
   - Fire → 150% Pow
   - Water → 50% Pow
 
@@ -89,36 +89,7 @@
   - Water → 150% Pow
   - Fire → 50% Pow
 
-<br>
-
-- Sandstorm - Tempête de Sable - 砂あらし
-  - ~~Rock → 150% SpDef~~
-  - All but Rock & Steel & Ground → 1/16 HP damage
-
-<br>
-
-- Hail - Grêle - あられ
-  - ~~Ice → 150% Speed~~
-  - All but Ice → 1/16 HP damage
-
-<br>
-
-- Fog - Brouillard - きり
-  - Ghost → 150% Pow
-  - Electric & Light → 50% Pow
-
-<br>
-
-- Cloudy - Nuageux - 曇り
-  - All but Normal → 75% Pow
-
-<br>
-
-- Magnetic Storm - Tempête Magnétique - 磁気あらし
-  - Steel → 150% Pow
-  - Psychic → 50% Pow
-
-<br>
+---
 
 - Rainbow - Arc-en-Ciel - にじ
   - Light → 150% Pow
@@ -126,32 +97,77 @@
 
 <br>
 
-- Solar Eclipse - Eclipse Solaire - にっしょく
+- Midnight - Minuit - よなか
   - Dark → 150% Pow
   - Light → 50% Pow
 
+---
+
+- Solar Eclipse - Eclipse Solaire - にっしょく
+  - Dragon → 150% Pow
+  - Fairy → 50% Pow
+
 <br>
 
+- Aurora Borealis - Aurore Boréale - きょっこう
+  - Fairy → 150% Pow
+  - Dragon → 50% Pow
+
+---
+
+- Magnetic Storm - Tempête Magnétique - 磁気あらし
+  - Steel → 150% Pow
+  - Psychic → 50% Pow
+
+<br>
+
+- Thunderstorm - Orage - らいう
+  - Electric → 150% Pow
+  - Steel → 50% Pow
+
+<br>
+
+- Fog - Brouillard - きり
+  - Ghost → 150% Pow
+  - Electric → 50% Pow
+
+<br>
+
+- Silence - Silence - しずけさ
+  - Psychic → 150%
+  - Ghost → 50%
+
+---
+
 - Ashes Cloud - Nuage de Poussière - 灰かぐら
-  - Fire & Ground → 125% Pow
-  - Flying & Light → 75% Pow
+  - Ground → 150% Pow
+  - Flying → 50% Pow
+
+<br>
+
+- Tornado - Tornade - たつまき
+  - Flying → 150% Pow
+  - Ground → 50% Pow
+
+---
+
+- Sandstorm - Tempête de Sable - 砂あらし
+  - Rock → 150% Pow
+  - All but Rock & Steel & Ground → 1/16 HP damage
+
+<br>
+
+- Hail - Grêle - あられ
+  - Ice → 150%
+  - All but Ice & Water & Light → 1/16 HP damage
 
 <br>
 
 - Locust Swarm - Nuée d'insectes - ひこう
   - Bug → 150% Pow
-  - Psychic & Flying → 75% Pow
+  - All but Bug & Poison & Grass → 1/16 HP damage
 
-<br>
+---
 
-- Aurora Borealis - Aurore Boréale - きょっこう
-  - Ice & Light → 125% Pow
-  - Fire & Dark → 75% Pow
-
-<br>
-
-- Midnight - Minuit - よなか
-
-<br>
-
-- Frog Rain?
+- Cloudy - Nuageux - くもり
+  - All but Normal → 75% Pow

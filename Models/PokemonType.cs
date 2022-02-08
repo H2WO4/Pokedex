@@ -5,10 +5,12 @@ namespace Pokedex.Models
 {
 	public abstract class PokemonType : I_PokemonType
 	{
-		# region Class Variables
+		# region Variables
 		protected string _name = "";
 		protected (int, int, int) _color = (0, 0, 0);
+		# endregion
 
+		# region Class Variables
 		public static Dictionary<string, Dictionary<string, double>> _affinities = new Dictionary<string, Dictionary<string, double>>();
 		# endregion
 

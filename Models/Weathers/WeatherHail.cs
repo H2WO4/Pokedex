@@ -13,7 +13,11 @@ namespace Pokedex.Models.Weathers
         # region Constructors
         protected WeatherHail() : base("Hail")
         {
+            this._typePower.Add("Ice", 1.5f);
+
             this._typeSelector.Add("Ice");
+            this._typeSelector.Add("Water");
+            this._typeSelector.Add("Light");
         }
         # endregion
 

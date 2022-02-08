@@ -15,18 +15,17 @@ namespace Pokedex.Models.Weathers
         {
             this._typePower.Add("Ghost", 1.5f);
             this._typePower.Add("Electric", 0.5f);
-            this._typePower.Add("Light", 0.5f);
         }
         # endregion
 
         # region Methods
         // Flavor Text
         public override void OnTurnStart(CombatInstance context) =>
-            Console.WriteLine("Mist swirls in the air!");
+            Console.WriteLine("Fog swirls in the air!");
         public override void OnEnter() =>
-            Console.WriteLine("Mist swirls around the battlefield!");
+            Console.WriteLine("Fog swirls around the battlefield!");
         public override void OnExit() =>
-            Console.WriteLine("The mist clears away.");
+            Console.WriteLine("The fog clears away.");
         
         # endregion
     }
