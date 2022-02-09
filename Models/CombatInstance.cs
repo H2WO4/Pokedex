@@ -61,24 +61,24 @@ namespace Pokedex.Models
 			var turnAOver = false;
 			while (!turnAOver)
 			{
+
+				Console.WriteLine("Player A's turn");
+
 				// Read the command
 				string[] action = Console.ReadLine()!
-					.Split(' ').ToList()
-					.Select(x => x.ToLower()).ToArray();
+					.ToLower()
+					.Split(' ').ToArray();
 
 				// Use a move
 				if (action[0] == "move" && action.Length == 2)
 				{
-					PokemonMove? move = this._activeA.Moves.ToList().Find(x => x.Name.ToLower() == action[1]);
+					PokemonMove? move = this._activeA.Moves.ToList().Find(x => x?.Name.ToLower() == action[1]);
 					if (move != null)
 					{
-						
 						this._eventQueue.Add(
 							new SkillEvent(
-								this._activeA,
-								Team.TeamA,
-								move,
-								this
+								this._activeA, Team.TeamA,
+								move, this
 							)
 						);
 						turnAOver = true;
@@ -95,10 +95,10 @@ namespace Pokedex.Models
 						this._eventQueue.Add(
 							new SwitchEvent(
 								Team.TeamA,
-								pokemon,
-								this
+								pokemon, this
 							)
 						);
+						turnAOver = true;
 					}
 					else Console.WriteLine("Invalid Pokémon");
 				}
@@ -106,6 +106,58 @@ namespace Pokedex.Models
 				// Error message
 				else Console.WriteLine("Incorrect command");
 
+				// Console.Clear();
+
+			}
+
+			var turnBOver = false;
+			while (!turnBOver)
+			{
+				Console.WriteLine("Player B's turn");
+
+				// Read the command
+				string[] action = Console.ReadLine()!
+					.ToLower()
+					.Split(' ').ToArray();
+
+				// Use a move
+				if (action[0] == "move" && action.Length == 2)
+				{
+					PokemonMove? move = this._activeB.Moves.ToList().Find(x => x?.Name.ToLower() == action[1]);
+					if (move != null)
+					{
+						this._eventQueue.Add(
+							new SkillEvent(
+								this._activeB, Team.TeamB,
+								move, this
+							)
+						);
+						turnBOver = true;
+					}
+					else Console.WriteLine("Invalid move");
+				}
+
+				// Switch the Pokémon
+				else if (action[0] == "switch" && action.Length == 2)
+				{
+					Pokemon? pokemon = this._teamB.Find(x => x.Name.ToLower() == action[1]);
+					if (pokemon != null)
+					{
+						this._eventQueue.Add(
+							new SwitchEvent(
+								Team.TeamB,
+								pokemon, this
+							)
+						);
+						turnBOver = true;
+					}
+					else Console.WriteLine("Invalid Pokémon");
+				}
+				
+				// Error message
+				else Console.WriteLine("Incorrect command");
+
+				// Console.Clear();
 			}
 
 			return false;

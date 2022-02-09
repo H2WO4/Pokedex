@@ -244,9 +244,9 @@ namespace Pokedex
 
 		static void Main(String[] args)
 		{
-			initializeTypes();
+			/* initializeTypes();
 			var arceus = new Arceus(100);
-			Console.WriteLine(arceus.PokedexEntry);
+			Console.WriteLine(arceus.PokedexEntry); */
 
 			/* var thunder = new SkillThunder();
 
@@ -254,7 +254,7 @@ namespace Pokedex
 			Assembly.GetAssembly(typeof(Pokemon))!.GetTypes() // Load the object Pokemon
 				.Where(type => type.IsClass && !type.IsAbstract && type.IsSubclassOf(typeof(Pokemon))) // Take all of its subclasses
 				.Select(type => (Pokemon?)Activator.CreateInstance(type, new object[]{ random.Next(1, 100) })!).ToList() // Instantiate them
-				//.Where(poke => poke.Species.Class == PokeClass.Mythical) // Filter them
+				// .Where(poke => poke.Species.Class == PokeClass.Mythical) // Filter them
 				.OrderBy(_ => random.Next()) // Shuffle them
 				.Take(10).ToList() // Take 10 of them
 				.ForEach(poke => Console.WriteLine($"{poke.PokedexEntry}\n")); // Print them */

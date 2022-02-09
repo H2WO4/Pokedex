@@ -18,7 +18,7 @@ namespace Pokedex.Interfaces
 		Dictionary<string, int> IVs { get; }
 		Dictionary<string, int> EVs { get; }
 
-		PokemonMove[] Moves { get; }
+		List<PokemonMove> Moves { get; }
 
 		// Stats
 		int HP { get; }
@@ -32,7 +32,7 @@ namespace Pokedex.Interfaces
 		# region Methods
 		void SetIV(string stat, int val);
 		void SetIVs(int hp, int atk, int def, int spAtk, int spDef, int spd);
-		void SetMoves(PokemonMove move1, PokemonMove move2, PokemonMove move3, PokemonMove move4);
+		void SetMoves(PokemonMove? move1, PokemonMove? move2, PokemonMove? move3, PokemonMove? move4);
 		double getAffinity(PokemonType attacker);
 		# endregion
 	}
