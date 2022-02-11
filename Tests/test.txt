@@ -1,2 +1,4 @@
+status
 move thunder
+status
 move thunder

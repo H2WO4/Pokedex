@@ -1,34 +1,33 @@
-using Pokedex.Enums;
 using Pokedex.Interfaces;
 
 namespace Pokedex.Models
 {
-	public class SkillEvent : I_Event
+	public class MoveEvent : I_Event
 	{
 		# region Variables
 		protected Pokemon _origin;
-		protected Team _originTeam;
-		protected PokemonMove _skill;
+		protected Player _originPlayer;
+		protected PokemonMove _move;
 		protected CombatInstance _context;
 		#endregion
 
 		#region Properties
-		public Team OriginTeam { get => this._originTeam; }
-		public int Priority { get => this._skill.Priority; }
+		public Player OriginPlayer { get => this._originPlayer; }
+		public int Priority { get => this._move.Priority; }
 		# endregion
 
 		# region Constructors
-		public SkillEvent
+		public MoveEvent
 		(
 			Pokemon origin,
-			Team originTeam,
+			Player originPlayer,
 			PokemonMove skill,
 			CombatInstance context
 		)
 		{
 			this._origin = origin;
-			this._originTeam = originTeam;
-			this._skill = skill;
+			this._originPlayer = originPlayer;
+			this._move = skill;
 			this._context = context;
 		}
 		# endregion

@@ -24,21 +24,21 @@ namespace Pokedex.Models.Weathers
         # region Methods
         public override void OnTurnEnd(CombatInstance context)
         {
-            if (context.ActiveA.Types
+            if (context.PlayerA.Active.Types
                     .Select(x => x.Name)
                     .Intersect(this._typeSelector)
                     .Count() == 0)
             {
-                Console.WriteLine($"{context.ActiveA.Name} is buffeted by the sandstorm!");
+                Console.WriteLine($"{context.PlayerA.Active.Name} is buffeted by the sandstorm!");
                 // Damage logic
             }
 
-            if (context.ActiveB.Types
+            if (context.PlayerB.Active.Types
                     .Select(x => x.Name)
                     .Intersect(this._typeSelector)
                     .Count() == 0)
             {
-                Console.WriteLine($"{context.ActiveB.Name} is buffeted by the sandstorm!");
+                Console.WriteLine($"{context.PlayerB.Active.Name} is buffeted by the sandstorm!");
                 // Damage logic
             }
         }

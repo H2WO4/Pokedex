@@ -6,17 +6,16 @@ namespace Pokedex.Interfaces
 	{
 		# region Properties
 		// Teams
-		public List<Pokemon> TeamA { get; }
-		public Pokemon ActiveA { get; }
-		public List<Pokemon> TeamB { get; }
-		public Pokemon ActiveB { get; }
+		
+		public Player PlayerA { get; }
+		public Player PlayerB { get; }
 
 		// Terrain Effects
 		public Weather Weather { get; set; }
 		# endregion
 
 		# region Methods
-		public bool executeTurn();
+		public bool DoTurn();
 		# endregion
 	}
 }

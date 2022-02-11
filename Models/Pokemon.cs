@@ -9,6 +9,7 @@ namespace Pokedex.Models
 		protected PokemonSpecies _species;
 		protected string _nickname;
 		protected int _level;
+		protected int _currHP;
 		protected Dictionary<string, int> _ivs;
 		protected Dictionary<string, int> _evs;
 		protected Nature _nature;
@@ -124,6 +125,22 @@ namespace Pokedex.Models
 		}
 
 		// Others
+		public string StatusOpponent { get =>
+			string.Join('\n', new string[]{
+				$"\"{this._nickname}\" - {this.Name}",
+				$"Lvl: {this._level, 4}      HP : {(int)this.HP / this._currHP * 100, 3}%"
+			});
+		}
+
+		public string StatusAlly { get => 
+			string.Join('\n', new string[]{
+				$"\"{this._nickname}\" - {this.Name}",
+				$"Lvl: {this._level, 4}      {this._nature, -11}      " + string.Join('-', this.Types),
+				$"HP :  {this.HP, 3}/{this._currHP, 3}",
+				$"Atk  : {this.Atk, 4}      Def  : {this.Def, 4}",
+				$"Spd: {this.Spd, 4}      S.Atk: {this.SpAtk, 4}      S.Def: {this.SpDef, 4}",
+			});
+		}
 		public string PokedexEntry { get =>
 			string.Join('\n', new string[]{
 				$"\"{this._nickname}\" - {this.Name}",
@@ -173,6 +190,8 @@ namespace Pokedex.Models
 			this._nature = (Nature)natures.GetValue(rnd.Next(14, natures.Length))!;
 
 			this._moves = new List<PokemonMove>();
+
+			this._currHP = this.HP;
 		}
 		public Pokemon
 		(
@@ -194,6 +213,8 @@ namespace Pokedex.Models
 		) : this(species, level, nickname)
 		{
 			this._nature = nature;
+
+			this._currHP = this.HP;
 		}
 		public Pokemon
 		(
@@ -207,6 +228,8 @@ namespace Pokedex.Models
 			if (evs.Keys.SequenceEqual(new string[]{"hp", "atk", "def", "spAtk", "spDef", "spd"}))
 				this._evs = evs;
 			else throw new ArgumentException("EVs must be: hp, atk, def, spAtk, spDef, spd");
+
+			this._currHP = this.HP;
 		}
 		# endregion
 

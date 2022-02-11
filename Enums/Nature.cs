@@ -3,31 +3,27 @@ namespace Pokedex.Enums
 	public enum Nature
 	{
 		# region Stat Flags
-		None = 0,
-		
 		// Stat Bonuses
-		PlusHP = 1,
-		PlusAtk = 2,
-		PlusDef = 4,
-		PlusSpAtk = 8,
-		PlusSpDef = 16,
-		PlusSpd = 32,
+		PlusAtk = 1 << 0,
+		PlusDef = 1 << 1,
+		PlusSpAtk = 1 << 2,
+		PlusSpDef = 1 << 3,
+		PlusSpd = 1 << 4,
 
 		// Stat Minuses
-		MinusHP = 64,
-		MinusAtk = 128,
-		MinusDef = 256,
-		MinusSpAtk = 512,
-		MinusSpDef = 1024,
-		MinusSpd = 2048,
+		MinusAtk = 1 << 5,
+		MinusDef = 1 << 6,
+		MinusSpAtk = 1 << 7,
+		MinusSpDef = 1 << 8,
+		MinusSpd = 1 << 9,
 		# endregion
 
 		// Neutral
-		Hardy = None,
-		Docile = None,
-		Bashful = None,
-		Quirky = None,
-		Serious = None,
+		Hardy = PlusAtk | MinusAtk,
+		Docile = PlusDef | MinusDef,
+		Bashful = PlusSpAtk | MinusSpAtk,
+		Quirky = PlusSpDef | MinusSpDef,
+		Serious = PlusSpd | MinusSpd,
 
 		// Atk+
 		Lonely = PlusAtk | MinusDef,

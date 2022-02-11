@@ -1,4 +1,3 @@
-using Pokedex.Enums;
 using Pokedex.Interfaces;
 
 namespace Pokedex.Models
@@ -6,24 +5,24 @@ namespace Pokedex.Models
 	class SwitchEvent : I_Event
 	{
 		# region Variables
-		protected Team _originTeam;
+		protected Player _originPlayer;
 		protected Pokemon _target;
 		protected CombatInstance _context;
 		# endregion
 
 		# region Properties
-		public Team OriginTeam { get => this._originTeam; }
+		public Player OriginPlayer { get => this._originPlayer; }
 		# endregion
 
 		# region Constructors
 		public SwitchEvent
 		(
-			Team originTeam,
+			Player originPlayer,
 			Pokemon target,
 			CombatInstance context
 		)
 		{
-			this._originTeam = originTeam;
+			this._originPlayer = originPlayer;
 			this._target = target;
 			this._context = context;
 		}
