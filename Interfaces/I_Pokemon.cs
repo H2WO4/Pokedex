@@ -18,7 +18,7 @@ namespace Pokedex.Interfaces
 		Dictionary<string, int> IVs { get; }
 		Dictionary<string, int> EVs { get; }
 
-		List<PokemonMove> Moves { get; }
+		PokemonMove?[] Moves { get; }
 
 		// Stats
 		int HP { get; }

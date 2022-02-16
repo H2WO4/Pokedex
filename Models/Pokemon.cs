@@ -13,7 +13,7 @@ namespace Pokedex.Models
 		protected Dictionary<string, int> _ivs;
 		protected Dictionary<string, int> _evs;
 		protected Nature _nature;
-		protected List<PokemonMove> _moves;
+		protected PokemonMove?[] _moves;
 		# endregion
 
 		# region Properties
@@ -37,7 +37,7 @@ namespace Pokedex.Models
 		public Dictionary<string, int> IVs { get => this._ivs; }
 		public Dictionary<string, int> EVs { get => this._evs; }
 		public Nature Nature { get => this._nature; set => this._nature = value; }
-		public List<PokemonMove> Moves { get => this._moves; }
+		public PokemonMove?[] Moves { get => this._moves; }
 
 		// Stats
 		public virtual int HP { get =>
@@ -49,79 +49,79 @@ namespace Pokedex.Models
 			) + this._level + 10; // Adjust for level part 2
 		}
 		public virtual int Atk { get =>
-			(int)(
+			(int)(Math.Floor(
 				(Math.Floor(
 					(this.BaseStats["atk"] * 2 // Base stat
 					+ this._ivs["atk"] // IV
 					+ Math.Floor(this._evs["atk"] / 4d) // EV
-					) * this._level / 100d // Asjust for level
+					) * this._level / 100d // Adjust for level
 				) + 5) // Flat value
-				* (
-					this._nature.HasFlag(Nature.PlusAtk) ? 1.1 : // Increasing Nature
-					this._nature.HasFlag(Nature.MinusAtk) ? 0.9 : // Decreasing Nature
-					1 // Neutral Nature
+				*
+				(1
+					+ (this._nature.HasFlag(Nature.PlusAtk) ? .1 : 0) // Increasing Nature
+					- (this._nature.HasFlag(Nature.MinusAtk) ? .1 : 0) // Decreasing Nature
 				)
-			);
+			));
 		}
 		public virtual int Def { get =>
-			(int)(
+			(int)(Math.Floor(
 				(Math.Floor(
 					(this.BaseStats["def"] * 2 // Base stat
 					+ this._ivs["def"] // IV
 					+ Math.Floor(this._evs["def"] / 4d) // EV
-					) * this._level / 100d // Asjust for level
+					) * this._level / 100d // Adjust for level
 				) + 5) // Flat value
-				* (
-					this._nature.HasFlag(Nature.PlusDef) ? 1.1 : // Increasing Nature
-					this._nature.HasFlag(Nature.MinusDef) ? 0.9 : // Decreasing Nature
-					1 // Neutral Nature
+				*
+				(1
+					+ (this._nature.HasFlag(Nature.PlusDef) ? .1 : 0) // Increasing Nature
+					- (this._nature.HasFlag(Nature.MinusDef) ? .1 : 0) // Decreasing Nature
 				)
-			);
+			));
 		}
 		public virtual int SpAtk { get =>
-			(int)(
+			(int)(Math.Floor(
 				(Math.Floor(
 					(this.BaseStats["spAtk"] * 2 // Base stat
-					+ this._ivs["spAtk"] // IV
+					+ this._ivs["atk"] // IV
 					+ Math.Floor(this._evs["spAtk"] / 4d) // EV
-					) * this._level / 100d // Asjust for level
+					) * this._level / 100d // Adjust for level
 				) + 5) // Flat value
-				* (
-					this._nature.HasFlag(Nature.PlusSpAtk) ? 1.1 : // Increasing Nature
-					this._nature.HasFlag(Nature.MinusSpAtk) ? 0.9 : // Decreasing Nature
-					1 // Neutral Nature
+				*
+				(1
+					+ (this._nature.HasFlag(Nature.PlusSpAtk) ? .1 : 0) // Increasing Nature
+					- (this._nature.HasFlag(Nature.MinusSpAtk) ? .1 : 0) // Decreasing Nature
 				)
-			);
+			));
 		}
 		public virtual int SpDef { get =>
-			(int)(
+			(int)(Math.Floor(
 				(Math.Floor(
 					(this.BaseStats["spDef"] * 2 // Base stat
 					+ this._ivs["spDef"] // IV
 					+ Math.Floor(this._evs["spDef"] / 4d) // EV
-					) * this._level / 100d // Asjust for level
+					) * this._level / 100d // Adjust for level
 				) + 5) // Flat value
-				* (
-					this._nature.HasFlag(Nature.PlusSpDef) ? 1.1 : // Increasing Nature
-					this._nature.HasFlag(Nature.MinusSpDef) ? 0.9 : // Decreasing Nature
-					1 // Neutral Nature
+				*
+				(1
+					+ (this._nature.HasFlag(Nature.PlusSpDef) ? .1 : 0) // Increasing Nature
+					- (this._nature.HasFlag(Nature.MinusSpDef) ? .1 : 0) // Decreasing Nature
 				)
-			);
+			));
 		}
 		public virtual int Spd { get =>
-			(int)(
+			(int)(Math.Floor(
 				(Math.Floor(
 					(this.BaseStats["spd"] * 2 // Base stat
 					+ this._ivs["spd"] // IV
-					+ Math.Floor(this._evs["spd"] / 4d) // EV
-					) * this._level / 100d // Asjust for level
+					+ Math.Floor(this._evs["spDef"] / 4d) // EV
+					) * this._level / 100d // Adjust for level
 				) + 5) // Flat value
-				* (
-					this._nature.HasFlag(Nature.PlusSpd) ? 1.1 : // Increasing Nature
-					this._nature.HasFlag(Nature.MinusSpd) ? 0.9 : // Decreasing Nature
-					1 // Neutral Nature
+				*
+				(1
+					+ (this._nature.HasFlag(Nature.PlusSpd) ? .1 : 0) // Increasing Nature
+					- (this._nature.HasFlag(Nature.MinusSpd) ? .1 : 0) // Decreasing Nature
 				)
-			);
+			));
 		}
 
 		// Others
@@ -189,7 +189,7 @@ namespace Pokedex.Models
 			var natures = Nature.GetValues(typeof(Nature));
 			this._nature = (Nature)natures.GetValue(rnd.Next(14, natures.Length))!;
 
-			this._moves = new List<PokemonMove>();
+			this._moves = new PokemonMove?[]{};
 
 			this._currHP = this.HP;
 		}
@@ -280,12 +280,11 @@ namespace Pokedex.Models
 
 		public void SetMoves(PokemonMove? move1, PokemonMove? move2, PokemonMove? move3, PokemonMove? move4)
 		{
-			this._moves = new List<PokemonMove>(){};
-			
-			if (move1 != null) this._moves.Add(move1);
-			if (move2 != null) this._moves.Add(move2);
-			if (move3 != null) this._moves.Add(move3);
-			if (move4 != null) this._moves.Add(move4);
+			this._moves = new PokemonMove?[]
+			{
+				move1, move2,
+				move3, move4	
+			};
 		}
 
 		public double getAffinity(PokemonType attacker) =>

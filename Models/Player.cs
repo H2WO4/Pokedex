@@ -43,59 +43,36 @@ namespace Pokedex.Models
         # region Methods
         public void PlayTurn()
         {
-            while (true)
+            bool endTurn = false;
+
+            while (!endTurn)
             {
+                // Read the command
                 string[] action = Console.ReadLine()!
                     .ToLower()
                     .Split(' ');
                 
+                // Depending on the first word
                 switch (action[0])
                 {
                     case "status":
-                    Console.WriteLine(this._active.StatusAlly + '\n');
-                    if (this._context.PlayerA == this)
-                        Console.WriteLine(this._context.PlayerB.Active.StatusOpponent + '\n');
-                    else
-                        Console.WriteLine(this._context.PlayerA.Active.StatusOpponent + '\n');
+                        if (action.Count() == 1)
+                        {
+                            Console.WriteLine(this._active.StatusAlly + '\n');
+                            if (this._context.PlayerA == this)
+                                Console.WriteLine(this._context.PlayerB.Active.StatusOpponent + '\n');
+                            else
+                                Console.WriteLine(this._context.PlayerA.Active.StatusOpponent + '\n');
+                        }
+                        else Console.WriteLine("Invalid number of arguments");
                     break;
 
                     case "move":
-                    if (action.Count() == 2)
-                    {
-                        var move = this._active.Moves
-                            .Find(x => x.Name.ToLower() == action[1]);
-                        
-                        if (move != null)
-                        {
-                            var ev = new MoveEvent(
-                                this._active, this,
-                                move, this._context
-                            );
-                            this._context.AppendEvent(ev);
-                            return;
-                        }
-                        else Console.WriteLine("Invalid move");
-                    }
-                    else Console.WriteLine("Invalid number of arguments");
+                        this.MoveAction(action, out endTurn);
                     break;
                     
                     case "switch":
-                    if (action.Count() == 2)
-                    {
-                        var poke = this._bench
-                            .Find(x => x.Name.ToLower() == action[1]);
 
-                        if (poke != null)
-                        {
-                            var ev = new SwitchEvent(
-                                this, poke,
-                                this._context
-                            );
-                            this._context.AppendEvent(ev);
-                            return;
-                        }
-                    }
-                    else Console.WriteLine("Invalid number of arguments");
                     break;
 
                     default:
@@ -104,6 +81,55 @@ namespace Pokedex.Models
                 }
             }
         }
+
+        private void MoveAction(string[] action, out bool endTurn)
+        {
+            endTurn = false;
+
+            // Check if 2 args
+            if (action.Count() != 2)
+            {
+                Console.WriteLine("Invalid number of arguments");
+                return;
+            }
+
+            int moveNum;
+            // Check if 2nd arg is a number
+            if (!Int32.TryParse(action[1], out moveNum))
+            {
+                Console.WriteLine("Second argument must be a number");
+                return;
+            }
+
+            // Check if 2nd arg within 1-4
+            if (moveNum < 1 || moveNum > 4)
+            {
+                Console.WriteLine("Invalid move number");
+                return;
+            }
+
+            // Fetch the move
+            PokemonMove? move = this._active.Moves[moveNum-1];
+            // Check if a move is in that slot
+            if (move == null)
+            {
+                Console.WriteLine("No move is in that slot");
+                return;
+            }
+
+            // Create the event
+            var ev = new MoveEvent
+            (
+                this._active, this,
+                move, this._context
+            );
+            // Add it to the queue
+            this._context.AppendEvent(ev);
+
+            // Conclude the player's turn
+            endTurn = true;
+        }
+        
         # endregion
     }
 }
