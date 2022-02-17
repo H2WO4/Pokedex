@@ -56,15 +56,7 @@ namespace Pokedex.Models
                 switch (action[0])
                 {
                     case "status":
-                        if (action.Count() == 1)
-                        {
-                            Console.WriteLine(this._active.StatusAlly + '\n');
-                            if (this._context.PlayerA == this)
-                                Console.WriteLine(this._context.PlayerB.Active.StatusOpponent + '\n');
-                            else
-                                Console.WriteLine(this._context.PlayerA.Active.StatusOpponent + '\n');
-                        }
-                        else Console.WriteLine("Invalid number of arguments");
+                        this.StatusAction(action);
                     break;
 
                     case "move":
@@ -72,14 +64,30 @@ namespace Pokedex.Models
                     break;
                     
                     case "switch":
-
+                        this.SwitchAction(action, out endTurn);
                     break;
 
                     default:
                         Console.WriteLine("Invalid command");
-                        break;
+                    break;
                 }
             }
+        }
+
+        private void StatusAction(string[] action)
+        {
+            // Check if 2 args
+            if (action.Count() != 2)
+            {
+                Console.WriteLine("Invalid number of arguments");
+                return;
+            }
+
+            Console.WriteLine(this._active.StatusAlly + '\n');
+            if (this._context.PlayerA == this)
+                Console.WriteLine(this._context.PlayerB.Active.StatusOpponent + '\n');
+            else
+                Console.WriteLine(this._context.PlayerA.Active.StatusOpponent + '\n');
         }
 
         private void MoveAction(string[] action, out bool endTurn)
@@ -130,6 +138,44 @@ namespace Pokedex.Models
             endTurn = true;
         }
         
+        private void SwitchAction(string[] action, out bool endTurn)
+        {
+            endTurn = false;
+
+            // Check if 2 args
+            if (action.Count() != 2)
+            {
+                Console.WriteLine("Invalid number of arguments");
+                return;
+            }
+
+            int pokeNum;
+            // Check if 2nd arg is a number
+            if (!Int32.TryParse(action[1], out pokeNum))
+            {
+                Console.WriteLine("Second argument must be a number");
+                return;
+            }
+
+            // Check if 2nd arg within bounds
+            if (pokeNum < 1 || pokeNum > this._bench.Count)
+            {
+                Console.WriteLine("Invalid move number");
+                return;
+            }
+
+            // Create the event
+            var ev = new SwitchEvent(
+                this, this._bench[pokeNum-1],
+                this._context
+            );
+            // Add it to the queue
+            this._context.AppendEvent(ev);
+
+            // Conclude the player's turn
+            endTurn = true;
+        }
+
         # endregion
     }
 }
