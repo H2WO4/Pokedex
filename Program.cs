@@ -244,9 +244,8 @@ namespace Pokedex
 
 		static void Main(String[] args)
 		{
-			var natures = (Nature[])Enum.GetValues(typeof(Nature));
-			natures.Where(n => Math.Log2((int)n) - Math.ILogB((int)n) != 0).ToList()
-				.ForEach(n => Console.WriteLine(n));
+			var arceus = new Arceus(100);
+			Console.WriteLine(arceus.StatusAlly);
 
 			/* initializeTypes();
 			var arceus = new Arceus(100);

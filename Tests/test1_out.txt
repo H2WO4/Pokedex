@@ -1,0 +1,13 @@
+It's Jean's turn!
+Thunder         Special-Electric
+Power:  110     Accuracy:  70%
+PP:   10/10     Priority:  0
+No move
+No move
+No move
+It's Charles's turn!
+"Arceus" - Arceus
+Lvl:  100      Brave            Normal
+HP :  366/366
+Atk  :  269      Def  :  275
+Spd:  224      S.Atk:  245      S.Def:  260

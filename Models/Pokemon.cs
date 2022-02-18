@@ -1,9 +1,10 @@
 using Pokedex.Interfaces;
 using Pokedex.Enums;
+using System.Linq;
 
 namespace Pokedex.Models
 {
-	public abstract class Pokemon : I_Pokemon
+    public abstract class Pokemon : I_Pokemon
 	{
 		# region Variables
 		protected PokemonSpecies _species;
@@ -14,6 +15,13 @@ namespace Pokedex.Models
 		protected Dictionary<string, int> _evs;
 		protected Nature _nature;
 		protected PokemonMove?[] _moves;
+		# endregion
+
+		# region Class Variables
+		protected static Nature[] __natures =
+			((Nature[])Enum.GetValues(typeof(Nature)))
+				.Where(nature => Math.Log2(((int)nature)) % 1 != 0)
+				.ToArray();
 		# endregion
 
 		# region Properties
@@ -131,23 +139,22 @@ namespace Pokedex.Models
 				$"Lvl: {this._level, 4}      HP : {(int)this.HP / this._currHP * 100, 3}%"
 			});
 		}
-
 		public string StatusAlly { get => 
 			string.Join('\n', new string[]{
 				$"\"{this._nickname}\" - {this.Name}",
-				$"Lvl: {this._level, 4}      {this._nature, -11}      " + string.Join('-', this.Types),
-				$"HP :  {this.HP, 3}/{this._currHP, 3}",
-				$"Atk  : {this.Atk, 4}      Def  : {this.Def, 4}",
-				$"Spd: {this.Spd, 4}      S.Atk: {this.SpAtk, 4}      S.Def: {this.SpDef, 4}",
+				$"Lvl  : {this._level, 3}      {this._nature, -11}      " + string.Join('-', this.Types),
+				$"HP   : {this._currHP, 3}/{this.HP, 3}  Spd  : {this.Spd, 3}",
+				$"Atk  : {this.Atk, 3}      S.Atk: {this.SpAtk, 3}",
+				$"Def  : {this.Def, 3}      S.Def: {this.SpDef, 3}",
 			});
 		}
 		public string PokedexEntry { get =>
 			string.Join('\n', new string[]{
 				$"\"{this._nickname}\" - {this.Name}",
-				$"No.  {this.ID, 4}      {this.Genus}",
-				$"Lvl: {this._level, 4}      {this._nature, -11}      " + string.Join('-', this.Types),
-				$"HP : {this.HP, 4}      Atk  : {this.Atk, 4}      Def  : {this.Def, 4}",
-				$"Spd: {this.Spd, 4}      S.Atk: {this.SpAtk, 4}      S.Def: {this.SpDef, 4}",
+				$"No.  {this.ID, 3}      {this.Genus}",
+				$"Lvl: {this._level, 3}      {this._nature, -11}      " + string.Join('-', this.Types),
+				$"HP : {this.HP, 3}      Atk  : {this.Atk, 3}      Def  : {this.Def, 3}",
+				$"Spd: {this.Spd, 3}      S.Atk: {this.SpAtk, 3}      S.Def: {this.SpDef, 3}",
 			});
 		}
 		#endregion
@@ -186,8 +193,7 @@ namespace Pokedex.Models
 				{"spd", 0},
 			};
 
-			var natures = Nature.GetValues(typeof(Nature));
-			this._nature = (Nature)natures.GetValue(rnd.Next(14, natures.Length))!;
+			this._nature = __natures[rnd.Next(__natures.Length - 1)];
 
 			this._moves = new PokemonMove?[]{};
 
