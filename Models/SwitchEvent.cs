@@ -12,6 +12,8 @@ namespace Pokedex.Models
 
 		# region Properties
 		public Player OriginPlayer { get => this._originPlayer; }
+		public int Priority { get => 6; }
+		public int Speed { get => 0; }
 		# endregion
 
 		# region Constructors

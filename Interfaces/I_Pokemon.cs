@@ -27,13 +27,18 @@ namespace Pokedex.Interfaces
 		int SpAtk { get; }
 		int SpDef { get; }
 		int Spd { get; }
+
+		// Text output
+		string QuickStatus { get; }
+		string FullStatus { get; }
+		string PokedexEntry { get; }
 		# endregion
 
 		# region Methods
 		void SetIV(string stat, int val);
 		void SetIVs(int hp, int atk, int def, int spAtk, int spDef, int spd);
 		void SetMoves(PokemonMove? move1, PokemonMove? move2, PokemonMove? move3, PokemonMove? move4);
-		double getAffinity(PokemonType attacker);
+		double GetAffinity(PokemonType attacker);
 		# endregion
 	}
 }

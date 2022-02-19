@@ -67,17 +67,27 @@ namespace Pokedex.Models
 						this.SwitchAction(action, out endTurn);
 					break;
 
+					case "help":
+						Console.WriteLine(string.Join('\n', new string[]{
+							"- status [self | enemy | bench | moves] <full>",
+							"- use [#move]",
+							"- switch [#pokemon]",
+						}));
+					break;
+
 					default:
 						Console.WriteLine("Invalid command");
 					break;
 				}
+				
+				Console.WriteLine();
 			}
 		}
 
 		private void StatusAction(string[] action)
 		{
-			// Check if 2 args
-			if (action.Count() != 2)
+			// Check if 2 or 3 args
+			if (action.Count() != 2 && action.Count() != 3)
 			{
 				Console.WriteLine("Invalid number of arguments");
 				return;
@@ -87,37 +97,90 @@ namespace Pokedex.Models
 			{
 				case "active":
 				case "self":
-					Console.WriteLine(this._active.StatusAlly);
+					SelfStatus(action.ElementAtOrDefault(2));
 				break;
 
 				case "enemy":
 				case "other":
-					if (this._context.PlayerA == this)
-						Console.WriteLine(this._context.PlayerB.Active.StatusOpponent + '\n');
-					else
-						Console.WriteLine(this._context.PlayerA.Active.StatusOpponent + '\n');
+					OtherStatus(action.ElementAtOrDefault(2));
 				break;
 
 				case "bench":
-					if (this._bench.Count == 0)
-						Console.WriteLine("No pokemon on the bench");
-					else
-						this._bench.ForEach(poke => Console.WriteLine(poke.StatusAlly));
+					BenchStatus(action.ElementAtOrDefault(2));
 				break;
 
 				case "move":
 				case "moves":
-					this._active.Moves
-						.Select(move => move?.PokedexEntry ?? "No move")
-						.ToList()
-						.ForEach(desc => Console.WriteLine(desc));
+					MoveStatus(action.ElementAtOrDefault(2));
 				break;
 
 				default:
-					Console.WriteLine("Incorrect parameter");
+					Console.WriteLine("Invalid parameter");
 				break;
 			}
+
+			void SelfStatus(string? arg)
+			{
+				if (arg == "full" || arg == "detailed")
+					Console.WriteLine(this._active.FullStatus);
+				
+				else if (arg == null)
+					Console.WriteLine(this._active.QuickStatus);
+				
+				else
+					Console.WriteLine("Invalid parameter");
+			}
+
+			void OtherStatus(string? arg)
+			{
+				if (arg != null)
+				{
+					Console.WriteLine("Invalid number of arguments");
+					return;
+				}
+
+				if (this._context.PlayerA == this)
+					Console.WriteLine(this._context.PlayerB.Active.QuickStatus);
+				
+				else
+					Console.WriteLine(this._context.PlayerA.Active.QuickStatus);
+			}
 			
+			void BenchStatus(string? arg)
+			{
+				if (arg == "full" || arg == "detailed")
+					if (this._bench.Count == 0)
+						Console.WriteLine("No pokemon on the bench");
+					else
+						for (var i = 0; i < this._bench.Count; i++)
+							Console.WriteLine($"{i+1}: {this._bench[i].FullStatus}");
+				
+				else if (arg == null)
+					if (this._bench.Count == 0)
+						Console.WriteLine("No pokemon on the bench");
+					else
+						for (var i = 0; i < this._bench.Count; i++)
+							Console.WriteLine($"{i+1}: {this._bench[i].QuickStatus}");
+				
+				else
+					Console.WriteLine("Invalid parameter");
+			}
+		
+			void MoveStatus(string? arg)
+			{
+				if (arg == "full" || arg == "detailed")
+				{
+					for (var i = 0; i < 4; i++)
+						Console.WriteLine($"{i+1}:\n{this._active.Moves[i]?.FullStatus ?? "Empty"}");
+				}
+				else if (arg == null)
+				{
+					for (var i = 0; i < 4; i++)
+						Console.WriteLine($"{i+1}: {this._active.Moves[i]?.QuickStatus ?? "Empty"}");
+				}
+				else
+					Console.WriteLine("Invalid parameter");
+			}
 		}
 
 		private void MoveAction(string[] action, out bool endTurn)

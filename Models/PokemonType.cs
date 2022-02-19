@@ -68,22 +68,35 @@ namespace Pokedex.Models
 
 		public static void DisplayAffinityTable()
 		{
-			List<string> types = _affinities.Select(pair => pair.Key).ToList();
+			List<(string type, string name)> types = _affinities
+				.Select(pair => pair.Key)
+				.Select(name => name.Length >= 7
+						? (name, name.Substring(0, 5) + '.')
+						: (name, name))
+				.ToList();
 
-			int maxLen = types.Select(type => type.Length).Max()+1;
+			int maxLen = types.Select(type => type.name.Length).Max()+1;
 			var output = new StringBuilder("".PadRight(maxLen+1));
 			
-			types.ForEach(defender => output.Append(' ' + defender.PadLeft(maxLen - (maxLen-defender.Length)/2).PadRight(maxLen)));
+			types.ForEach(defender =>
+				output.Append(' ' + defender.name
+									.PadLeft(maxLen - (maxLen-defender.name.Length)/2)
+									.PadRight(maxLen)));
 			output.AppendLine();
 
 			types.ForEach(attacker => {
-				output.Append(attacker.PadLeft(maxLen - (maxLen-attacker.Length)/2).PadRight(maxLen)+ ' ');
-				types.Select(type => GetAffinity(attacker, type))
+				output.Append(attacker.name
+								.PadLeft(maxLen - (maxLen-attacker.name.Length)/2)
+								.PadRight(maxLen)+ ' ');
+				types.Select(type => GetAffinity(attacker.type, type.type))
 					.Select(affinity => affinity == 0 ? "-" :
 										affinity == 0.5 ? "1/2" :
 										affinity == 1 ? "" :
 										"2").ToList()
-					.ForEach(affinity => output.Append('|' + affinity.PadLeft(maxLen - (maxLen-affinity.Length)/2).PadRight(maxLen)));
+					.ForEach(affinity =>
+						output.Append('|' + affinity
+											.PadLeft(maxLen - (maxLen-affinity.Length)/2)
+											.PadRight(maxLen)));
 				output.AppendLine("|");
 			});
 

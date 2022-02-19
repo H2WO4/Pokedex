@@ -1,6 +1,8 @@
+using System.Text;
 using Pokedex.Interfaces;
 using Pokedex.Enums;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Pokedex.Models
 {
@@ -15,6 +17,8 @@ namespace Pokedex.Models
 		protected Dictionary<string, int> _evs;
 		protected Nature _nature;
 		protected PokemonMove?[] _moves;
+
+		protected char[] _nMarks;
 		# endregion
 
 		# region Class Variables
@@ -44,7 +48,7 @@ namespace Pokedex.Models
 		public string Nickname { get => this._nickname; set => this._nickname = value; }
 		public Dictionary<string, int> IVs { get => this._ivs; }
 		public Dictionary<string, int> EVs { get => this._evs; }
-		public Nature Nature { get => this._nature; set => this._nature = value; }
+		public Nature Nature { get => this._nature; set { this._nature = value; this._nMarks = this.GetNatureChars(); } }
 		public PokemonMove?[] Moves { get => this._moves; }
 
 		// Stats
@@ -66,8 +70,8 @@ namespace Pokedex.Models
 				) + 5) // Flat value
 				*
 				(1
-					+ (this._nature.HasFlag(Nature.PlusAtk) ? .1 : 0) // Increasing Nature
-					- (this._nature.HasFlag(Nature.MinusAtk) ? .1 : 0) // Decreasing Nature
+				+ (this._nature.HasFlag(Nature.PlusAtk) ? .1 : 0) // Increasing Nature
+				- (this._nature.HasFlag(Nature.MinusAtk) ? .1 : 0) // Decreasing Nature
 				)
 			));
 		}
@@ -81,8 +85,8 @@ namespace Pokedex.Models
 				) + 5) // Flat value
 				*
 				(1
-					+ (this._nature.HasFlag(Nature.PlusDef) ? .1 : 0) // Increasing Nature
-					- (this._nature.HasFlag(Nature.MinusDef) ? .1 : 0) // Decreasing Nature
+				+ (this._nature.HasFlag(Nature.PlusDef) ? .1 : 0) // Increasing Nature
+				- (this._nature.HasFlag(Nature.MinusDef) ? .1 : 0) // Decreasing Nature
 				)
 			));
 		}
@@ -96,8 +100,8 @@ namespace Pokedex.Models
 				) + 5) // Flat value
 				*
 				(1
-					+ (this._nature.HasFlag(Nature.PlusSpAtk) ? .1 : 0) // Increasing Nature
-					- (this._nature.HasFlag(Nature.MinusSpAtk) ? .1 : 0) // Decreasing Nature
+				+ (this._nature.HasFlag(Nature.PlusSpAtk) ? .1 : 0) // Increasing Nature
+				- (this._nature.HasFlag(Nature.MinusSpAtk) ? .1 : 0) // Decreasing Nature
 				)
 			));
 		}
@@ -111,8 +115,8 @@ namespace Pokedex.Models
 				) + 5) // Flat value
 				*
 				(1
-					+ (this._nature.HasFlag(Nature.PlusSpDef) ? .1 : 0) // Increasing Nature
-					- (this._nature.HasFlag(Nature.MinusSpDef) ? .1 : 0) // Decreasing Nature
+				+ (this._nature.HasFlag(Nature.PlusSpDef) ? .1 : 0) // Increasing Nature
+				- (this._nature.HasFlag(Nature.MinusSpDef) ? .1 : 0) // Decreasing Nature
 				)
 			));
 		}
@@ -126,35 +130,42 @@ namespace Pokedex.Models
 				) + 5) // Flat value
 				*
 				(1
-					+ (this._nature.HasFlag(Nature.PlusSpd) ? .1 : 0) // Increasing Nature
-					- (this._nature.HasFlag(Nature.MinusSpd) ? .1 : 0) // Decreasing Nature
+				+ (this._nature.HasFlag(Nature.PlusSpd) ? .1 : 0) // Increasing Nature
+				- (this._nature.HasFlag(Nature.MinusSpd) ? .1 : 0) // Decreasing Nature
 				)
 			));
 		}
 
+		public virtual int CurrHP {
+			get => this._currHP;
+			set => this._currHP = Math.Clamp(value, 0, this.HP);
+		}
+
 		// Others
-		public string StatusOpponent { get =>
+		public string QuickStatus { get =>
 			string.Join('\n', new string[]{
 				$"\"{this._nickname}\" - {this.Name}",
-				$"Lvl: {this._level, 4}      HP : {(int)this.HP / this._currHP * 100, 3}%"
+				$"Lvl : {this._level, 3}      " + string.Join('-', this.Types),
+				$"HP  : {this.GetHPBar()}",
 			});
 		}
-		public string StatusAlly { get => 
+		public string FullStatus { get => 
 			string.Join('\n', new string[]{
 				$"\"{this._nickname}\" - {this.Name}",
-				$"Lvl  : {this._level, 3}      {this._nature, -11}      " + string.Join('-', this.Types),
-				$"HP   : {this._currHP, 3}/{this.HP, 3}  Spd  : {this.Spd, 3}",
-				$"Atk  : {this.Atk, 3}      S.Atk: {this.SpAtk, 3}",
-				$"Def  : {this.Def, 3}      S.Def: {this.SpDef, 3}",
+				$"Lvl : {this._level, 3}      " + string.Join('-', this.Types),
+				$"HP  : {this.GetHPBar()} {this._currHP, 3}/{this.HP, 3}",
+				$"Atk : {this.Atk, 3}{this._nMarks[0]}     Def : {this.Def, 3}{this._nMarks[1]}",
+				$"SAtk: {this.SpAtk, 3}{this._nMarks[2]}     SDef: {this.SpDef, 3}{this._nMarks[3]}",
+				$"Spd : {this.Spd, 3}{this._nMarks[4]}",
 			});
 		}
 		public string PokedexEntry { get =>
 			string.Join('\n', new string[]{
-				$"\"{this._nickname}\" - {this.Name}",
+				$"{this.Name}",
 				$"No.  {this.ID, 3}      {this.Genus}",
-				$"Lvl: {this._level, 3}      {this._nature, -11}      " + string.Join('-', this.Types),
-				$"HP : {this.HP, 3}      Atk  : {this.Atk, 3}      Def  : {this.Def, 3}",
-				$"Spd: {this.Spd, 3}      S.Atk: {this.SpAtk, 3}      S.Def: {this.SpDef, 3}",
+				$"Lvl: {this._level, 3}      " + string.Join('-', this.Types),
+				$"HP : {this.HP, 3}      Atk  : {this.Atk, 3}      S.Atk  : {this.SpAtk, 3}",
+				$"Spd: {this.Spd, 3}      Def  : {this.Def, 3}      S.Def: {this.SpDef, 3}",
 			});
 		}
 		#endregion
@@ -194,6 +205,7 @@ namespace Pokedex.Models
 			};
 
 			this._nature = __natures[rnd.Next(__natures.Length - 1)];
+			this._nMarks = this.GetNatureChars();
 
 			this._moves = new PokemonMove?[]{};
 
@@ -219,6 +231,7 @@ namespace Pokedex.Models
 		) : this(species, level, nickname)
 		{
 			this._nature = nature;
+			this._nMarks = this.GetNatureChars();
 
 			this._currHP = this.HP;
 		}
@@ -249,11 +262,14 @@ namespace Pokedex.Models
 			this.SetIV("spAtk", spAtk);
 			this.SetIV("spDef", spDef);
 			this.SetIV("spd", spd);
+
+			this.CurrHP = this.CurrHP;
 		}
 
 		public void SetEV(string stat, int val)
 		{
-			var total = this._evs.Where(pair => pair.Key != stat)
+			var total = this._evs
+				.Where(pair => pair.Key != stat)
 				.Select(pair => pair.Value)
 				.Aggregate((a, b) => a + b);
 			
@@ -293,8 +309,101 @@ namespace Pokedex.Models
 			};
 		}
 
-		public double getAffinity(PokemonType attacker) =>
+		public double GetAffinity(PokemonType attacker) =>
 			attacker.CalculateAffinity(this._species.Types);
+
+		private StringBuilder GetHPBar()
+		{
+			const int N_SEGMENTS = 25;
+
+			// Get the HP percentage
+			var hpPercent = (int)(this._currHP * 100f / this.HP);
+
+			// ! Change this before the end. Only works with Fira Code
+			// Build the HP Bar, first segment
+			var hpBar = new StringBuilder(hpPercent > 0 ? "" : "");
+			// Add every full segment as needed
+			var i = 0;
+			while (hpPercent > 0 && i < N_SEGMENTS - 1)
+			{
+				hpBar.Append("");
+				hpPercent -= 100 / N_SEGMENTS;
+				i++;
+			}
+			// Fills the rest with empty segments
+			for (; i < N_SEGMENTS - 1; i++)
+			{
+				hpBar.Append("");
+			}
+			// Add the last segment
+			hpBar.Append(hpPercent > 0 ? "" : "");
+
+			// * Unicode Version
+			/* hpBar.Append("[");
+			var i = 0;
+			while (hpPercent > 0 && i < 20)
+			{
+				hpBar.Append("#");
+				hpPercent -= 5;
+				i++;
+			}
+			for (; i < 20; i++)
+			{
+				hpBar.Append(".");
+			}
+			hpBar.Append("]"); */
+
+			return hpBar;
+		}
+
+		private char[] GetNatureChars() =>
+			this._nMarks = new char[]
+			{
+				// Atk
+				this._nature.HasFlag(Nature.PlusAtk) && this.Nature.HasFlag(Nature.MinusAtk)
+				? ' '
+				: this._nature.HasFlag(Nature.PlusAtk)
+					? '+'
+					: this._nature.HasFlag(Nature.MinusAtk)
+						? '-'
+						: ' ',
+				
+				// Def
+				this._nature.HasFlag(Nature.PlusDef) && this.Nature.HasFlag(Nature.MinusDef)
+				? ' '
+				: this._nature.HasFlag(Nature.PlusDef)
+					? '+'
+					: this._nature.HasFlag(Nature.MinusDef)
+						? '-'
+						: ' ',
+				
+				// SpAtk
+				this._nature.HasFlag(Nature.PlusSpAtk) && this.Nature.HasFlag(Nature.MinusSpAtk)
+				? ' '
+				: this._nature.HasFlag(Nature.PlusSpAtk)
+					? '+'
+					: this._nature.HasFlag(Nature.MinusSpAtk)
+						? '-'
+						: ' ',
+				
+				// SpDef
+				this._nature.HasFlag(Nature.PlusSpDef) && this.Nature.HasFlag(Nature.MinusSpDef)
+				? ' '
+				: this._nature.HasFlag(Nature.PlusSpDef)
+					? '+'
+					: this._nature.HasFlag(Nature.MinusSpDef)
+						? '-'
+						: ' ',
+				
+				// Spd
+				this._nature.HasFlag(Nature.PlusSpd) && this.Nature.HasFlag(Nature.MinusSpd)
+				? ' '
+				: this._nature.HasFlag(Nature.PlusSpd)
+					? '+'
+					: this._nature.HasFlag(Nature.MinusSpd)
+						? '-'
+						: ' ',
+			};
 
 		public override string ToString() => this._nickname;
 		# endregion

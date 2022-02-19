@@ -17,7 +17,8 @@ namespace Pokedex.Interfaces
 		# endregion
 
 		# region Methods
-		void OnUse(Pokemon user, List<Pokemon> targets, List<PokemonMove> skillQueue);
+		void OnUse(Pokemon origin, List<Pokemon> targets, CombatInstance context);
+		void PreAction(CombatInstance context);
 		# endregion
 	}
 }

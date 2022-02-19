@@ -14,6 +14,7 @@ namespace Pokedex.Models
 		#region Properties
 		public Player OriginPlayer { get => this._originPlayer; }
 		public int Priority { get => this._move.Priority; }
+		public int Speed { get => this._origin.Spd; }
 		# endregion
 
 		# region Constructors
@@ -37,6 +38,8 @@ namespace Pokedex.Models
 		{
 			throw new NotImplementedException();
 		}
+
+		public void PreAction() => this._move.PreAction(this._context);
 		#endregion
 	}
 }

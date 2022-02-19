@@ -28,10 +28,11 @@ namespace Pokedex.Models
 		public PokemonType Type { get => this._type; }
 
 		// Others
-		public string PokedexEntry { get => string.Join('\n', new string[]{
-			$"{this._name, -12}    {this._class}-{this._type.Name}",
-			$"Power: {this._power, 4}     Accuracy: {this._accuracy, 3}%",
-			$"PP:   {this._pp, 2}/{this._maxPp, 2}     Priority: {this._priority, 2:+#;-#;0}",
+		public string QuickStatus { get => $"{this.Name} - {this._pp}/{this._maxPp} PP"; }
+		public string FullStatus { get => string.Join('\n', new string[]{
+			$"{this._name, -12}   {this._class}-{this._type.Name}",
+			$"Power: {this._power, 4}    Accuracy: {this._accuracy, 3}%",
+			$"PP:   {this._pp, 2}/{this._maxPp, 2}    Priority: {this._priority, 2:+#;-#;0}",
 		}); }
 		# endregion
 
@@ -61,7 +62,9 @@ namespace Pokedex.Models
 		# endregion
 
 		# region Methods
-		public abstract void OnUse(Pokemon user, List<Pokemon> targets, List<PokemonMove> skillQueue);
+		public abstract void OnUse(Pokemon origin, List<Pokemon> targets, CombatInstance context);
+		
+		public virtual void PreAction(CombatInstance context) {}
 		# endregion
 	}
 }

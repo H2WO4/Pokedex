@@ -1,11 +1,11 @@
 using Pokedex.Enums;
 using Pokedex.Models.PokemonTypes;
 
-namespace Pokedex.Models.PokemonSkills
+namespace Pokedex.Models.PokemonMoves
 {
-	public class SkillThunder : PokemonMove
+	public class MoveThunder : PokemonMove
 	{
-		public SkillThunder() : base(
+		public MoveThunder() : base(
 			"Thunder",
 			SkillClass.Special,
 			110,
@@ -15,7 +15,7 @@ namespace Pokedex.Models.PokemonSkills
 			TypeElectric.Singleton
 		){}
 
-		public override void OnUse(Pokemon user, List<Pokemon> targets, List<PokemonMove> skillQueue)
+		public override void OnUse(Pokemon origin, List<Pokemon> targets, CombatInstance context)
 		{
 			throw new NotImplementedException();
 		}

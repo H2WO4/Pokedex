@@ -44,11 +44,29 @@ namespace Pokedex.Models
 
 		public bool DoTurn()
 		{
+			// * Take input from players
 			Console.WriteLine($"It's {this._playerA.Name}'s turn!");
+			Console.WriteLine();
 			this._playerA.PlayTurn();
 
+			// Console.Clear();
+
 			Console.WriteLine($"It's {this._playerB.Name}'s turn!");
+			Console.WriteLine();
 			this._playerB.PlayTurn();
+
+			// * HANDLE THE FUCKING EVENT QUEUE
+			// * FUCKING FINALLY
+			// ! Take out the fucking insults before the end
+			this._eventQueue = this._eventQueue
+				.OrderByDescending(ev => (ev.Priority, ev.Speed)) // Put the higher priority events at the beginning
+				.ToList();
+			
+			this._eventQueue
+				.Where(ev => ev is MoveEvent)
+				.Select(ev => (MoveEvent)ev)
+				.ToList()
+				.ForEach(ev => ev.PreAction());
 
 			return false;
 		}
