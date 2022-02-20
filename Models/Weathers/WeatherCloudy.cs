@@ -18,7 +18,7 @@ namespace Pokedex.Models.Weathers
 		# endregion
 
 		# region Methods
-		public override float OnDamageGive(float damage, PokemonType type) =>
+		public override double OnDamageGive(double damage, PokemonType type) =>
 			this._typePower.GetValueOrDefault(type.Name, 0.75f) * damage;
 		
 		// Flavor Text

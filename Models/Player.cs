@@ -1,4 +1,5 @@
 using Pokedex.Interfaces;
+using Pokedex.Models.Events;
 
 namespace Pokedex.Models
 {
@@ -7,8 +8,8 @@ namespace Pokedex.Models
 		# region Variables
 		private string _name;
 
-		private Pokemon _active;
-		private List<Pokemon> _bench;
+		private int _activeIndex;
+		private List<Pokemon> _team;
 
 		private CombatInstance _context;
 		# endregion
@@ -16,31 +17,32 @@ namespace Pokedex.Models
 		# region Properties
 		public string Name { get => this._name; }
 
-		public Pokemon Active { get => this._active; }
-		public List<Pokemon> Bench { get => this._bench; }
+		public Pokemon Active { get => this._team[this._activeIndex]; }
+		public List<Pokemon> Team { get => this._team; }
 		# endregion
 
 		# region Constructors
 		public Player(
 			string name,
-			Pokemon active,
-			List<Pokemon> bench,
+			List<Pokemon> team,
 			CombatInstance context
 		)
 		{
 			this._name = name;
 
-			this._active = active;
+			this._activeIndex = 0;
 
-			if (bench.Count <= 5)
-				this._bench = bench;
-			else throw new ArgumentException("Bench must have 5 or less Pokemon.");
+			if (team.Count >= 1 && team.Count <= 6)
+				this._team = team;
+			else throw new ArgumentException("Team must have between 1 and 6 Pokemon.");
 
 			this._context = context;
 		}
 		# endregion
 
 		# region Methods
+		public int ChangeActive(int index) => this._activeIndex = index;
+		
 		public void PlayTurn()
 		{
 			bool endTurn = false;
@@ -52,19 +54,22 @@ namespace Pokedex.Models
 					.ToLower()
 					.Split(' ');
 				
+				if (action[0] == "")
+					continue;
+				
 				// Depending on the first word
 				switch (action[0])
 				{
 					case "status":
-						this.StatusAction(action);
+						this.StatusCommand(action);
 					break;
 
 					case "use":
-						this.MoveAction(action, out endTurn);
+						this.MoveCommand(action, out endTurn);
 					break;
 					
 					case "switch":
-						this.SwitchAction(action, out endTurn);
+						this.SwitchCommand(action, out endTurn);
 					break;
 
 					case "help":
@@ -84,7 +89,7 @@ namespace Pokedex.Models
 			}
 		}
 
-		private void StatusAction(string[] action)
+		private void StatusCommand(string[] action)
 		{
 			// Check if 2 or 3 args
 			if (action.Count() != 2 && action.Count() != 3)
@@ -122,10 +127,10 @@ namespace Pokedex.Models
 			void SelfStatus(string? arg)
 			{
 				if (arg == "full" || arg == "detailed")
-					Console.WriteLine(this._active.FullStatus);
+					Console.WriteLine(this.Active.FullStatus);
 				
 				else if (arg == null)
-					Console.WriteLine(this._active.QuickStatus);
+					Console.WriteLine(this.Active.QuickStatus);
 				
 				else
 					Console.WriteLine("Invalid parameter");
@@ -149,18 +154,24 @@ namespace Pokedex.Models
 			void BenchStatus(string? arg)
 			{
 				if (arg == "full" || arg == "detailed")
-					if (this._bench.Count == 0)
+					if (this._team.Count == 1)
 						Console.WriteLine("No pokemon on the bench");
 					else
-						for (var i = 0; i < this._bench.Count; i++)
-							Console.WriteLine($"{i+1}: {this._bench[i].FullStatus}");
+						this._team
+							.Where(poke => poke != this.Active)
+							.Select((poke, i) => (poke, i))
+							.ToList()
+							.ForEach(pair => Console.WriteLine($"{pair.i+1}: {pair.poke.FullStatus}"));
 				
 				else if (arg == null)
-					if (this._bench.Count == 0)
+					if (this._team.Count == 1)
 						Console.WriteLine("No pokemon on the bench");
 					else
-						for (var i = 0; i < this._bench.Count; i++)
-							Console.WriteLine($"{i+1}: {this._bench[i].QuickStatus}");
+						this._team
+							.Where(poke => poke != this.Active)
+							.Select((poke, i) => (poke, i))
+							.ToList()
+							.ForEach(pair => Console.WriteLine($"{pair.i+1}: {pair.poke.QuickStatus}"));
 				
 				else
 					Console.WriteLine("Invalid parameter");
@@ -171,19 +182,19 @@ namespace Pokedex.Models
 				if (arg == "full" || arg == "detailed")
 				{
 					for (var i = 0; i < 4; i++)
-						Console.WriteLine($"{i+1}:\n{this._active.Moves[i]?.FullStatus ?? "Empty"}");
+						Console.WriteLine($"{i+1}:\n{this.Active.Moves[i]?.FullStatus ?? "Empty"}");
 				}
 				else if (arg == null)
 				{
 					for (var i = 0; i < 4; i++)
-						Console.WriteLine($"{i+1}: {this._active.Moves[i]?.QuickStatus ?? "Empty"}");
+						Console.WriteLine($"{i+1}: {this.Active.Moves[i]?.QuickStatus ?? "Empty"}");
 				}
 				else
 					Console.WriteLine("Invalid parameter");
 			}
 		}
 
-		private void MoveAction(string[] action, out bool endTurn)
+		private void MoveCommand(string[] action, out bool endTurn)
 		{
 			endTurn = false;
 
@@ -210,7 +221,7 @@ namespace Pokedex.Models
 			}
 
 			// Fetch the move
-			PokemonMove? move = this._active.Moves[moveNum-1];
+			PokemonMove? move = this.Active.Moves[moveNum-1];
 			// Check if a move is in that slot
 			if (move == null)
 			{
@@ -220,17 +231,17 @@ namespace Pokedex.Models
 
 			// Create the event
 			var ev = new MoveEvent (
-				this._active, this,
+				this.Active, this,
 				move, this._context
 			);
 			// Add it to the queue
-			this._context.AppendEvent(ev);
+			this._context.AddToBottom(ev);
 
 			// Conclude the player's turn
 			endTurn = true;
 		}
 		
-		private void SwitchAction(string[] action, out bool endTurn)
+		private void SwitchCommand(string[] action, out bool endTurn)
 		{
 			endTurn = false;
 
@@ -248,21 +259,35 @@ namespace Pokedex.Models
 				Console.WriteLine("Second argument must be a number");
 				return;
 			}
+			pokeNum--; // Change from 1-based index to 0-based
 
 			// Check if 2nd arg within bounds
-			if (pokeNum < 1 || pokeNum > this._bench.Count)
+			if (pokeNum < 1 || pokeNum > this._team.Count)
 			{
-				Console.WriteLine("Invalid move number");
+				Console.WriteLine("Invalid pokemon number");
+				return;
+			}
+
+			// Check if 2nd arg is not already active pokemon
+			if (pokeNum == this._activeIndex)
+			{
+				Console.WriteLine("This pokemon is already on the field");
+				return;
+			}
+
+			if (this._team[pokeNum].CurrHP == 0)
+			{
+				Console.WriteLine("This pokémon is K.O.");
 				return;
 			}
 
 			// Create the event
 			var ev = new SwitchEvent(
-				this, this._bench[pokeNum-1],
+				this, pokeNum,
 				this._context
 			);
 			// Add it to the queue
-			this._context.AppendEvent(ev);
+			this._context.AddToBottom(ev);
 
 			// Conclude the player's turn
 			endTurn = true;

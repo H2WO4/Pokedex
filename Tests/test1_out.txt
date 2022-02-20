@@ -1,15 +1,43 @@
 It's Jean's turn!
 
-1: Thunder - 10/10 PP
-2: Empty
-3: Empty
-4: Empty
+"Pika" - Pikachu
+Lvl : 100      Electric
+HP  : [#########################] 180/180
+Atk : 115      Def :  76-
+SAtk: 115+     SDef: 105 
+Spd : 185 
 
 
 It's Charles's turn!
 
-"Arceus" - Arceus
-Lvl : 100      Normal
-HP  : 
+"Squid Game" - Squirtle
+Lvl : 100      Water
+HP  : [#########################] 198/198
+Atk : 111+     Def : 135 
+SAtk: 105      SDef: 133 
+Spd :  81-
 
 
+Squid Game uses Extreme Speed
+Pika lost 18% HP
+
+Pika uses Thunder
+Squid Game lost 100% HP
+Squid Game fainted
+
+It's Jean's turn!
+
+"Pika" - Pikachu
+Lvl : 100      Electric
+HP  : [#####################....]
+
+
+It's Charles's turn!
+
+"Squid Game" - Squirtle
+Lvl : 100      Water
+HP  : [.........................]
+
+
+Pika uses Thunder
+But it failed

@@ -9,6 +9,7 @@ namespace Pokedex.Interfaces
 
 		# region Methods
 		public void Update();
+		public void PreUpdate();
 		# endregion
 	}
 }

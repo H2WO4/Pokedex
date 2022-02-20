@@ -14,7 +14,7 @@ namespace Pokedex.Interfaces
 
         void OnTurnEnd(CombatInstance context);
 
-        float OnDamageGive(float damage, PokemonType type);
+        double OnDamageGive(double damage, PokemonType type);
         # endregion
     }
 }

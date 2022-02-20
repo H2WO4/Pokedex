@@ -1,5 +1,7 @@
 using Pokedex.Enums;
+using Pokedex.Models.Events;
 using Pokedex.Models.PokemonTypes;
+using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models.PokemonMoves
 {
@@ -7,17 +9,19 @@ namespace Pokedex.Models.PokemonMoves
 	{
 		public MoveThunder() : base(
 			"Thunder",
-			SkillClass.Special,
-			110,
-			70,
-			10,
-			0,
+			MoveClass.Special,
+			110, 100, // Pow & Acc
+			10, 0, // PP & Priority
 			TypeElectric.Singleton
-		){}
+		) {}
 
-		public override void OnUse(Pokemon origin, List<Pokemon> targets, CombatInstance context)
-		{
-			throw new NotImplementedException();
-		}
-	}
+        public override bool AccuracyCheck(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context)
+        {
+			if (context.Weather == WeatherRain.Singleton ||
+				context.Weather == WeatherThunderstorm.Singleton)
+				return true;
+			
+            return base.AccuracyCheck(target, owner, caster, origin, context);
+        }
+    }
 }

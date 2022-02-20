@@ -1,13 +1,14 @@
 using System.Text;
 using Pokedex.Interfaces;
 using Pokedex.Enums;
-using System.Linq;
-using System.Runtime.InteropServices;
+using Pokedex.Models.Events;
 
 namespace Pokedex.Models
 {
     public abstract class Pokemon : I_Pokemon
 	{
+		protected const int N_SEGMENTS = 25;
+
 		# region Variables
 		protected PokemonSpecies _species;
 		protected string _nickname;
@@ -314,44 +315,45 @@ namespace Pokedex.Models
 
 		private StringBuilder GetHPBar()
 		{
-			const int N_SEGMENTS = 25;
-
 			// Get the HP percentage
 			var hpPercent = (int)(this._currHP * 100f / this.HP);
-
 			// ! Change this before the end. Only works with Fira Code
+			// // Build the HP Bar, first segment
+			// var hpBar = new StringBuilder(hpPercent > 0 ? "" : "");
+			// // Add every full segment as needed
+			// var i = 0;
+			// while (hpPercent > 0 && i < N_SEGMENTS - 2)
+			// {
+			// 	hpBar.Append("");
+			// 	hpPercent -= 100 / N_SEGMENTS;
+			// 	i++;
+			// }
+			// // Fills the rest with empty segments
+			// for (; i < N_SEGMENTS - 2; i++)
+			// {
+			// 	hpBar.Append("");
+			// }
+			// // Add the last segment
+			// hpBar.Append(hpPercent > 0 ? "" : "");
+
+			// * Unicode Version
 			// Build the HP Bar, first segment
-			var hpBar = new StringBuilder(hpPercent > 0 ? "" : "");
+			var hpBar = new StringBuilder("[");
 			// Add every full segment as needed
 			var i = 0;
-			while (hpPercent > 0 && i < N_SEGMENTS - 1)
+			while (hpPercent > 0 && i < N_SEGMENTS)
 			{
-				hpBar.Append("");
+				hpBar.Append("#");
 				hpPercent -= 100 / N_SEGMENTS;
 				i++;
 			}
 			// Fills the rest with empty segments
-			for (; i < N_SEGMENTS - 1; i++)
-			{
-				hpBar.Append("");
-			}
-			// Add the last segment
-			hpBar.Append(hpPercent > 0 ? "" : "");
-
-			// * Unicode Version
-			/* hpBar.Append("[");
-			var i = 0;
-			while (hpPercent > 0 && i < 20)
-			{
-				hpBar.Append("#");
-				hpPercent -= 5;
-				i++;
-			}
-			for (; i < 20; i++)
+			for (; i < N_SEGMENTS; i++)
 			{
 				hpBar.Append(".");
 			}
-			hpBar.Append("]"); */
+			// Add the last segment
+			hpBar.Append("]");
 
 			return hpBar;
 		}
@@ -405,7 +407,79 @@ namespace Pokedex.Models
 						: ' ',
 			};
 
-		public override string ToString() => this._nickname;
-		# endregion
-	}
+        public bool ReceiveDamage(Player owner, Pokemon caster, PokemonMove move, CombatInstance context)
+        {
+			// If this pokemon fainted, do nothing
+			if (this.CurrHP == 0)
+				return false;
+
+			// * Damage Calculation
+			// Initial damage
+            double damage = (0.4 * caster.Level + 2) * (move.Power ?? 0);
+
+			// Adjust for stats
+			if (move.Class == MoveClass.Physical)
+				damage *= ((double)caster.Atk / this.Def);
+			else
+				damage *= ((double)caster.SpAtk / this.SpDef);
+			
+			// Continue the calculation
+			damage = damage / 50 + 2;
+
+			// Apply weather
+			damage = context.Weather.OnDamageGive(damage, move.Type);
+
+			// Apply type weaknesses
+			damage *= this.GetAffinity(move.Type);
+
+			// Apply STAB
+			if (caster.Types.Contains(move.Type))
+				damage *= 1.5;
+			
+			# region TODO
+			// ? Implement Burn
+			// if (burn_cond && move.Class == MoveClass.Physical)
+			//	damage *= 0.5;
+
+			// ? Implement Critical Hits
+			// Code
+
+			// ? Implement abilities OnInflictDamage
+			// Code
+
+			// ? Implement abilities OnReceiveDamage
+			// Code
+			# endregion
+
+			// Floor the result
+			int finalDamage = (int)Math.Floor(damage);
+
+
+			// * Output
+			// Do damage and display
+			this.CurrHP -= finalDamage;
+			int percentage = Math.Clamp(finalDamage * 100 / this.HP, 0, 100);
+			Console.WriteLine($"{this.Nickname} lost {percentage}% HP");
+
+
+			// * Fainted
+			// If this pokemon fainted
+			if (this.CurrHP == 0)
+			{
+				// Display it
+				Console.WriteLine($"{this.Nickname} fainted");
+
+				if (owner.Team.Any(poke => poke.CurrHP > 0))
+				{
+					// Append the switch to the event list
+					var ev = new SwitchInputEvent(owner, context);
+					context.AddToBottom(ev);
+				}
+			}
+
+			Console.WriteLine();
+			return true;
+        }
+        #endregion
+    }
 }

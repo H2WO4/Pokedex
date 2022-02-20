@@ -6,11 +6,12 @@ namespace Pokedex.Interfaces
     {
         # region Properties
         Pokemon Active { get; }
-        List<Pokemon> Bench { get; }
+        List<Pokemon> Team { get; }
         string Name { get; }
         # endregion
 
         # region Methods
+        int ChangeActive(int index);
         void PlayTurn();
         # endregion
     }

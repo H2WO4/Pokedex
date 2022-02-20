@@ -1,6 +1,6 @@
 namespace Pokedex.Enums
 {
-	public enum SkillClass
+	public enum MoveClass
 	{
 		Physical,
 		Special,

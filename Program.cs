@@ -9,7 +9,7 @@ namespace Pokedex
 {
 	class Program
 	{
-		static void initializeTypes()
+		public static void InitializeTypes()
 		{
 			TypeNormal.Singleton.SetAffinities(new Dictionary<string, double>(){
 				{"Normal", 1}, {"Fire", 1},
@@ -245,7 +245,7 @@ namespace Pokedex
 		static void Main(String[] args)
 		{
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
-			initializeTypes();
+			InitializeTypes();
 
 		}
 	}

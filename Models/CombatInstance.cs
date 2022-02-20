@@ -10,7 +10,7 @@ namespace Pokedex.Models
 		private Player _playerA;
 		private Player _playerB;
 		
-		private List<I_Event> _eventQueue;
+		private Queue<I_Event> _eventQueue;
 
 		// Terrain Effects
 		private Weather _weather;
@@ -26,49 +26,61 @@ namespace Pokedex.Models
 
 		# region Constructors
 		public CombatInstance(
-			(string name, Pokemon active, List<Pokemon> bench) playerA,
-			(string name, Pokemon active, List<Pokemon> bench) playerB
+			(string name, List<Pokemon> team) playerA,
+			(string name, List<Pokemon> team) playerB
 		)
 		{
-			this._playerA = new Player(playerA.name, playerA.active, playerA.bench, this);
-			this._playerB = new Player(playerB.name, playerB.active, playerB.bench, this);
+			this._playerA = new Player(playerA.name, playerA.team, this);
+			this._playerB = new Player(playerB.name, playerB.team, this);
 
 			this._weather = WeatherClear.Singleton;
-			this._eventQueue = new List<I_Event>();
+			this._eventQueue = new Queue<I_Event>();
 		}
 		# endregion
 
 		# region Methods
-		public void AppendEvent(I_Event ev) =>
-			this._eventQueue.Add(ev);
+		public void AddToBottom(I_Event ev) =>
+			this._eventQueue.Enqueue(ev);
+		
+		public void AddToTop(I_Event ev) =>
+			this._eventQueue.Prepend(ev);
 
 		public bool DoTurn()
 		{
-			// * Take input from players
-			Console.WriteLine($"It's {this._playerA.Name}'s turn!");
-			Console.WriteLine();
-			this._playerA.PlayTurn();
+			while (Console.In.Peek() != -1)
+			{
+				// * Take input from players
+				Console.WriteLine($"It's {this._playerA.Name}'s turn!");
+				Console.WriteLine();
+				this._playerA.PlayTurn();
 
-			// Console.Clear();
+				// Console.Clear();
 
-			Console.WriteLine($"It's {this._playerB.Name}'s turn!");
-			Console.WriteLine();
-			this._playerB.PlayTurn();
+				Console.WriteLine($"It's {this._playerB.Name}'s turn!");
+				Console.WriteLine();
+				this._playerB.PlayTurn();
 
-			// * HANDLE THE FUCKING EVENT QUEUE
-			// * FUCKING FINALLY
-			// ! Take out the fucking insults before the end
-			this._eventQueue = this._eventQueue
-				.OrderByDescending(ev => (ev.Priority, ev.Speed)) // Put the higher priority events at the beginning
-				.ToList();
-			
-			this._eventQueue
-				.Where(ev => ev is MoveEvent)
-				.Select(ev => (MoveEvent)ev)
-				.ToList()
-				.ForEach(ev => ev.PreAction());
+				// * Handles the event queue
+				this._eventQueue = new Queue<I_Event>(this._eventQueue
+						.OrderByDescending(ev => (ev.Priority, ev.Speed))); // Put the higher priority events at the beginning
+				
+				this._eventQueue
+					.ToList()
+					.ForEach(ev => ev.PreUpdate()); // Do actions that could reorder the queue
+				
+				this._eventQueue = new Queue<I_Event>(this._eventQueue
+					.OrderByDescending(ev => (ev.Priority, ev.Speed))); // Reorder the queue, as there could have been priority changes
+				
+				// Do the events
+				while (this._eventQueue.Count > 0)
+					this._eventQueue
+						.Dequeue()
+						.Update();
+			}
 
-			return false;
+			// Check if there is remaining pokemons
+			return this.PlayerA.Team.Any(poke => poke.HP > 0)
+				&& this.PlayerB.Team.Any(poke => poke.HP > 0);
 		}
 		# endregion
 	}

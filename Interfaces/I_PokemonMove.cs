@@ -1,5 +1,6 @@
-using Pokedex.Models;
 using Pokedex.Enums;
+using Pokedex.Models;
+using Pokedex.Models.Events;
 
 namespace Pokedex.Interfaces
 {
@@ -7,7 +8,7 @@ namespace Pokedex.Interfaces
 	{
 		# region Properties
 		string Name { get; }
-		SkillClass Class { get; }
+		MoveClass Class { get; }
 		int? Power { get; }
 		int? Accuracy { get; }
 		int MaxPP { get; }
@@ -17,8 +18,12 @@ namespace Pokedex.Interfaces
 		# endregion
 
 		# region Methods
-		void OnUse(Pokemon origin, List<Pokemon> targets, CombatInstance context);
-		void PreAction(CombatInstance context);
+		void OnUse(Pokemon caster, Player origin, CombatInstance context);
+		bool AccuracyCheck(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context);
+		List<(Player player, Pokemon pokemon)> GetTargets(Pokemon caster, Player origin, CombatInstance context);
+		void DoAction(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context);
+
+		void PreAction(MoveEvent event_, CombatInstance context);
 		# endregion
 	}
 }

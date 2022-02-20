@@ -1,6 +1,6 @@
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Pokedex.Interfaces;
+using Pokedex;
+using Pokedex.Enums;
 using Pokedex.Models;
 using Pokedex.Models.Pokemons;
 using Pokedex.Models.PokemonMoves;
@@ -13,19 +13,21 @@ namespace Tests
 		[TestMethod]
 		public void CombatTurn()
 		{
-			var arceus1 = new Arceus(100);
-			arceus1.Nickname = "Arcy";
-			arceus1.SetMoves(new MoveThunder(), null, null, null);
-			arceus1.SetIVs(0, 0, 0, 0, 0, 0);
+			Program.InitializeTypes();
 
-			var arceus2 = new Arceus(100);
-			arceus2.SetMoves(new MoveThunder(), null, null, null);
-			arceus2.SetIVs(0, 0, 0, 0, 0, 0);
-			arceus2.CurrHP = 100;
+			var pika = new Pikachu(100, "Pika");
+			pika.SetMoves(new MoveThunder(), null, null, null);
+			pika.SetIVs(0, 0, 0, 0, 0, 0);
+			pika.CurrHP = 999;
+
+			var squirtle = new Squirtle(100, "Squid Game");
+			squirtle.SetMoves(new MoveExtremeSpeed(), null, null, null);
+			squirtle.SetIVs(0, 0, 0, 0, 0, 0);
+			squirtle.CurrHP = 999;
 
 			var fight = new CombatInstance(
-				("Jean", arceus1, new List<Pokemon>(){}),
-				("Charles", arceus2, new List<Pokemon>(){})
+				("Jean", new List<Pokemon>(){ pika }),
+				("Charles", new List<Pokemon>(){ squirtle })
 			);
 
 			// Redirect console
@@ -36,7 +38,6 @@ namespace Tests
 			Console.SetOut(writer);
 
 			fight.DoTurn();
-			
 		}
 	}
 }

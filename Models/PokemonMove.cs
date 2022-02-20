@@ -1,5 +1,7 @@
 using Pokedex.Interfaces;
 using Pokedex.Enums;
+using Pokedex.Models.Events;
+using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models
 {
@@ -7,7 +9,7 @@ namespace Pokedex.Models
 	{
 		# region Variables
 		protected string _name;
-		protected SkillClass _class;
+		protected MoveClass _class;
 		protected int? _power;
 		protected int? _accuracy;
 		protected int _maxPp;
@@ -20,7 +22,7 @@ namespace Pokedex.Models
 		// Values
 		public string Name { get => this._name; }
 		public int? Power { get => this._power; }
-		public SkillClass Class { get => this._class; }
+		public MoveClass Class { get => this._class; }
 		public int? Accuracy { get => this._accuracy; }
 		public int MaxPP { get => this._maxPp; }
 		public int PP { get => this._pp; }
@@ -39,7 +41,7 @@ namespace Pokedex.Models
 		# region Constructors
 		public PokemonMove(
 			string name,
-			SkillClass class_,
+			MoveClass class_,
 			int? power,
 			int? accuracy,
 			int maxPp,
@@ -62,9 +64,54 @@ namespace Pokedex.Models
 		# endregion
 
 		# region Methods
-		public abstract void OnUse(Pokemon origin, List<Pokemon> targets, CombatInstance context);
-		
-		public virtual void PreAction(CombatInstance context) {}
-		# endregion
-	}
+		public virtual void OnUse(Pokemon caster, Player origin, CombatInstance context)
+		{
+			// Select targets
+			var targets = this.GetTargets(caster, origin, context);
+
+			// Accuracy check
+			var hits = targets
+				.Select(target => this.AccuracyCheck(target.pokemon, target.player, caster, origin, context));
+			
+			// If it hits, deal damage, and check if fainted
+			foreach (var pair in targets.Zip(hits))
+			{
+				var target = pair.First;
+				var hit = pair.Second;
+
+				if (hit)
+					this.DoAction(target.pokemon, target.player, caster, origin, context);
+				else
+					Console.WriteLine($"{caster.Nickname}'s {this.Name} missed {target.pokemon.Nickname}\n");
+			}
+		}
+
+        public virtual bool AccuracyCheck(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context)
+        {
+            var rand = new Random();
+			return (this._accuracy ?? 100) >= rand.Next(1, 100);
+        }
+
+        public virtual List<(Player player, Pokemon pokemon)> GetTargets(Pokemon caster, Player origin, CombatInstance context)
+        {
+            var enemy = context.PlayerA == origin
+						? context.PlayerB
+						: context.PlayerA;
+			
+			return new List<(Player, Pokemon)>()
+			{
+				(enemy, enemy.Active)
+			};
+        }
+
+        public virtual void DoAction(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context)
+		{
+            bool success = target.ReceiveDamage(owner, caster, this, context);
+			if (!success)
+				Console.WriteLine("But it failed");
+		}
+
+		public virtual void PreAction(MoveEvent event_, CombatInstance context) {}
+        #endregion
+    }
 }

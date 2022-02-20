@@ -25,8 +25,8 @@ namespace Pokedex.Models
 
 		# region Methods
 		// Stats
-		public virtual float OnDamageGive(float damage, PokemonType type) =>
-			this._typePower.GetValueOrDefault(type.Name, 1f) * damage;
+		public virtual double OnDamageGive(double damage, PokemonType type) =>
+			this._typePower.GetValueOrDefault(type.Name, 1) * damage;
 
 		// Weather Enter/Exit
 		public virtual void OnEnter() {}

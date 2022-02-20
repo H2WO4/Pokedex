@@ -1,4 +1,9 @@
-status move
+status self full
+use 1
+status self full
+use 1
+
+status self
 use 1
 status self
 use 1

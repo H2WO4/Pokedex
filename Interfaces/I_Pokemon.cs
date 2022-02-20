@@ -39,6 +39,8 @@ namespace Pokedex.Interfaces
 		void SetIVs(int hp, int atk, int def, int spAtk, int spDef, int spd);
 		void SetMoves(PokemonMove? move1, PokemonMove? move2, PokemonMove? move3, PokemonMove? move4);
 		double GetAffinity(PokemonType attacker);
+
+		bool ReceiveDamage(Player owner, Pokemon caster, PokemonMove move, CombatInstance context);
 		# endregion
 	}
 }
