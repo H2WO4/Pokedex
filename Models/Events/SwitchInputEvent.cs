@@ -37,15 +37,15 @@ namespace Pokedex.Models.Events
 
 			// Print the available pokemons
 			this._origin.Team
-				.Where(poke => poke != this._origin.Active)
-				.Where(poke => poke.HP > 0)
 				.Select((poke, i) => (poke, i))
+				.Where(pair => pair.poke != this._origin.Active)
+				.Where(pair => pair.poke.HP > 0)
 				.ToList()
-				.ForEach(pair => Console.WriteLine($"{pair.i+1}: {pair.poke.QuickStatus}"));
+				.ForEach(pair => Console.WriteLine($"{pair.i+1}: {pair.poke.QuickStatus}\n"));
 
 			// Until a valid pokemon is chosen
 			bool pokeChosen = false;
-			while (!pokeChosen)
+			while (!pokeChosen && Console.In.Peek() != -1)
 			{
 				// Take input
 				var input = Console.ReadLine();
@@ -74,7 +74,7 @@ namespace Pokedex.Models.Events
 				}
 
 				this._origin.ChangeActive(pokeNum);
-				Console.WriteLine($"{this._origin.Name} sends out {this._origin.Active.Nickname}");
+				Console.WriteLine($"{this._origin.Name} sends out {this._origin.Active.Nickname}\n");
 				pokeChosen = true;
 			}
 		}

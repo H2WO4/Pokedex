@@ -15,19 +15,29 @@ namespace Tests
 		{
 			Program.InitializeTypes();
 
-			var pika = new Pikachu(100, "Pika");
-			pika.SetMoves(new MoveThunder(), null, null, null);
-			pika.SetIVs(0, 0, 0, 0, 0, 0);
-			pika.CurrHP = 999;
+			var raichu = new Raichu(100, "Pikachu");
+			raichu.SetMoves(new MoveThunder(), null, null, null);
+			raichu.SetIVs(31, 31, 31, 31, 31, 31);
+			raichu.CurrHP = 999;
 
-			var squirtle = new Squirtle(100, "Squid Game");
-			squirtle.SetMoves(new MoveExtremeSpeed(), null, null, null);
-			squirtle.SetIVs(0, 0, 0, 0, 0, 0);
-			squirtle.CurrHP = 999;
+			var blastoise = new Blastoise(100, "Squid Game");
+			blastoise.SetMoves(new MoveExtremeSpeed(), new MoveUTurn(), null, null);
+			blastoise.SetIVs(31, 31, 31, 31, 31, 31);
+			blastoise.CurrHP = 999;
+
+			var charizard = new Charizard(100, "Overhyped");
+			charizard.SetMoves(new MoveExtremeSpeed(), null, null, null);
+			charizard.SetIVs(31, 31, 31, 31, 31, 31);
+			charizard.CurrHP = 999;
+
+			var arceus = new Arceus(100, "Mother Fucking God");
+			arceus.SetMoves(new MoveGuillotine(), null, null, null);
+			arceus.SetIVs(31, 31, 31, 31, 31, 31);
+			arceus.CurrHP = 999;
 
 			var fight = new CombatInstance(
-				("Jean", new List<Pokemon>(){ pika }),
-				("Charles", new List<Pokemon>(){ squirtle })
+				("Jean", new List<Pokemon>(){ raichu }),
+				("Charles", new List<Pokemon>(){ blastoise, charizard, arceus })
 			);
 
 			// Redirect console

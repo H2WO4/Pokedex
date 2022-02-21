@@ -47,7 +47,7 @@ namespace Pokedex.Models
 		{
 			bool endTurn = false;
 
-			while (!endTurn)
+			while (!endTurn && Console.In.Peek() != -1)
 			{
 				// Read the command
 				string[] action = Console.ReadLine()!
@@ -158,20 +158,20 @@ namespace Pokedex.Models
 						Console.WriteLine("No pokemon on the bench");
 					else
 						this._team
-							.Where(poke => poke != this.Active)
 							.Select((poke, i) => (poke, i))
+							.Where(pair => pair.poke != this.Active)
 							.ToList()
-							.ForEach(pair => Console.WriteLine($"{pair.i+1}: {pair.poke.FullStatus}"));
+							.ForEach(pair => Console.WriteLine($"\n{pair.i+1}: {pair.poke.FullStatus}"));
 				
 				else if (arg == null)
 					if (this._team.Count == 1)
 						Console.WriteLine("No pokemon on the bench");
 					else
 						this._team
-							.Where(poke => poke != this.Active)
 							.Select((poke, i) => (poke, i))
+							.Where(pair => pair.poke != this.Active)
 							.ToList()
-							.ForEach(pair => Console.WriteLine($"{pair.i+1}: {pair.poke.QuickStatus}"));
+							.ForEach(pair => Console.WriteLine($"\n{pair.i+1}: {pair.poke.QuickStatus}"));
 				
 				else
 					Console.WriteLine("Invalid parameter");
@@ -182,7 +182,7 @@ namespace Pokedex.Models
 				if (arg == "full" || arg == "detailed")
 				{
 					for (var i = 0; i < 4; i++)
-						Console.WriteLine($"{i+1}:\n{this.Active.Moves[i]?.FullStatus ?? "Empty"}");
+						Console.WriteLine($"{i+1}: {this.Active.Moves[i]?.FullStatus ?? "Empty"}");
 				}
 				else if (arg == null)
 				{

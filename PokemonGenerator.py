@@ -16,7 +16,7 @@ i = 1
 # For each pokemon
 for poke in data.values():
 	# Potential loop breaker for testing
-	if i > 25 and poke["name"] != "arceus": continue
+	if i > 30 and poke["name"] != "arceus": continue
 	# if poke["name"] != "pikachu": continue
 
 	# Find the name to use in file names

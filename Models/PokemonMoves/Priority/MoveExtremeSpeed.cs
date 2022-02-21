@@ -9,10 +9,10 @@ namespace Pokedex.Models.PokemonMoves
 	{
 		public MoveExtremeSpeed() : base(
 			"Extreme Speed",
-			MoveClass.Special,
+			MoveClass.Physical,
 			80, 100, // Pow & Acc
 			5, 2, // PP & Priority
-			TypeElectric.Singleton
+			TypeNormal.Singleton
 		) {}
     }
 }

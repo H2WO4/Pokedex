@@ -25,7 +25,8 @@ namespace Pokedex.Models
 		# endregion
 
 		# region Constructors
-		public CombatInstance(
+		public CombatInstance
+		(
 			(string name, List<Pokemon> team) playerA,
 			(string name, List<Pokemon> team) playerB
 		)
@@ -43,7 +44,7 @@ namespace Pokedex.Models
 			this._eventQueue.Enqueue(ev);
 		
 		public void AddToTop(I_Event ev) =>
-			this._eventQueue.Prepend(ev);
+			this._eventQueue = new Queue<I_Event>(this._eventQueue.Prepend(ev));
 
 		public bool DoTurn()
 		{
@@ -78,9 +79,9 @@ namespace Pokedex.Models
 						.Update();
 			}
 
-			// Check if there is remaining pokemons
-			return this.PlayerA.Team.Any(poke => poke.HP > 0)
-				&& this.PlayerB.Team.Any(poke => poke.HP > 0);
+			// Return if PlayerA has remaining pokemons
+			// AKA, return if PlayerA has won
+			return this.PlayerA.Team.Any(poke => poke.HP > 0);
 		}
 		# endregion
 	}

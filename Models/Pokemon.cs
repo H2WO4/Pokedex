@@ -318,42 +318,43 @@ namespace Pokedex.Models
 			// Get the HP percentage
 			var hpPercent = (int)(this._currHP * 100f / this.HP);
 			// ! Change this before the end. Only works with Fira Code
-			// // Build the HP Bar, first segment
-			// var hpBar = new StringBuilder(hpPercent > 0 ? "" : "");
-			// // Add every full segment as needed
-			// var i = 0;
-			// while (hpPercent > 0 && i < N_SEGMENTS - 2)
-			// {
-			// 	hpBar.Append("");
-			// 	hpPercent -= 100 / N_SEGMENTS;
-			// 	i++;
-			// }
-			// // Fills the rest with empty segments
-			// for (; i < N_SEGMENTS - 2; i++)
-			// {
-			// 	hpBar.Append("");
-			// }
-			// // Add the last segment
-			// hpBar.Append(hpPercent > 0 ? "" : "");
-
-			// * Unicode Version
 			// Build the HP Bar, first segment
-			var hpBar = new StringBuilder("[");
+			var hpBar = new StringBuilder(hpPercent > 0 ? "" : "");
+			hpPercent -= 4;
 			// Add every full segment as needed
 			var i = 0;
-			while (hpPercent > 0 && i < N_SEGMENTS)
+			while (hpPercent > 0 && i < N_SEGMENTS - 2)
 			{
-				hpBar.Append("#");
+				hpBar.Append("");
 				hpPercent -= 100 / N_SEGMENTS;
 				i++;
 			}
 			// Fills the rest with empty segments
-			for (; i < N_SEGMENTS; i++)
+			for (; i < N_SEGMENTS - 2; i++)
 			{
-				hpBar.Append(".");
+				hpBar.Append("");
 			}
 			// Add the last segment
-			hpBar.Append("]");
+			hpBar.Append(hpPercent > 0 ? "" : "");
+
+			// * Unicode Version
+			// // Build the HP Bar, first segment
+			// var hpBar = new StringBuilder("[");
+			// // Add every full segment as needed
+			// var i = 0;
+			// while (hpPercent > 0 && i < N_SEGMENTS)
+			// {
+			// 	hpBar.Append("#");
+			// 	hpPercent -= 100 / N_SEGMENTS;
+			// 	i++;
+			// }
+			// // Fills the rest with empty segments
+			// for (; i < N_SEGMENTS; i++)
+			// {
+			// 	hpBar.Append(".");
+			// }
+			// // Add the last segment
+			// hpBar.Append("]");
 
 			return hpBar;
 		}
@@ -466,20 +467,35 @@ namespace Pokedex.Models
 			// If this pokemon fainted
 			if (this.CurrHP == 0)
 			{
-				// Display it
-				Console.WriteLine($"{this.Nickname} fainted");
-
-				if (owner.Team.Any(poke => poke.CurrHP > 0))
-				{
-					// Append the switch to the event list
-					var ev = new SwitchInputEvent(owner, context);
-					context.AddToBottom(ev);
-				}
+				// Handles the KO
+				this.DoKO(owner, context);
+				return true;
 			}
 
 			Console.WriteLine();
 			return true;
         }
+
+		public void DoKO(Player owner, CombatInstance context)
+		{
+			// Set HP to 0
+			this.CurrHP = 0;
+
+			// Display that the pokemon is K.O.
+			Console.WriteLine($"{this.Nickname} fainted");
+
+			// ? Implement OnKO abilities
+
+			// If the trainer has some Pokemons left, ask to send another one
+			if (owner.Team.Any(poke => poke.CurrHP > 0))
+			{
+				// Append the switch to the event list
+				var ev = new SwitchInputEvent(owner, context);
+				context.AddToBottom(ev);
+			}
+			
+			Console.WriteLine();
+		}
         #endregion
     }
 }
