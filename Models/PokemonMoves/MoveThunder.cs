@@ -1,5 +1,4 @@
 using Pokedex.Enums;
-using Pokedex.Models.Events;
 using Pokedex.Models.PokemonTypes;
 using Pokedex.Models.Weathers;
 

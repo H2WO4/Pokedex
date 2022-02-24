@@ -1,3 +1,4 @@
+using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pokedex;
 using Pokedex.Enums;
@@ -13,6 +14,8 @@ namespace Tests
 		[TestMethod]
 		public void CombatTurn()
 		{
+			Console.OutputEncoding = System.Text.Encoding.Default;
+			Console.ForegroundColor = ConsoleColor.Red;
 			Program.InitializeTypes();
 
 			var raichu = new Raichu(100, "Pikachu");
@@ -43,9 +46,9 @@ namespace Tests
 			// Redirect console
 			using var reader = new StreamReader("..\\..\\..\\Tests\\test1_in.txt");
 			// var writer = new StringWriter();
-			using var writer = new StreamWriter("..\\..\\..\\Tests\\test1_out.txt");
+			// using var writer = new StreamWriter("..\\..\\..\\Tests\\test1_out.txt");
 			Console.SetIn(reader);
-			Console.SetOut(writer);
+			// Console.SetOut(writer);
 
 			fight.DoTurn();
 		}

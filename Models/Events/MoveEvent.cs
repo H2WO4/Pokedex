@@ -9,29 +9,35 @@ namespace Pokedex.Models.Events
 		protected Player _origin;
 		protected PokemonMove _move;
 		protected CombatInstance _context;
+
+		protected int _priority;
+		protected int _speed;
 		#endregion
 
 		#region Properties
 		public Pokemon Caster { get => this._caster; }
 		public Player Origin { get => this._origin; }
 		public PokemonMove Move { get => this._move; }
-		public int Priority { get => this._move.Priority; }
-		public int Speed { get => this._caster.Spd; }
+		public int Priority { get => this._priority; set => this._priority = value; }
+		public int Speed { get => this._speed; set => this._speed = value; }
 		# endregion
 
 		# region Constructors
 		public MoveEvent
 		(
-			Pokemon origin,
-			Player originPlayer,
-			PokemonMove skill,
+			Pokemon caster,
+			Player origin,
+			PokemonMove move,
 			CombatInstance context
 		)
 		{
-			this._caster = origin;
-			this._origin = originPlayer;
-			this._move = skill;
+			this._caster = caster;
+			this._origin = origin;
+			this._move = move;
 			this._context = context;
+
+			this._priority = move.Priority;
+			this._speed = caster.Spd();
 		}
 		# endregion
 
@@ -42,7 +48,7 @@ namespace Pokedex.Models.Events
 				return;
 
 			// Print move usage
-			Console.WriteLine($"{this._caster.Nickname} uses {this._move.Name}");
+			Console.WriteLine("\x1b[4m" + $"{this._caster.Nickname} uses {this._move.Name}" + "\x1b[0m");
 			this._move.OnUse(this._caster, this._origin, this._context);
 		}
 

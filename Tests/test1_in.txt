@@ -16,5 +16,7 @@ use 1
 status self
 use 1
 
-status self
+use 1
 status other
+status self
+status bench

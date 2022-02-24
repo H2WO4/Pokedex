@@ -88,8 +88,8 @@ namespace Pokedex.Models
 
         public virtual bool AccuracyCheck(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context)
         {
-            var rand = new Random();
-			return (this._accuracy ?? 100) >= rand.Next(1, 100);
+            var rnd = Program.rnd;
+			return (this._accuracy ?? 100) >= rnd.Next(1, 100);
         }
 
         public virtual List<(Player player, Pokemon pokemon)> GetTargets(Pokemon caster, Player origin, CombatInstance context)
@@ -106,7 +106,7 @@ namespace Pokedex.Models
 
         public virtual void DoAction(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context)
 		{
-            bool success = target.ReceiveDamage(owner, caster, this, context);
+            bool success = target.ReceiveDamage(owner, caster, this, this._type, context);
 			if (!success)
 				Console.WriteLine("But it failed");
 		}

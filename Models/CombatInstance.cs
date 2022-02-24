@@ -6,6 +6,7 @@ namespace Pokedex.Models
 	public class CombatInstance : I_CombatInstance
 	{
 		# region Variables
+		private int _turn;
 		// Teams
 		private Player _playerA;
 		private Player _playerB;
@@ -22,6 +23,8 @@ namespace Pokedex.Models
 
 		// Terrain Effects
 		public Weather Weather { get => this._weather; set => this._weather = value; }
+		
+		public Queue<I_Event> EventQueue { get => this._eventQueue; }
 		# endregion
 
 		# region Constructors
@@ -31,6 +34,8 @@ namespace Pokedex.Models
 			(string name, List<Pokemon> team) playerB
 		)
 		{
+			this._turn = 0;
+
 			this._playerA = new Player(playerA.name, playerA.team, this);
 			this._playerB = new Player(playerB.name, playerB.team, this);
 
@@ -50,14 +55,22 @@ namespace Pokedex.Models
 		{
 			while (Console.In.Peek() != -1)
 			{
+				// Display turn
+				this._turn++;
+				Console.WriteLine("\x1b[1;4m" + $"Turn {this._turn}" + "\x1b[0m");
+				// Display weather
+				this._weather.OnTurnStart(this);
+
+				Console.WriteLine();
+
 				// * Take input from players
-				Console.WriteLine($"It's {this._playerA.Name}'s turn!");
+				Console.WriteLine("\x1b[4m" + $"It's {this._playerA.Name}'s turn!" + "\x1b[0m");
 				Console.WriteLine();
 				this._playerA.PlayTurn();
 
 				// Console.Clear();
 
-				Console.WriteLine($"It's {this._playerB.Name}'s turn!");
+				Console.WriteLine("\x1b[4m" + $"It's {this._playerB.Name}'s turn!" + "\x1b[0m");
 				Console.WriteLine();
 				this._playerB.PlayTurn();
 
@@ -77,11 +90,14 @@ namespace Pokedex.Models
 					this._eventQueue
 						.Dequeue()
 						.Update();
+				
+				// Do weather effects
+				this._weather.OnTurnEnd(this);
 			}
 
 			// Return if PlayerA has remaining pokemons
 			// AKA, return if PlayerA has won
-			return this.PlayerA.Team.Any(poke => poke.HP > 0);
+			return this.PlayerA.Team.Any(poke => poke.HP() > 0);
 		}
 		# endregion
 	}

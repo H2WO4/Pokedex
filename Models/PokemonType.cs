@@ -20,7 +20,8 @@ namespace Pokedex.Models
 		# endregion
 
 		# region Constructor
-		public PokemonType(
+		public PokemonType
+		(
 			string name,
 			(int R, int G, int B) color
 		)
@@ -54,13 +55,19 @@ namespace Pokedex.Models
 
 		// SetWeaknesses
 		public void SetAffinities(Dictionary<PokemonType, double> weaknesses) =>
-			weaknesses.ToList().ForEach(pair => PokemonType.SetAffinity(this, pair.Key, pair.Value));
+			weaknesses
+				.ToList()
+				.ForEach(pair => PokemonType.SetAffinity(this, pair.Key, pair.Value));
 		public void SetAffinities(Dictionary<string, double> weaknesses) =>
-			weaknesses.ToList().ForEach(pair => PokemonType.SetAffinity(this.Name, pair.Key, pair.Value));
+			weaknesses
+				.ToList()
+				.ForEach(pair => PokemonType.SetAffinity(this.Name, pair.Key, pair.Value));
 
 		// Static CalculateWeakness
 		public static double CalculateAffinity(PokemonType attacker, IEnumerable<PokemonType> defenders) =>
-			defenders.Select(defender => GetAffinity(attacker, defender)).Aggregate((a,b) => a * b);
+			defenders
+				.Select(defender => GetAffinity(attacker, defender))
+				.Aggregate((a,b) => a * b);
 		
 		// Non-Static CalculateWeakness
 		public double CalculateAffinity(IEnumerable<PokemonType> defenders) =>
@@ -92,11 +99,13 @@ namespace Pokedex.Models
 					.Select(affinity => affinity == 0 ? "-" :
 										affinity == 0.5 ? "1/2" :
 										affinity == 1 ? "" :
-										"2").ToList()
-					.ForEach(affinity =>
-						output.Append('|' + affinity
-											.PadLeft(maxLen - (maxLen-affinity.Length)/2)
-											.PadRight(maxLen)));
+										"2")
+					.ToList()
+					.ForEach(affinity => output
+						.Append('|' + affinity
+						.PadLeft(maxLen - (maxLen-affinity.Length)/2)
+						.PadRight(maxLen))
+					);
 				output.AppendLine("|");
 			});
 

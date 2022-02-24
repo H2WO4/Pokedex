@@ -8,7 +8,7 @@ namespace Pokedex.Models.PokemonMoves
 		public MoveGuillotine() : base(
 			"Guillotine",
 			MoveClass.Physical,
-			null, 100, // Pow & Acc
+			null, 30, // Pow & Acc
 			5, 0, // PP & Priority
 			TypeNormal.Singleton
 		) {}

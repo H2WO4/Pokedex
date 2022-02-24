@@ -4,26 +4,23 @@ import os
 
 # Load the json file
 data = {}
-with open("Data\\moves.json", encoding="utf-8") as f:
+with open("Data/moves.json", encoding="utf-8") as f:
 	data = json.load(f)
 
-# Give every move that should be generated
-nameList = ["pound", "karate-chop", "mega-punch"]
-nameList.extend(["fire-punch", "ice-punch", "thunder-punch", "shadow-punch"]) # The ***-punch series
-
-nameList.extend(["guillotine"]) # The OHKO series
-
+moveName: str
 # For each move in the list
-for move in [data[name] for name in nameList]:
+while moveName := input():
+	move = data[moveName]
+
 	# Find the name to use in file names
 	moveName: str = move["name"].title()
-	moveNameNoSpace: str = ''.join([c for c in moveName if c not in (' ', '-')])
+	moveNameNoSpace: str = moveName.strip('- ')
 
 	# If the file alreay exist, don't touch it
-	if (os.path.isfile(f"Models\\PokemonMoves\\Move{moveNameNoSpace}.cs")): continue
+	if (os.path.isfile(f"Models/PokemonMoves/Move{moveNameNoSpace}.cs")): continue
 
 	# Create the PokemonMove class, by opening a file
-	with open(f"Models\\PokemonMoves\\Move{moveNameNoSpace}.cs", 'w', encoding="utf-8") as f:
+	with open(f"Models/PokemonMoves/Move{moveNameNoSpace}.cs", 'w', encoding="utf-8") as f:
 		# Load the template code
 		outfile = f"""
 

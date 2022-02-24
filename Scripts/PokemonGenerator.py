@@ -4,12 +4,12 @@ import os
 import shutil
 
 # Delete the old folder
-shutil.rmtree("Models\\Pokemons")
-os.mkdir("Models\\Pokemons")
+shutil.rmtree("Models/Pokemons")
+os.mkdir("Models/Pokemons")
 
 # Load the json file
 data = {}
-with open("Data\\pokemon.json", encoding="utf-8") as f:
+with open("Data/pokemon.json", encoding="utf-8") as f:
 	data = json.load(f)
 
 i = 1
@@ -26,8 +26,8 @@ for poke in data.values():
 	if '-' in className: continue
 
 	# Create the Species class, by opening a file
-	# with open(f"Models\\Pokemons\\{className}Species.cs", 'w', encoding="utf-8") as f:
-	with open(f"Models\\Pokemons\\{className}.cs", 'w', encoding="utf-8") as f:
+	# with open(f"Models/Pokemons/{className}Species.cs", 'w', encoding="utf-8") as f:
+	with open(f"../Models/Pokemons/{className}.cs", 'w', encoding="utf-8") as f:
 		# Find the class the pokemon belongs to
 		class_ = \
 			'PokeClass.Baby' if poke["is_baby"] else \
@@ -94,7 +94,7 @@ namespace Pokedex.Models.Pokemons
 		f.write(outfile)
 	
 	# Create the class, by opening a file
-	# with open(f"Models\\Pokemons\\{className}.cs", 'w') as f:
+	# with open(f"Models/Pokemons/{className}.cs", 'w') as f:
 		# Load the template code, and format it with the actual data
 		outfile = f"""
 

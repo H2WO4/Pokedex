@@ -161,7 +161,7 @@ namespace Pokedex.Models
 							.Select((poke, i) => (poke, i))
 							.Where(pair => pair.poke != this.Active)
 							.ToList()
-							.ForEach(pair => Console.WriteLine($"\n{pair.i+1}: {pair.poke.FullStatus}"));
+							.ForEach(pair => Console.WriteLine($"\x1b[38;2;255;127;0;1m{pair.i+1}\x1b[0m: {pair.poke.FullStatus}"));
 				
 				else if (arg == null)
 					if (this._team.Count == 1)
@@ -171,7 +171,7 @@ namespace Pokedex.Models
 							.Select((poke, i) => (poke, i))
 							.Where(pair => pair.poke != this.Active)
 							.ToList()
-							.ForEach(pair => Console.WriteLine($"\n{pair.i+1}: {pair.poke.QuickStatus}"));
+							.ForEach(pair => Console.WriteLine($"\x1b[38;2;255;127;0;1m{pair.i+1}\x1b[0m: {pair.poke.QuickStatus}"));
 				
 				else
 					Console.WriteLine("Invalid parameter");

@@ -36,10 +36,10 @@ namespace Pokedex.Models.Events
 			if (this._origin.Active.CurrHP == 0)
 				return;
 
-			Console.WriteLine($"{this._origin.Name} takes out {this._origin.Active.Nickname}");
+			Console.WriteLine("\x1b[4m" + $"{this._origin.Name} takes out {this._origin.Active.Nickname}" + "\x1b[0m");
 			// ? Handles OnExit abilities
 			this._origin.ChangeActive(this._target);
-			Console.WriteLine($"{this._origin.Name} sends out {this._origin.Active.Nickname}");
+			Console.WriteLine("\x1b[4m" + $"{this._origin.Name} sends out {this._origin.Active.Nickname}" + "\x1b[0m");
 			// ? Handles OnEnter abilities
 		}
 		public void PreUpdate() {}

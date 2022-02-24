@@ -1,7 +1,6 @@
 using Pokedex.Enums;
 using Pokedex.Models.Events;
 using Pokedex.Models.PokemonTypes;
-using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models.PokemonMoves
 {
@@ -17,7 +16,7 @@ namespace Pokedex.Models.PokemonMoves
 		
 		public override void DoAction(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context)
 		{
-			bool success = target.ReceiveDamage(owner, caster, this, context);
+			bool success = target.ReceiveDamage(owner, caster, this, this._type, context);
 			if (!success)
 				Console.WriteLine("But it failed");
 			else

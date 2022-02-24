@@ -32,16 +32,18 @@ namespace Pokedex.Models.Events
 
 		public void Update()
 		{
-			Console.WriteLine("Choose a pokemon to send");
+			Console.WriteLine("\x1b[4m" + "Choose a pokemon to send" + "\x1b[0m");
 			Console.WriteLine();
 
 			// Print the available pokemons
 			this._origin.Team
 				.Select((poke, i) => (poke, i))
 				.Where(pair => pair.poke != this._origin.Active)
-				.Where(pair => pair.poke.HP > 0)
+				.Where(pair => pair.poke.HP() > 0)
 				.ToList()
-				.ForEach(pair => Console.WriteLine($"{pair.i+1}: {pair.poke.QuickStatus}\n"));
+				.ForEach(pair => Console.WriteLine($"\x1b[38;2;255;127;0;1m{pair.i+1}\x1b[0m: {pair.poke.QuickStatus}"));
+			
+			Console.WriteLine();
 
 			// Until a valid pokemon is chosen
 			bool pokeChosen = false;
@@ -73,8 +75,10 @@ namespace Pokedex.Models.Events
 					continue;
 				}
 
+				Console.WriteLine("\x1b[4m" + $"{this._origin.Name} takes out {this._origin.Active.Nickname}" + "\x1b[0m");
+				Console.WriteLine();
 				this._origin.ChangeActive(pokeNum);
-				Console.WriteLine($"{this._origin.Name} sends out {this._origin.Active.Nickname}\n");
+				Console.WriteLine("\x1b[4m" + $"{this._origin.Name} sends out {this._origin.Active.Nickname}\n" + "\x1b[0m");
 				pokeChosen = true;
 			}
 		}

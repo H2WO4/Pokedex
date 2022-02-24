@@ -21,12 +21,12 @@ namespace Pokedex.Interfaces
 		PokemonMove?[] Moves { get; }
 
 		// Stats
-		int HP { get; }
-		int Atk { get; }
-		int Def { get; }
-		int SpAtk { get; }
-		int SpDef { get; }
-		int Spd { get; }
+		int BaseHP { get; }
+		int BaseAtk { get; }
+		int BaseDef { get; }
+		int BaseSpAtk { get; }
+		int BaseSpDef { get; }
+		int BaseSpd { get; }
 
 		// Text output
 		string QuickStatus { get; }
@@ -35,12 +35,20 @@ namespace Pokedex.Interfaces
 		# endregion
 
 		# region Methods
+		int HP();
+		int Atk();
+		int Def();
+		int SpAtk();
+		int SpDef();
+		int Spd();
+
 		void SetIV(string stat, int val);
 		void SetIVs(int hp, int atk, int def, int spAtk, int spDef, int spd);
 		void SetMoves(PokemonMove? move1, PokemonMove? move2, PokemonMove? move3, PokemonMove? move4);
 		double GetAffinity(PokemonType attacker);
 
-		bool ReceiveDamage(Player owner, Pokemon caster, PokemonMove move, CombatInstance context);
+		bool ReceiveDamage(Player owner, Pokemon caster, PokemonMove move, PokemonType type, CombatInstance context);
+		bool ReceivePureDamage(int damage, Player owner, Pokemon caster, PokemonMove move, PokemonType type, CombatInstance context);
 		# endregion
 	}
 }
