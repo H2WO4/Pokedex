@@ -4,17 +4,17 @@ namespace Pokedex.Models.Events
 {
 	class SwitchInputEvent : I_Event
 	{
-		# region Variables
+		#region Variables
 		private Player _origin;
 		private CombatInstance _context;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public int Priority { get => 0; }
 		public int Speed { get => 0; }
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public SwitchInputEvent
 		(
 			Player origin,
@@ -24,11 +24,11 @@ namespace Pokedex.Models.Events
 			this._origin = origin;
 			this._context = context;
 		}
-		# endregion
+		#endregion
 
 
-		# region Methods
-		public void PreUpdate() {}
+		#region Methods
+		public void PreUpdate() { }
 
 		public void Update()
 		{
@@ -41,8 +41,8 @@ namespace Pokedex.Models.Events
 				.Where(pair => pair.poke != this._origin.Active)
 				.Where(pair => pair.poke.HP() > 0)
 				.ToList()
-				.ForEach(pair => Console.WriteLine($"\x1b[38;2;255;127;0;1m{pair.i+1}\x1b[0m: {pair.poke.QuickStatus}"));
-			
+				.ForEach(pair => Console.WriteLine($"\x1b[38;2;255;127;0;1m{pair.i + 1}\x1b[0m: {pair.poke.GetQuickStatus()}"));
+
 			Console.WriteLine();
 
 			// Until a valid pokemon is chosen
@@ -82,6 +82,6 @@ namespace Pokedex.Models.Events
 				pokeChosen = true;
 			}
 		}
-		# endregion
+		#endregion
 	}
 }

@@ -2,18 +2,19 @@ namespace Pokedex.Models.PokemonTypes
 {
 	public class TypeElectric : PokemonType
 	{
-		# region Class Variables
+		#region Class Variables
 		protected static TypeElectric? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static TypeElectric Singleton { get => _singleton ?? (_singleton = new TypeElectric()); }
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public TypeElectric() : base(
 			"Electric", (255, 255, 0)
-		){}
-		# endregion
+		)
+		{ }
+		#endregion
 	}
 }

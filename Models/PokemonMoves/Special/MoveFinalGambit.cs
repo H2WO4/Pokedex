@@ -11,7 +11,8 @@ namespace Pokedex.Models.PokemonMoves
 			null, 100, // Pow & Acc
 			5, 0, // PP & Priority
 			TypeFighting.Singleton
-		) {}
+		)
+		{ }
 
 		public override void DoAction(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context)
 		{

@@ -11,6 +11,7 @@ namespace Pokedex.Models.PokemonMoves
 			75, 100, // Pow & Acc
 			15, 0, // PP & Priority
 			TypeIce.Singleton
-		) {}
+		)
+		{ }
 	}
 }

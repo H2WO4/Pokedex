@@ -2,14 +2,14 @@ namespace Pokedex.Interfaces
 {
 	public interface I_Event
 	{
-		# region Properties
+		#region Properties
 		int Priority { get; }
 		int Speed { get; }
-		# endregion
+		#endregion
 
-		# region Methods
+		#region Methods
 		public void Update();
 		public void PreUpdate();
-		# endregion
+		#endregion
 	}
 }

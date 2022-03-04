@@ -2,15 +2,15 @@ namespace Pokedex.Models.Weathers
 {
 	public class WeatherLocust : Weather
 	{
-		# region Class Variables
+		#region Class Variables
 		private static WeatherLocust? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static WeatherLocust Singleton { get => _singleton ?? (_singleton = new WeatherLocust()); }
-		# endregion
+		#endregion
 
-		# region Constructors
+		#region Constructors
 		protected WeatherLocust() : base("Locust Swarm")
 		{
 			this._typePower.Add("Bug", 1.5f);
@@ -19,9 +19,9 @@ namespace Pokedex.Models.Weathers
 			this._typeSelector.Add("Poison");
 			this._typeSelector.Add("Grass");
 		}
-		# endregion
+		#endregion
 
-		# region Methods
+		#region Methods
 		public override void OnTurnEnd(CombatInstance context)
 		{
 			if (context.PlayerA.Active.Types
@@ -32,7 +32,7 @@ namespace Pokedex.Models.Weathers
 				Console.WriteLine($"{context.PlayerA.Active.Name} is buffeted by the locust swarm!");
 				// Damage logic
 			}
-			
+
 			if (context.PlayerB.Active.Types
 					.Select(x => x.Name)
 					.Intersect(this._typeSelector)
@@ -50,7 +50,7 @@ namespace Pokedex.Models.Weathers
 			Console.WriteLine("Locusts are starting to swarm the area!");
 		public override void OnExit() =>
 			Console.WriteLine("The swarm of locusts has dispersed.");
-		
-		# endregion
+
+		#endregion
 	}
 }

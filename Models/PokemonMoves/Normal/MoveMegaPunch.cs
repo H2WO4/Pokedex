@@ -3,13 +3,13 @@ using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.PokemonMoves
 {
-	public class MoveExtremeSpeed : PokemonMove
+	public class MoveMegaPunch : PokemonMove
 	{
-		public MoveExtremeSpeed() : base(
-			"Extreme Speed",
+		public MoveMegaPunch() : base(
+			"Mega-Punch",
 			MoveClass.Physical,
-			80, 100, // Pow & Acc
-			5, 2, // PP & Priority
+			80, 85, // Pow & Acc
+			20, 0, // PP & Priority
 			TypeNormal.Singleton
 		)
 		{ }

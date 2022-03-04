@@ -1,18 +1,17 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Text;
-using Pokedex.Interfaces;
 using Pokedex.Enums;
+using Pokedex.Interfaces;
 using Pokedex.Models.Events;
-using System.Diagnostics.CodeAnalysis;
-using Pastel;
 
 namespace Pokedex.Models
 {
-    public abstract class Pokemon : I_Pokemon
+	public abstract class Pokemon : I_Pokemon
 	{
 		protected const int N_SEGMENTS = 25;
 
-		# region Variables
+		#region Variables
 		protected PokemonSpecies _species;
 		protected string _nickname;
 		protected int _level;
@@ -24,14 +23,14 @@ namespace Pokedex.Models
 		protected Dictionary<string, int> _statBoosts;
 
 		protected char[] _nMarks;
-		# endregion
+		#endregion
 
-		# region Class Variables
+		#region Class Variables
 		protected static Nature[] __natures =
 			((Nature[])Enum.GetValues(typeof(Nature)))
 				.Where(nature => Math.Log2(((int)nature)) % 1 != 0)
 				.ToArray();
-		
+
 		protected static Dictionary<int, double> __stageMult = new Dictionary<int, double>()
 			{
 				{ -6, 2d/8 },
@@ -50,9 +49,9 @@ namespace Pokedex.Models
 				{ +5, 7d/2 },
 				{ +6, 8d/2 },
 			};
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		// Inherited from the Species - Important infos
 		public int ID { get => this._species.ID; }
 		public string Name { get => this._species.Name; }
@@ -65,7 +64,6 @@ namespace Pokedex.Models
 		public PokeClass Class { get => this._species.Class; }
 		public int Height { get => this._species.Height; }
 		public int Weight { get => this._species.Weight; }
-
 
 		// Unique per Pokemon
 		public int Level { get => this._level; }
@@ -90,52 +88,23 @@ namespace Pokedex.Models
 		}
 
 		// Others
-		public string QuickStatus { get =>
-			string.Join('\n', new string[]{
-				$"\"{this._nickname}\"" + "\x1b[2m" + $" - {this.Name}" + "\x1b[0m",
-				$"Lvl : {this._level, 3}      " + string.Join('-', this.Types),
-				$"HP  : {this.GetHPBar()}",
-			});
-		}
-		public string FullStatus { get
-			{
-				string[] colors = new string[]
-				{ "atk", "def", "spAtk", "spDef", "spd" }
-					.Select(stat => this._statBoosts[stat])
-					.Select(stage => stage > 0 ? "\x1b[38;2;255;0;0m"
-									: stage == 0 ? "\x1b[38;2;0;128;0m"
-									: "\x1b[38;2;255;0;128m")
-					.ToArray();
-
-				return string.Join('\n', new string[]{
-					$"\"{this._nickname}\""
-					+ "\x1b[2m" + $" - {this.Name}" + "\x1b[0m",
-					$"Lvl : {this._level, 3}      " + string.Join('-', this.Types),
-					$"HP  : {this.GetHPBar()} {this._currHP, 3}/{this.HP(), 3}",
-
-					$"Atk : {colors[0]}{this.Atk(), 3}\x1b[0m{this._nMarks[0]}"
-					+ $"     Def : {colors[1]}{this.Def(), 3}\x1b[0m{this._nMarks[1]}",
-					$"SAtk: {colors[2]}{this.SpAtk(), 3}\x1b[0m{this._nMarks[2]}"
-					+ $"     SDef: {colors[3]}{this.SpDef(), 3}\x1b[0m{this._nMarks[3]}",
-					$"Spd : {colors[4]}{this.Spd(), 3}\x1b[0m{this._nMarks[4]}",
-				});
-			}
-		}
-		public string PokedexEntry { get =>
-			string.Join('\n', new string[]{
+		public string PokedexEntry
+		{
+			get =>
+string.Join('\n', new string[]{
 				$"{this.Name}",
 				$"No.  {this.ID, 3}      {this.Genus}",
 				$"Lvl: {this._level, 3}      " + string.Join('-', this.Types),
 				$"HP : {this.BaseHP, 3}      Atk  : {this.BaseAtk, 3}      S.Atk  : {this.BaseSpAtk, 3}",
 				$"Spd: {this.BaseSpd, 3}      Def  : {this.BaseDef, 3}      S.Def: {this.BaseSpDef, 3}",
-			});
+});
 		}
 		#endregion
 
-		# region Constructors
+		#region Constructors
 		public Pokemon
 		(
-			PokemonSpecies species, 
+			PokemonSpecies species,
 			int level
 		)
 		{
@@ -207,15 +176,15 @@ namespace Pokedex.Models
 			Dictionary<string, int> evs
 		) : this(species, level, nickname, nature)
 		{
-			if (evs.Keys.SequenceEqual(new string[]{"hp", "atk", "def", "spAtk", "spDef", "spd"}))
+			if (evs.Keys.SequenceEqual(new string[] { "hp", "atk", "def", "spAtk", "spDef", "spd" }))
 				this._evs = evs;
 			else throw new ArgumentException("EVs must be: hp, atk, def, spAtk, spDef, spd");
 
 			this._currHP = this.HP();
 		}
-		# endregion
+		#endregion
 
-		# region Methods
+		#region Methods
 		public int HP()
 		{
 			int result = this.BaseHP * 2; // Base stat
@@ -237,7 +206,7 @@ namespace Pokedex.Models
 			double natureBonus = 1 // Calculate Nature bonus
 				+ (this._nature.HasFlag(Nature.PlusAtk) ? .1 : 0) // Increasing Nature
 				- (this._nature.HasFlag(Nature.MinusAtk) ? .1 : 0); // Decreasing Nature
-			
+
 			result = (int)(result * natureBonus); // Apply Nature
 
 			result = (int)(result * __stageMult[this._statBoosts["atk"]]); // Apply stat boost
@@ -255,7 +224,7 @@ namespace Pokedex.Models
 			double natureBonus = 1 // Calculate Nature bonus
 				+ (this._nature.HasFlag(Nature.PlusDef) ? .1 : 0) // Increasing Nature
 				- (this._nature.HasFlag(Nature.MinusDef) ? .1 : 0); // Decreasing Nature
-			
+
 			result = (int)(result * natureBonus); // Apply Nature
 
 			result = (int)(result * __stageMult[(this._statBoosts["def"])]); // Apply stat boost
@@ -273,7 +242,7 @@ namespace Pokedex.Models
 			double natureBonus = 1 // Calculate Nature bonus
 				+ (this._nature.HasFlag(Nature.PlusSpAtk) ? .1 : 0) // Increasing Nature
 				- (this._nature.HasFlag(Nature.MinusSpAtk) ? .1 : 0); // Decreasing Nature
-			
+
 			result = (int)(result * natureBonus); // Apply Nature
 
 			result = (int)(result * __stageMult[(this._statBoosts["spAtk"])]); // Apply stat boost
@@ -291,7 +260,7 @@ namespace Pokedex.Models
 			double natureBonus = 1 // Calculate Nature bonus
 				+ (this._nature.HasFlag(Nature.PlusSpDef) ? .1 : 0) // Increasing Nature
 				- (this._nature.HasFlag(Nature.MinusSpDef) ? .1 : 0); // Decreasing Nature
-			
+
 			result = (int)(result * natureBonus); // Apply Nature
 
 			result = (int)(result * __stageMult[(this._statBoosts["spDef"])]); // Apply stat boost
@@ -309,7 +278,7 @@ namespace Pokedex.Models
 			double natureBonus = 1 // Calculate Nature bonus
 				+ (this._nature.HasFlag(Nature.PlusSpd) ? .1 : 0) // Increasing Nature
 				- (this._nature.HasFlag(Nature.MinusSpd) ? .1 : 0); // Decreasing Nature
-			
+
 			result = (int)(result * natureBonus); // Apply Nature
 
 			result = (int)(result * __stageMult[(this._statBoosts["spd"])]); // Apply stat boost
@@ -336,7 +305,7 @@ namespace Pokedex.Models
 				.Where(pair => pair.Key != stat)
 				.Select(pair => pair.Value)
 				.Aggregate((a, b) => a + b);
-			
+
 			if (total + val <= 510)
 				if (val <= 255)
 					this._evs[stat] = val;
@@ -369,7 +338,7 @@ namespace Pokedex.Models
 			this._moves = new PokemonMove?[]
 			{
 				move1, move2,
-				move3, move4	
+				move3, move4
 			};
 		}
 
@@ -433,11 +402,11 @@ namespace Pokedex.Models
 			// // Add the last segment
 			// hpBar.Append("]");
 
-			var color = hpPercentBase <= 10 ? Color.OrangeRed
-						: hpPercentBase <= 50 ? Color.Orange
-						: Color.LightGreen;
+			var color = hpPercentBase <= 10 ? "\x1b[38;2;255;69;0m"
+						: hpPercentBase <= 50 ? "\x1b[38;2;255;165;0m"
+						: "\x1b[38;2;144;238;144m";
 
-			return new StringBuilder(hpBar.ToString().Pastel(color));
+			return new StringBuilder(color + hpBar.ToString() + "\x1b[0m");
 		}
 
 		private char[] GetNatureChars() =>
@@ -489,22 +458,22 @@ namespace Pokedex.Models
 						: ' ',
 			};
 
-        public bool ReceiveDamage(Player owner, Pokemon caster, PokemonMove move, PokemonType type, CombatInstance context)
-        {
+		public bool ReceiveDamage(Player owner, Pokemon caster, PokemonMove move, PokemonType type, CombatInstance context)
+		{
 			// If this pokemon fainted, do nothing
 			if (this.CurrHP == 0)
 				return false;
 
 			// * Damage Calculation
 			// Initial damage
-            double damage = (0.4 * caster.Level + 2) * (move.Power ?? 0);
+			double damage = (0.4 * caster.Level + 2) * (move.Power ?? 0);
 
 			// Adjust for stats
 			if (move.Class == MoveClass.Physical)
 				damage *= ((double)caster.Atk() / this.Def());
 			else
 				damage *= ((double)caster.SpAtk() / this.SpDef());
-			
+
 			// Continue the calculation
 			damage = damage / 50 + 2;
 
@@ -517,8 +486,8 @@ namespace Pokedex.Models
 			// Apply STAB
 			if (caster.Types.Contains(type))
 				damage *= 1.5;
-			
-			# region TODO
+
+			#region TODO
 			// ? Implement Burn
 			// if (burn_cond && move.Class == MoveClass.Physical)
 			//	damage *= 0.5;
@@ -531,7 +500,7 @@ namespace Pokedex.Models
 
 			// ? Implement abilities OnReceiveDamage
 			// Code
-			# endregion
+			#endregion
 
 			// Floor the result
 			int finalDamage = (int)(damage);
@@ -555,23 +524,23 @@ namespace Pokedex.Models
 
 			Console.WriteLine();
 			return true;
-        }
+		}
 
 		public bool ReceivePureDamage(int damage, Player owner, Pokemon caster, PokemonMove move, PokemonType type, CombatInstance context)
-        {
+		{
 			// If this pokemon fainted, do nothing
 			if (this.CurrHP == 0)
 				return false;
 
 			// * Damage Calculation
-			
-			# region TODO
+
+			#region TODO
 			// ? Implement abilities OnInflictDamage
 			// Code
 
 			// ? Implement abilities OnReceiveDamage
 			// Code
-			# endregion
+			#endregion
 
 			// * Output
 			// Do damage and display
@@ -591,7 +560,17 @@ namespace Pokedex.Models
 
 			Console.WriteLine();
 			return true;
-        }
+		}
+
+		public void ChangeStatBonuses(int atk, int def, int spAtk, int spDef, int spd)
+			=> this._statBoosts = new Dictionary<string, int>
+			{
+				{ "atk", Math.Clamp(this._statBoosts["atk"] + atk, -6, 6) },
+				{ "def", Math.Clamp(this._statBoosts["def"] + def, -6, 6) },
+				{ "spAtk", Math.Clamp(this._statBoosts["spAtk"] + spAtk, -6, 6) },
+				{ "spDef", Math.Clamp(this._statBoosts["spDef"] + spDef, -6, 6) },
+				{ "spd", Math.Clamp(this._statBoosts["spd"] + spd, -6, 6) },
+			};
 
 		public void DoKO(Player owner, CombatInstance context)
 		{
@@ -610,9 +589,40 @@ namespace Pokedex.Models
 				var ev = new SwitchInputEvent(owner, context);
 				context.AddToBottom(ev);
 			}
-			
+
 			Console.WriteLine();
 		}
-        #endregion
-    }
+
+		public string GetQuickStatus() =>
+			string.Join('\n', new string[]{
+				$"\"{this._nickname}\"" + "\x1b[2m" + $" - {this.Name}" + "\x1b[0m",
+				$"Lvl : {this._level, 3}      " + string.Join('-', this.Types),
+				$"HP  : {this.GetHPBar()}",
+			});
+
+		public string GetFullStatus()
+		{
+			string[] colors = new string[]
+			{ "atk", "def", "spAtk", "spDef", "spd" }
+				.Select(stat => this._statBoosts[stat])
+				.Select(stage => stage > 0 ? "\x1b[38;2;0;128;0m"
+								: stage == 0 ? ""
+								: "\x1b[38;2;255;0;0m")
+				.ToArray();
+
+			return string.Join('\n', new string[]{
+				$"\"{this._nickname}\""
+				+ "\x1b[2m" + $" - {this.Name}" + "\x1b[0m",
+				$"Lvl : {this._level, 3}      " + string.Join('-', this.Types),
+				$"HP  : {this.GetHPBar()} {this._currHP, 3}/{this.HP(), 3}",
+
+				$"Atk : {colors[0]}{this.Atk(), 3}\x1b[0m{this._nMarks[0]}"
+				+ $"     Def : {colors[1]}{this.Def(), 3}\x1b[0m{this._nMarks[1]}",
+				$"SAtk: {colors[2]}{this.SpAtk(), 3}\x1b[0m{this._nMarks[2]}"
+				+ $"     SDef: {colors[3]}{this.SpDef(), 3}\x1b[0m{this._nMarks[3]}",
+				$"Spd : {colors[4]}{this.Spd(), 3}\x1b[0m{this._nMarks[4]}",
+			});
+		}
+		#endregion
+	}
 }

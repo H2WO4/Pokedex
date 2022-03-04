@@ -4,7 +4,7 @@ namespace Pokedex.Interfaces
 {
 	public interface I_Pokemon
 	{
-		# region Properties
+		#region Properties
 		// Inherited from the Species
 		int ID { get; }
 		string Name { get; }
@@ -29,12 +29,10 @@ namespace Pokedex.Interfaces
 		int BaseSpd { get; }
 
 		// Text output
-		string QuickStatus { get; }
-		string FullStatus { get; }
 		string PokedexEntry { get; }
-		# endregion
+		#endregion
 
-		# region Methods
+		#region Methods
 		int HP();
 		int Atk();
 		int Def();
@@ -49,6 +47,9 @@ namespace Pokedex.Interfaces
 
 		bool ReceiveDamage(Player owner, Pokemon caster, PokemonMove move, PokemonType type, CombatInstance context);
 		bool ReceivePureDamage(int damage, Player owner, Pokemon caster, PokemonMove move, PokemonType type, CombatInstance context);
-		# endregion
+
+		string GetQuickStatus();
+		string GetFullStatus();
+		#endregion
 	}
 }

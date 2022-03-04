@@ -2,25 +2,25 @@ namespace Pokedex.Models.Weathers
 {
 	public class WeatherCloudy : Weather
 	{
-		# region Class Variables
+		#region Class Variables
 		private static WeatherCloudy? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static WeatherCloudy Singleton { get => _singleton ?? (_singleton = new WeatherCloudy()); }
-		# endregion
+		#endregion
 
-		# region Constructors
+		#region Constructors
 		protected WeatherCloudy() : base("Cloudy")
 		{
 			this._typePower.Add("Normal", 1f);
 		}
-		# endregion
+		#endregion
 
-		# region Methods
+		#region Methods
 		public override double OnDamageGive(double damage, PokemonType type) =>
 			this._typePower.GetValueOrDefault(type.Name, 0.75f) * damage;
-		
+
 		// Flavor Text
 		public override void OnTurnStart(CombatInstance context) =>
 			Console.WriteLine("The sky is cloudy.");
@@ -29,6 +29,6 @@ namespace Pokedex.Models.Weathers
 		public override void OnExit() =>
 			Console.WriteLine("The clouds disappeared.");
 
-		# endregion
+		#endregion
 	}
 }

@@ -32,7 +32,7 @@ namespace Pokedex.Models.PokemonMoves
 		{
 			if (this.doesPursuit)
 				this._power *= 2;
-			
+
 			base.DoAction(target, owner, caster, origin, context);
 
 			if (this.doesPursuit)

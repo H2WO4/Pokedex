@@ -5,23 +5,23 @@ namespace Pokedex.Models
 {
 	public class Player : I_Player
 	{
-		# region Variables
+		#region Variables
 		private string _name;
 
 		private int _activeIndex;
 		private List<Pokemon> _team;
 
 		private CombatInstance _context;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public string Name { get => this._name; }
 
 		public Pokemon Active { get => this._team[this._activeIndex]; }
 		public List<Pokemon> Team { get => this._team; }
-		# endregion
+		#endregion
 
-		# region Constructors
+		#region Constructors
 		public Player(
 			string name,
 			List<Pokemon> team,
@@ -38,11 +38,11 @@ namespace Pokedex.Models
 
 			this._context = context;
 		}
-		# endregion
+		#endregion
 
-		# region Methods
+		#region Methods
 		public int ChangeActive(int index) => this._activeIndex = index;
-		
+
 		public void PlayTurn()
 		{
 			bool endTurn = false;
@@ -53,24 +53,24 @@ namespace Pokedex.Models
 				string[] action = Console.ReadLine()!
 					.ToLower()
 					.Split(' ');
-				
+
 				if (action[0] == "")
 					continue;
-				
+
 				// Depending on the first word
 				switch (action[0])
 				{
 					case "status":
 						this.StatusCommand(action);
-					break;
+						break;
 
 					case "use":
 						this.MoveCommand(action, out endTurn);
-					break;
-					
+						break;
+
 					case "switch":
 						this.SwitchCommand(action, out endTurn);
-					break;
+						break;
 
 					case "help":
 						Console.WriteLine(string.Join('\n', new string[]{
@@ -78,13 +78,13 @@ namespace Pokedex.Models
 							"- use [#move]",
 							"- switch [#pokemon]",
 						}));
-					break;
+						break;
 
 					default:
 						Console.WriteLine("Invalid command");
-					break;
+						break;
 				}
-				
+
 				Console.WriteLine();
 			}
 		}
@@ -103,35 +103,35 @@ namespace Pokedex.Models
 				case "active":
 				case "self":
 					SelfStatus(action.ElementAtOrDefault(2));
-				break;
+					break;
 
 				case "enemy":
 				case "other":
 					OtherStatus(action.ElementAtOrDefault(2));
-				break;
+					break;
 
 				case "bench":
 					BenchStatus(action.ElementAtOrDefault(2));
-				break;
+					break;
 
 				case "move":
 				case "moves":
 					MoveStatus(action.ElementAtOrDefault(2));
-				break;
+					break;
 
 				default:
 					Console.WriteLine("Invalid parameter");
-				break;
+					break;
 			}
 
 			void SelfStatus(string? arg)
 			{
 				if (arg == "full" || arg == "detailed")
-					Console.WriteLine(this.Active.FullStatus);
-				
+					Console.WriteLine(this.Active.GetFullStatus());
+
 				else if (arg == null)
-					Console.WriteLine(this.Active.QuickStatus);
-				
+					Console.WriteLine(this.Active.GetQuickStatus());
+
 				else
 					Console.WriteLine("Invalid parameter");
 			}
@@ -145,12 +145,12 @@ namespace Pokedex.Models
 				}
 
 				if (this._context.PlayerA == this)
-					Console.WriteLine(this._context.PlayerB.Active.QuickStatus);
-				
+					Console.WriteLine(this._context.PlayerB.Active.GetQuickStatus());
+
 				else
-					Console.WriteLine(this._context.PlayerA.Active.QuickStatus);
+					Console.WriteLine(this._context.PlayerA.Active.GetQuickStatus());
 			}
-			
+
 			void BenchStatus(string? arg)
 			{
 				if (arg == "full" || arg == "detailed")
@@ -161,8 +161,8 @@ namespace Pokedex.Models
 							.Select((poke, i) => (poke, i))
 							.Where(pair => pair.poke != this.Active)
 							.ToList()
-							.ForEach(pair => Console.WriteLine($"\x1b[38;2;255;127;0;1m{pair.i+1}\x1b[0m: {pair.poke.FullStatus}"));
-				
+							.ForEach(pair => Console.WriteLine($"\x1b[38;2;255;127;0;1m{pair.i + 1}\x1b[0m: {pair.poke.GetFullStatus()}"));
+
 				else if (arg == null)
 					if (this._team.Count == 1)
 						Console.WriteLine("No pokemon on the bench");
@@ -171,23 +171,23 @@ namespace Pokedex.Models
 							.Select((poke, i) => (poke, i))
 							.Where(pair => pair.poke != this.Active)
 							.ToList()
-							.ForEach(pair => Console.WriteLine($"\x1b[38;2;255;127;0;1m{pair.i+1}\x1b[0m: {pair.poke.QuickStatus}"));
-				
+							.ForEach(pair => Console.WriteLine($"\x1b[38;2;255;127;0;1m{pair.i + 1}\x1b[0m: {pair.poke.GetQuickStatus()}"));
+
 				else
 					Console.WriteLine("Invalid parameter");
 			}
-		
+
 			void MoveStatus(string? arg)
 			{
 				if (arg == "full" || arg == "detailed")
 				{
 					for (var i = 0; i < 4; i++)
-						Console.WriteLine($"{i+1}: {this.Active.Moves[i]?.FullStatus ?? "Empty"}");
+						Console.WriteLine($"\x1b[38;2;255;127;0;1m{i + 1}\x1b[0m: {this.Active.Moves[i]?.GetFullStatus() ?? "Empty"}");
 				}
 				else if (arg == null)
 				{
 					for (var i = 0; i < 4; i++)
-						Console.WriteLine($"{i+1}: {this.Active.Moves[i]?.QuickStatus ?? "Empty"}");
+						Console.WriteLine($"\x1b[38;2;255;127;0;1m{i + 1}: {this.Active.Moves[i]?.GetQuickStatus() ?? "Empty"}");
 				}
 				else
 					Console.WriteLine("Invalid parameter");
@@ -221,7 +221,7 @@ namespace Pokedex.Models
 			}
 
 			// Fetch the move
-			PokemonMove? move = this.Active.Moves[moveNum-1];
+			PokemonMove? move = this.Active.Moves[moveNum - 1];
 			// Check if a move is in that slot
 			if (move == null)
 			{
@@ -230,7 +230,7 @@ namespace Pokedex.Models
 			}
 
 			// Create the event
-			var ev = new MoveEvent (
+			var ev = new MoveEvent(
 				this.Active, this,
 				move, this._context
 			);
@@ -240,7 +240,7 @@ namespace Pokedex.Models
 			// Conclude the player's turn
 			endTurn = true;
 		}
-		
+
 		private void SwitchCommand(string[] action, out bool endTurn)
 		{
 			endTurn = false;
@@ -293,6 +293,6 @@ namespace Pokedex.Models
 			endTurn = true;
 		}
 
-		# endregion
+		#endregion
 	}
 }

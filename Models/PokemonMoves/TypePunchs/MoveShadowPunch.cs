@@ -11,6 +11,7 @@ namespace Pokedex.Models.PokemonMoves
 			60, null, // Pow & Acc
 			20, 0, // PP & Priority
 			TypeGhost.Singleton
-		) {}
+		)
+		{ }
 	}
 }

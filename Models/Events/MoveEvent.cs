@@ -4,7 +4,7 @@ namespace Pokedex.Models.Events
 {
 	public class MoveEvent : I_Event
 	{
-		# region Variables
+		#region Variables
 		protected Pokemon _caster;
 		protected Player _origin;
 		protected PokemonMove _move;
@@ -20,9 +20,9 @@ namespace Pokedex.Models.Events
 		public PokemonMove Move { get => this._move; }
 		public int Priority { get => this._priority; set => this._priority = value; }
 		public int Speed { get => this._speed; set => this._speed = value; }
-		# endregion
+		#endregion
 
-		# region Constructors
+		#region Constructors
 		public MoveEvent
 		(
 			Pokemon caster,
@@ -39,9 +39,9 @@ namespace Pokedex.Models.Events
 			this._priority = move.Priority;
 			this._speed = caster.Spd();
 		}
-		# endregion
+		#endregion
 
-		# region Methods
+		#region Methods
 		public void Update()
 		{
 			if (this._caster.CurrHP == 0)

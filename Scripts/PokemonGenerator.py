@@ -27,7 +27,7 @@ for poke in data.values():
 
 	# Create the Species class, by opening a file
 	# with open(f"Models/Pokemons/{className}Species.cs", 'w', encoding="utf-8") as f:
-	with open(f"../Models/Pokemons/{className}.cs", 'w', encoding="utf-8") as f:
+	with open(f"Models/Pokemons/{className}.cs", 'w', encoding="utf-8") as f:
 		# Find the class the pokemon belongs to
 		class_ = \
 			'PokeClass.Baby' if poke["is_baby"] else \
@@ -56,15 +56,15 @@ namespace Pokedex.Models.Pokemons
 {{
 	public class {className}Species : PokemonSpecies
 	{{
-		# region Class Variables
+		#region Class Variables
 		private static {className}Species? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static {className}Species Singleton {{ get => _singleton is null ? _singleton = new {className}Species() : _singleton; }}
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public {className}Species() : base(
 			{poke['id']}, "{className}",
 			new List<PokemonType>(){{
@@ -72,18 +72,19 @@ namespace Pokedex.Models.Pokemons
 				'''.join([f'Type{type_.title()}.Singleton,' for type_ in poke['types']])}
 			}},
 			new Dictionary<string, int>(){{
-				{{"hp", {poke['stats']['hp']}}},
-				{{"atk", {poke['stats']['attack']}}},
-				{{"def", {poke['stats']['defense']}}},
-				{{"spAtk", {poke['stats']['special-attack']}}},
-				{{"spDef", {poke['stats']['special-defense']}}},
-				{{"spd", {poke['stats']['speed']}}},
+				{{ "hp", {poke['stats']['hp']} }},
+				{{ "atk", {poke['stats']['attack']} }},
+				{{ "def", {poke['stats']['defense']} }},
+				{{ "spAtk", {poke['stats']['special-attack']} }},
+				{{ "spDef", {poke['stats']['special-defense']} }},
+				{{ "spd", {poke['stats']['speed']} }},
 			}},
 
 			{generation}, "{poke['genera']['en']}", {class_},
 			{poke['height']}, {poke['weight']}
-		) {{}}
-		# endregion
+		)
+		{{ }}
+		#endregion
 	}}
 }}
 
@@ -102,16 +103,16 @@ namespace Pokedex.Models.Pokemons
 {{
 	public class {className} : Pokemon
 	{{
-		# region Constructor
+		#region Constructor
 		public {className}(int level)
-			: base({className}Species.Singleton, level) {{}}
+			: base({className}Species.Singleton, level) {{ }}
 		public {className}(int level, string nickname)
-			: base({className}Species.Singleton, level, nickname) {{}}
+			: base({className}Species.Singleton, level, nickname) {{ }}
 		public {className}(int level, string nickname, Nature nature)
-			: base({className}Species.Singleton, level, nickname, nature) {{}}
+			: base({className}Species.Singleton, level, nickname, nature) {{ }}
 		public {className}(int level, string nickname, Nature nature, Dictionary<string, int> evs)
-			: base({className}Species.Singleton, level, nickname, nature, evs) {{}}
-		# endregion
+			: base({className}Species.Singleton, level, nickname, nature, evs) {{ }}
+		#endregion
 	}}
 }}
 

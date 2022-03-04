@@ -2,23 +2,23 @@ namespace Pokedex.Models.Weathers
 {
 	public class WeatherClear : Weather
 	{
-		# region Class Variables
+		#region Class Variables
 		private static WeatherClear? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static WeatherClear Singleton { get => _singleton ?? (_singleton = new WeatherClear()); }
-		# endregion
+		#endregion
 
-		# region Constructors
-		protected WeatherClear() : base("Clear") {}
-		# endregion
+		#region Constructors
+		protected WeatherClear() : base("Clear") { }
+		#endregion
 
-		# region Methods
+		#region Methods
 		// Flavor Text
 		public override void OnEnter() =>
 			Console.WriteLine("The sky clears up.");
-		
-		# endregion
+
+		#endregion
 	}
 }

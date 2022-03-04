@@ -2,23 +2,23 @@ namespace Pokedex.Models.Weathers
 {
 	public class WeatherTornado : Weather
 	{
-		# region Class Variables
+		#region Class Variables
 		private static WeatherTornado? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static WeatherTornado Singleton { get => _singleton ?? (_singleton = new WeatherTornado()); }
-		# endregion
+		#endregion
 
-		# region Constructors
+		#region Constructors
 		protected WeatherTornado() : base("Tornado")
 		{
 			this._typePower.Add("Flying", 1.5f);
 			this._typePower.Add("Ground", 0.5f);
 		}
-		# endregion
+		#endregion
 
-		# region Methods
+		#region Methods
 		// Flavor Text
 		public override void OnTurnStart(CombatInstance context) =>
 			Console.WriteLine("Gusts of wind blow around the battlefield.");
@@ -26,7 +26,7 @@ namespace Pokedex.Models.Weathers
 			Console.WriteLine("A tornado is raging!");
 		public override void OnExit() =>
 			Console.WriteLine("The tornado calms down.");
-		
-		# endregion
+
+		#endregion
 	}
 }

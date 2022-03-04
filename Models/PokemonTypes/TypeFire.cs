@@ -2,18 +2,19 @@ namespace Pokedex.Models.PokemonTypes
 {
 	public class TypeFire : PokemonType
 	{
-		# region Class Variables
+		#region Class Variables
 		protected static TypeFire? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static TypeFire Singleton { get => _singleton ?? (_singleton = new TypeFire()); }
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public TypeFire() : base(
 			"Fire", (255, 0, 0)
-		){}
-		# endregion
+		)
+		{ }
+		#endregion
 	}
 }

@@ -3,14 +3,15 @@ using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.PokemonMoves
 {
-	public class MoveMegaPunch : PokemonMove
+	public class MovePound : PokemonMove
 	{
-		public MoveMegaPunch() : base(
-			"Mega-Punch",
+		public MovePound() : base(
+			"Pound",
 			MoveClass.Physical,
-			80, 85, // Pow & Acc
-			20, 0, // PP & Priority
+			40, 100, // Pow & Acc
+			35, 0, // PP & Priority
 			TypeNormal.Singleton
-		) {}
+		)
+		{ }
 	}
 }

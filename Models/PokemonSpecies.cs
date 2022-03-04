@@ -1,11 +1,11 @@
-using Pokedex.Interfaces;
 using Pokedex.Enums;
+using Pokedex.Interfaces;
 
 namespace Pokedex.Models
 {
 	public abstract class PokemonSpecies : I_PokemonSpecies
 	{
-		# region Class Variables
+		#region Class Variables
 		// Important infos
 		protected int _id;
 		protected string _name;
@@ -18,9 +18,9 @@ namespace Pokedex.Models
 		protected int _height;
 		protected int _weight;
 		protected string _genus;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		// Important Infos
 		public int ID { get => this._id; }
 		public string Name { get => this._name; }
@@ -35,14 +35,14 @@ namespace Pokedex.Models
 		public int Weight { get => this._weight; }
 		#endregion
 
-		# region Constructors
+		#region Constructors
 		public PokemonSpecies(
 			int id, string name,
 			List<PokemonType> types,
 			Dictionary<string, int> stats,
 
 			int generation, string genus, PokeClass class_,
-			int height,	int weight
+			int height, int weight
 		)
 		{
 			this._id = id;
@@ -57,9 +57,9 @@ namespace Pokedex.Models
 			this._weight = weight;
 		}
 
-		# endregion
+		#endregion
 
-		# region Methods
-		# endregion
+		#region Methods
+		#endregion
 	}
 }

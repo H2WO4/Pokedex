@@ -2,18 +2,19 @@ namespace Pokedex.Models.PokemonTypes
 {
 	public class TypePsychic : PokemonType
 	{
-		# region Class Variables
+		#region Class Variables
 		protected static TypePsychic? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static TypePsychic Singleton { get => _singleton ?? (_singleton = new TypePsychic()); }
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public TypePsychic() : base(
 			"Psychic", (255, 127, 255)
-		){}
-		# endregion
+		)
+		{ }
+		#endregion
 	}
 }

@@ -1,4 +1,5 @@
 status self full
+status moves full
 use 1
 status self full
 status bench full

@@ -5,33 +5,34 @@ namespace Pokedex.Models.Pokemons
 {
 	public class ArceusSpecies : PokemonSpecies
 	{
-		# region Class Variables
+		#region Class Variables
 		private static ArceusSpecies? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static ArceusSpecies Singleton { get => _singleton is null ? _singleton = new ArceusSpecies() : _singleton; }
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public ArceusSpecies() : base(
 			493, "Arceus",
 			new List<PokemonType>(){
 				TypeNormal.Singleton,
 			},
 			new Dictionary<string, int>(){
-				{"hp", 120},
-				{"atk", 120},
-				{"def", 120},
-				{"spAtk", 120},
-				{"spDef", 120},
-				{"spd", 120},
+				{ "hp", 120 },
+				{ "atk", 120 },
+				{ "def", 120 },
+				{ "spAtk", 120 },
+				{ "spDef", 120 },
+				{ "spd", 120 },
 			},
 
 			4, "Alpha Pokémon", PokeClass.Mythical,
 			32, 3200
-		) {}
-		# endregion
+		)
+		{ }
+		#endregion
 	}
 }
 
@@ -39,15 +40,15 @@ namespace Pokedex.Models.Pokemons
 {
 	public class Arceus : Pokemon
 	{
-		# region Constructor
+		#region Constructor
 		public Arceus(int level)
-			: base(ArceusSpecies.Singleton, level) {}
+			: base(ArceusSpecies.Singleton, level) { }
 		public Arceus(int level, string nickname)
-			: base(ArceusSpecies.Singleton, level, nickname) {}
+			: base(ArceusSpecies.Singleton, level, nickname) { }
 		public Arceus(int level, string nickname, Nature nature)
-			: base(ArceusSpecies.Singleton, level, nickname, nature) {}
+			: base(ArceusSpecies.Singleton, level, nickname, nature) { }
 		public Arceus(int level, string nickname, Nature nature, Dictionary<string, int> evs)
-			: base(ArceusSpecies.Singleton, level, nickname, nature, evs) {}
-		# endregion
+			: base(ArceusSpecies.Singleton, level, nickname, nature, evs) { }
+		#endregion
 	}
 }

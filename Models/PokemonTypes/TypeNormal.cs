@@ -2,18 +2,19 @@ namespace Pokedex.Models.PokemonTypes
 {
 	public class TypeNormal : PokemonType
 	{
-		# region Class Variables
+		#region Class Variables
 		protected static TypeNormal? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static TypeNormal Singleton { get => _singleton ?? (_singleton = new TypeNormal()); }
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public TypeNormal() : base(
 			"Normal", (127, 127, 127)
-		){}
-		# endregion
+		)
+		{ }
+		#endregion
 	}
 }

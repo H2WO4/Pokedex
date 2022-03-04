@@ -2,7 +2,7 @@ namespace Pokedex.Enums
 {
 	public enum Nature
 	{
-		# region Stat Flags
+		#region Stat Flags
 		// Stat Bonuses
 		PlusAtk = 1 << 0,
 		PlusDef = 1 << 1,
@@ -16,7 +16,7 @@ namespace Pokedex.Enums
 		MinusSpAtk = 1 << 7,
 		MinusSpDef = 1 << 8,
 		MinusSpd = 1 << 9,
-		# endregion
+		#endregion
 
 		// Neutral
 		Hardy = PlusAtk | MinusAtk,

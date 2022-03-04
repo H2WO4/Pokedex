@@ -2,18 +2,19 @@ namespace Pokedex.Models.PokemonTypes
 {
 	public class TypePoison : PokemonType
 	{
-		# region Class Variables
+		#region Class Variables
 		protected static TypePoison? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static TypePoison Singleton { get => _singleton ?? (_singleton = new TypePoison()); }
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public TypePoison() : base(
 			"Poison", (255, 0, 127)
-		){}
-		# endregion
+		)
+		{ }
+		#endregion
 	}
 }

@@ -2,23 +2,23 @@ namespace Pokedex.Models.Weathers
 {
 	public class WeatherEclipse : Weather
 	{
-		# region Class Variables
+		#region Class Variables
 		private static WeatherEclipse? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static WeatherEclipse Singleton { get => _singleton ?? (_singleton = new WeatherEclipse()); }
-		# endregion
+		#endregion
 
-		# region Constructors
+		#region Constructors
 		protected WeatherEclipse() : base("Solar Eclipse")
 		{
 			this._typePower.Add("Dragon", 1.5f);
 			this._typePower.Add("Fairy", 0.5f);
 		}
-		# endregion
+		#endregion
 
-		# region Methods
+		#region Methods
 		// Flavor Text
 		public override void OnTurnStart(CombatInstance context) =>
 			Console.WriteLine("The sun is still eclipsed.");
@@ -26,7 +26,7 @@ namespace Pokedex.Models.Weathers
 			Console.WriteLine("The moon now eclipses the sun!");
 		public override void OnExit() =>
 			Console.WriteLine("The light of the sun has returned.");
-		
-		# endregion
+
+		#endregion
 	}
 }

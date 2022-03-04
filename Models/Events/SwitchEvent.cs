@@ -4,19 +4,19 @@ namespace Pokedex.Models.Events
 {
 	class SwitchEvent : I_Event
 	{
-		# region Variables
+		#region Variables
 		protected Player _origin;
 		protected int _target;
 		protected CombatInstance _context;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public Player Origin { get => this._origin; }
 		public int Priority { get => 6; }
 		public int Speed { get => 0; }
-		# endregion
+		#endregion
 
-		# region Constructors
+		#region Constructors
 		public SwitchEvent
 		(
 			Player originPlayer,
@@ -28,9 +28,9 @@ namespace Pokedex.Models.Events
 			this._target = target;
 			this._context = context;
 		}
-		# endregion
+		#endregion
 
-		# region Methods
+		#region Methods
 		public void Update()
 		{
 			if (this._origin.Active.CurrHP == 0)
@@ -42,7 +42,7 @@ namespace Pokedex.Models.Events
 			Console.WriteLine("\x1b[4m" + $"{this._origin.Name} sends out {this._origin.Active.Nickname}" + "\x1b[0m");
 			// ? Handles OnEnter abilities
 		}
-		public void PreUpdate() {}
-		# endregion
+		public void PreUpdate() { }
+		#endregion
 	}
 }

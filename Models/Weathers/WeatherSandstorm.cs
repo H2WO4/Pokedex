@@ -2,15 +2,15 @@ namespace Pokedex.Models.Weathers
 {
 	public class WeatherSandstorm : Weather
 	{
-		# region Class Variables
+		#region Class Variables
 		private static WeatherSandstorm? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static WeatherSandstorm Singleton { get => _singleton ?? (_singleton = new WeatherSandstorm()); }
-		# endregion
+		#endregion
 
-		# region Constructors
+		#region Constructors
 		protected WeatherSandstorm() : base("Sandstorm")
 		{
 			this._typePower.Add("Rock", 1.5f);
@@ -19,9 +19,9 @@ namespace Pokedex.Models.Weathers
 			this._typeSelector.Add("Steel");
 			this._typeSelector.Add("Ground");
 		}
-		# endregion
+		#endregion
 
-		# region Methods
+		#region Methods
 		public override void OnTurnEnd(CombatInstance context)
 		{
 			if (context.PlayerA.Active.Types
@@ -50,7 +50,7 @@ namespace Pokedex.Models.Weathers
 			Console.WriteLine("A sandstorm kicked up!");
 		public override void OnExit() =>
 			Console.WriteLine("The sandstorm subsided.");
-		
-		# endregion
+
+		#endregion
 	}
 }

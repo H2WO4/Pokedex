@@ -11,6 +11,7 @@ namespace Pokedex.Models.PokemonMoves
 			40, 100, // Pow & Acc
 			30, 1, // PP & Priority
 			TypeNormal.Singleton
-		) {}
-    }
+		)
+		{ }
+	}
 }

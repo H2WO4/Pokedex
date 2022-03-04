@@ -1,6 +1,5 @@
 # Imports
 import json
-import os
 
 # Load the json file
 data = {}
@@ -13,11 +12,8 @@ while moveName := input():
 	move = data[moveName]
 
 	# Find the name to use in file names
-	moveName: str = move["name"].title()
-	moveNameNoSpace: str = moveName.strip('- ')
-
-	# If the file alreay exist, don't touch it
-	if (os.path.isfile(f"Models/PokemonMoves/Move{moveNameNoSpace}.cs")): continue
+	moveName: str = move["name"].replace('-', ' ').title()
+	moveNameNoSpace: str = moveName.replace(' ', '')
 
 	# Create the PokemonMove class, by opening a file
 	with open(f"Models/PokemonMoves/Move{moveNameNoSpace}.cs", 'w', encoding="utf-8") as f:
@@ -37,7 +33,8 @@ namespace Pokedex.Models.PokemonMoves
 			{move["power"] or "null"}, {move["accuracy"] or "null"}, // Pow & Acc
 			{move["pp"]}, {move["priority"]}, // PP & Priority
 			Type{move["type"].title()}.Singleton
-		) {{}}
+		)
+		{{ }}
 	}}
 }}
 

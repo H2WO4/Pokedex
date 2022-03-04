@@ -2,18 +2,19 @@ namespace Pokedex.Models.PokemonTypes
 {
 	public class TypeGrass : PokemonType
 	{
-		# region Class Variables
+		#region Class Variables
 		protected static TypeGrass? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static TypeGrass Singleton { get => _singleton ?? (_singleton = new TypeGrass()); }
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public TypeGrass() : base(
 			"Grass", (0, 255, 0)
-		){}
-		# endregion
+		)
+		{ }
+		#endregion
 	}
 }

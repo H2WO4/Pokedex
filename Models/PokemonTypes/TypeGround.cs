@@ -2,18 +2,19 @@ namespace Pokedex.Models.PokemonTypes
 {
 	public class TypeGround : PokemonType
 	{
-		# region Class Variables
+		#region Class Variables
 		protected static TypeGround? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static TypeGround Singleton { get => _singleton ?? (_singleton = new TypeGround()); }
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public TypeGround() : base(
 			"Ground", (255, 255, 127)
-		){}
-		# endregion
+		)
+		{ }
+		#endregion
 	}
 }

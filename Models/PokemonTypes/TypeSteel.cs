@@ -2,18 +2,19 @@ namespace Pokedex.Models.PokemonTypes
 {
 	public class TypeSteel : PokemonType
 	{
-		# region Class Variables
+		#region Class Variables
 		protected static TypeSteel? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static TypeSteel Singleton { get => _singleton ?? (_singleton = new TypeSteel()); }
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public TypeSteel() : base(
 			"Steel", (80, 80, 80)
-		){}
-		# endregion
+		)
+		{ }
+		#endregion
 	}
 }

@@ -2,18 +2,19 @@ namespace Pokedex.Models.PokemonTypes
 {
 	public class TypeWater : PokemonType
 	{
-		# region Class Variables
+		#region Class Variables
 		protected static TypeWater? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static TypeWater Singleton { get => _singleton ?? (_singleton = new TypeWater()); }
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public TypeWater() : base(
 			"Water", (0, 0, 255)
-		){}
-		# endregion
+		)
+		{ }
+		#endregion
 	}
 }

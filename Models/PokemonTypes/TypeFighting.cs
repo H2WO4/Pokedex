@@ -2,18 +2,19 @@ namespace Pokedex.Models.PokemonTypes
 {
 	public class TypeFighting : PokemonType
 	{
-		# region Class Variables
+		#region Class Variables
 		protected static TypeFighting? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static TypeFighting Singleton { get => _singleton ?? (_singleton = new TypeFighting()); }
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public TypeFighting() : base(
 			"Fighting", (127, 0, 0)
-		){}
-		# endregion
+		)
+		{ }
+		#endregion
 	}
 }

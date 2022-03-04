@@ -2,23 +2,23 @@ namespace Pokedex.Models.Weathers
 {
 	public class WeatherMidnight : Weather
 	{
-		# region Class Variables
+		#region Class Variables
 		private static WeatherMidnight? _singleton;
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public static WeatherMidnight Singleton { get => _singleton ?? (_singleton = new WeatherMidnight()); }
-		# endregion
+		#endregion
 
-		# region Constructors
+		#region Constructors
 		protected WeatherMidnight() : base("Midnight")
 		{
 			this._typePower.Add("Dark", 1.5f);
 			this._typePower.Add("Light", 0.5f);
 		}
-		# endregion
+		#endregion
 
-		# region Methods
+		#region Methods
 		// Flavor Text
 		public override void OnTurnStart(CombatInstance context) =>
 			Console.WriteLine("Moonlight shines through the night sky.");
@@ -26,7 +26,7 @@ namespace Pokedex.Models.Weathers
 			Console.WriteLine("The moon is rising!");
 		public override void OnExit() =>
 			Console.WriteLine("The moon has set.");
-		
-		# endregion
+
+		#endregion
 	}
 }

@@ -5,21 +5,21 @@ namespace Pokedex.Models
 {
 	public abstract class PokemonType : I_PokemonType
 	{
-		# region Variables
+		#region Variables
 		protected string _name = "";
 		protected (int, int, int) _color = (0, 0, 0);
-		# endregion
+		#endregion
 
-		# region Class Variables
+		#region Class Variables
 		public static Dictionary<string, Dictionary<string, double>> _affinities = new Dictionary<string, Dictionary<string, double>>();
-		# endregion
+		#endregion
 
-		# region Properties
+		#region Properties
 		public string Name { get => _name; }
 		public (int, int, int) Color { get => _color; }
-		# endregion
+		#endregion
 
-		# region Constructor
+		#region Constructor
 		public PokemonType
 		(
 			string name,
@@ -38,9 +38,9 @@ namespace Pokedex.Models
 
 			_affinities[name] = new Dictionary<string, double>();
 		}
-		# endregion
+		#endregion
 
-		# region Methods
+		#region Methods
 		// GetWeakness
 		public static double GetAffinity(PokemonType attacker, PokemonType defender) =>
 			_affinities[attacker.Name][defender.Name];
@@ -67,8 +67,8 @@ namespace Pokedex.Models
 		public static double CalculateAffinity(PokemonType attacker, IEnumerable<PokemonType> defenders) =>
 			defenders
 				.Select(defender => GetAffinity(attacker, defender))
-				.Aggregate((a,b) => a * b);
-		
+				.Aggregate((a, b) => a * b);
+
 		// Non-Static CalculateWeakness
 		public double CalculateAffinity(IEnumerable<PokemonType> defenders) =>
 			PokemonType.CalculateAffinity(this, defenders);
@@ -82,19 +82,20 @@ namespace Pokedex.Models
 						: (name, name))
 				.ToList();
 
-			int maxLen = types.Select(type => type.name.Length).Max()+1;
-			var output = new StringBuilder("".PadRight(maxLen+1));
-			
+			int maxLen = types.Select(type => type.name.Length).Max() + 1;
+			var output = new StringBuilder("".PadRight(maxLen + 1));
+
 			types.ForEach(defender =>
 				output.Append(' ' + defender.name
-									.PadLeft(maxLen - (maxLen-defender.name.Length)/2)
+									.PadLeft(maxLen - (maxLen - defender.name.Length) / 2)
 									.PadRight(maxLen)));
 			output.AppendLine();
 
-			types.ForEach(attacker => {
+			types.ForEach(attacker =>
+			{
 				output.Append(attacker.name
-								.PadLeft(maxLen - (maxLen-attacker.name.Length)/2)
-								.PadRight(maxLen)+ ' ');
+								.PadLeft(maxLen - (maxLen - attacker.name.Length) / 2)
+								.PadRight(maxLen) + ' ');
 				types.Select(type => GetAffinity(attacker.type, type.type))
 					.Select(affinity => affinity == 0 ? "-" :
 										affinity == 0.5 ? "1/2" :
@@ -103,7 +104,7 @@ namespace Pokedex.Models
 					.ToList()
 					.ForEach(affinity => output
 						.Append('|' + affinity
-						.PadLeft(maxLen - (maxLen-affinity.Length)/2)
+						.PadLeft(maxLen - (maxLen - affinity.Length) / 2)
 						.PadRight(maxLen))
 					);
 				output.AppendLine("|");
@@ -111,8 +112,8 @@ namespace Pokedex.Models
 
 			Console.WriteLine(output);
 		}
-		
+
 		public override string ToString() => this._name;
-		# endregion
+		#endregion
 	}
 }
