@@ -1,12 +1,12 @@
 namespace Pokedex.Enums
 {
 	/// <summary>
-	/// Represents the types a move can belong to
+	/// Represents the type of damage
 	/// </summary>
-	public enum MoveClass
+	public enum DamageClass
 	{
 		Physical,
 		Special,
-		Status,
+		Pure,
 	}
 }

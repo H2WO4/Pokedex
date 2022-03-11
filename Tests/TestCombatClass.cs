@@ -1,10 +1,7 @@
-using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Pokedex;
-using Pokedex.Enums;
 using Pokedex.Models;
-using Pokedex.Models.Pokemons;
 using Pokedex.Models.PokemonMoves;
+using Pokedex.Models.Pokemons;
 
 namespace Tests
 {
@@ -16,7 +13,7 @@ namespace Tests
 		{
 			Console.OutputEncoding = System.Text.Encoding.Default;
 			Console.ForegroundColor = ConsoleColor.Red;
-			Program.InitializeTypes();
+			PokeType.InitializeTypes();
 
 			var raichu = new Raichu(100, "Pikachu");
 			raichu.SetMoves(new MoveThunder(), null, null, null);
@@ -38,9 +35,9 @@ namespace Tests
 			arceus.SetIVs(31, 31, 31, 31, 31, 31);
 			arceus.CurrHP = 999;
 
-			var fight = new CombatInstance(
-				("Jean", new List<Pokemon>(){ raichu }),
-				("Charles", new List<Pokemon>(){ blastoise, charizard, arceus })
+			var fight = new Combat(
+				("Jean", new Pokemon[] { raichu }),
+				("Charles", new Pokemon[] { blastoise, charizard, arceus })
 			);
 
 			// Redirect console

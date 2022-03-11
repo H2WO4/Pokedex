@@ -9,7 +9,7 @@ namespace Pokedex.Interfaces
 		// Important Infos
 		int ID { get; }
 		string Name { get; }
-		List<PokemonType> Types { get; }
+		List<PokeType> Types { get; }
 		Dictionary<string, int> Stats { get; }
 
 		// Flavor

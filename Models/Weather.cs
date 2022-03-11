@@ -5,9 +5,9 @@ namespace Pokedex.Models
 	public abstract class Weather : I_Weather
 	{
 		#region Variables
-		protected string _name;
-		protected Dictionary<string, float> _typePower;
-		protected List<string> _typeSelector;
+		private string _name;
+		protected Dictionary<PokeType, float> _typePower;
+		protected PokeType[] _typeSelector;
 		#endregion
 
 		#region Properties
@@ -18,23 +18,23 @@ namespace Pokedex.Models
 		protected Weather(string name)
 		{
 			this._name = name;
-			this._typePower = new Dictionary<string, float>();
-			this._typeSelector = new List<string>();
+			this._typePower = new Dictionary<PokeType, float>();
+			this._typeSelector = new PokeType[] { };
 		}
 		#endregion
 
 		#region Methods
 		// Stats
-		public virtual double OnDamageGive(double damage, PokemonType type) =>
-			this._typePower.GetValueOrDefault(type.Name, 1) * damage;
+		public virtual double OnDamageGive(double damage, PokeType type) =>
+			this._typePower.GetValueOrDefault(type, 1) * damage;
 
 		// Weather Enter/Exit
 		public virtual void OnEnter() { }
 		public virtual void OnExit() { }
 
 		// Turn Start/End
-		public virtual void OnTurnStart(CombatInstance context) { }
-		public virtual void OnTurnEnd(CombatInstance context) { }
+		public virtual void OnTurnStart(Combat context) { }
+		public virtual void OnTurnEnd(Combat context) { }
 		#endregion
 	}
 }

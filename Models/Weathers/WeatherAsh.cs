@@ -1,3 +1,5 @@
+using Pokedex.Models.PokemonTypes;
+
 namespace Pokedex.Models.Weathers
 {
 	public class WeatherAsh : Weather
@@ -13,14 +15,14 @@ namespace Pokedex.Models.Weathers
 		#region Constructors
 		protected WeatherAsh() : base("Ash Cloud")
 		{
-			this._typePower.Add("Ground", 1.5f);
-			this._typePower.Add("Flying", 0.5f);
+			this._typePower.Add(TypeGround.Singleton, 1.5f);
+			this._typePower.Add(TypeFlying.Singleton, 0.5f);
 		}
 		#endregion
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(CombatInstance context) =>
+		public override void OnTurnStart(Combat context) =>
 			Console.WriteLine("The sky is still shrouded in ash.");
 		public override void OnEnter() =>
 			Console.WriteLine("The sky is thick with ash!");

@@ -2,7 +2,7 @@ using Pokedex.Models;
 
 namespace Pokedex.Interfaces
 {
-	public interface I_PokemonType
+	public interface I_PokeType
 	{
 		#region Properties
 		string Name { get; }

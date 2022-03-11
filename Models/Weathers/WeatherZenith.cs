@@ -1,3 +1,5 @@
+using Pokedex.Models.PokemonTypes;
+
 namespace Pokedex.Models.Weathers
 {
 	public class WeatherZenith : Weather
@@ -13,14 +15,14 @@ namespace Pokedex.Models.Weathers
 		#region Constructors
 		protected WeatherZenith() : base("Zenith")
 		{
-			this._typePower.Add("Fire", 1.5f);
-			this._typePower.Add("Water", 0.5f);
+			this._typePower.Add(TypeFire.Singleton, 1.5f);
+			this._typePower.Add(TypeWater.Singleton, 0.5f);
 		}
 		#endregion
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(CombatInstance context) =>
+		public override void OnTurnStart(Combat context) =>
 			Console.WriteLine("Bright sunlight washes over the battlefield.");
 		public override void OnEnter() =>
 			Console.WriteLine("The sun has reached its zenith!");

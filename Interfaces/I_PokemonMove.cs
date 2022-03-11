@@ -14,16 +14,16 @@ namespace Pokedex.Interfaces
 		int MaxPP { get; }
 		int PP { get; }
 		int Priority { get; }
-		PokemonType Type { get; }
+		PokeType Type { get; }
 		#endregion
 
 		#region Methods
-		void OnUse(Pokemon caster, Player origin, CombatInstance context);
-		bool AccuracyCheck(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context);
-		List<(Player player, Pokemon pokemon)> GetTargets(Pokemon caster, Player origin, CombatInstance context);
-		void DoAction(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context);
+		void OnUse(Pokemon caster, Trainer origin, Combat context);
+		bool AccuracyCheck(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context);
+		List<(Trainer player, Pokemon pokemon)> GetTargets(Pokemon caster, Trainer origin, Combat context);
+		void DoAction(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context);
 
-		void PreAction(MoveEvent event_, CombatInstance context);
+		void PreAction(MoveEvent event_, Combat context);
 		#endregion
 	}
 }

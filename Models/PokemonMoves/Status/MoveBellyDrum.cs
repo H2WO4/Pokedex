@@ -15,7 +15,7 @@ namespace Pokedex.Models.PokemonMoves
 		)
 		{ }
 
-		public override void OnUse(Pokemon caster, Player origin, CombatInstance context)
+		public override void OnUse(Pokemon caster, Trainer origin, Combat context)
 		{
 			if (caster.CurrHP * 100 / caster.HP() < 50)
 			{
@@ -26,7 +26,7 @@ namespace Pokedex.Models.PokemonMoves
 			base.OnUse(caster, origin, context);
 		}
 
-		public override void DoAction(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context)
+		public override void DoAction(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
 			=> target.ChangeStatBonuses(12, 0, 0, 0, 0);
 	}
 }

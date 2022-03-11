@@ -15,7 +15,7 @@ namespace Pokedex.Models.PokemonMoves
 		)
 		{ }
 
-		public override bool AccuracyCheck(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context)
+		public override bool AccuracyCheck(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
 		{
 			if (context.Weather == WeatherRain.Singleton ||
 				context.Weather == WeatherThunderstorm.Singleton)

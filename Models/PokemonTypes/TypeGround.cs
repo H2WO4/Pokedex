@@ -1,6 +1,6 @@
 namespace Pokedex.Models.PokemonTypes
 {
-	public class TypeGround : PokemonType
+	public class TypeGround : PokeType
 	{
 		#region Class Variables
 		protected static TypeGround? _singleton;
@@ -12,7 +12,7 @@ namespace Pokedex.Models.PokemonTypes
 
 		#region Constructor
 		public TypeGround() : base(
-			"Ground", (255, 255, 127)
+			"Ground", (221, 187, 85)
 		)
 		{ }
 		#endregion

@@ -9,7 +9,7 @@ namespace Pokedex.Models
 		// Important infos
 		protected int _id;
 		protected string _name;
-		protected List<PokemonType> _types = new List<PokemonType>();
+		protected List<PokeType> _types = new List<PokeType>();
 		protected Dictionary<string, int> _baseStats = new Dictionary<string, int>();
 
 		// Flavor
@@ -22,23 +22,23 @@ namespace Pokedex.Models
 
 		#region Properties
 		// Important Infos
-		public int ID { get => this._id; }
-		public string Name { get => this._name; }
-		public List<PokemonType> Types { get => this._types; }
-		public Dictionary<string, int> Stats { get => this._baseStats; }
+		public int ID => this._id;
+		public string Name => this._name;
+		public List<PokeType> Types => this._types;
+		public Dictionary<string, int> Stats => this._baseStats;
 
 		// Flavor
-		public int Generation { get => this._generation; }
-		public string Genus { get => this._genus; }
-		public PokeClass Class { get => this._class; }
-		public int Height { get => this._height; }
-		public int Weight { get => this._weight; }
+		public int Generation => this._generation;
+		public string Genus => this._genus;
+		public PokeClass Class => this._class;
+		public int Height => this._height;
+		public int Weight => this._weight;
 		#endregion
 
 		#region Constructors
 		public PokemonSpecies(
 			int id, string name,
-			List<PokemonType> types,
+			List<PokeType> types,
 			Dictionary<string, int> stats,
 
 			int generation, string genus, PokeClass class_,

@@ -1,6 +1,6 @@
 namespace Pokedex.Models.PokemonTypes
 {
-	public class TypeGrass : PokemonType
+	public class TypeGrass : PokeType
 	{
 		#region Class Variables
 		protected static TypeGrass? _singleton;
@@ -12,7 +12,7 @@ namespace Pokedex.Models.PokemonTypes
 
 		#region Constructor
 		public TypeGrass() : base(
-			"Grass", (0, 255, 0)
+			"Grass", (119, 204, 85)
 		)
 		{ }
 		#endregion

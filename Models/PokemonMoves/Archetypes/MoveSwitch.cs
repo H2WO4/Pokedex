@@ -13,10 +13,10 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 			int? accuracy,
 			int maxPp,
 			int priority,
-			PokemonType type
+			PokeType type
 		) : base(name, class_, power, accuracy, maxPp, priority, type) { }
 
-		public override void DoAction(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context)
+		public override void DoAction(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
 		{
 			bool success = target.ReceiveDamage(owner, caster, this, this._type, context);
 			if (!success)

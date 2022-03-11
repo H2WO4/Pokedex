@@ -12,10 +12,10 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 			int? accuracy,
 			int maxPp,
 			int priority,
-			PokemonType type
+			PokeType type
 		) : base(name, class_, power, accuracy, maxPp, priority, type) { }
 
-		public override void OnUse(Pokemon caster, Player origin, CombatInstance context)
+		public override void OnUse(Pokemon caster, Trainer origin, Combat context)
 		{
 			// Select targets
 			var targets = this.GetTargets(caster, origin, context);
@@ -37,7 +37,7 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 						totalHits++;
 					}
 					else
-						Console.WriteLine($"{caster.Nickname}'s {this.Name} missed {target.pokemon.Nickname}\n");
+						Console.WriteLine($"{caster.Name}'s {this.Name} missed {target.pokemon.Name}\n");
 				}
 
 				string finalS = totalHits > 1 ? "s" : "";

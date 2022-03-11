@@ -1,14 +1,32 @@
 namespace Pokedex.Interfaces
 {
+	/// <summary>
+	/// Classes implementing this interface can be used in event queues
+	/// </summary>
 	public interface I_Event
 	{
 		#region Properties
-		int Priority { get; }
-		int Speed { get; }
+		/// <summary>
+		/// Main variable used to sort the queue
+		/// </summary>
+		public int Priority { get; }
+		
+		/// <summary>
+		/// Secondary variable used to sort the queue
+		/// </summary>
+		public int Speed { get; }
 		#endregion
 
 		#region Methods
+		/// <summary>
+		/// Called during the queue's execution
+		/// </summary>
 		public void Update();
+
+		/// <summary>
+		/// Called before the queue is sorted
+		/// </summary>
+		/// <remarks>Designed for actions that could change the event's priority</remarks>
 		public void PreUpdate();
 		#endregion
 	}

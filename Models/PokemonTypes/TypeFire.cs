@@ -1,6 +1,6 @@
 namespace Pokedex.Models.PokemonTypes
 {
-	public class TypeFire : PokemonType
+	public class TypeFire : PokeType
 	{
 		#region Class Variables
 		protected static TypeFire? _singleton;
@@ -12,7 +12,7 @@ namespace Pokedex.Models.PokemonTypes
 
 		#region Constructor
 		public TypeFire() : base(
-			"Fire", (255, 0, 0)
+			"Fire", (236, 66, 37)
 		)
 		{ }
 		#endregion

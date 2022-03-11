@@ -1,3 +1,5 @@
+using Pokedex.Models.PokemonTypes;
+
 namespace Pokedex.Models.Weathers
 {
 	public class WeatherSandstorm : Weather
@@ -13,38 +15,36 @@ namespace Pokedex.Models.Weathers
 		#region Constructors
 		protected WeatherSandstorm() : base("Sandstorm")
 		{
-			this._typePower.Add("Rock", 1.5f);
+			this._typePower.Add(TypeRock.Singleton, 1.5f);
 
-			this._typeSelector.Add("Rock");
-			this._typeSelector.Add("Steel");
-			this._typeSelector.Add("Ground");
+			this._typeSelector.Append(TypeRock.Singleton);
+			this._typeSelector.Append(TypeSteel.Singleton);
+			this._typeSelector.Append(TypeGround.Singleton);
 		}
 		#endregion
 
 		#region Methods
-		public override void OnTurnEnd(CombatInstance context)
+		public override void OnTurnEnd(Combat context)
 		{
 			if (context.PlayerA.Active.Types
-					.Select(x => x.Name)
 					.Intersect(this._typeSelector)
 					.Count() == 0)
 			{
-				Console.WriteLine($"{context.PlayerA.Active.Name} is buffeted by the sandstorm!");
+				Console.WriteLine($"{context.PlayerA.Active.Name} is buffeted by the locust swarm!");
 				// Damage logic
 			}
 
 			if (context.PlayerB.Active.Types
-					.Select(x => x.Name)
 					.Intersect(this._typeSelector)
 					.Count() == 0)
 			{
-				Console.WriteLine($"{context.PlayerB.Active.Name} is buffeted by the sandstorm!");
+				Console.WriteLine($"{context.PlayerB.Active.Name} is buffeted by the locust swarm!");
 				// Damage logic
 			}
 		}
 
 		// Flavor Text
-		public override void OnTurnStart(CombatInstance context) =>
+		public override void OnTurnStart(Combat context) =>
 			Console.WriteLine("The sandstorm rages.");
 		public override void OnEnter() =>
 			Console.WriteLine("A sandstorm kicked up!");

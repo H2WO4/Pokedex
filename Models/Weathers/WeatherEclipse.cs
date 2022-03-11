@@ -1,3 +1,5 @@
+using Pokedex.Models.PokemonTypes;
+
 namespace Pokedex.Models.Weathers
 {
 	public class WeatherEclipse : Weather
@@ -13,14 +15,14 @@ namespace Pokedex.Models.Weathers
 		#region Constructors
 		protected WeatherEclipse() : base("Solar Eclipse")
 		{
-			this._typePower.Add("Dragon", 1.5f);
-			this._typePower.Add("Fairy", 0.5f);
+			this._typePower.Add(TypeDragon.Singleton, 1.5f);
+			this._typePower.Add(TypeFairy.Singleton, 0.5f);
 		}
 		#endregion
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(CombatInstance context) =>
+		public override void OnTurnStart(Combat context) =>
 			Console.WriteLine("The sun is still eclipsed.");
 		public override void OnEnter() =>
 			Console.WriteLine("The moon now eclipses the sun!");

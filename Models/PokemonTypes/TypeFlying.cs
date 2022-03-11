@@ -1,6 +1,6 @@
 namespace Pokedex.Models.PokemonTypes
 {
-	public class TypeFlying : PokemonType
+	public class TypeFlying : PokeType
 	{
 		#region Class Variables
 		protected static TypeFlying? _singleton;
@@ -12,7 +12,7 @@ namespace Pokedex.Models.PokemonTypes
 
 		#region Constructor
 		public TypeFlying() : base(
-			"Flying", (127, 127, 255)
+			"Flying", (136, 153, 255)
 		)
 		{ }
 		#endregion

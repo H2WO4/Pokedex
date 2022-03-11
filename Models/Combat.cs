@@ -3,13 +3,13 @@ using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models
 {
-	public class CombatInstance : I_CombatInstance
+	public class Combat : I_Combat
 	{
 		#region Variables
 		private int _turn;
 		// Teams
-		private Player _playerA;
-		private Player _playerB;
+		private Trainer _playerA;
+		private Trainer _playerB;
 
 		private Queue<I_Event> _eventQueue;
 
@@ -18,26 +18,28 @@ namespace Pokedex.Models
 		#endregion
 
 		#region Properties
-		public Player PlayerA { get => this._playerA; }
-		public Player PlayerB { get => this._playerB; }
+		// Players
+		public Trainer PlayerA { get => this._playerA; }
+		public Trainer PlayerB { get => this._playerB; }
+
+		// System
+		public Queue<I_Event> EventQueue { get => this._eventQueue; }
 
 		// Terrain Effects
 		public Weather Weather { get => this._weather; set => this._weather = value; }
-
-		public Queue<I_Event> EventQueue { get => this._eventQueue; }
 		#endregion
 
 		#region Constructors
-		public CombatInstance
+		public Combat
 		(
-			(string name, List<Pokemon> team) playerA,
-			(string name, List<Pokemon> team) playerB
+			(string name, Pokemon[] team) playerA,
+			(string name, Pokemon[] team) playerB
 		)
 		{
 			this._turn = 0;
 
-			this._playerA = new Player(playerA.name, playerA.team, this);
-			this._playerB = new Player(playerB.name, playerB.team, this);
+			this._playerA = new Trainer(playerA.name, playerA.team, this);
+			this._playerB = new Trainer(playerB.name, playerB.team, this);
 
 			this._weather = WeatherClear.Singleton;
 			this._eventQueue = new Queue<I_Event>();
@@ -75,15 +77,12 @@ namespace Pokedex.Models
 				this._playerB.PlayTurn();
 
 				// * Handles the event queue
-				this._eventQueue = new Queue<I_Event>(this._eventQueue
-						.OrderByDescending(ev => (ev.Priority, ev.Speed))); // Put the higher priority events at the beginning
-
 				this._eventQueue
 					.ToList()
 					.ForEach(ev => ev.PreUpdate()); // Do actions that could reorder the queue
 
 				this._eventQueue = new Queue<I_Event>(this._eventQueue
-					.OrderByDescending(ev => (ev.Priority, ev.Speed))); // Reorder the queue, as there could have been priority changes
+					.OrderByDescending(ev => (ev.Priority, ev.Speed))); // Put the higher priority events at the beginning
 
 				// Do the events
 				while (this._eventQueue.Count > 0)

@@ -6,18 +6,18 @@ status bench full
 use 2
 2
 
-status self
+status self full
 use 1
-status self
+status self full
 use 1
 3
 
-status self
+status self full
 use 1
-status self
+status self full
 use 1
 
 use 1
-status other
-status self
-status bench
+status other full
+status self full
+status bench full

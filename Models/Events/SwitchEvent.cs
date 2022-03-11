@@ -5,13 +5,13 @@ namespace Pokedex.Models.Events
 	class SwitchEvent : I_Event
 	{
 		#region Variables
-		protected Player _origin;
-		protected int _target;
-		protected CombatInstance _context;
+		private Trainer _origin;
+		private int _target;
+		private Combat _context;
 		#endregion
 
 		#region Properties
-		public Player Origin { get => this._origin; }
+		public Trainer Origin { get => this._origin; }
 		public int Priority { get => 6; }
 		public int Speed { get => 0; }
 		#endregion
@@ -19,9 +19,9 @@ namespace Pokedex.Models.Events
 		#region Constructors
 		public SwitchEvent
 		(
-			Player originPlayer,
+			Trainer originPlayer,
 			int target,
-			CombatInstance context
+			Combat context
 		)
 		{
 			this._origin = originPlayer;
@@ -36,12 +36,13 @@ namespace Pokedex.Models.Events
 			if (this._origin.Active.CurrHP == 0)
 				return;
 
-			Console.WriteLine("\x1b[4m" + $"{this._origin.Name} takes out {this._origin.Active.Nickname}" + "\x1b[0m");
+			Console.WriteLine("\x1b[4m" + $"{this._origin.Name} takes out {this._origin.Active.Name}" + "\x1b[0m");
 			// ? Handles OnExit abilities
 			this._origin.ChangeActive(this._target);
-			Console.WriteLine("\x1b[4m" + $"{this._origin.Name} sends out {this._origin.Active.Nickname}" + "\x1b[0m");
+			Console.WriteLine("\x1b[4m" + $"{this._origin.Name} sends out {this._origin.Active.Name}" + "\x1b[0m");
 			// ? Handles OnEnter abilities
 		}
+		
 		public void PreUpdate() { }
 		#endregion
 	}

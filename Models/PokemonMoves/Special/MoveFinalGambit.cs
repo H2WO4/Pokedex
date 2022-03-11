@@ -14,7 +14,7 @@ namespace Pokedex.Models.PokemonMoves
 		)
 		{ }
 
-		public override void DoAction(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context)
+		public override void DoAction(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
 		{
 			int damage = caster.CurrHP;
 

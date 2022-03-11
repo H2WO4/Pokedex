@@ -5,16 +5,17 @@ namespace Pokedex.Interfaces
 	public interface I_Weather
 	{
 		#region Properties
-		string Name { get; }
+		public string Name { get; }
 		#endregion
 
 		#region Methods
-		void OnEnter();
-		void OnExit();
+		public double OnDamageGive(double damage, PokeType type);
 
-		void OnTurnEnd(CombatInstance context);
+		public void OnEnter();
+		public void OnExit();
 
-		double OnDamageGive(double damage, PokemonType type);
+		public void OnTurnStart(Combat context);
+		public void OnTurnEnd(Combat context);
 		#endregion
 	}
 }

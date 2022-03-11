@@ -1,3 +1,5 @@
+using Pokedex.Models.PokemonTypes;
+
 namespace Pokedex.Models.Weathers
 {
 	public class WeatherMidnight : Weather
@@ -13,14 +15,14 @@ namespace Pokedex.Models.Weathers
 		#region Constructors
 		protected WeatherMidnight() : base("Midnight")
 		{
-			this._typePower.Add("Dark", 1.5f);
-			this._typePower.Add("Light", 0.5f);
+			this._typePower.Add(TypeDark.Singleton, 1.5f);
+			this._typePower.Add(TypeLight.Singleton, 0.5f);
 		}
 		#endregion
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(CombatInstance context) =>
+		public override void OnTurnStart(Combat context) =>
 			Console.WriteLine("Moonlight shines through the night sky.");
 		public override void OnEnter() =>
 			Console.WriteLine("The moon is rising!");

@@ -7,31 +7,33 @@ using Pokedex.Models.Events;
 
 namespace Pokedex.Models
 {
-	public abstract class Pokemon : I_Pokemon
+	public abstract class Pokemon
 	{
-		protected const int N_SEGMENTS = 25;
+		private const int N_SEGMENTS = 25;
 
 		#region Variables
-		protected PokemonSpecies _species;
-		protected string _nickname;
-		protected int _level;
-		protected int _currHP;
-		protected Dictionary<string, int> _ivs;
-		protected Dictionary<string, int> _evs;
-		protected Nature _nature;
-		protected PokemonMove?[] _moves;
-		protected Dictionary<string, int> _statBoosts;
+		private PokemonSpecies _species;
+		private string _name;
+		private PokemonMove?[] _moves;
+		private I_Player? _owner;
 
-		protected char[] _nMarks;
+		private int _level;
+		private int _currHP;
+		private Dictionary<string, int> _ivs;
+		private Dictionary<string, int> _evs;
+		private Nature _nature;
+		private Dictionary<string, int> _statBoosts;
+
+		private char[] _nMarks;
 		#endregion
 
 		#region Class Variables
-		protected static Nature[] __natures =
+		private static Nature[] __natures =
 			((Nature[])Enum.GetValues(typeof(Nature)))
 				.Where(nature => Math.Log2(((int)nature)) % 1 != 0)
 				.ToArray();
 
-		protected static Dictionary<int, double> __stageMult = new Dictionary<int, double>()
+		private static Dictionary<int, double> __stageMult = new Dictionary<int, double>()
 			{
 				{ -6, 2d/8 },
 				{ -5, 2d/7 },
@@ -52,34 +54,22 @@ namespace Pokedex.Models
 		#endregion
 
 		#region Properties
-		// Inherited from the Species - Important infos
-		public int ID { get => this._species.ID; }
-		public string Name { get => this._species.Name; }
-		public PokemonSpecies Species { get => this._species; }
-		public List<PokemonType> Types { get => this._species.Types; }
-		public Dictionary<string, int> BaseStats { get => this._species.Stats; }
+		public int ID => this._species.ID;
+		public List<PokeType> Types => this._species.Types;
+		public PokemonMove?[] Moves => this._moves;
+		public I_Player Owner => this._owner ?? throw new InvalidOperationException("Pokemon does not have an owner");
+		public I_Combat Arena => this.Owner.Arena;
 
-		// Inherited from the Species - Flavor
-		public string Genus { get => this._species.Genus; }
-		public PokeClass Class { get => this._species.Class; }
-		public int Height { get => this._species.Height; }
-		public int Weight { get => this._species.Weight; }
-
-		// Unique per Pokemon
-		public int Level { get => this._level; }
-		public string Nickname { get => this._nickname; set => this._nickname = value; }
-		public Dictionary<string, int> IVs { get => this._ivs; }
-		public Dictionary<string, int> EVs { get => this._evs; }
-		public Nature Nature { get => this._nature; set { this._nature = value; this._nMarks = this.GetNatureChars(); } }
-		public PokemonMove?[] Moves { get => this._moves; }
-
-		// Stats
-		public virtual int BaseHP { get => this.Species.Stats["hp"]; }
-		public virtual int BaseAtk { get => this.Species.Stats["atk"]; }
-		public virtual int BaseDef { get => this.Species.Stats["def"]; }
-		public virtual int BaseSpAtk { get => this.Species.Stats["spAtk"]; }
-		public virtual int BaseSpDef { get => this.Species.Stats["spDef"]; }
-		public virtual int BaseSpd { get => this.Species.Stats["spd"]; }
+		// Gameplay
+		public string Name { get => this._name; set => this._name = value; }
+		public int Level => this._level;
+		public Dictionary<string, int> IVs => this._ivs;
+		public Dictionary<string, int> EVs => this._evs;
+		public Nature Nature
+		{
+			get => this._nature;
+			set { this._nature = value; this._nMarks = this.GetNatureChars(); }
+		}
 
 		public virtual int CurrHP
 		{
@@ -87,18 +77,21 @@ namespace Pokedex.Models
 			set => this._currHP = Math.Clamp(value, 0, this.HP());
 		}
 
-		// Others
-		public string PokedexEntry
-		{
-			get =>
-string.Join('\n', new string[]{
-				$"{this.Name}",
-				$"No.  {this.ID, 3}      {this.Genus}",
-				$"Lvl: {this._level, 3}      " + string.Join('-', this.Types),
-				$"HP : {this.BaseHP, 3}      Atk  : {this.BaseAtk, 3}      S.Atk  : {this.BaseSpAtk, 3}",
-				$"Spd: {this.BaseSpd, 3}      Def  : {this.BaseDef, 3}      S.Def: {this.BaseSpDef, 3}",
-});
-		}
+		// Stats
+		public virtual int BaseHP => this.Species.Stats["hp"];
+		public virtual int BaseAtk => this.Species.Stats["atk"];
+		public virtual int BaseDef => this.Species.Stats["def"];
+		public virtual int BaseSpAtk => this.Species.Stats["spAtk"];
+		public virtual int BaseSpDef => this.Species.Stats["spDef"];
+		public virtual int BaseSpd => this.Species.Stats["spd"];
+
+		// Flavor
+		public PokemonSpecies Species => this._species;
+		public string SpeciesName => this._species.Name;
+		public string Genus => this._species.Genus;
+		public PokeClass Class => this._species.Class;
+		public int Height => this._species.Height;
+		public int Weight => this._species.Weight;
 		#endregion
 
 		#region Constructors
@@ -109,7 +102,7 @@ string.Join('\n', new string[]{
 		)
 		{
 			this._species = species;
-			this._nickname = species.Name;
+			this._name = species.Name;
 
 			if (level >= 1 && level <= 100)
 				this._level = level;
@@ -151,7 +144,7 @@ string.Join('\n', new string[]{
 		) : this(species, level)
 		{
 			if (nickname != "")
-				this._nickname = nickname;
+				this._name = nickname;
 			else throw new ArgumentException("Nickname must not be empty");
 		}
 		public Pokemon
@@ -286,7 +279,13 @@ string.Join('\n', new string[]{
 			return result;
 		}
 
-		public void SetIV(string stat, int val) => this._ivs[stat] = val;
+		public void SetIV(string stat, int val)
+		{
+			if (val > 31)
+				throw new ArgumentException("IV cannot b");
+
+			this._ivs[stat] = val;
+		}
 		public void SetIVs(int hp, int atk, int def, int spAtk, int spDef, int spd)
 		{
 			this.SetIV("hp", hp);
@@ -306,30 +305,35 @@ string.Join('\n', new string[]{
 				.Select(pair => pair.Value)
 				.Aggregate((a, b) => a + b);
 
-			if (total + val <= 510)
-				if (val <= 255)
-					this._evs[stat] = val;
-				else throw new ArgumentException("Singular EV surpass 252");
-			else throw new ArgumentException("Total EVs surpass 510");
+			if (total + val > 510)
+				throw new ArgumentException("Total EVs surpass 510");
+			if (val > 252)
+				throw new ArgumentException("EV surpass 252");
+			if (val < 0)
+				throw new ArgumentException("EV is below 0");
+			
+			this._evs[stat] = val;
 		}
 		private void SetEVUnsafe(string stat, int val)
 		{
-			if (val <= 252)
-				this._evs[stat] = val;
-			else throw new ArgumentException("Singular EV surpass 252");
+			if (val > 252)
+				throw new ArgumentException("EV cannot surpass 252");
+			if (val < 0)
+				throw new ArgumentException("EV cannot be negative");
+			
+			this._evs[stat] = val;
 		}
 		public void SetEVs(int hp, int atk, int def, int spAtk, int spDef, int spd)
 		{
-			if (hp + atk + def + spAtk + spDef + spd <= 510)
-			{
-				this.SetEVUnsafe("hp", hp);
-				this.SetEVUnsafe("atk", atk);
-				this.SetEVUnsafe("def", def);
-				this.SetEVUnsafe("spAtk", spAtk);
-				this.SetEVUnsafe("spDef", spDef);
-				this.SetEVUnsafe("spd", spd);
-			}
-			else throw new ArgumentException("Total EVs surpass 510");
+			if (hp + atk + def + spAtk + spDef + spd > 510)
+				throw new ArgumentException("Total EVs cannot surpass 510");
+			
+			this.SetEVUnsafe("hp", hp);
+			this.SetEVUnsafe("atk", atk);
+			this.SetEVUnsafe("def", def);
+			this.SetEVUnsafe("spAtk", spAtk);
+			this.SetEVUnsafe("spDef", spDef);
+			this.SetEVUnsafe("spd", spd);
 		}
 
 		[MemberNotNull(nameof(_moves))]
@@ -355,17 +359,23 @@ string.Join('\n', new string[]{
 			};
 		}
 
-		public double GetAffinity(PokemonType attacker) =>
+		public double GetAffinity(PokeType attacker) =>
 			attacker.CalculateAffinity(this._species.Types);
 
-		private StringBuilder GetHPBar()
+		private string GetHPBar()
 		{
 			// Get the HP percentage
 			var hpPercentBase = (int)(this._currHP * 100f / this.HP());
 			var hpPercent = hpPercentBase;
+			var color = hpPercentBase <= 10 ? "\x1b[38;2;255;69;0m"
+						: hpPercentBase <= 50 ? "\x1b[38;2;255;165;0m"
+						: "\x1b[38;2;144;238;144m";
+			
 			// ! Change this before the end. Only works with Fira Code
 			// Build the HP Bar, first segment
-			var hpBar = new StringBuilder(hpPercent > 0 ? "" : "");
+			var hpBar = new StringBuilder(color);
+			hpBar.Append(hpPercent > 0 ? "" : "");
+
 			hpPercent -= 4;
 			// Add every full segment as needed
 			var i = 0;
@@ -382,10 +392,13 @@ string.Join('\n', new string[]{
 			}
 			// Add the last segment
 			hpBar.Append(hpPercent > 0 ? "" : "");
+			hpBar.Append("\x1b[0m");
 
 			// * Unicode Version
 			// // Build the HP Bar, first segment
 			// var hpBar = new StringBuilder("[");
+			// hpBar.Append(color);
+
 			// // Add every full segment as needed
 			// var i = 0;
 			// while (hpPercent > 0 && i < N_SEGMENTS)
@@ -400,13 +413,11 @@ string.Join('\n', new string[]{
 			// 	hpBar.Append(".");
 			// }
 			// // Add the last segment
+			// hpBar.Append("\x1b[0m");
 			// hpBar.Append("]");
 
-			var color = hpPercentBase <= 10 ? "\x1b[38;2;255;69;0m"
-						: hpPercentBase <= 50 ? "\x1b[38;2;255;165;0m"
-						: "\x1b[38;2;144;238;144m";
 
-			return new StringBuilder(color + hpBar.ToString() + "\x1b[0m");
+			return hpBar.ToString();
 		}
 
 		private char[] GetNatureChars() =>
@@ -458,7 +469,7 @@ string.Join('\n', new string[]{
 						: ' ',
 			};
 
-		public bool ReceiveDamage(Player owner, Pokemon caster, PokemonMove move, PokemonType type, CombatInstance context)
+		public bool ReceiveDamage(Trainer owner, Pokemon caster, PokemonMove move, PokeType type, Combat context)
 		{
 			// If this pokemon fainted, do nothing
 			if (this.CurrHP == 0)
@@ -478,7 +489,7 @@ string.Join('\n', new string[]{
 			damage = damage / 50 + 2;
 
 			// Apply weather
-			damage = context.Weather.OnDamageGive(damage, move.Type);
+			damage = context.Weather.OnDamageGive(damage, type);
 
 			// Apply type weaknesses
 			damage *= this.GetAffinity(type);
@@ -510,7 +521,7 @@ string.Join('\n', new string[]{
 			// Do damage and display
 			this.CurrHP -= finalDamage;
 			int percentage = Math.Clamp(finalDamage * 100 / this.HP(), 0, 100);
-			Console.WriteLine($"{this.Nickname} lost {percentage}% HP");
+			Console.WriteLine($"{this.Name} lost {percentage}% HP");
 
 
 			// * Fainted
@@ -526,7 +537,7 @@ string.Join('\n', new string[]{
 			return true;
 		}
 
-		public bool ReceivePureDamage(int damage, Player owner, Pokemon caster, PokemonMove move, PokemonType type, CombatInstance context)
+		public bool ReceivePureDamage(int damage, Trainer owner, Pokemon caster, PokemonMove move, PokeType type, Combat context)
 		{
 			// If this pokemon fainted, do nothing
 			if (this.CurrHP == 0)
@@ -546,7 +557,7 @@ string.Join('\n', new string[]{
 			// Do damage and display
 			this.CurrHP -= damage;
 			int percentage = Math.Clamp(damage * 100 / this.HP(), 0, 100);
-			Console.WriteLine($"{this.Nickname} lost {percentage}% HP");
+			Console.WriteLine($"{this.Name} lost {percentage}% HP");
 
 
 			// * Fainted
@@ -572,13 +583,13 @@ string.Join('\n', new string[]{
 				{ "spd", Math.Clamp(this._statBoosts["spd"] + spd, -6, 6) },
 			};
 
-		public void DoKO(Player owner, CombatInstance context)
+		public void DoKO(Trainer owner, Combat context)
 		{
 			// Set HP to 0
 			this.CurrHP = 0;
 
 			// Display that the pokemon is K.O.
-			Console.WriteLine($"{this.Nickname} fainted");
+			Console.WriteLine($"{this.Name} fainted");
 
 			// ? Implement OnKO abilities
 
@@ -593,16 +604,28 @@ string.Join('\n', new string[]{
 			Console.WriteLine();
 		}
 
-		public string GetQuickStatus() =>
-			string.Join('\n', new string[]{
-				$"\"{this._nickname}\"" + "\x1b[2m" + $" - {this.Name}" + "\x1b[0m",
-				$"Lvl : {this._level, 3}      " + string.Join('-', this.Types),
-				$"HP  : {this.GetHPBar()}",
-			});
+		public string GetQuickStatus()
+		{
+			var status = new StringBuilder();
+
+			// Add the name
+			status.Append($"\x1b[4m{this.Name}\x1b[0m");
+			// Add the species
+			status.AppendLine($"\x1b[2m - {this.SpeciesName}\x1b[0m");
+			// Add the level
+			status.Append($"Lvl : {this._level, 3}      ");
+			// Add the types
+			status.AppendLine(string.Join('-', this.Types));
+			// Add the HP
+			status.AppendLine($"HP  : {this.GetHPBar()}");
+
+			return status.ToString();
+		}
 
 		public string GetFullStatus()
 		{
-			string[] colors = new string[]
+			var status = new StringBuilder();
+			string[] statColor = new string[]
 			{ "atk", "def", "spAtk", "spDef", "spd" }
 				.Select(stat => this._statBoosts[stat])
 				.Select(stage => stage > 0 ? "\x1b[38;2;0;128;0m"
@@ -610,18 +633,30 @@ string.Join('\n', new string[]{
 								: "\x1b[38;2;255;0;0m")
 				.ToArray();
 
-			return string.Join('\n', new string[]{
-				$"\"{this._nickname}\""
-				+ "\x1b[2m" + $" - {this.Name}" + "\x1b[0m",
-				$"Lvl : {this._level, 3}      " + string.Join('-', this.Types),
-				$"HP  : {this.GetHPBar()} {this._currHP, 3}/{this.HP(), 3}",
+			var a = Color.DarkRed;
 
-				$"Atk : {colors[0]}{this.Atk(), 3}\x1b[0m{this._nMarks[0]}"
-				+ $"     Def : {colors[1]}{this.Def(), 3}\x1b[0m{this._nMarks[1]}",
-				$"SAtk: {colors[2]}{this.SpAtk(), 3}\x1b[0m{this._nMarks[2]}"
-				+ $"     SDef: {colors[3]}{this.SpDef(), 3}\x1b[0m{this._nMarks[3]}",
-				$"Spd : {colors[4]}{this.Spd(), 3}\x1b[0m{this._nMarks[4]}",
-			});
+			// Add the nickname
+			status.Append($"\x1b[4m{this.Name}\x1b[0m");
+			// Add the actual name, in gray
+			status.AppendLine($"\x1b[2m - {this.SpeciesName}\x1b[0m");
+			// Add the level
+			status.Append($"Lvl : {this._level, 3}      ");
+			// Add the types
+			status.AppendJoin('-', this.Types); status.AppendLine();
+			// Add the HP
+			status.AppendLine($"\x1b[1mHP\x1b[0m  : {this.GetHPBar()} {this._currHP, 3}/{this.HP(), 3}");
+			// Add the Atk
+			status.Append($"\x1b[1mAtk\x1b[0m : {statColor[0]}{this.Atk(), 3}\x1b[0m{this._nMarks[0]}     ");
+			// Add the Def
+			status.AppendLine($"\x1b[1mDef\x1b[0m : {statColor[1]}{this.Def(), 3}\x1b[0m{this._nMarks[1]}");
+			// Add the SpAtk
+			status.Append($"\x1b[1mSAtk\x1b[0m: {statColor[2]}{this.SpAtk(), 3}\x1b[0m{this._nMarks[2]}     ");
+			// Add the SpDef
+			status.AppendLine($"\x1b[1mSDef\x1b[0m: {statColor[3]}{this.SpDef(), 3}\x1b[0m{this._nMarks[3]}");
+			// Add the Spd
+			status.Append($"\x1b[1mSpd\x1b[0m : {statColor[4]}{this.Spd(), 3}\x1b[0m{this._nMarks[4]}");
+
+			return status.ToString();
 		}
 		#endregion
 	}

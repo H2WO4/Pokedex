@@ -5,8 +5,8 @@ namespace Pokedex.Models.Events
 	class SwitchInputEvent : I_Event
 	{
 		#region Variables
-		private Player _origin;
-		private CombatInstance _context;
+		private Trainer _origin;
+		private Combat _context;
 		#endregion
 
 		#region Properties
@@ -17,8 +17,8 @@ namespace Pokedex.Models.Events
 		#region Constructor
 		public SwitchInputEvent
 		(
-			Player origin,
-			CombatInstance context
+			Trainer origin,
+			Combat context
 		)
 		{
 			this._origin = origin;
@@ -26,10 +26,7 @@ namespace Pokedex.Models.Events
 		}
 		#endregion
 
-
 		#region Methods
-		public void PreUpdate() { }
-
 		public void Update()
 		{
 			Console.WriteLine("\x1b[4m" + "Choose a pokemon to send" + "\x1b[0m");
@@ -62,7 +59,7 @@ namespace Pokedex.Models.Events
 				pokeNum--; // Change from 1-based index to 0-based
 
 				// Check if arg within bounds
-				if (pokeNum < 1 || pokeNum > this._origin.Team.Count)
+				if (pokeNum < 1 || pokeNum > this._origin.Team.Count())
 				{
 					Console.WriteLine("Invalid pokemon number");
 					continue;
@@ -75,13 +72,15 @@ namespace Pokedex.Models.Events
 					continue;
 				}
 
-				Console.WriteLine("\x1b[4m" + $"{this._origin.Name} takes out {this._origin.Active.Nickname}" + "\x1b[0m");
+				Console.WriteLine("\x1b[4m" + $"{this._origin.Name} takes out {this._origin.Active.Name}" + "\x1b[0m");
 				Console.WriteLine();
 				this._origin.ChangeActive(pokeNum);
-				Console.WriteLine("\x1b[4m" + $"{this._origin.Name} sends out {this._origin.Active.Nickname}\n" + "\x1b[0m");
+				Console.WriteLine("\x1b[4m" + $"{this._origin.Name} sends out {this._origin.Active.Name}\n" + "\x1b[0m");
 				pokeChosen = true;
 			}
 		}
+
+		public void PreUpdate() { }
 		#endregion
 	}
 }

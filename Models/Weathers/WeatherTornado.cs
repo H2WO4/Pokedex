@@ -1,3 +1,5 @@
+using Pokedex.Models.PokemonTypes;
+
 namespace Pokedex.Models.Weathers
 {
 	public class WeatherTornado : Weather
@@ -13,14 +15,14 @@ namespace Pokedex.Models.Weathers
 		#region Constructors
 		protected WeatherTornado() : base("Tornado")
 		{
-			this._typePower.Add("Flying", 1.5f);
-			this._typePower.Add("Ground", 0.5f);
+			this._typePower.Add(TypeFlying.Singleton, 1.5f);
+			this._typePower.Add(TypeGround.Singleton, 0.5f);
 		}
 		#endregion
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(CombatInstance context) =>
+		public override void OnTurnStart(Combat context) =>
 			Console.WriteLine("Gusts of wind blow around the battlefield.");
 		public override void OnEnter() =>
 			Console.WriteLine("A tornado is raging!");

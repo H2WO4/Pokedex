@@ -67,7 +67,7 @@ namespace Pokedex.Models.Pokemons
 		#region Constructor
 		public {className}Species() : base(
 			{poke['id']}, "{className}",
-			new List<PokemonType>(){{
+			new List<PokeType>(){{
 				{r'''
 				'''.join([f'Type{type_.title()}.Singleton,' for type_ in poke['types']])}
 			}},

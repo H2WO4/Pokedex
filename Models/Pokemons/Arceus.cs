@@ -16,7 +16,7 @@ namespace Pokedex.Models.Pokemons
 		#region Constructor
 		public ArceusSpecies() : base(
 			493, "Arceus",
-			new List<PokemonType>(){
+			new List<PokeType>(){
 				TypeNormal.Singleton,
 			},
 			new Dictionary<string, int>(){

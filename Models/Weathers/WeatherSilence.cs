@@ -1,3 +1,5 @@
+using Pokedex.Models.PokemonTypes;
+
 namespace Pokedex.Models.Weathers
 {
 	public class WeatherSilence : Weather
@@ -13,14 +15,14 @@ namespace Pokedex.Models.Weathers
 		#region Constructors
 		protected WeatherSilence() : base("Silence")
 		{
-			this._typePower.Add("Psychic", 1.5f);
-			this._typePower.Add("Ghost", 0.5f);
+			this._typePower.Add(TypePsychic.Singleton, 1.5f);
+			this._typePower.Add(TypeGhost.Singleton, 0.5f);
 		}
 		#endregion
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(CombatInstance context) =>
+		public override void OnTurnStart(Combat context) =>
 			Console.WriteLine("The battlefield is shrouded in silence.");
 		public override void OnEnter() =>
 			Console.WriteLine("Silence has befallen the battlefield!");

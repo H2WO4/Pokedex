@@ -1,4 +1,3 @@
-using System.Drawing;
 using System.Text;
 using Pokedex.Enums;
 using Pokedex.Interfaces;
@@ -12,7 +11,7 @@ namespace Pokedex.Models
 		#region Variables
 		protected string _name;
 		protected MoveClass _class;
-		protected PokemonType _type;
+		protected PokeType _type;
 		protected int? _power;
 		protected int? _accuracy;
 		protected int _maxPp;
@@ -22,14 +21,14 @@ namespace Pokedex.Models
 
 		#region Properties
 		// * Values
-		public string Name { get => this._name; }
-		public int? Power { get => this._power; }
-		public MoveClass Class { get => this._class; }
-		public int? Accuracy { get => this._accuracy; }
-		public int MaxPP { get => this._maxPp; }
-		public int PP { get => this._pp; }
-		public int Priority { get => this._priority; }
-		public PokemonType Type { get => this._type; }
+		public string Name => this._name;
+		public int? Power => this._power;
+		public MoveClass Class => this._class;
+		public int? Accuracy => this._accuracy;
+		public int MaxPP => this._maxPp;
+		public int PP => this._pp;
+		public int Priority => this._priority;
+		public PokeType Type => this._type;
 
 		#endregion
 
@@ -41,7 +40,7 @@ namespace Pokedex.Models
 			int? accuracy,
 			int maxPp,
 			int priority,
-			PokemonType type
+			PokeType type
 		)
 		{
 			if (name != "")
@@ -60,7 +59,7 @@ namespace Pokedex.Models
 
 		#region Methods
 		// * Game Logic
-		public virtual void OnUse(Pokemon caster, Player origin, CombatInstance context)
+		public virtual void OnUse(Pokemon caster, Trainer origin, Combat context)
 		{
 			// Select targets
 			var targets = this.GetTargets(caster, origin, context);
@@ -73,11 +72,11 @@ namespace Pokedex.Models
 				if (hit)
 					this.DoAction(target.pokemon, target.player, caster, origin, context);
 				else
-					Console.WriteLine($"{caster.Nickname}'s {this.Name} missed {target.pokemon.Nickname}\n");
+					Console.WriteLine($"{caster.Name}'s {this.Name} missed {target.pokemon.Name}\n");
 			}
 		}
 
-		public virtual bool AccuracyCheck(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context)
+		public virtual bool AccuracyCheck(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
 		{
 			if (this._accuracy == null)
 				return true;
@@ -85,50 +84,52 @@ namespace Pokedex.Models
 			return (this._accuracy ?? 100) >= Program.rnd.Next(1, 100);
 		}
 
-		public virtual List<(Player player, Pokemon pokemon)> GetTargets(Pokemon caster, Player origin, CombatInstance context)
+		public virtual List<(Trainer player, Pokemon pokemon)> GetTargets(Pokemon caster, Trainer origin, Combat context)
 		{
 			var enemy = context.PlayerA == origin
 						? context.PlayerB
 						: context.PlayerA;
 
-			return new List<(Player, Pokemon)>()
+			return new List<(Trainer, Pokemon)>()
 			{
 				(enemy, enemy.Active)
 			};
 		}
 
-		public virtual void DoAction(Pokemon target, Player owner, Pokemon caster, Player origin, CombatInstance context)
+		public virtual void DoAction(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
 		{
 			bool success = target.ReceiveDamage(owner, caster, this, this._type, context);
 			if (!success)
 				Console.WriteLine("But it failed");
 		}
 
-		public virtual void PreAction(MoveEvent event_, CombatInstance context) { }
+		public virtual void PreAction(MoveEvent event_, Combat context) { }
 
 		// * Display
 		public string GetQuickStatus()
-			=> $"{this._name} - {this._pp}/{this._maxPp} PP";
+			=> $"{this._name} - {this._pp}/{this._maxPp} \x1b[38;2;144;238;144mPP\x1b[0m";
 
 		public string GetFullStatus()
 		{
-			var output = new StringBuilder();
+			var status = new StringBuilder();
+			var classColor = this._class == MoveClass.Physical ? "\x1b[38;2;245;78;10m"
+							: this._class == MoveClass.Special ? "\x1b[38;2;38;117;244m"
+							: "\x1b[38;2;90;99;123m";
 
-			output.AppendLine($"{this._name,-12}   {this._class}-{this._type.Name}");
+			// Add the name
+			status.Append($"\x1b[1m{this._name,-12}\x1b[0m   ");
+			// Add the class and type
+			status.AppendLine($"{classColor}{this._class}\x1b[0m-{this._type}");
+			// Add the Power, '---' if null
+			status.Append($"\x1b[38;2;219;112;147mPower\x1b[0m: {this._power?.ToString() ?? "---",4}      ");
+			// Add the Accuracy, '---' if null
+			status.AppendLine($"\x1b[38;2;173;216;230mAccuracy\x1b[0m: {this._accuracy?.ToString("#'%'") ?? "---",4}");
+			// Add the PP
+			status.Append($"\x1b[38;2;144;238;144mPP\x1b[0m:   {this._pp,2}/{this._maxPp,2}      ");
+			// Add the Priority, with sign if positive, but not if 0
+			status.AppendLine($"\x1b[38;2;255;165;0mPriority\x1b[0m:  {this._priority,3:+#;-#;0}");
 
-			output.Append($"\x1b[38;2;219;112;147mPower\x1b[0m: {this._power?.ToString() ?? "---",4}    ");
-			// Displays "---" if the power is null, displays it normally otherwise
-			output.AppendLine($"\x1b[38;2;173;216;230mAccuracy\x1b[0m: {this._accuracy?.ToString("#'%'") ?? "---",4}");
-			// Displays "---" if the accuracy is null, displays it with a '%' appended otherwise
-			// Color.Orange
-			output.Append($"\x1b[38;2;144;238;144mPP\x1b[0m:   {this._pp,2}/{this._maxPp,2}    ");
-			output.AppendLine($"\x1b[38;2;255;165;0mPriority\x1b[0m:  {this._priority,3:+#;-#;0}");
-			// Format specificator :
-			//	+# -> case if x > 0, displays "+x"
-			//	-# -> case if x < 0, displays "-x"
-			//	0 -> case if x = 0, displays "0"
-
-			return output.ToString();
+			return status.ToString();
 		}
 		#endregion
 	}

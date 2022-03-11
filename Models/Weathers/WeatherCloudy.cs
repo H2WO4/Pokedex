@@ -1,3 +1,5 @@
+using Pokedex.Models.PokemonTypes;
+
 namespace Pokedex.Models.Weathers
 {
 	public class WeatherCloudy : Weather
@@ -13,16 +15,16 @@ namespace Pokedex.Models.Weathers
 		#region Constructors
 		protected WeatherCloudy() : base("Cloudy")
 		{
-			this._typePower.Add("Normal", 1f);
+			this._typePower.Add(TypeNormal.Singleton, 1f);
 		}
 		#endregion
 
 		#region Methods
-		public override double OnDamageGive(double damage, PokemonType type) =>
-			this._typePower.GetValueOrDefault(type.Name, 0.75f) * damage;
+		public override double OnDamageGive(double damage, PokeType type) =>
+			this._typePower.GetValueOrDefault(type, 0.75f) * damage;
 
 		// Flavor Text
-		public override void OnTurnStart(CombatInstance context) =>
+		public override void OnTurnStart(Combat context) =>
 			Console.WriteLine("The sky is cloudy.");
 		public override void OnEnter() =>
 			Console.WriteLine("The sky filled with clouds!");

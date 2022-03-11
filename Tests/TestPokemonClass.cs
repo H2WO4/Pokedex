@@ -11,10 +11,10 @@ namespace Tests
 		public void PokemonAttributes()
 		{
 			var arceus = new Arceus(100);
-			arceus.Nickname = "Arcy";
+			arceus.Name = "Arcy";
 
 			Assert.AreEqual(arceus.Name, "Arceus", $"Name should be 'Arceus', is {arceus.Name}");
-			Assert.AreEqual(arceus.Nickname, "Arcy", $"Nickname should be 'Arcy', is {arceus.Nickname}");
+			Assert.AreEqual(arceus.Name, "Arcy", $"Nickname should be 'Arcy', is {arceus.Name}");
 			Assert.AreEqual(arceus.Genus, "Alpha Pokémon", $"Genus should be 'Alpha Pokémon', is {arceus.Genus}");
 			Assert.AreEqual(arceus.ID, 493, $"ID should be 493', is {arceus.ID}");
 		}
@@ -72,6 +72,25 @@ namespace Tests
 		{
 			var arceus = new Arceus(100);
 
+			// * Singular EV assignement
+			Assert.ThrowsException<ArgumentException>
+			(
+				() => arceus.SetEV("atk", 253),
+				"EV above 252 was accepted, whereas it should not"
+			);
+			Assert.ThrowsException<ArgumentException>
+			(
+				() => arceus.SetEV("atk", -1),
+				"Negative EV was accepted, whereas it should not"
+			);
+			arceus.SetEVs(100, 100, 100, 100, 100, 0);
+			Assert.ThrowsException<ArgumentException>
+			(
+				() => arceus.SetEV("spd", 11),
+				"EV putting total EVs above 510 was accepted, whereas it should not"
+			);
+
+			// * Multi-EV assignement
 			Assert.ThrowsException<ArgumentException>
 			(
 				() => arceus.SetEVs(100, 100, 100, 100, 100, 11),
@@ -82,6 +101,11 @@ namespace Tests
 				() => arceus.SetEVs(256, 0, 0, 0, 0, 0),
 				"EV above 252 was accepted, whereas it should not"
 			);
+			Assert.ThrowsException<ArgumentException>
+			(
+				() => arceus.SetEVs(-1, 0, 0, 0, 0, 0),
+				"Negative EV was accepted, whereas it should not"
+			);
 		}
 
 		[TestMethod]
@@ -90,7 +114,7 @@ namespace Tests
 			var arceus = new Arceus(100);
 			arceus.SetIVs(0, 0, 0, 0, 0, 0);
 			arceus.SetEVs(0, 0, 0, 0, 0, 0);
-			
+
 			arceus.Nature = Nature.Lonely;
 			Assert.AreEqual(arceus.Atk(), 269, $"Atk stat should be 269, is {arceus.Atk}");
 			Assert.AreEqual(arceus.Def(), 220, $"Def stat should be 220, is {arceus.Def}");
@@ -110,6 +134,29 @@ namespace Tests
 			arceus.Nature = Nature.Sassy;
 			Assert.AreEqual(arceus.SpDef(), 269, $"SpDef stat should be 269, is {arceus.SpDef}");
 			Assert.AreEqual(arceus.Spd(), 220, $"Spd stat should be 220, is {arceus.Spd}");
+		}
+	
+		[TestMethod]
+		public void PokemonStatBoosts()
+		{
+			var arceus = new Arceus(100);
+			arceus.SetIVs(0, 0, 0, 0, 0, 0);
+			arceus.SetEVs(0, 0, 0, 0, 0, 0);
+			arceus.Nature = Nature.Hardy;
+
+			arceus.SetBoosts(+6, +6, +6, +6, +6);
+			Assert.AreEqual(arceus.Atk(), 980, $"Atk stat should be 980, is {arceus.Atk}");
+			Assert.AreEqual(arceus.Def(), 980, $"Def stat should be 980, is {arceus.Def}");
+			Assert.AreEqual(arceus.SpAtk(), 980, $"SpAtk stat should be 980, is {arceus.SpAtk}");
+			Assert.AreEqual(arceus.SpDef(), 980, $"SpDef stat should be 980, is {arceus.SpDef}");
+			Assert.AreEqual(arceus.Spd(), 980, $"Spd stat should be 980, is {arceus.Spd}");
+
+			arceus.SetBoosts(-6, -6, -6, -6, -6);
+			Assert.AreEqual(arceus.Atk(), 61, $"Atk stat should be 61, is {arceus.Atk}");
+			Assert.AreEqual(arceus.Def(), 61, $"Def stat should be 61, is {arceus.Def}");
+			Assert.AreEqual(arceus.SpAtk(), 61, $"SpAtk stat should be 61, is {arceus.SpAtk}");
+			Assert.AreEqual(arceus.SpDef(), 61, $"SpDef stat should be 61, is {arceus.SpDef}");
+			Assert.AreEqual(arceus.Spd(), 61, $"Spd stat should be 61, is {arceus.Spd}");
 		}
 	}
 }

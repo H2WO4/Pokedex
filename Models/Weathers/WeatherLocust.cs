@@ -1,3 +1,5 @@
+using Pokedex.Models.PokemonTypes;
+
 namespace Pokedex.Models.Weathers
 {
 	public class WeatherLocust : Weather
@@ -13,19 +15,18 @@ namespace Pokedex.Models.Weathers
 		#region Constructors
 		protected WeatherLocust() : base("Locust Swarm")
 		{
-			this._typePower.Add("Bug", 1.5f);
+			this._typePower.Add(TypeBug.Singleton, 1.5f);
 
-			this._typeSelector.Add("Bug");
-			this._typeSelector.Add("Poison");
-			this._typeSelector.Add("Grass");
+			this._typeSelector.Append(TypeBug.Singleton);
+			this._typeSelector.Append(TypePoison.Singleton);
+			this._typeSelector.Append(TypeGrass.Singleton);
 		}
 		#endregion
 
 		#region Methods
-		public override void OnTurnEnd(CombatInstance context)
+		public override void OnTurnEnd(Combat context)
 		{
 			if (context.PlayerA.Active.Types
-					.Select(x => x.Name)
 					.Intersect(this._typeSelector)
 					.Count() == 0)
 			{
@@ -34,7 +35,6 @@ namespace Pokedex.Models.Weathers
 			}
 
 			if (context.PlayerB.Active.Types
-					.Select(x => x.Name)
 					.Intersect(this._typeSelector)
 					.Count() == 0)
 			{
@@ -44,7 +44,7 @@ namespace Pokedex.Models.Weathers
 		}
 
 		// Flavor Text
-		public override void OnTurnStart(CombatInstance context) =>
+		public override void OnTurnStart(Combat context) =>
 			Console.WriteLine("The swarm of locusts is swarming around.");
 		public override void OnEnter() =>
 			Console.WriteLine("Locusts are starting to swarm the area!");

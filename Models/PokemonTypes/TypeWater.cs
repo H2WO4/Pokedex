@@ -1,6 +1,6 @@
 namespace Pokedex.Models.PokemonTypes
 {
-	public class TypeWater : PokemonType
+	public class TypeWater : PokeType
 	{
 		#region Class Variables
 		protected static TypeWater? _singleton;
@@ -12,7 +12,7 @@ namespace Pokedex.Models.PokemonTypes
 
 		#region Constructor
 		public TypeWater() : base(
-			"Water", (0, 0, 255)
+			"Water", (78, 154, 255)
 		)
 		{ }
 		#endregion

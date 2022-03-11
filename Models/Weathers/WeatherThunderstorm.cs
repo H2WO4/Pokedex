@@ -1,3 +1,5 @@
+using Pokedex.Models.PokemonTypes;
+
 namespace Pokedex.Models.Weathers
 {
 	public class WeatherThunderstorm : Weather
@@ -13,14 +15,14 @@ namespace Pokedex.Models.Weathers
 		#region Constructors
 		protected WeatherThunderstorm() : base("Thunderstorm")
 		{
-			this._typePower.Add("Electric", 1.5f);
-			this._typePower.Add("Steel", 0.5f);
+			this._typePower.Add(TypeElectric.Singleton, 1.5f);
+			this._typePower.Add(TypeSteel.Singleton, 0.5f);
 		}
 		#endregion
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(CombatInstance context) =>
+		public override void OnTurnStart(Combat context) =>
 			Console.WriteLine("Lightning crackles in the sky.");
 		public override void OnEnter() =>
 			Console.WriteLine("A thunderstorm is brewing!");
