@@ -16,8 +16,8 @@ namespace Pokedex.Models.Weathers
 
 		#region Methods
 		// Flavor Text
-		public override void OnEnter() =>
-			Console.WriteLine("The sky clears up.");
+		public override void OnEnter()
+			=> Console.WriteLine("The sky clears up.");
 
 		#endregion
 	}

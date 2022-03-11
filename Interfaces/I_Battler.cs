@@ -32,7 +32,6 @@ namespace Pokedex.Interfaces
 		/// <summary>
 		/// The combat instance the fight is happening in
 		/// </summary>
-		/// <value></value>
 		I_Combat? Arena { get; }
 		#endregion
 
@@ -87,6 +86,11 @@ namespace Pokedex.Interfaces
 		/// </summary>
 		/// <returns></returns>
 		string GetQuickStatus();
+
+		/// <summary>
+		/// String representation of most information about the battler
+		/// </summary>
+		/// <returns></returns>
 		string GetFullStatus();
 		#endregion
 	}

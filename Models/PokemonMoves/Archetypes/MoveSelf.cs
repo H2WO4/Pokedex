@@ -15,7 +15,7 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 			PokeType type
 		) : base(name, class_, power, accuracy, maxPp, priority, type) { }
 
-		public override List<(Trainer player, Pokemon pokemon)> GetTargets(Pokemon caster, Trainer origin, Combat context)
-			=> new List<(Trainer player, Pokemon pokemon)> { (origin, caster) };
+		protected override List<Pokemon> GetTargets()
+			=> new List<Pokemon> { this.Caster };
 	}
 }

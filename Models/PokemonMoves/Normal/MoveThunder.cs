@@ -15,13 +15,13 @@ namespace Pokedex.Models.PokemonMoves
 		)
 		{ }
 
-		public override bool AccuracyCheck(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
+		protected override bool AccuracyCheck(Pokemon target)
 		{
-			if (context.Weather == WeatherRain.Singleton ||
-				context.Weather == WeatherThunderstorm.Singleton)
+			if (this.Arena.Weather == WeatherRain.Singleton ||
+				this.Arena.Weather == WeatherThunderstorm.Singleton)
 				return true;
 
-			return base.AccuracyCheck(target, owner, caster, origin, context);
+			return base.AccuracyCheck(target);
 		}
 	}
 }

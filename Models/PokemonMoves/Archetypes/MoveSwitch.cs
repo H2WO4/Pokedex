@@ -16,15 +16,15 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 			PokeType type
 		) : base(name, class_, power, accuracy, maxPp, priority, type) { }
 
-		public override void DoAction(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
+		protected override void DoAction(Pokemon target)
 		{
-			bool success = target.ReceiveDamage(owner, caster, this, this._type, context);
+			bool success = target.ReceiveDamage(this.Caster, this, this._type);
 			if (!success)
 				Console.WriteLine("But it failed");
 			else
 			{
-				var ev = new SwitchInputEvent(origin, context);
-				context.AddToTop(ev);
+				var ev = new SwitchInputEvent(this.Caster.Owner, this.Arena);
+				this.Arena.AddToTop(ev);
 			}
 		}
 	}

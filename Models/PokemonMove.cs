@@ -17,23 +17,44 @@ namespace Pokedex.Models
 		protected int _maxPp;
 		protected int _pp;
 		protected int _priority;
+		protected Pokemon? _caster;
 		#endregion
 
 		#region Properties
-		// * Values
+		/// <inheritdoc/>
 		public string Name => this._name;
+
+		/// <inheritdoc/>
 		public int? Power => this._power;
+
+		/// <inheritdoc/>
 		public MoveClass Class => this._class;
+
+		/// <inheritdoc/>
 		public int? Accuracy => this._accuracy;
+
+		/// <inheritdoc/>
 		public int MaxPP => this._maxPp;
+
+		/// <inheritdoc/>
 		public int PP => this._pp;
+
+		/// <inheritdoc/>
 		public int Priority => this._priority;
+
+		/// <inheritdoc/>
 		public PokeType Type => this._type;
 
-		#endregion
+		/// <inheritdoc/>
+        public Pokemon Caster => this._caster ?? throw new InvalidOperationException();
+		
+		/// <inheritdoc/>
+		public I_Combat Arena => this.Arena;
 
-		#region Constructors
-		public PokemonMove(
+        #endregion
+
+        #region Constructors
+        public PokemonMove(
 			string name,
 			MoveClass class_,
 			int? power,
@@ -58,25 +79,30 @@ namespace Pokedex.Models
 		#endregion
 
 		#region Methods
-		// * Game Logic
-		public virtual void OnUse(Pokemon caster, Trainer origin, Combat context)
+		public virtual void OnUse()
 		{
 			// Select targets
-			var targets = this.GetTargets(caster, origin, context);
+			var targets = this.GetTargets();
 
 			// If it hits, deal damage, and check if fainted
 			foreach (var target in targets)
 			{
-				var hit = this.AccuracyCheck(target.pokemon, target.player, caster, origin, context);
+				var hit = this.AccuracyCheck(target);
 
 				if (hit)
-					this.DoAction(target.pokemon, target.player, caster, origin, context);
+					this.DoAction(target);
 				else
-					Console.WriteLine($"{caster.Name}'s {this.Name} missed {target.pokemon.Name}\n");
+					Console.WriteLine($"{this.Caster.Name}'s {this.Name} missed {target.Name}\n");
 			}
 		}
 
-		public virtual bool AccuracyCheck(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
+		protected virtual List<Pokemon> GetTargets()
+			=> this.Arena.Players
+				.Where(player => player != this.Caster.Owner)
+				.Select(player => player.Active)
+				.ToList();
+
+		protected virtual bool AccuracyCheck(Pokemon target)
 		{
 			if (this._accuracy == null)
 				return true;
@@ -84,31 +110,21 @@ namespace Pokedex.Models
 			return (this._accuracy ?? 100) >= Program.rnd.Next(1, 100);
 		}
 
-		public virtual List<(Trainer player, Pokemon pokemon)> GetTargets(Pokemon caster, Trainer origin, Combat context)
+		protected virtual void DoAction(Pokemon target)
 		{
-			var enemy = context.PlayerA == origin
-						? context.PlayerB
-						: context.PlayerA;
-
-			return new List<(Trainer, Pokemon)>()
-			{
-				(enemy, enemy.Active)
-			};
-		}
-
-		public virtual void DoAction(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
-		{
-			bool success = target.ReceiveDamage(owner, caster, this, this._type, context);
+			bool success = target.ReceiveDamage(this.Caster, this, this._type);
 			if (!success)
 				Console.WriteLine("But it failed");
 		}
 
-		public virtual void PreAction(MoveEvent event_, Combat context) { }
+		/// <inheritdoc/>
+		public virtual void PreAction(MoveEvent event_) { }
 
-		// * Display
+		/// <inheritdoc/>
 		public string GetQuickStatus()
 			=> $"{this._name} - {this._pp}/{this._maxPp} \x1b[38;2;144;238;144mPP\x1b[0m";
 
+		/// <inheritdoc/>
 		public string GetFullStatus()
 		{
 			var status = new StringBuilder();
@@ -131,6 +147,6 @@ namespace Pokedex.Models
 
 			return status.ToString();
 		}
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -14,7 +14,7 @@ namespace Pokedex.Models
 		private int _activeIndex;
 		private Pokemon[] _team;
 
-		private Combat _context;
+		private Combat _arena;
 		#endregion
 
 		#region Properties
@@ -27,7 +27,7 @@ namespace Pokedex.Models
 		/// <inheritdoc/>
 		public Pokemon[] Team => this._team;
 
-		public I_Combat Arena => throw new NotImplementedException();
+		public I_Combat Arena => this._arena;
 		#endregion
 
 		#region Constructors
@@ -45,19 +45,11 @@ namespace Pokedex.Models
 				this._team = team;
 			else throw new ArgumentException("Team must have between 1 and 6 Pokemon.");
 
-			this._context = context;
+			this._arena = context;
 		}
 		#endregion
 
 		#region Methods
-		/// <summary>
-		/// Change the player's active to the Pokemon index in Team
-		/// </summary>
-		/// <param name="index">The index of the Pokemon to switch to</param>
-		/// <paramref name="Team"/>
-		/// <paramref name="index"/>
-		public void ChangeActive(int index) => this._activeIndex = index;
-
 		/// <inheritdoc/>
 		public void PlayTurn()
 		{
@@ -169,11 +161,11 @@ namespace Pokedex.Models
 					return;
 				}
 
-				if (this._context.PlayerA == this)
-					Console.WriteLine(this._context.PlayerB.Active.GetQuickStatus());
-
-				else
-					Console.WriteLine(this._context.PlayerA.Active.GetQuickStatus());
+				this._arena.Players
+					.Where(player => player != this)
+					.Select(player => player.Active)
+					.ToList()
+					.ForEach(poke => Console.WriteLine(poke.GetQuickStatus()));
 			}
 
 			// Display the rest of the team statuses
@@ -263,10 +255,10 @@ namespace Pokedex.Models
 			// Create the event
 			var ev = new MoveEvent(
 				this.Active, this,
-				move, this._context
+				move, this._arena
 			);
 			// Add it to the queue
-			this._context.AddToBottom(ev);
+			this._arena.AddToBottom(ev);
 
 			// Conclude the player's turn
 			endTurn = true;
@@ -319,15 +311,71 @@ namespace Pokedex.Models
 			// Create the event
 			var ev = new SwitchEvent(
 				this, pokeNum,
-				this._context
+				this._arena
 			);
 			// Add it to the queue
-			this._context.AddToBottom(ev);
+			this._arena.AddToBottom(ev);
 
 			// Conclude the player's turn
 			endTurn = true;
 		}
 
+		/// <inheritdoc/>
+		public void ChangeActive(int index) => this._activeIndex = index;
+
+		/// <inheritdoc/>
+		public void AskActiveChange()
+		{
+			Console.WriteLine("\x1b[4m" + "Choose a pokemon to send" + "\x1b[0m");
+			Console.WriteLine();
+
+			// Print the available pokemons
+			this.Team
+				.Select((poke, i) => (poke, i))
+				.Where(pair => pair.poke != this.Active)
+				.Where(pair => pair.poke.CurrHP > 0)
+				.ToList()
+				.ForEach(pair => Console.WriteLine($"\x1b[38;2;255;127;0;1m{pair.i + 1}\x1b[0m: {pair.poke.GetQuickStatus()}"));
+
+			Console.WriteLine();
+
+			// Until a valid pokemon is chosen
+			bool pokeChosen = false;
+			while (!pokeChosen && Console.In.Peek() != -1)
+			{
+				// Take input
+				var input = Console.ReadLine();
+				int pokeNum;
+
+				// Check if arg is a number
+				if (!Int32.TryParse(input, out pokeNum))
+				{
+					Console.WriteLine("Second argument must be a number");
+					continue;
+				}
+				pokeNum--; // Change from 1-based index to 0-based
+
+				// Check if arg within bounds
+				if (pokeNum < 1 || pokeNum > this.Team.Count())
+				{
+					Console.WriteLine("Invalid pokemon number");
+					continue;
+				}
+
+				// Check if pokemon is not fainted
+				if (this.Team[pokeNum].CurrHP == 0)
+				{
+					Console.WriteLine("This pokémon is K.O.");
+					continue;
+				}
+
+				Console.WriteLine("\x1b[4m" + $"{this.Name} takes out {this.Active.Name}" + "\x1b[0m");
+				Console.WriteLine();
+				this.ChangeActive(pokeNum);
+				Console.WriteLine("\x1b[4m" + $"{this.Name} sends out {this.Active.Name}\n" + "\x1b[0m");
+				pokeChosen = true;
+			}
+		}
 		#endregion
 	}
 }

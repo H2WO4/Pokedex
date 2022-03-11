@@ -8,8 +8,8 @@ namespace Pokedex.Models
 		#region Variables
 		private int _turn;
 		// Teams
-		private Trainer _playerA;
-		private Trainer _playerB;
+		private I_Player _playerA;
+		private I_Player _playerB;
 
 		private Queue<I_Event> _eventQueue;
 
@@ -19,8 +19,7 @@ namespace Pokedex.Models
 
 		#region Properties
 		// Players
-		public Trainer PlayerA { get => this._playerA; }
-		public Trainer PlayerB { get => this._playerB; }
+		public I_Player[] Players { get => new I_Player[]{ this._playerA, this._playerB }; }
 
 		// System
 		public Queue<I_Event> EventQueue { get => this._eventQueue; }
@@ -47,13 +46,15 @@ namespace Pokedex.Models
 		#endregion
 
 		#region Methods
-		public void AddToBottom(I_Event ev) =>
-			this._eventQueue.Enqueue(ev);
+		/// <inheritdoc/>
+		public void AddToBottom(I_Event ev)
+			=> this._eventQueue.Enqueue(ev);
 
-		public void AddToTop(I_Event ev) =>
-			this._eventQueue = new Queue<I_Event>(this._eventQueue.Prepend(ev));
+		/// <inheritdoc/>
+		public void AddToTop(I_Event ev)
+			=> this._eventQueue = new Queue<I_Event>(this._eventQueue.Prepend(ev));
 
-		public bool DoTurn()
+		public I_Player DoTurn()
 		{
 			while (Console.In.Peek() != -1)
 			{
@@ -94,9 +95,11 @@ namespace Pokedex.Models
 				this._weather.OnTurnEnd(this);
 			}
 
-			// Return if PlayerA has remaining pokemons
-			// AKA, return if PlayerA has won
-			return this.PlayerA.Team.Any(poke => poke.HP() > 0);
+			// Return the winning player
+			// A won if they have any Pokemon that is still alive
+			return this.Players
+				.Where(player => player.Team.All(poke => poke.CurrHP > 0))
+				.First();
 		}
 		#endregion
 	}

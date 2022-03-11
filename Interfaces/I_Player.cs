@@ -23,6 +23,9 @@ namespace Pokedex.Interfaces
 		/// </summary>
 		Pokemon[] Team { get; }
 
+		/// <summary>
+		/// The combat instance the fight is happening in
+		/// </summary>
 		I_Combat Arena { get; }
 		#endregion
 
@@ -31,6 +34,17 @@ namespace Pokedex.Interfaces
 		/// Called during the player's turn
 		/// </summary>
 		void PlayTurn();
+
+		/// <summary>
+		/// Change the player's active Pokemon to the one with the corresponding index
+		/// </summary>
+		/// <param name="index">The index of the Pokemon to switch to</param>
+		void ChangeActive(int index);
+
+		/// <summary>
+		/// Give control to the player and let them change their active Pokemon
+		/// </summary>
+		void AskActiveChange();
 		#endregion
 	}
 }

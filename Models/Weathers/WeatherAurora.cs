@@ -1,3 +1,4 @@
+using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.Weathers
@@ -22,12 +23,12 @@ namespace Pokedex.Models.Weathers
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(Combat context) =>
-			Console.WriteLine("The aurora borealis shines brightly.");
-		public override void OnEnter() =>
-			Console.WriteLine("An aurora borealis has appeared!");
-		public override void OnExit() =>
-			Console.WriteLine("The aurora borealis has disappeared.");
+		public override void OnTurnStart(I_Combat arena)
+			=> Console.WriteLine("The aurora borealis shines brightly.");
+		public override void OnEnter()
+			=> Console.WriteLine("The aurora borealis shines brightly.");
+		public override void OnExit()
+			=> Console.WriteLine("The aurora borealis shines brightly.");
 
 		#endregion
 	}

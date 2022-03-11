@@ -2,7 +2,7 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models
 {
-	public abstract class Weather : I_Weather
+	public abstract class Weather
 	{
 		#region Variables
 		private string _name;
@@ -25,16 +25,16 @@ namespace Pokedex.Models
 
 		#region Methods
 		// Stats
-		public virtual double OnDamageGive(double damage, PokeType type) =>
-			this._typePower.GetValueOrDefault(type, 1) * damage;
+		public virtual double OnDamageGive(double damage, PokeType type)
+			=> this._typePower.GetValueOrDefault(type, 1) * damage;
 
 		// Weather Enter/Exit
 		public virtual void OnEnter() { }
 		public virtual void OnExit() { }
 
 		// Turn Start/End
-		public virtual void OnTurnStart(Combat context) { }
-		public virtual void OnTurnEnd(Combat context) { }
+		public virtual void OnTurnStart(I_Combat arena) { }
+		public virtual void OnTurnEnd(I_Combat arena) { }
 		#endregion
 	}
 }

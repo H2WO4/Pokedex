@@ -14,13 +14,13 @@ namespace Pokedex.Models.PokemonMoves
 		)
 		{ }
 
-		public override void DoAction(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
+		protected override void DoAction(Pokemon target)
 		{
-			int damage = caster.CurrHP;
+			int damage = this.Caster.CurrHP;
 
-			target.ReceivePureDamage(damage, owner, caster, this, this._type, context);
+			target.ReceivePureDamage(damage, this.Caster, this, this._type);
 
-			caster.DoKO(origin, context);
+			this.Caster.DoKO();
 		}
 	}
 }

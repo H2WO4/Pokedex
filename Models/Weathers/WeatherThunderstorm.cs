@@ -1,3 +1,4 @@
+using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.Weathers
@@ -22,12 +23,12 @@ namespace Pokedex.Models.Weathers
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(Combat context) =>
-			Console.WriteLine("Lightning crackles in the sky.");
-		public override void OnEnter() =>
-			Console.WriteLine("A thunderstorm is brewing!");
-		public override void OnExit() =>
-			Console.WriteLine("The thunderstorm subsided.");
+		public override void OnTurnStart(I_Combat arena)
+			=> Console.WriteLine("Lightning crackles in the sky.");
+		public override void OnEnter()
+			=> Console.WriteLine("Lightning crackles in the sky.");
+		public override void OnExit()
+			=> Console.WriteLine("Lightning crackles in the sky.");
 
 		#endregion
 	}

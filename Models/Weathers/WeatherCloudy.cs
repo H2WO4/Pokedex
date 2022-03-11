@@ -1,3 +1,4 @@
+using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.Weathers
@@ -20,16 +21,16 @@ namespace Pokedex.Models.Weathers
 		#endregion
 
 		#region Methods
-		public override double OnDamageGive(double damage, PokeType type) =>
-			this._typePower.GetValueOrDefault(type, 0.75f) * damage;
+		public override double OnDamageGive(double damage, PokeType type)
+			=> this._typePower.GetValueOrDefault(type, 0.75f) * damage;
 
 		// Flavor Text
-		public override void OnTurnStart(Combat context) =>
-			Console.WriteLine("The sky is cloudy.");
-		public override void OnEnter() =>
-			Console.WriteLine("The sky filled with clouds!");
-		public override void OnExit() =>
-			Console.WriteLine("The clouds disappeared.");
+		public override void OnTurnStart(I_Combat arena)
+			=> Console.WriteLine("The sky is cloudy.");
+		public override void OnEnter()
+			=> Console.WriteLine("The sky filled with clouds!");
+		public override void OnExit()
+			=> Console.WriteLine("The clouds disappeared.");
 
 		#endregion
 	}

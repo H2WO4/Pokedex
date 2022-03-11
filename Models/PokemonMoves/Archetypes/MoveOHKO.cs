@@ -14,7 +14,7 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 			PokeType type
 		) : base(name, class_, null, accuracy, maxPp, priority, type) { }
 
-		public override void DoAction(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
-			=> target.DoKO(owner, context);
+		protected override void DoAction(Pokemon target)
+			=> target.DoKO();
 	}
 }

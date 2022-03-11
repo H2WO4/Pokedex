@@ -1,3 +1,4 @@
+using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.Weathers
@@ -22,12 +23,12 @@ namespace Pokedex.Models.Weathers
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(Combat context) =>
-			Console.WriteLine("The rainbow shines.");
-		public override void OnEnter() =>
-			Console.WriteLine("A rainbow appeared!");
-		public override void OnExit() =>
-			Console.WriteLine("The rainbow disappeared.");
+		public override void OnTurnStart(I_Combat arena)
+			=> Console.WriteLine("The rainbow shines.");
+		public override void OnEnter()
+			=> Console.WriteLine("The rainbow shines.");
+		public override void OnExit()
+			=> Console.WriteLine("The rainbow shines.");
 
 		#endregion
 	}

@@ -15,18 +15,18 @@ namespace Pokedex.Models.PokemonMoves
 		)
 		{ }
 
-		public override void OnUse(Pokemon caster, Trainer origin, Combat context)
+		public override void OnUse()
 		{
-			if (caster.CurrHP * 100 / caster.HP() < 50)
+			if (this.Caster.CurrHP * 100 / this.Caster.HP() < 50)
 			{
 				Console.WriteLine("The move failed!");
 				return;
 			}
 
-			base.OnUse(caster, origin, context);
+			base.OnUse();
 		}
 
-		public override void DoAction(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
+		protected override void DoAction(Pokemon target)
 			=> target.ChangeStatBonuses(12, 0, 0, 0, 0);
 	}
 }

@@ -1,3 +1,4 @@
+using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.Weathers
@@ -22,12 +23,12 @@ namespace Pokedex.Models.Weathers
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(Combat context) =>
-			Console.WriteLine("The battlefield is shrouded in silence.");
-		public override void OnEnter() =>
-			Console.WriteLine("Silence has befallen the battlefield!");
-		public override void OnExit() =>
-			Console.WriteLine("The silence has been lifted.");
+		public override void OnTurnStart(I_Combat arena)
+			=> Console.WriteLine("The battlefield is shrouded in silence.");
+		public override void OnEnter()
+			=> Console.WriteLine("The battlefield is shrouded in silence.");
+		public override void OnExit()
+			=> Console.WriteLine("The battlefield is shrouded in silence.");
 
 		#endregion
 	}

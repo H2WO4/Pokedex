@@ -1,3 +1,4 @@
+using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.Weathers
@@ -22,12 +23,12 @@ namespace Pokedex.Models.Weathers
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(Combat context) =>
-			Console.WriteLine("Rain continues to fall.");
-		public override void OnEnter() =>
-			Console.WriteLine("It started to rain!");
-		public override void OnExit() =>
-			Console.WriteLine("The rain stopped.");
+		public override void OnTurnStart(I_Combat arena)
+			=> Console.WriteLine("Rain continues to fall.");
+		public override void OnEnter()
+			=> Console.WriteLine("Rain continues to fall.");
+		public override void OnExit()
+			=> Console.WriteLine("Rain continues to fall.");
 
 		#endregion
 	}

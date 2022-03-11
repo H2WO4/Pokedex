@@ -1,3 +1,4 @@
+using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.Weathers
@@ -22,12 +23,12 @@ namespace Pokedex.Models.Weathers
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(Combat context) =>
-			Console.WriteLine("Magnetic waves pulsate through the air.");
-		public override void OnEnter() =>
-			Console.WriteLine("The magnetic current has been disrupted!");
-		public override void OnExit() =>
-			Console.WriteLine("The magnetic current went back to normal.");
+		public override void OnTurnStart(I_Combat arena)
+			=> Console.WriteLine("Magnetic waves pulsate through the air.");
+		public override void OnEnter()
+			=> Console.WriteLine("Magnetic waves pulsate through the air.");
+		public override void OnExit()
+			=> Console.WriteLine("Magnetic waves pulsate through the air.");
 
 		#endregion
 	}

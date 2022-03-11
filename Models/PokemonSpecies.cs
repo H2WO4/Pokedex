@@ -3,7 +3,7 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models
 {
-	public abstract class PokemonSpecies : I_PokemonSpecies
+	public abstract class PokemonSpecies
 	{
 		#region Class Variables
 		// Important infos

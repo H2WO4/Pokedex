@@ -1,3 +1,4 @@
+using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.Weathers
@@ -24,32 +25,22 @@ namespace Pokedex.Models.Weathers
 		#endregion
 
 		#region Methods
-		public override void OnTurnEnd(Combat context)
+		public override void OnTurnEnd(I_Combat arena)
 		{
-			if (context.PlayerA.Active.Types
-					.Intersect(this._typeSelector)
-					.Count() == 0)
-			{
-				Console.WriteLine($"{context.PlayerA.Active.Name} is buffeted by the locust swarm!");
-				// Damage logic
-			}
-
-			if (context.PlayerB.Active.Types
-					.Intersect(this._typeSelector)
-					.Count() == 0)
-			{
-				Console.WriteLine($"{context.PlayerB.Active.Name} is buffeted by the locust swarm!");
-				// Damage logic
-			}
+			arena.Players
+				.Select(player => player.Active)
+				.Where(poke => poke.Types.Intersect(this._typeSelector).Count() > 0)
+				.ToList()
+				.ForEach(poke => Console.WriteLine($"{poke.Name} is buffeted by the sandstorm!"));
 		}
 
 		// Flavor Text
-		public override void OnTurnStart(Combat context) =>
-			Console.WriteLine("The sandstorm rages.");
-		public override void OnEnter() =>
-			Console.WriteLine("A sandstorm kicked up!");
-		public override void OnExit() =>
-			Console.WriteLine("The sandstorm subsided.");
+		public override void OnTurnStart(I_Combat arena)
+			=> Console.WriteLine("The sandstorm rages.");
+		public override void OnEnter()
+			=> Console.WriteLine("The sandstorm rages.");
+		public override void OnExit()
+			=> Console.WriteLine("The sandstorm rages.");
 
 		#endregion
 	}

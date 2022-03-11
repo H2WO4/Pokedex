@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
 using System.Text;
 using Pokedex.Enums;
 using Pokedex.Interfaces;
@@ -359,8 +358,8 @@ namespace Pokedex.Models
 			};
 		}
 
-		public double GetAffinity(PokeType attacker) =>
-			attacker.CalculateAffinity(this._species.Types);
+		public double GetAffinity(PokeType attacker)
+			=> attacker.CalculateAffinity(this._species.Types);
 
 		private string GetHPBar()
 		{
@@ -420,8 +419,8 @@ namespace Pokedex.Models
 			return hpBar.ToString();
 		}
 
-		private char[] GetNatureChars() =>
-			this._nMarks = new char[]
+		private char[] GetNatureChars()
+			=> this._nMarks = new char[]
 			{
 				// Atk
 				this._nature.HasFlag(Nature.PlusAtk) && this.Nature.HasFlag(Nature.MinusAtk)
@@ -469,7 +468,7 @@ namespace Pokedex.Models
 						: ' ',
 			};
 
-		public bool ReceiveDamage(Trainer owner, Pokemon caster, PokemonMove move, PokeType type, Combat context)
+		public bool ReceiveDamage(Pokemon caster, PokemonMove move, PokeType type)
 		{
 			// If this pokemon fainted, do nothing
 			if (this.CurrHP == 0)
@@ -489,7 +488,7 @@ namespace Pokedex.Models
 			damage = damage / 50 + 2;
 
 			// Apply weather
-			damage = context.Weather.OnDamageGive(damage, type);
+			damage = this.Arena.Weather.OnDamageGive(damage, type);
 
 			// Apply type weaknesses
 			damage *= this.GetAffinity(type);
@@ -529,7 +528,7 @@ namespace Pokedex.Models
 			if (this.CurrHP == 0)
 			{
 				// Handles the KO
-				this.DoKO(owner, context);
+				this.DoKO();
 				return true;
 			}
 
@@ -537,7 +536,7 @@ namespace Pokedex.Models
 			return true;
 		}
 
-		public bool ReceivePureDamage(int damage, Trainer owner, Pokemon caster, PokemonMove move, PokeType type, Combat context)
+		public bool ReceivePureDamage(int damage, Pokemon caster, PokemonMove move, PokeType type)
 		{
 			// If this pokemon fainted, do nothing
 			if (this.CurrHP == 0)
@@ -565,7 +564,7 @@ namespace Pokedex.Models
 			if (this.CurrHP == 0)
 			{
 				// Handles the KO
-				this.DoKO(owner, context);
+				this.DoKO();
 				return true;
 			}
 
@@ -583,7 +582,7 @@ namespace Pokedex.Models
 				{ "spd", Math.Clamp(this._statBoosts["spd"] + spd, -6, 6) },
 			};
 
-		public void DoKO(Trainer owner, Combat context)
+		public void DoKO()
 		{
 			// Set HP to 0
 			this.CurrHP = 0;
@@ -594,11 +593,11 @@ namespace Pokedex.Models
 			// ? Implement OnKO abilities
 
 			// If the trainer has some Pokemons left, ask to send another one
-			if (owner.Team.Any(poke => poke.CurrHP > 0))
+			if (this.Owner.Team.Any(poke => poke.CurrHP > 0))
 			{
 				// Append the switch to the event list
-				var ev = new SwitchInputEvent(owner, context);
-				context.AddToBottom(ev);
+				var ev = new SwitchInputEvent(this.Owner, this.Arena);
+				this.Arena.AddToBottom(ev);
 			}
 
 			Console.WriteLine();
@@ -632,8 +631,6 @@ namespace Pokedex.Models
 								: stage == 0 ? ""
 								: "\x1b[38;2;255;0;0m")
 				.ToArray();
-
-			var a = Color.DarkRed;
 
 			// Add the nickname
 			status.Append($"\x1b[4m{this.Name}\x1b[0m");

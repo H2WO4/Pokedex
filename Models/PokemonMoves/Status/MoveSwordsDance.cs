@@ -15,7 +15,7 @@ namespace Pokedex.Models.PokemonMoves
 		)
 		{ }
 
-		public override void DoAction(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
+		protected override void DoAction(Pokemon target)
 			=> target.ChangeStatBonuses(2, 0, 0, 0, 0);
 	}
 }

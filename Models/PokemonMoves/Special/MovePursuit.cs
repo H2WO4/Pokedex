@@ -1,3 +1,4 @@
+using System.Reflection;
 using Pokedex.Enums;
 using Pokedex.Models.Events;
 using Pokedex.Models.PokemonTypes;
@@ -19,27 +20,27 @@ namespace Pokedex.Models.PokemonMoves
 			this.doesPursuit = false;
 		}
 
-		public override void PreAction(MoveEvent event_, Combat context)
+		public override void PreAction(MoveEvent event_)
 		{
-			if (context.EventQueue.Any(ev => ev is SwitchEvent))
+			if (event_.Caster.Arena.EventQueue.Any(ev => ev is SwitchEvent))
 			{
 				this.doesPursuit = true;
 				event_.Priority = 8;
 			}
 		}
 
-		public override void DoAction(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
+		protected override void DoAction(Pokemon target)
 		{
 			if (this.doesPursuit)
 				this._power *= 2;
 
-			base.DoAction(target, owner, caster, origin, context);
+			base.DoAction(target);
 
 			if (this.doesPursuit)
 				this._power /= 2;
 		}
 
-		public override bool AccuracyCheck(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context)
-			=> this.doesPursuit || base.AccuracyCheck(target, owner, caster, origin, context);
+		protected override bool AccuracyCheck(Pokemon target)
+			=> this.doesPursuit || base.AccuracyCheck(target);
 	}
 }

@@ -1,10 +1,9 @@
 using System.Text;
-using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models
 {
-	public abstract class PokeType : I_PokeType
+	public abstract class PokeType
 	{
 		#region Variables
 		protected string _name = "";
@@ -16,8 +15,10 @@ namespace Pokedex.Models
 		#endregion
 
 		#region Properties
+		/// <summary>
+		/// Name used for display
+		/// </summary>
 		public string Name { get => _name; }
-		public (int, int, int) Color { get => _color; }
 		#endregion
 
 		#region Constructor
@@ -249,29 +250,21 @@ namespace Pokedex.Models
 			});
 		}
 
-		// GetWeakness
-		public static double GetAffinity(PokeType attacker, PokeType defender)
+		private static double GetAffinity(PokeType attacker, PokeType defender)
 			=> __affinities[attacker].GetValueOrDefault(defender, 1);
 
-		// SetWeakness
-		public static void SetAffinity(PokeType attacker, PokeType defender, double value)
+		private static void SetAffinity(PokeType attacker, PokeType defender, double value)
 			=> __affinities[attacker][defender] = value;
 
-		// SetWeaknesses
-		public void SetAffinities(Dictionary<PokeType, double> weaknesses)
+		private void SetAffinities(Dictionary<PokeType, double> weaknesses)
 			=> weaknesses
 				.ToList()
 				.ForEach(pair => PokeType.SetAffinity(this, pair.Key, pair.Value));
 
-		// Static CalculateWeakness
-		public static double CalculateAffinity(PokeType attacker, IEnumerable<PokeType> defenders)
-			=> defenders
-				.Select(defender => GetAffinity(attacker, defender))
-				.Aggregate((a, b) => a * b);
-
-		// Non-Static CalculateWeakness
 		public double CalculateAffinity(IEnumerable<PokeType> defenders)
-			=> PokeType.CalculateAffinity(this, defenders);
+			=> defenders
+				.Select(defender => GetAffinity(this, defender))
+				.Aggregate((a, b) => a * b);
 
 		public static void DisplayAffinityTable()
 		{
@@ -292,8 +285,8 @@ namespace Pokedex.Models
 				));
 			output.AppendLine();
 
-			Array.ForEach(types, attacker =>
-			{
+			Array.ForEach(types, attacker
+			=> {
 				output.Append(attacker.name
 								.PadLeft(maxLen - (maxLen - attacker.name.Length) / 2)
 								.PadRight(maxLen) + ' ');

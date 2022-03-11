@@ -4,26 +4,75 @@ using Pokedex.Models.Events;
 
 namespace Pokedex.Interfaces
 {
+	/// <summary>
+	/// Classes implementing this interface can be used by Pokemons
+	/// </summary>
 	public interface I_PokemonMove
 	{
 		#region Properties
+		/// <summary>
+		/// Name used for display
+		/// </summary>
 		string Name { get; }
+
+		/// <summary>
+		/// The class the move belongs to
+		/// </summary>
 		MoveClass Class { get; }
+
+		/// <summary>
+		/// The damaging power of the move
+		/// </summary>
 		int? Power { get; }
+
+		/// <summary>
+		/// The chance out of 100 that the move has to hit its target
+		/// </summary>
 		int? Accuracy { get; }
-		int MaxPP { get; }
-		int PP { get; }
-		int Priority { get; }
+
+		/// <summary>
+		/// The type of the damage inflicted
+		/// </summary>
 		PokeType Type { get; }
+
+		/// <summary>
+		/// How much PP the move can have
+		/// </summary>
+		int MaxPP { get; }
+
+		/// <summary>
+		/// How much PP the move currently has
+		/// </summary>
+		int PP { get; }
+
+		/// <summary>
+		/// How much priority the event of using the move has in the event queue
+		/// </summary>
+		int Priority { get; }
+
+		/// <summary>
+		/// The Pokemon who uses the move
+		/// </summary>
+		Pokemon Caster { get; }
+
+		/// <summary>
+		/// The combat instance the fight is happening in
+		/// </summary>
+		/// <value></value>
+		I_Combat Arena { get; }
 		#endregion
 
 		#region Methods
-		void OnUse(Pokemon caster, Trainer origin, Combat context);
-		bool AccuracyCheck(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context);
-		List<(Trainer player, Pokemon pokemon)> GetTargets(Pokemon caster, Trainer origin, Combat context);
-		void DoAction(Pokemon target, Trainer owner, Pokemon caster, Trainer origin, Combat context);
+		/// <summary>
+		/// Called when the move is used
+		/// </summary>
+		void OnUse();
 
-		void PreAction(MoveEvent event_, Combat context);
+		/// <summary>
+		/// Called before the queue is sorted
+		/// </summary>
+		/// <param name="ev">The event that uses this move</param>
+		void PreAction(MoveEvent ev);
 		#endregion
 	}
 }

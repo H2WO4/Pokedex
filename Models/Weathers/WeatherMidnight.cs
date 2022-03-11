@@ -1,3 +1,4 @@
+using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.Weathers
@@ -22,12 +23,12 @@ namespace Pokedex.Models.Weathers
 
 		#region Methods
 		// Flavor Text
-		public override void OnTurnStart(Combat context) =>
-			Console.WriteLine("Moonlight shines through the night sky.");
-		public override void OnEnter() =>
-			Console.WriteLine("The moon is rising!");
-		public override void OnExit() =>
-			Console.WriteLine("The moon has set.");
+		public override void OnTurnStart(I_Combat arena)
+			=> Console.WriteLine("Moonlight shines through the night sky.");
+		public override void OnEnter()
+			=> Console.WriteLine("Moonlight shines through the night sky.");
+		public override void OnExit()
+			=> Console.WriteLine("Moonlight shines through the night sky.");
 
 		#endregion
 	}
