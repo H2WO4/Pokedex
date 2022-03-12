@@ -3,7 +3,7 @@ using Pokedex.Models.Events;
 
 namespace Pokedex.Models.PokemonMoves.Archetypes
 {
-	public class MoveSwitch : PokemonMove
+	public abstract class MoveSwitch : PokemonMove
 	{
 		public MoveSwitch
 		(
@@ -18,7 +18,11 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 
 		protected override void DoAction(Pokemon target)
 		{
-			bool success = target.ReceiveDamage(this.Caster, this, this._type);
+			DamageClass dmgClass = this._class == MoveClass.Physical
+									? DamageClass.Physical
+									: DamageClass.Special;
+
+			bool success = target.ReceiveDamage(this.Caster, new DamageInfo(dmgClass, this.Power ?? 0, this.Type));
 			if (!success)
 				Console.WriteLine("But it failed");
 			else

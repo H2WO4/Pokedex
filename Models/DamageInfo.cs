@@ -2,6 +2,9 @@ using Pokedex.Enums;
 
 namespace Pokedex.Models
 {
+	/// <summary>
+	/// Represent a amount of damage, as well as its properties
+	/// </summary>
 	public class DamageInfo
 	{
 		#region Variables
@@ -12,8 +15,19 @@ namespace Pokedex.Models
 		#endregion
 
 		#region Properties
+		/// <summary>
+		/// The class of damage this is
+		/// </summary>
 		public DamageClass Class => this._class;
+
+		/// <summary>
+		/// How much damage is being dealt
+		/// </summary>
 		public int Power => this._power;
+
+		/// <summary>
+		/// The type of the damage, if there is one
+		/// </summary>
 		public PokeType? Type => this._type;
 		#endregion
 

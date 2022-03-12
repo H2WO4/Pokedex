@@ -58,7 +58,6 @@ namespace Pokedex.Interfaces
 		/// <summary>
 		/// The combat instance the fight is happening in
 		/// </summary>
-		/// <value></value>
 		I_Combat Arena { get; }
 		#endregion
 

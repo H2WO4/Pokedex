@@ -46,10 +46,14 @@ namespace Pokedex.Models
 		public PokeType Type => this._type;
 
 		/// <inheritdoc/>
-        public Pokemon Caster => this._caster ?? throw new InvalidOperationException();
+        public Pokemon Caster
+		{
+			get => this._caster ?? throw new InvalidOperationException();
+			set => this._caster = value;
+		}
 		
 		/// <inheritdoc/>
-		public I_Combat Arena => this.Arena;
+		public I_Combat Arena => this.Caster.Arena;
 
         #endregion
 
@@ -79,6 +83,7 @@ namespace Pokedex.Models
 		#endregion
 
 		#region Methods
+		/// <inheritdoc/>
 		public virtual void OnUse()
 		{
 			// Select targets
@@ -96,12 +101,21 @@ namespace Pokedex.Models
 			}
 		}
 
+		/// <summary>
+		/// Get the targets of the move
+		/// </summary>
+		/// <returns>All targets to be hit by the move</returns>
 		protected virtual List<Pokemon> GetTargets()
 			=> this.Arena.Players
 				.Where(player => player != this.Caster.Owner)
 				.Select(player => player.Active)
 				.ToList();
 
+		/// <summary>
+		/// Checks whether the move hits a target
+		/// </summary>
+		/// <param name="target">The target to check for</param>
+		/// <returns>If the move hits, true, else false</returns>
 		protected virtual bool AccuracyCheck(Pokemon target)
 		{
 			if (this._accuracy == null)
@@ -110,9 +124,27 @@ namespace Pokedex.Models
 			return (this._accuracy ?? 100) >= Program.rnd.Next(1, 100);
 		}
 
+		/// <summary>
+		/// Execute the action of the move unto the target
+		/// </summary>
+		/// <param name="target">The target to use</param>
 		protected virtual void DoAction(Pokemon target)
 		{
-			bool success = target.ReceiveDamage(this.Caster, this, this._type);
+			DamageClass dmgClass = this._class == MoveClass.Physical
+									? DamageClass.Physical
+									: DamageClass.Special;
+
+			double power = this.Power ?? 0;
+
+			// ? Implement BeforeAttack
+			// Code
+
+			// Apply STAB
+			if (this.Caster.Types.Contains(this.Type))
+				power *= 1.5;
+
+
+			bool success = target.ReceiveDamage(this.Caster, new DamageInfo(dmgClass, this._power ?? 0, this._type));
 			if (!success)
 				Console.WriteLine("But it failed");
 		}

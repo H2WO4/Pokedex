@@ -54,7 +54,7 @@ namespace Pokedex.Models
 		public void AddToTop(I_Event ev)
 			=> this._eventQueue = new Queue<I_Event>(this._eventQueue.Prepend(ev));
 
-		public I_Player DoTurn()
+		public I_Player? DoTurn()
 		{
 			while (Console.In.Peek() != -1)
 			{
@@ -96,10 +96,9 @@ namespace Pokedex.Models
 			}
 
 			// Return the winning player
-			// A won if they have any Pokemon that is still alive
 			return this.Players
 				.Where(player => player.Team.All(poke => poke.CurrHP > 0))
-				.First();
+				.FirstOrDefault();
 		}
 		#endregion
 	}

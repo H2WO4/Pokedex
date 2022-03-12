@@ -18,7 +18,7 @@ namespace Pokedex.Models.PokemonMoves
 		{
 			int damage = this.Caster.CurrHP;
 
-			target.ReceivePureDamage(damage, this.Caster, this, this._type);
+			target.ReceiveDamage(this.Caster, new DamageInfo(DamageClass.Pure, damage, this._type));
 
 			this.Caster.DoKO();
 		}

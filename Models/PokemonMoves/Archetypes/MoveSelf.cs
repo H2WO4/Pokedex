@@ -2,7 +2,7 @@ using Pokedex.Enums;
 
 namespace Pokedex.Models.PokemonMoves.Archetypes
 {
-	public class MoveSelf : PokemonMove
+	public abstract class MoveSelf : PokemonMove
 	{
 		public MoveSelf
 		(

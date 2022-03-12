@@ -6,7 +6,7 @@ using Pokedex.Models.Events;
 
 namespace Pokedex.Models
 {
-	public abstract class Pokemon
+	public abstract class Pokemon : I_Battler
 	{
 		private const int N_SEGMENTS = 25;
 
@@ -53,38 +53,66 @@ namespace Pokedex.Models
 		#endregion
 
 		#region Properties
+		/// <inheritdoc/>
 		public int ID => this._species.ID;
+
+		/// <inheritdoc/>
 		public List<PokeType> Types => this._species.Types;
+
+		/// <inheritdoc/>
 		public PokemonMove?[] Moves => this._moves;
-		public I_Player Owner => this._owner ?? throw new InvalidOperationException("Pokemon does not have an owner");
+
+		/// <inheritdoc/>
+		public I_Player Owner
+		{
+			get => this._owner ?? throw new InvalidOperationException("Pokemon does not have an owner");
+			set => this._owner = value;
+		}
+
+		/// <inheritdoc/>
 		public I_Combat Arena => this.Owner.Arena;
 
-		// Gameplay
+		/// <inheritdoc/>
 		public string Name { get => this._name; set => this._name = value; }
+
+		/// <summary>
+		/// The level the Pokemon is at [1-100]
+		/// </summary>
 		public int Level => this._level;
+
+		/// <summary>
+		/// Random stat bonuses [0-31] determined at birth
+		/// </summary>
 		public Dictionary<string, int> IVs => this._ivs;
+
+		/// <summary>
+		/// User-defined stat bonuses [0-252], totaling 510
+		/// </summary>
 		public Dictionary<string, int> EVs => this._evs;
+
+		/// <summary>
+		/// The nature of the Pokemon
+		/// </summary>
 		public Nature Nature
 		{
 			get => this._nature;
 			set { this._nature = value; this._nMarks = this.GetNatureChars(); }
 		}
 
+		/// <inheritdoc/>
 		public virtual int CurrHP
 		{
 			get => this._currHP;
 			set => this._currHP = Math.Clamp(value, 0, this.HP());
 		}
 
-		// Stats
-		public virtual int BaseHP => this.Species.Stats["hp"];
-		public virtual int BaseAtk => this.Species.Stats["atk"];
-		public virtual int BaseDef => this.Species.Stats["def"];
-		public virtual int BaseSpAtk => this.Species.Stats["spAtk"];
-		public virtual int BaseSpDef => this.Species.Stats["spDef"];
-		public virtual int BaseSpd => this.Species.Stats["spd"];
+		protected virtual int BaseHP => this.Species.Stats["hp"];
+		protected virtual int BaseAtk => this.Species.Stats["atk"];
+		protected virtual int BaseDef => this.Species.Stats["def"];
+		protected virtual int BaseSpAtk => this.Species.Stats["spAtk"];
+		protected virtual int BaseSpDef => this.Species.Stats["spDef"];
+		protected virtual int BaseSpd => this.Species.Stats["spd"];
 
-		// Flavor
 		public PokemonSpecies Species => this._species;
 		public string SpeciesName => this._species.Name;
 		public string Genus => this._species.Genus;
@@ -177,6 +205,7 @@ namespace Pokedex.Models
 		#endregion
 
 		#region Methods
+		/// <inheritdoc/>
 		public int HP()
 		{
 			int result = this.BaseHP * 2; // Base stat
@@ -187,6 +216,7 @@ namespace Pokedex.Models
 
 			return result;
 		}
+		/// <inheritdoc/>
 		public int Atk()
 		{
 			int result = this.BaseAtk * 2; // Base stat
@@ -205,6 +235,7 @@ namespace Pokedex.Models
 
 			return result;
 		}
+		/// <inheritdoc/>
 		public int Def()
 		{
 			int result = this.BaseDef * 2; // Base stat
@@ -223,6 +254,7 @@ namespace Pokedex.Models
 
 			return result;
 		}
+		/// <inheritdoc/>
 		public int SpAtk()
 		{
 			int result = this.BaseSpAtk * 2; // Base stat
@@ -241,6 +273,7 @@ namespace Pokedex.Models
 
 			return result;
 		}
+		/// <inheritdoc/>
 		public int SpDef()
 		{
 			int result = this.BaseSpDef * 2; // Base stat
@@ -259,6 +292,7 @@ namespace Pokedex.Models
 
 			return result;
 		}
+		/// <inheritdoc/>
 		public int Spd()
 		{
 			int result = this.BaseSpd * 2; // Base stat
@@ -280,8 +314,8 @@ namespace Pokedex.Models
 
 		public void SetIV(string stat, int val)
 		{
-			if (val > 31)
-				throw new ArgumentException("IV cannot b");
+			if (val > 31 || val < 0)
+				throw new ArgumentException("Invalid IV value");
 
 			this._ivs[stat] = val;
 		}
@@ -294,6 +328,8 @@ namespace Pokedex.Models
 			this.SetIV("spDef", spDef);
 			this.SetIV("spd", spd);
 
+			// Set the HP to max, in case it was higher
+			/// <see cref="CurrHP">
 			this.CurrHP = this.CurrHP;
 		}
 
@@ -338,6 +374,11 @@ namespace Pokedex.Models
 		[MemberNotNull(nameof(_moves))]
 		public void SetMoves(PokemonMove? move1, PokemonMove? move2, PokemonMove? move3, PokemonMove? move4)
 		{
+			if (move1 != null) move1.Caster = this;
+			if (move2 != null) move2.Caster = this;
+			if (move3 != null) move3.Caster = this;
+			if (move4 != null) move4.Caster = this;
+
 			this._moves = new PokemonMove?[]
 			{
 				move1, move2,
@@ -468,52 +509,63 @@ namespace Pokedex.Models
 						: ' ',
 			};
 
-		public bool ReceiveDamage(Pokemon caster, PokemonMove move, PokeType type)
+		public bool ReceiveDamage(Pokemon caster, DamageInfo damageInfo)
 		{
 			// If this pokemon fainted, do nothing
 			if (this.CurrHP == 0)
 				return false;
 
+			int finalDamage;
+
 			// * Damage Calculation
-			// Initial damage
-			double damage = (0.4 * caster.Level + 2) * (move.Power ?? 0);
+			if (damageInfo.Class == DamageClass.Pure)
+			{
+				finalDamage = damageInfo.Power;
 
-			// Adjust for stats
-			if (move.Class == MoveClass.Physical)
-				damage *= ((double)caster.Atk() / this.Def());
+				// ? Implement abilities OnInflictDamage
+				// Code
+
+				// ? Implement abilities OnReceiveDamage
+				// Code
+			}
 			else
-				damage *= ((double)caster.SpAtk() / this.SpDef());
+			{
+				// Initial damage
+				double damage = (0.4 * caster.Level + 2) * (damageInfo.Power);
 
-			// Continue the calculation
-			damage = damage / 50 + 2;
+				// Adjust for stats
+				if (damageInfo.Class == DamageClass.Physical)
+					damage *= ((double)caster.Atk() / this.Def());
+				else
+					damage *= ((double)caster.SpAtk() / this.SpDef());
 
-			// Apply weather
-			damage = this.Arena.Weather.OnDamageGive(damage, type);
+				// Continue the calculation
+				damage = damage / 50 + 2;
 
-			// Apply type weaknesses
-			damage *= this.GetAffinity(type);
+				// Apply weather
+				damage = this.Arena.Weather.OnDamageGive(damage, damageInfo.Type!);
 
-			// Apply STAB
-			if (caster.Types.Contains(type))
-				damage *= 1.5;
+				// Apply type weaknesses
+				damage *= this.GetAffinity(damageInfo.Type!);
 
-			#region TODO
-			// ? Implement Burn
-			// if (burn_cond && move.Class == MoveClass.Physical)
-			//	damage *= 0.5;
+				#region TODO
+				// ? Implement Burn
+				// if (burn_cond && move.Class == MoveClass.Physical)
+				//	damage *= 0.5;
 
-			// ? Implement Critical Hits
-			// Code
+				// ? Implement Critical Hits
+				// Code
 
-			// ? Implement abilities OnInflictDamage
-			// Code
+				// ? Implement abilities OnInflictDamage
+				// Code
 
-			// ? Implement abilities OnReceiveDamage
-			// Code
-			#endregion
+				// ? Implement abilities OnReceiveDamage
+				// Code
+				#endregion
 
-			// Floor the result
-			int finalDamage = (int)(damage);
+				// Floor the result
+				finalDamage = (int)(damage);
+			}
 
 
 			// * Output
@@ -535,43 +587,6 @@ namespace Pokedex.Models
 			Console.WriteLine();
 			return true;
 		}
-
-		public bool ReceivePureDamage(int damage, Pokemon caster, PokemonMove move, PokeType type)
-		{
-			// If this pokemon fainted, do nothing
-			if (this.CurrHP == 0)
-				return false;
-
-			// * Damage Calculation
-
-			#region TODO
-			// ? Implement abilities OnInflictDamage
-			// Code
-
-			// ? Implement abilities OnReceiveDamage
-			// Code
-			#endregion
-
-			// * Output
-			// Do damage and display
-			this.CurrHP -= damage;
-			int percentage = Math.Clamp(damage * 100 / this.HP(), 0, 100);
-			Console.WriteLine($"{this.Name} lost {percentage}% HP");
-
-
-			// * Fainted
-			// If this pokemon fainted
-			if (this.CurrHP == 0)
-			{
-				// Handles the KO
-				this.DoKO();
-				return true;
-			}
-
-			Console.WriteLine();
-			return true;
-		}
-
 		public void ChangeStatBonuses(int atk, int def, int spAtk, int spDef, int spd)
 			=> this._statBoosts = new Dictionary<string, int>
 			{

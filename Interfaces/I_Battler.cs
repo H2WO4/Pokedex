@@ -33,6 +33,11 @@ namespace Pokedex.Interfaces
 		/// The combat instance the fight is happening in
 		/// </summary>
 		I_Combat? Arena { get; }
+
+		/// <summary>
+		/// How much health the Pokemon has
+		/// </summary>
+		int CurrHP { get; set; }
 		#endregion
 
 		#region Methods

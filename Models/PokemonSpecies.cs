@@ -1,18 +1,15 @@
 using Pokedex.Enums;
-using Pokedex.Interfaces;
 
 namespace Pokedex.Models
 {
 	public abstract class PokemonSpecies
 	{
 		#region Class Variables
-		// Important infos
 		protected int _id;
 		protected string _name;
 		protected List<PokeType> _types = new List<PokeType>();
 		protected Dictionary<string, int> _baseStats = new Dictionary<string, int>();
 
-		// Flavor
 		protected int _generation;
 		protected PokeClass _class;
 		protected int _height;
@@ -21,17 +18,49 @@ namespace Pokedex.Models
 		#endregion
 
 		#region Properties
-		// Important Infos
+		/// <summary>
+		/// ID of the Pokemon in the Pokedex
+		/// </summary>
 		public int ID => this._id;
+
+		/// <summary>
+		/// Name of the species the Pokemon belongs to
+		/// </summary>
 		public string Name => this._name;
+
+		/// <summary>
+		/// Types the Pokemon posseses
+		/// </summary>
 		public List<PokeType> Types => this._types;
+
+		/// <summary>
+		/// Stats at level 50
+		/// </summary>
 		public Dictionary<string, int> Stats => this._baseStats;
 
-		// Flavor
+		/// <summary>
+		/// Which generation was the Pokemon introduced in
+		/// </summary>
 		public int Generation => this._generation;
+
+		/// <summary>
+		/// What type the species is
+		/// </summary>
 		public string Genus => this._genus;
+
+		/// <summary>
+		/// What class the Pokemon is
+		/// </summary>
 		public PokeClass Class => this._class;
+
+		/// <summary>
+		/// How tall is the Pokemon
+		/// </summary>
 		public int Height => this._height;
+
+		/// <summary>
+		/// How much the Pokemon weights
+		/// </summary>
 		public int Weight => this._weight;
 		#endregion
 
@@ -57,9 +86,6 @@ namespace Pokedex.Models
 			this._weight = weight;
 		}
 
-		#endregion
-
-		#region Methods
 		#endregion
 	}
 }

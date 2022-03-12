@@ -27,6 +27,7 @@ namespace Pokedex.Models
 		/// <inheritdoc/>
 		public Pokemon[] Team => this._team;
 
+		/// <inheritdoc/>
 		public I_Combat Arena => this._arena;
 		#endregion
 
@@ -34,7 +35,7 @@ namespace Pokedex.Models
 		public Trainer(
 			string name,
 			Pokemon[] team,
-			Combat context
+			Combat arena
 		)
 		{
 			this._name = name;
@@ -45,7 +46,11 @@ namespace Pokedex.Models
 				this._team = team;
 			else throw new ArgumentException("Team must have between 1 and 6 Pokemon.");
 
-			this._arena = context;
+			this.Team
+				.ToList()
+				.ForEach(poke => poke.Owner = this);
+
+			this._arena = arena;
 		}
 		#endregion
 

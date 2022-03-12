@@ -41,7 +41,7 @@ namespace Pokedex.Interfaces
 		/// Called during a full game turn
 		/// </summary>
 		/// <returns>The player that won the fight</returns>
-		I_Player DoTurn();
+		I_Player? DoTurn();
 		#endregion
 	}
 }
