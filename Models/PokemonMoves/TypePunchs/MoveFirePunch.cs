@@ -3,7 +3,7 @@ using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.PokemonMoves
 {
-	public class MoveFirePunch : PokemonMove
+	public class MoveFirePunch : PokeMove
 	{
 		public MoveFirePunch() : base(
 			"Fire-Punch",

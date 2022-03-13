@@ -54,7 +54,7 @@ using Pokedex.Enums;
 
 namespace Pokedex.Models.Pokemons
 {{
-	public class {className}Species : PokemonSpecies
+	public class {className}Species : PokeSpecies
 	{{
 		#region Class Variables
 		private static {className}Species? _singleton;

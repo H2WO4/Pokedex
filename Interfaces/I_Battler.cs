@@ -21,7 +21,7 @@ namespace Pokedex.Interfaces
 		/// <summary>
 		/// Moves that the Pokemon can use
 		/// </summary>
-		PokemonMove?[] Moves { get; }
+		PokeMove?[] Moves { get; }
 
 		/// <summary>
 		/// The player whose Team contains this

@@ -3,7 +3,7 @@ using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.PokemonMoves
 {
-	public class MoveFinalGambit : PokemonMove
+	public class MoveFinalGambit : PokeMove
 	{
 		public MoveFinalGambit() : base(
 			"Final Gambit",

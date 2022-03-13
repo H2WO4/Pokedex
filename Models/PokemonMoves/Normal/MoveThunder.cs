@@ -4,7 +4,7 @@ using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models.PokemonMoves
 {
-	public class MoveThunder : PokemonMove
+	public class MoveThunder : PokeMove
 	{
 		public MoveThunder() : base(
 			"Thunder",

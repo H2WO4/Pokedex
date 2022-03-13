@@ -3,7 +3,7 @@ using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.PokemonMoves
 {
-	public class MovePound : PokemonMove
+	public class MovePound : PokeMove
 	{
 		public MovePound() : base(
 			"Pound",

@@ -25,7 +25,7 @@ using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.PokemonMoves
 {{
-	public class Move{moveNameNoSpace} : PokemonMove
+	public class Move{moveNameNoSpace} : PokeMove
 	{{
 		public Move{moveNameNoSpace}() : base(
 			"{moveName}",

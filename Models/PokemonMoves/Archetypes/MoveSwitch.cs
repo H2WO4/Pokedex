@@ -3,7 +3,7 @@ using Pokedex.Models.Events;
 
 namespace Pokedex.Models.PokemonMoves.Archetypes
 {
-	public abstract class MoveSwitch : PokemonMove
+	public abstract class MoveSwitch : PokeMove
 	{
 		public MoveSwitch
 		(

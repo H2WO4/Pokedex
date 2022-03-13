@@ -5,7 +5,7 @@ using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.PokemonMoves
 {
-	public class MovePursuit : PokemonMove
+	public class MovePursuit : PokeMove
 	{
 		private bool doesPursuit;
 

@@ -3,7 +3,7 @@ using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.PokemonMoves
 {
-	public class MoveQuickAttack : PokemonMove
+	public class MoveQuickAttack : PokeMove
 	{
 		public MoveQuickAttack() : base(
 			"Quick Attack",

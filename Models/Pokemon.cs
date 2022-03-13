@@ -11,9 +11,9 @@ namespace Pokedex.Models
 		private const int N_SEGMENTS = 25;
 
 		#region Variables
-		private PokemonSpecies _species;
+		private PokeSpecies _species;
 		private string _name;
-		private PokemonMove?[] _moves;
+		private PokeMove?[] _moves;
 		private I_Player? _owner;
 
 		private int _level;
@@ -60,7 +60,7 @@ namespace Pokedex.Models
 		public List<PokeType> Types => this._species.Types;
 
 		/// <inheritdoc/>
-		public PokemonMove?[] Moves => this._moves;
+		public PokeMove?[] Moves => this._moves;
 
 		/// <inheritdoc/>
 		public I_Player Owner
@@ -113,7 +113,7 @@ namespace Pokedex.Models
 		protected virtual int BaseSpDef => this.Species.Stats["spDef"];
 		protected virtual int BaseSpd => this.Species.Stats["spd"];
 
-		public PokemonSpecies Species => this._species;
+		public PokeSpecies Species => this._species;
 		public string SpeciesName => this._species.Name;
 		public string Genus => this._species.Genus;
 		public PokeClass Class => this._species.Class;
@@ -124,7 +124,7 @@ namespace Pokedex.Models
 		#region Constructors
 		public Pokemon
 		(
-			PokemonSpecies species,
+			PokeSpecies species,
 			int level
 		)
 		{
@@ -165,7 +165,7 @@ namespace Pokedex.Models
 		}
 		public Pokemon
 		(
-			PokemonSpecies species,
+			PokeSpecies species,
 			int level,
 			string nickname
 		) : this(species, level)
@@ -176,7 +176,7 @@ namespace Pokedex.Models
 		}
 		public Pokemon
 		(
-			PokemonSpecies species,
+			PokeSpecies species,
 			int level,
 			string nickname,
 			Nature nature
@@ -189,7 +189,7 @@ namespace Pokedex.Models
 		}
 		public Pokemon
 		(
-			PokemonSpecies species,
+			PokeSpecies species,
 			int level,
 			string nickname,
 			Nature nature,
@@ -371,21 +371,27 @@ namespace Pokedex.Models
 			this.SetEVUnsafe("spd", spd);
 		}
 
+		/// <summary>
+		/// Change the current moveset to the inputs
+		/// </summary>
 		[MemberNotNull(nameof(_moves))]
-		public void SetMoves(PokemonMove? move1, PokemonMove? move2, PokemonMove? move3, PokemonMove? move4)
+		public void SetMoves(PokeMove? move1, PokeMove? move2, PokeMove? move3, PokeMove? move4)
 		{
 			if (move1 != null) move1.Caster = this;
 			if (move2 != null) move2.Caster = this;
 			if (move3 != null) move3.Caster = this;
 			if (move4 != null) move4.Caster = this;
 
-			this._moves = new PokemonMove?[]
+			this._moves = new PokeMove?[]
 			{
 				move1, move2,
 				move3, move4
 			};
 		}
 
+		/// <summary>
+		/// Change the stat boost values to the inputs
+		/// </summary>
 		[MemberNotNull(nameof(_statBoosts))]
 		public void SetBoosts(int atk, int def, int spAtk, int spDef, int spd)
 		{
@@ -399,9 +405,18 @@ namespace Pokedex.Models
 			};
 		}
 
+		/// <summary>
+		/// Calculate the damage mutliplier between an attacking type and this Pokemon's types
+		/// </summary>
+		/// <param name="attacker">The attacking type</param>
+		/// <returns>A multipler, as a double</returns>
 		public double GetAffinity(PokeType attacker)
 			=> attacker.CalculateAffinity(this._species.Types);
 
+		/// <summary>
+		/// Handles the drawing of the HP bar
+		/// </summary>
+		/// <returns>String representation of the HP bar</returns>
 		private string GetHPBar()
 		{
 			// Get the HP percentage
@@ -509,6 +524,12 @@ namespace Pokedex.Models
 						: ' ',
 			};
 
+		/// <summary>
+		/// Handle the damage receiving part
+		/// </summary>
+		/// <param name="caster">The Pokemon who casted the move</param>
+		/// <param name="damageInfo">Describes what kind of damage is being dealt</param>
+		/// <returns></returns>
 		public bool ReceiveDamage(Pokemon caster, DamageInfo damageInfo)
 		{
 			// If this pokemon fainted, do nothing
@@ -587,6 +608,10 @@ namespace Pokedex.Models
 			Console.WriteLine();
 			return true;
 		}
+		
+		/// <summary>
+		/// Add the input value to the already existing stat boosts
+		/// </summary>
 		public void ChangeStatBonuses(int atk, int def, int spAtk, int spDef, int spd)
 			=> this._statBoosts = new Dictionary<string, int>
 			{
@@ -597,6 +622,9 @@ namespace Pokedex.Models
 				{ "spd", Math.Clamp(this._statBoosts["spd"] + spd, -6, 6) },
 			};
 
+		/// <summary>
+		/// Handles a Pokemon being K.O.
+		/// </summary>
 		public void DoKO()
 		{
 			// Set HP to 0
@@ -618,6 +646,7 @@ namespace Pokedex.Models
 			Console.WriteLine();
 		}
 
+		/// <inheritdoc/>
 		public string GetQuickStatus()
 		{
 			var status = new StringBuilder();
@@ -636,6 +665,7 @@ namespace Pokedex.Models
 			return status.ToString();
 		}
 
+		/// <inheritdoc/>
 		public string GetFullStatus()
 		{
 			var status = new StringBuilder();

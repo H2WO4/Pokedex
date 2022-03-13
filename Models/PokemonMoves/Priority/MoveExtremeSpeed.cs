@@ -3,7 +3,7 @@ using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.PokemonMoves
 {
-	public class MoveExtremeSpeed : PokemonMove
+	public class MoveExtremeSpeed : PokeMove
 	{
 		public MoveExtremeSpeed() : base(
 			"Extreme Speed",

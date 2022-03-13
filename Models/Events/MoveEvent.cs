@@ -6,7 +6,7 @@ namespace Pokedex.Models.Events
 	{
 		#region Variables
 		private Pokemon _caster;
-		private PokemonMove _move;
+		private PokeMove _move;
 		private Combat _context;
 
 		private int _priority;
@@ -15,7 +15,7 @@ namespace Pokedex.Models.Events
 
 		#region Properties
 		public Pokemon Caster { get => this._caster; }
-		public PokemonMove Move { get => this._move; }
+		public PokeMove Move { get => this._move; }
 
 		public int Priority { get => this._priority; set => this._priority = value; }
 		public int Speed { get => this._speed; set => this._speed = value; }
@@ -26,7 +26,7 @@ namespace Pokedex.Models.Events
 		(
 			Pokemon caster,
 			Trainer origin,
-			PokemonMove move,
+			PokeMove move,
 			Combat context
 		)
 		{

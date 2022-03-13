@@ -3,7 +3,7 @@ using Pokedex.Enums;
 
 namespace Pokedex.Models.Pokemons
 {
-	public class ArceusSpecies : PokemonSpecies
+	public class ArceusSpecies : PokeSpecies
 	{
 		#region Class Variables
 		private static ArceusSpecies? _singleton;

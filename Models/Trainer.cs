@@ -249,7 +249,7 @@ namespace Pokedex.Models
 			}
 
 			// Fetch the move
-			PokemonMove? move = this.Active.Moves[moveNum - 1];
+			PokeMove? move = this.Active.Moves[moveNum - 1];
 			// Check if a move is in that slot
 			if (move == null)
 			{
