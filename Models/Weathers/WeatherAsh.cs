@@ -6,11 +6,11 @@ namespace Pokedex.Models.Weathers
 	public class WeatherAsh : Weather
 	{
 		#region Class Variables
-		private static WeatherAsh? _singleton;
+		private static WeatherAsh? __singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherAsh Singleton { get => _singleton ?? (_singleton = new WeatherAsh()); }
+		public static WeatherAsh Singleton { get => __singleton ?? (__singleton = new WeatherAsh()); }
 		#endregion
 
 		#region Constructors
@@ -26,9 +26,9 @@ namespace Pokedex.Models.Weathers
 		public override void OnTurnStart(I_Combat arena)
 			=> Console.WriteLine("The sky is still shrouded in ash.");
 		public override void OnEnter()
-			=> Console.WriteLine("The sky is still shrouded in ash.");
+			=> Console.WriteLine("The sky is thick with ash!");
 		public override void OnExit()
-			=> Console.WriteLine("The sky is still shrouded in ash.");
+			=> Console.WriteLine("The thick ash veil lifts.");
 
 		#endregion
 	}

@@ -2,66 +2,56 @@ using Pokedex.Enums;
 
 namespace Pokedex.Models
 {
+	/// <summary>
+	/// Contains the immutable informations of a Pokemon
+	/// </summary>
 	public abstract class PokeSpecies
 	{
-		#region Variables
-		private int _id;
-		private string _name;
-		private List<PokeType> _types = new List<PokeType>();
-		private Dictionary<string, int> _baseStats = new Dictionary<string, int>();
-
-		private int _generation;
-		private PokeClass _class;
-		private int _height;
-		private int _weight;
-		private string _genus;
-		#endregion
-
 		#region Properties
 		/// <summary>
 		/// ID of the Pokemon in the Pokedex
 		/// </summary>
-		public int ID => this._id;
+		public int ID { get; }
 
 		/// <summary>
 		/// Name of the species the Pokemon belongs to
 		/// </summary>
-		public string Name => this._name;
+		public string Name { get; }
 
 		/// <summary>
 		/// Types the Pokemon posseses
 		/// </summary>
-		public List<PokeType> Types => this._types;
+		public List<PokeType> Types { get; }
 
 		/// <summary>
 		/// Stats at level 50
 		/// </summary>
-		public Dictionary<string, int> Stats => this._baseStats;
+		public Dictionary<string, int> Stats { get; }
 
 		/// <summary>
 		/// Which generation was the Pokemon introduced in
 		/// </summary>
-		public int Generation => this._generation;
+		public int Generation { get; }
 
 		/// <summary>
 		/// What type the species is
 		/// </summary>
-		public string Genus => this._genus;
+		public string Genus { get; }
 
 		/// <summary>
 		/// What class the Pokemon is
 		/// </summary>
-		public PokeClass Class => this._class;
+		public PokeClass Class { get; }
 
 		/// <summary>
 		/// How tall is the Pokemon
 		/// </summary>
-		public int Height => this._height;
+		public int Height { get; }
 
 		/// <summary>
 		/// How much the Pokemon weights
 		/// </summary>
-		public int Weight => this._weight;
+		public int Weight { get; }
 		#endregion
 
 		#region Constructors
@@ -74,16 +64,15 @@ namespace Pokedex.Models
 			int height, int weight
 		)
 		{
-			this._id = id;
-			this._name = name;
-			this._types = types;
-			this._baseStats = stats;
-
-			this._generation = generation;
-			this._genus = genus;
-			this._class = class_;
-			this._height = height;
-			this._weight = weight;
+			this.ID = id;
+			this.Name = name;
+			this.Types = types;
+			this.Stats = stats;
+			this.Generation = generation;
+			this.Genus = genus;
+			this.Class = class_;
+			this.Height = height;
+			this.Weight = weight;
 		}
 		#endregion
 	}

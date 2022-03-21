@@ -16,12 +16,12 @@ namespace Pokedex.Interfaces
 		/// <summary>
 		/// Pokemon that will execute the orders
 		/// </summary>
-		Pokemon Active { get; }
+		I_Battler Active { get; }
 
 		/// <summary>
 		/// Pokemons held by the player, including their active one
 		/// </summary>
-		Pokemon[] Team { get; }
+		I_Battler[] Team { get; }
 
 		/// <summary>
 		/// The combat instance the fight is happening in

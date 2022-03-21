@@ -3,11 +3,11 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeFlying : PokeType
 	{
 		#region Class Variables
-		protected static TypeFlying? _singleton;
+		protected static TypeFlying? __singleton;
 		#endregion
 
 		#region Properties
-		public static TypeFlying Singleton { get => _singleton ?? (_singleton = new TypeFlying()); }
+		public static TypeFlying Singleton { get => __singleton ?? (__singleton = new TypeFlying()); }
 		#endregion
 
 		#region Constructor

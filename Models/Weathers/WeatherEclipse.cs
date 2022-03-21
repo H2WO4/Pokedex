@@ -6,11 +6,11 @@ namespace Pokedex.Models.Weathers
 	public class WeatherEclipse : Weather
 	{
 		#region Class Variables
-		private static WeatherEclipse? _singleton;
+		private static WeatherEclipse? __singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherEclipse Singleton { get => _singleton ?? (_singleton = new WeatherEclipse()); }
+		public static WeatherEclipse Singleton { get => __singleton ?? (__singleton = new WeatherEclipse()); }
 		#endregion
 
 		#region Constructors
@@ -26,9 +26,10 @@ namespace Pokedex.Models.Weathers
 		public override void OnTurnStart(I_Combat arena)
 			=> Console.WriteLine("The sun is still eclipsed.");
 		public override void OnEnter()
-			=> Console.WriteLine("The sun is still eclipsed.");
+			=> Console.WriteLine("The moon now eclipses the sun!");
 		public override void OnExit()
-			=> Console.WriteLine("The sun is still eclipsed.");
+			=> Console.WriteLine("The light of the sun has returned.");
+
 
 		#endregion
 	}

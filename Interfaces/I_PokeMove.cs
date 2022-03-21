@@ -53,7 +53,7 @@ namespace Pokedex.Interfaces
 		/// <summary>
 		/// The Pokemon who uses the move
 		/// </summary>
-		Pokemon Caster { get; }
+		I_Battler Caster { get; }
 
 		/// <summary>
 		/// The combat instance the fight is happening in

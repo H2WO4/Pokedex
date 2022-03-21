@@ -15,22 +15,22 @@ namespace Tests
 			Console.ForegroundColor = ConsoleColor.Red;
 			PokeType.InitializeTypes();
 
-			var raichu = new Raichu(100, "Pikachu");
+			var raichu = new Pokemon(Raichu.Singleton, 100, "Pikachu");
 			raichu.SetMoves(new MoveThunder(), null, null, null);
 			raichu.SetIVs(31, 31, 31, 31, 31, 31);
 			raichu.CurrHP = 999;
 
-			var blastoise = new Blastoise(100, "Squid Game");
+			var blastoise = new Pokemon(Blastoise.Singleton, 100, "Squid Game");
 			blastoise.SetMoves(new MoveExtremeSpeed(), new MoveUTurn(), null, null);
 			blastoise.SetIVs(31, 31, 31, 31, 31, 31);
 			blastoise.CurrHP = 999;
 
-			var charizard = new Charizard(100, "Overhyped");
+			var charizard = new Pokemon(Charizard.Singleton, 100, "Overhyped");
 			charizard.SetMoves(new MoveExtremeSpeed(), null, null, null);
 			charizard.SetIVs(31, 31, 31, 31, 31, 31);
 			charizard.CurrHP = 999;
 
-			var arceus = new Arceus(100, "Mother Fucking God");
+			var arceus = new Pokemon(Arceus.Singleton, 100, "Mother Fucking God");
 			arceus.SetMoves(new MoveGuillotine(), null, null, null);
 			arceus.SetIVs(31, 31, 31, 31, 31, 31);
 			arceus.CurrHP = 999;

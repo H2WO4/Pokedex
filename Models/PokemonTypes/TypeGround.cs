@@ -3,11 +3,11 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeGround : PokeType
 	{
 		#region Class Variables
-		protected static TypeGround? _singleton;
+		protected static TypeGround? __singleton;
 		#endregion
 
 		#region Properties
-		public static TypeGround Singleton { get => _singleton ?? (_singleton = new TypeGround()); }
+		public static TypeGround Singleton { get => __singleton ?? (__singleton = new TypeGround()); }
 		#endregion
 
 		#region Constructor

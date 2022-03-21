@@ -6,11 +6,11 @@ namespace Pokedex.Models.Weathers
 	public class WeatherSandstorm : Weather
 	{
 		#region Class Variables
-		private static WeatherSandstorm? _singleton;
+		private static WeatherSandstorm? __singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherSandstorm Singleton { get => _singleton ?? (_singleton = new WeatherSandstorm()); }
+		public static WeatherSandstorm Singleton { get => __singleton ?? (__singleton = new WeatherSandstorm()); }
 		#endregion
 
 		#region Constructors
@@ -38,9 +38,9 @@ namespace Pokedex.Models.Weathers
 		public override void OnTurnStart(I_Combat arena)
 			=> Console.WriteLine("The sandstorm rages.");
 		public override void OnEnter()
-			=> Console.WriteLine("The sandstorm rages.");
+			=> Console.WriteLine("A sandstorm kicked up!");
 		public override void OnExit()
-			=> Console.WriteLine("The sandstorm rages.");
+			=> Console.WriteLine("The sandstorm subsided.");
 
 		#endregion
 	}

@@ -1,4 +1,5 @@
 using Pokedex.Enums;
+using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.PokemonMoves
@@ -14,11 +15,11 @@ namespace Pokedex.Models.PokemonMoves
 		)
 		{ }
 
-		protected override void DoAction(Pokemon target)
+		protected override void DoAction(I_Battler target)
 		{
 			int damage = this.Caster.CurrHP;
 
-			target.ReceiveDamage(this.Caster, new DamageInfo(DamageClass.Pure, damage, this._type));
+			target.ReceiveDamage(this.Caster, new DamageInfo(DamageClass.Pure, damage, this.Type));
 
 			this.Caster.DoKO();
 		}

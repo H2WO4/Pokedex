@@ -6,53 +6,38 @@ using Pokedex.Models.Events;
 
 namespace Pokedex.Models
 {
+	/// <summary>
+	/// A selectable Pokemon move
+	/// </summary>
 	public abstract class PokeMove : I_PokeMove
 	{
 		#region Variables
-		protected string _name;
-		protected MoveClass _class;
-		protected PokeType _type;
-		protected int? _power;
-		protected int? _accuracy;
-		protected int _maxPp;
-		protected int _pp;
-		protected int _priority;
-		protected Pokemon? _caster;
+		protected I_Battler? _caster;
 		#endregion
 
 		#region Properties
-		/// <inheritdoc/>
-		public string Name => this._name;
+		public string Name { get; }
 
-		/// <inheritdoc/>
-		public int? Power => this._power;
+		public int? Power { get; protected set; }
 
-		/// <inheritdoc/>
-		public MoveClass Class => this._class;
+		public MoveClass Class { get; }
 
-		/// <inheritdoc/>
-		public int? Accuracy => this._accuracy;
+		public int? Accuracy { get; }
 
-		/// <inheritdoc/>
-		public int MaxPP => this._maxPp;
+		public int MaxPP { get; }
 
-		/// <inheritdoc/>
-		public int PP => this._pp;
+		public int PP { get; protected set; }
 
-		/// <inheritdoc/>
-		public int Priority => this._priority;
+		public int Priority { get; protected set; }
 
-		/// <inheritdoc/>
-		public PokeType Type => this._type;
+		public PokeType Type { get; }
 
-		/// <inheritdoc/>
-        public Pokemon Caster
+        public I_Battler Caster
 		{
 			get => this._caster ?? throw new InvalidOperationException();
 			set => this._caster = value;
 		}
 		
-		/// <inheritdoc/>
 		public I_Combat Arena => this.Caster.Arena;
 
         #endregion
@@ -69,21 +54,20 @@ namespace Pokedex.Models
 		)
 		{
 			if (name != "")
-				this._name = name;
+				this.Name = name;
 			else throw new ArgumentException("Name cannot be empty");
 
-			this._class = class_;
-			this._power = power;
-			this._accuracy = accuracy;
-			this._maxPp = maxPp;
-			this._pp = maxPp;
-			this._priority = priority;
-			this._type = type;
+			this.Class = class_;
+			this.Power = power;
+			this.Accuracy = accuracy;
+			this.MaxPP = maxPp;
+			this.PP = maxPp;
+			this.Priority = priority;
+			this.Type = type;
 		}
 		#endregion
 
 		#region Methods
-		/// <inheritdoc/>
 		public virtual void OnUse()
 		{
 			// Select targets
@@ -105,7 +89,7 @@ namespace Pokedex.Models
 		/// Get the targets of the move
 		/// </summary>
 		/// <returns>All targets to be hit by the move</returns>
-		protected virtual List<Pokemon> GetTargets()
+		protected virtual List<I_Battler> GetTargets()
 			=> this.Arena.Players
 				.Where(player => player != this.Caster.Owner)
 				.Select(player => player.Active)
@@ -116,21 +100,21 @@ namespace Pokedex.Models
 		/// </summary>
 		/// <param name="target">The target to check for</param>
 		/// <returns>If the move hits, true, else false</returns>
-		protected virtual bool AccuracyCheck(Pokemon target)
+		protected virtual bool AccuracyCheck(I_Battler target)
 		{
-			if (this._accuracy == null)
+			if (this.Accuracy == null)
 				return true;
 
-			return (this._accuracy ?? 100) >= Program.rnd.Next(1, 100);
+			return (this.Accuracy ?? 100) >= Program.rnd.Next(1, 100);
 		}
 
 		/// <summary>
 		/// Execute the action of the move unto the target
 		/// </summary>
 		/// <param name="target">The target to use</param>
-		protected virtual void DoAction(Pokemon target)
+		protected virtual void DoAction(I_Battler target)
 		{
-			DamageClass dmgClass = this._class == MoveClass.Physical
+			DamageClass dmgClass = this.Class == MoveClass.Physical
 									? DamageClass.Physical
 									: DamageClass.Special;
 
@@ -144,38 +128,35 @@ namespace Pokedex.Models
 				power *= 1.5;
 
 
-			bool success = target.ReceiveDamage(this.Caster, new DamageInfo(dmgClass, this._power ?? 0, this._type));
+			bool success = target.ReceiveDamage(this.Caster, new DamageInfo(dmgClass, this.Power ?? 0, this.Type));
 			if (!success)
 				Console.WriteLine("But it failed");
 		}
 
-		/// <inheritdoc/>
 		public virtual void PreAction(MoveEvent event_) { }
 
-		/// <inheritdoc/>
 		public string GetQuickStatus()
-			=> $"{this._name} - {this._pp}/{this._maxPp} \x1b[38;2;144;238;144mPP\x1b[0m";
+			=> $"{this.Name} - {this.PP}/{this.MaxPP} \x1b[38;2;144;238;144mPP\x1b[0m";
 
-		/// <inheritdoc/>
 		public string GetFullStatus()
 		{
 			var status = new StringBuilder();
-			var classColor = this._class == MoveClass.Physical ? "\x1b[38;2;245;78;10m"
-							: this._class == MoveClass.Special ? "\x1b[38;2;38;117;244m"
+			var classColor = this.Class == MoveClass.Physical ? "\x1b[38;2;245;78;10m"
+							: this.Class == MoveClass.Special ? "\x1b[38;2;38;117;244m"
 							: "\x1b[38;2;90;99;123m";
 
 			// Add the name
-			status.Append($"\x1b[1m{this._name,-12}\x1b[0m   ");
+			status.Append($"\x1b[1m{this.Name,-12}\x1b[0m   ");
 			// Add the class and type
-			status.AppendLine($"{classColor}{this._class}\x1b[0m-{this._type}");
+			status.AppendLine($"{classColor}{this.Class}\x1b[0m-{this.Type}");
 			// Add the Power, '---' if null
-			status.Append($"\x1b[38;2;219;112;147mPower\x1b[0m: {this._power?.ToString() ?? "---",4}      ");
+			status.Append($"\x1b[38;2;219;112;147mPower\x1b[0m: {this.Power?.ToString() ?? "---",4}      ");
 			// Add the Accuracy, '---' if null
-			status.AppendLine($"\x1b[38;2;173;216;230mAccuracy\x1b[0m: {this._accuracy?.ToString("#'%'") ?? "---",4}");
+			status.AppendLine($"\x1b[38;2;173;216;230mAccuracy\x1b[0m: {this.Accuracy?.ToString("#'%'") ?? "---",4}");
 			// Add the PP
-			status.Append($"\x1b[38;2;144;238;144mPP\x1b[0m:   {this._pp,2}/{this._maxPp,2}      ");
+			status.Append($"\x1b[38;2;144;238;144mPP\x1b[0m:   {this.PP,2}/{this.MaxPP,2}      ");
 			// Add the Priority, with sign if positive, but not if 0
-			status.AppendLine($"\x1b[38;2;255;165;0mPriority\x1b[0m:  {this._priority,3:+#;-#;0}");
+			status.AppendLine($"\x1b[38;2;255;165;0mPriority\x1b[0m:  {this.Priority,3:+#;-#;0}");
 
 			return status.ToString();
 		}

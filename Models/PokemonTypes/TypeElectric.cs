@@ -3,11 +3,11 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeElectric : PokeType
 	{
 		#region Class Variables
-		protected static TypeElectric? _singleton;
+		protected static TypeElectric? __singleton;
 		#endregion
 
 		#region Properties
-		public static TypeElectric Singleton { get => _singleton ?? (_singleton = new TypeElectric()); }
+		public static TypeElectric Singleton { get => __singleton ?? (__singleton = new TypeElectric()); }
 		#endregion
 
 		#region Constructor

@@ -7,36 +7,29 @@ namespace Pokedex.Models
 	/// </summary>
 	public class DamageInfo
 	{
-		#region Variables
-		private DamageClass _class;
-		private int _power;
-		private PokeType? _type;
-
-		#endregion
-
 		#region Properties
 		/// <summary>
 		/// The class of damage this is
 		/// </summary>
-		public DamageClass Class => this._class;
+		public DamageClass Class { get; set; }
 
 		/// <summary>
 		/// How much damage is being dealt
 		/// </summary>
-		public int Power => this._power;
+		public int Power { get; set; }
 
 		/// <summary>
 		/// The type of the damage, if there is one
 		/// </summary>
-		public PokeType? Type => this._type;
+		public PokeType? Type { get; set; }
 		#endregion
 
 		#region Constructors
 		public DamageInfo(DamageClass class_, int power, PokeType? type)
 		{
-			this._class = class_;
-			this._power = power;
-			this._type = type;
+			this.Class = class_;
+			this.Power = power;
+			this.Type = type;
 		}
 		#endregion
 

@@ -6,11 +6,11 @@ namespace Pokedex.Models.Weathers
 	public class WeatherLocust : Weather
 	{
 		#region Class Variables
-		private static WeatherLocust? _singleton;
+		private static WeatherLocust? __singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherLocust Singleton { get => _singleton ?? (_singleton = new WeatherLocust()); }
+		public static WeatherLocust Singleton { get => __singleton ?? (__singleton = new WeatherLocust()); }
 		#endregion
 
 		#region Constructors
@@ -36,11 +36,11 @@ namespace Pokedex.Models.Weathers
 
 		// Flavor Text
 		public override void OnTurnStart(I_Combat arena)
-			=> Console.WriteLine("The swarm of locusts is swarming around.");
+			=> Console.WriteLine("The swarm of locusts is flying around.");
 		public override void OnEnter()
-			=> Console.WriteLine("The swarm of locusts is swarming around.");
+			=> Console.WriteLine("Locusts are starting to swarm the area!");
 		public override void OnExit()
-			=> Console.WriteLine("The swarm of locusts is swarming around.");
+			=> Console.WriteLine("The swarm of locusts has dispersed.");
 
 		#endregion
 	}

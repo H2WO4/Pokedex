@@ -6,11 +6,11 @@ namespace Pokedex.Models.Weathers
 	public class WeatherZenith : Weather
 	{
 		#region Class Variables
-		private static WeatherZenith? _singleton;
+		private static WeatherZenith? __singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherZenith Singleton { get => _singleton ?? (_singleton = new WeatherZenith()); }
+		public static WeatherZenith Singleton { get => __singleton ?? (__singleton = new WeatherZenith()); }
 		#endregion
 
 		#region Constructors
@@ -26,9 +26,9 @@ namespace Pokedex.Models.Weathers
 		public override void OnTurnStart(I_Combat arena)
 			=> Console.WriteLine("Bright sunlight washes over the battlefield.");
 		public override void OnEnter()
-			=> Console.WriteLine("Bright sunlight washes over the battlefield.");
+			=> Console.WriteLine("The sun rises to its zenith!");
 		public override void OnExit()
-			=> Console.WriteLine("Bright sunlight washes over the battlefield.");
+			=> Console.WriteLine("The sun has set.");
 
 		#endregion
 	}

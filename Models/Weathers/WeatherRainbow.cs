@@ -6,11 +6,11 @@ namespace Pokedex.Models.Weathers
 	public class WeatherRainbow : Weather
 	{
 		#region Class Variables
-		private static WeatherRainbow? _singleton;
+		private static WeatherRainbow? __singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherRainbow Singleton { get => _singleton ?? (_singleton = new WeatherRainbow()); }
+		public static WeatherRainbow Singleton { get => __singleton ?? (__singleton = new WeatherRainbow()); }
 		#endregion
 
 		#region Constructors
@@ -26,9 +26,9 @@ namespace Pokedex.Models.Weathers
 		public override void OnTurnStart(I_Combat arena)
 			=> Console.WriteLine("The rainbow shines.");
 		public override void OnEnter()
-			=> Console.WriteLine("The rainbow shines.");
+			=> Console.WriteLine("A rainbow appeared.");
 		public override void OnExit()
-			=> Console.WriteLine("The rainbow shines.");
+			=> Console.WriteLine("The rainbow disappeared.");
 
 		#endregion
 	}

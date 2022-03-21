@@ -6,11 +6,11 @@ namespace Pokedex.Models.Weathers
 	public class WeatherSilence : Weather
 	{
 		#region Class Variables
-		private static WeatherSilence? _singleton;
+		private static WeatherSilence? __singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherSilence Singleton { get => _singleton ?? (_singleton = new WeatherSilence()); }
+		public static WeatherSilence Singleton { get => __singleton ?? (__singleton = new WeatherSilence()); }
 		#endregion
 
 		#region Constructors
@@ -26,9 +26,9 @@ namespace Pokedex.Models.Weathers
 		public override void OnTurnStart(I_Combat arena)
 			=> Console.WriteLine("The battlefield is shrouded in silence.");
 		public override void OnEnter()
-			=> Console.WriteLine("The battlefield is shrouded in silence.");
+			=> Console.WriteLine("Silence has befallen the battlefield!");
 		public override void OnExit()
-			=> Console.WriteLine("The battlefield is shrouded in silence.");
+			=> Console.WriteLine("The silence has been lifted.");
 
 		#endregion
 	}

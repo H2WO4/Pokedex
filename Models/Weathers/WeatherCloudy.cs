@@ -6,11 +6,11 @@ namespace Pokedex.Models.Weathers
 	public class WeatherCloudy : Weather
 	{
 		#region Class Variables
-		private static WeatherCloudy? _singleton;
+		private static WeatherCloudy? __singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherCloudy Singleton { get => _singleton ?? (_singleton = new WeatherCloudy()); }
+		public static WeatherCloudy Singleton { get => __singleton ?? (__singleton = new WeatherCloudy()); }
 		#endregion
 
 		#region Constructors

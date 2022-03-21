@@ -1,4 +1,5 @@
 using Pokedex.Enums;
+using Pokedex.Interfaces;
 
 namespace Pokedex.Models.PokemonMoves.Archetypes
 {
@@ -14,7 +15,7 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 			PokeType type
 		) : base(name, class_, null, accuracy, maxPp, priority, type) { }
 
-		protected override void DoAction(Pokemon target)
+		protected override void DoAction(I_Battler target)
 			=> target.DoKO();
 	}
 }

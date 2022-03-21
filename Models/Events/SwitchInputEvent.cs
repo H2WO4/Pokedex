@@ -2,16 +2,21 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models.Events
 {
-	class SwitchInputEvent : I_Event
+	public class SwitchInputEvent : I_Event
 	{
-		#region Variables
-		private I_Player _origin;
-		private I_Combat _context;
-		#endregion
-
 		#region Properties
-		public int Priority { get => 0; }
-		public int Speed { get => 0; }
+		public int Priority => 0;
+		public int Speed => 0;
+
+		/// <summary>
+		/// The player who initiated the switch
+		/// </summary>
+		public I_Player Origin { get; }
+
+		/// <summary>
+		/// In which combat the fight happens in
+		/// </summary>
+		protected I_Combat Context { get; }
 		#endregion
 
 		#region Constructor
@@ -21,14 +26,14 @@ namespace Pokedex.Models.Events
 			I_Combat context
 		)
 		{
-			this._origin = origin;
-			this._context = context;
+			this.Origin = origin;
+			this.Context = context;
 		}
 		#endregion
 
 		#region Methods
 		public void Update()
-			=> this._origin.AskActiveChange();
+			=> this.Origin.AskActiveChange();
 
 		public void PreUpdate() { }
 		#endregion

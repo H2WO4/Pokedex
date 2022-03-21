@@ -1,5 +1,6 @@
 using System.Reflection;
 using Pokedex.Enums;
+using Pokedex.Interfaces;
 using Pokedex.Models.Events;
 using Pokedex.Models.PokemonTypes;
 
@@ -22,25 +23,27 @@ namespace Pokedex.Models.PokemonMoves
 
 		public override void PreAction(MoveEvent event_)
 		{
-			if (event_.Caster.Arena.EventQueue.Any(ev => ev is SwitchEvent))
+			if (event_.Caster.Arena.EventQueue
+					.OfType<SwitchEvent>()
+					.Any(ev => ev.Origin != this.Caster.Owner))
 			{
 				this.doesPursuit = true;
 				event_.Priority = 8;
 			}
 		}
 
-		protected override void DoAction(Pokemon target)
+		protected override void DoAction(I_Battler target)
 		{
 			if (this.doesPursuit)
-				this._power *= 2;
+				this.Power *= 2;
 
 			base.DoAction(target);
 
 			if (this.doesPursuit)
-				this._power /= 2;
+				this.Power /= 2;
 		}
 
-		protected override bool AccuracyCheck(Pokemon target)
+		protected override bool AccuracyCheck(I_Battler target)
 			=> this.doesPursuit || base.AccuracyCheck(target);
 	}
 }

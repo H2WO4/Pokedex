@@ -6,11 +6,11 @@ namespace Pokedex.Models.Weathers
 	public class WeatherMagnetic : Weather
 	{
 		#region Class Variables
-		private static WeatherMagnetic? _singleton;
+		private static WeatherMagnetic? __singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherMagnetic Singleton { get => _singleton ?? (_singleton = new WeatherMagnetic()); }
+		public static WeatherMagnetic Singleton { get => __singleton ?? (__singleton = new WeatherMagnetic()); }
 		#endregion
 
 		#region Constructors
@@ -26,9 +26,9 @@ namespace Pokedex.Models.Weathers
 		public override void OnTurnStart(I_Combat arena)
 			=> Console.WriteLine("Magnetic waves pulsate through the air.");
 		public override void OnEnter()
-			=> Console.WriteLine("Magnetic waves pulsate through the air.");
+			=> Console.WriteLine("The magnetic current has been disrupted!");
 		public override void OnExit()
-			=> Console.WriteLine("Magnetic waves pulsate through the air.");
+			=> Console.WriteLine("The magnetic current went back to normal.");
 
 		#endregion
 	}

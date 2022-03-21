@@ -1,4 +1,5 @@
 using Pokedex.Enums;
+using Pokedex.Interfaces;
 using Pokedex.Models.PokemonMoves.Archetypes;
 using Pokedex.Models.PokemonTypes;
 
@@ -15,7 +16,10 @@ namespace Pokedex.Models.PokemonMoves
 		)
 		{ }
 
-		protected override void DoAction(Pokemon target)
-			=> target.ChangeStatBonuses(2, 0, 0, 0, 0);
+		protected override void DoAction(I_Battler target)
+		{
+			if (target is Pokemon pokeTarget)
+				pokeTarget.ChangeStatBonuses(2, 0, 0, 0, 0);
+		}
 	}
 }

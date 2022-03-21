@@ -16,7 +16,7 @@ namespace Pokedex.Interfaces
 		/// <summary>
 		/// The list of all currently scheduled events
 		/// </summary>
-		Queue<I_Event> EventQueue { get; }
+		LinkedList<I_Event> EventQueue { get; }
 
 		/// <summary>
 		/// The currently active weather on the field

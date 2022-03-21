@@ -3,29 +3,34 @@ using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models
 {
+	/// <summary>
+	/// A 2-player fight
+	/// </summary>
 	public class Combat : I_Combat
 	{
 		#region Variables
 		private int _turn;
-		// Teams
 		private I_Player _playerA;
 		private I_Player _playerB;
 
-		private Queue<I_Event> _eventQueue;
-
-		// Terrain Effects
 		private Weather _weather;
 		#endregion
 
 		#region Properties
-		// Players
-		public I_Player[] Players { get => new I_Player[]{ this._playerA, this._playerB }; }
+		public I_Player[] Players => new[] { this._playerA, this._playerB };
 
-		// System
-		public Queue<I_Event> EventQueue { get => this._eventQueue; }
+		public LinkedList<I_Event> EventQueue { get; set; }
 
-		// Terrain Effects
-		public Weather Weather { get => this._weather; set => this._weather = value; }
+		public Weather Weather
+		{
+			get => this._weather;
+			set
+			{
+				this._weather.OnExit();
+				this._weather = value;
+				this._weather.OnEnter();
+			}
+		}
 		#endregion
 
 		#region Constructors
@@ -41,18 +46,16 @@ namespace Pokedex.Models
 			this._playerB = new Trainer(playerB.name, playerB.team, this);
 
 			this._weather = WeatherClear.Singleton;
-			this._eventQueue = new Queue<I_Event>();
+			this.EventQueue = new LinkedList<I_Event>();
 		}
 		#endregion
 
 		#region Methods
-		/// <inheritdoc/>
 		public void AddToBottom(I_Event ev)
-			=> this._eventQueue.Enqueue(ev);
+			=> this.EventQueue.AddLast(ev);
 
-		/// <inheritdoc/>
 		public void AddToTop(I_Event ev)
-			=> this._eventQueue = new Queue<I_Event>(this._eventQueue.Prepend(ev));
+			=> this.EventQueue.AddFirst(ev);
 
 		public I_Player? DoTurn()
 		{
@@ -78,18 +81,23 @@ namespace Pokedex.Models
 				this._playerB.PlayTurn();
 
 				// * Handles the event queue
-				this._eventQueue
+				this.EventQueue
 					.ToList()
 					.ForEach(ev => ev.PreUpdate()); // Do actions that could reorder the queue
 
-				this._eventQueue = new Queue<I_Event>(this._eventQueue
+				this.EventQueue = new LinkedList<I_Event>(this.EventQueue
 					.OrderByDescending(ev => (ev.Priority, ev.Speed))); // Put the higher priority events at the beginning
 
 				// Do the events
-				while (this._eventQueue.Count > 0)
-					this._eventQueue
-						.Dequeue()
-						.Update();
+				while (this.EventQueue.Count > 0)
+				{
+					I_Event next = this.EventQueue.First();
+
+					this.EventQueue
+						.RemoveFirst();
+
+					next.Update();
+				}
 
 				// Do weather effects
 				this._weather.OnTurnEnd(this);

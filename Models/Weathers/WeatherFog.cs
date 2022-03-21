@@ -6,11 +6,11 @@ namespace Pokedex.Models.Weathers
 	public class WeatherFog : Weather
 	{
 		#region Class Variables
-		private static WeatherFog? _singleton;
+		private static WeatherFog? __singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherFog Singleton { get => _singleton ?? (_singleton = new WeatherFog()); }
+		public static WeatherFog Singleton { get => __singleton ?? (__singleton = new WeatherFog()); }
 		#endregion
 
 		#region Constructors
@@ -24,11 +24,11 @@ namespace Pokedex.Models.Weathers
 		#region Methods
 		// Flavor Text
 		public override void OnTurnStart(I_Combat arena)
-			=> Console.WriteLine("Fog swirls in the air!");
+			=> Console.WriteLine("Fog swirls in the air.");
 		public override void OnEnter()
-			=> Console.WriteLine("Fog swirls in the air!");
+			=> Console.WriteLine("Fog swirls around the battlefield!");
 		public override void OnExit()
-			=> Console.WriteLine("Fog swirls in the air!");
+			=> Console.WriteLine("The fog clears away.");
 
 		#endregion
 	}

@@ -1,4 +1,4 @@
-status self full
+status self detailed
 status moves full
 use 1
 status self full

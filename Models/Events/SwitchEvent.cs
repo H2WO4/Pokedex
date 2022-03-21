@@ -2,18 +2,28 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models.Events
 {
-	class SwitchEvent : I_Event
+	public class SwitchEvent : I_Event
 	{
-		#region Variables
-		private Trainer _origin;
-		private int _target;
-		private Combat _context;
-		#endregion
-
 		#region Properties
-		public Trainer Origin { get => this._origin; }
-		public int Priority { get => 6; }
-		public int Speed { get => 0; }
+		public int Priority => 6;
+		public int Speed => 0;
+
+		/// <summary>
+		/// The player who initiated the switch
+		/// </summary>
+		public Trainer Origin { get; }
+		
+		/// <summary>
+		/// The Pokemon index to switch into
+		/// </summary>
+		/// <value></value>
+		private int Target { get; }
+
+		/// <summary>
+		/// In which combat the fight happens in
+		/// </summary>
+		private I_Combat Context { get; }
+
 		#endregion
 
 		#region Constructors
@@ -21,25 +31,25 @@ namespace Pokedex.Models.Events
 		(
 			Trainer originPlayer,
 			int target,
-			Combat context
+			I_Combat context
 		)
 		{
-			this._origin = originPlayer;
-			this._target = target;
-			this._context = context;
+			this.Origin = originPlayer;
+			this.Target = target;
+			this.Context = context;
 		}
 		#endregion
 
 		#region Methods
 		public void Update()
 		{
-			if (this._origin.Active.CurrHP == 0)
+			if (this.Origin.Active.CurrHP == 0)
 				return;
 
-			Console.WriteLine("\x1b[4m" + $"{this._origin.Name} takes out {this._origin.Active.Name}" + "\x1b[0m");
+			Console.WriteLine("\x1b[4m" + $"{this.Origin.Name} takes out {this.Origin.Active.Name}" + "\x1b[0m");
 			// ? Handles OnExit abilities
-			this._origin.ChangeActive(this._target);
-			Console.WriteLine("\x1b[4m" + $"{this._origin.Name} sends out {this._origin.Active.Name}" + "\x1b[0m");
+			this.Origin.ChangeActive(this.Target);
+			Console.WriteLine("\x1b[4m" + $"{this.Origin.Name} sends out {this.Origin.Active.Name}" + "\x1b[0m");
 			// ? Handles OnEnter abilities
 		}
 		

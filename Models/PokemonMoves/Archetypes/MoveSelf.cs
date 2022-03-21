@@ -1,4 +1,5 @@
 using Pokedex.Enums;
+using Pokedex.Interfaces;
 
 namespace Pokedex.Models.PokemonMoves.Archetypes
 {
@@ -15,7 +16,7 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 			PokeType type
 		) : base(name, class_, power, accuracy, maxPp, priority, type) { }
 
-		protected override List<Pokemon> GetTargets()
-			=> new List<Pokemon> { this.Caster };
+		protected override List<I_Battler> GetTargets()
+			=> new List<I_Battler> { this.Caster };
 	}
 }

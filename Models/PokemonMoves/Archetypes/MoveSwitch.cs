@@ -1,4 +1,5 @@
 using Pokedex.Enums;
+using Pokedex.Interfaces;
 using Pokedex.Models.Events;
 
 namespace Pokedex.Models.PokemonMoves.Archetypes
@@ -16,9 +17,9 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 			PokeType type
 		) : base(name, class_, power, accuracy, maxPp, priority, type) { }
 
-		protected override void DoAction(Pokemon target)
+		protected override void DoAction(I_Battler target)
 		{
-			DamageClass dmgClass = this._class == MoveClass.Physical
+			DamageClass dmgClass = this.Class == MoveClass.Physical
 									? DamageClass.Physical
 									: DamageClass.Special;
 

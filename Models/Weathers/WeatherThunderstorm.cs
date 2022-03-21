@@ -6,11 +6,11 @@ namespace Pokedex.Models.Weathers
 	public class WeatherThunderstorm : Weather
 	{
 		#region Class Variables
-		private static WeatherThunderstorm? _singleton;
+		private static WeatherThunderstorm? __singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherThunderstorm Singleton { get => _singleton ?? (_singleton = new WeatherThunderstorm()); }
+		public static WeatherThunderstorm Singleton { get => __singleton ?? (__singleton = new WeatherThunderstorm()); }
 		#endregion
 
 		#region Constructors
@@ -26,9 +26,9 @@ namespace Pokedex.Models.Weathers
 		public override void OnTurnStart(I_Combat arena)
 			=> Console.WriteLine("Lightning crackles in the sky.");
 		public override void OnEnter()
-			=> Console.WriteLine("Lightning crackles in the sky.");
+			=> Console.WriteLine("A thunderstorm is brewing!");
 		public override void OnExit()
-			=> Console.WriteLine("Lightning crackles in the sky.");
+			=> Console.WriteLine("The thunderstorm subsided.");
 
 		#endregion
 	}

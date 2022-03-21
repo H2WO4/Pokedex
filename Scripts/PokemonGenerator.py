@@ -54,18 +54,19 @@ using Pokedex.Enums;
 
 namespace Pokedex.Models.Pokemons
 {{
-	public class {className}Species : PokeSpecies
+	public class {className} : PokeSpecies
 	{{
 		#region Class Variables
-		private static {className}Species? _singleton;
+		private static {className}? __singleton;
 		#endregion
 
 		#region Properties
-		public static {className}Species Singleton {{ get => _singleton is null ? _singleton = new {className}Species() : _singleton; }}
+		public static {className} Singleton {{ get => __singleton ?? (__singleton = new {className}()); }}
 		#endregion
 
 		#region Constructor
-		public {className}Species() : base(
+		public {className}() : base
+		(
 			{poke['id']}, "{className}",
 			new List<PokeType>(){{
 				{r'''
@@ -92,34 +93,6 @@ namespace Pokedex.Models.Pokemons
 		# ↑ Delete the first two and last two newlines, here for readability
 
 		# Write the code to the file
-		f.write(outfile)
-	
-	# Create the class, by opening a file
-	# with open(f"Models/Pokemons/{className}.cs", 'w') as f:
-		# Load the template code, and format it with the actual data
-		outfile = f"""
-
-namespace Pokedex.Models.Pokemons
-{{
-	public class {className} : Pokemon
-	{{
-		#region Constructor
-		public {className}(int level)
-			: base({className}Species.Singleton, level) {{ }}
-		public {className}(int level, string nickname)
-			: base({className}Species.Singleton, level, nickname) {{ }}
-		public {className}(int level, string nickname, Nature nature)
-			: base({className}Species.Singleton, level, nickname, nature) {{ }}
-		public {className}(int level, string nickname, Nature nature, Dictionary<string, int> evs)
-			: base({className}Species.Singleton, level, nickname, nature, evs) {{ }}
-		#endregion
-	}}
-}}
-
-"""[:-2]
-		# ↑ Delete the first and last two newlines, here for readability
-
-		# Append the code to the file
 		f.write(outfile)
 	
 	i += 1

@@ -2,38 +2,62 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models
 {
+	/// <summary>
+	/// A weather effect happening during a fight
+	/// </summary>
 	public abstract class Weather
 	{
 		#region Variables
-		private string _name;
 		protected Dictionary<PokeType, float> _typePower;
 		protected PokeType[] _typeSelector;
 		#endregion
 
 		#region Properties
-		public string Name { get => this._name; }
+		/// <summary>
+		/// The name used for display
+		/// </summary>
+		public string Name { get; }
 		#endregion
 
 		#region Constructors
 		protected Weather(string name)
 		{
-			this._name = name;
+			this.Name = name;
 			this._typePower = new Dictionary<PokeType, float>();
 			this._typeSelector = new PokeType[] { };
 		}
 		#endregion
 
 		#region Methods
-		// Stats
+		/// <summary>
+		/// Called whenever damage is inflicted
+		/// </summary>
+		/// <param name="damage">The damage inflicted</param>
+		/// <param name="type">The type of the damage</param>
+		/// <returns>The new damage value</returns>
 		public virtual double OnDamageGive(double damage, PokeType type)
 			=> this._typePower.GetValueOrDefault(type, 1) * damage;
 
-		// Weather Enter/Exit
+		/// <summary>
+        /// Called at a weather change, when this is the new weather
+        /// </summary>
 		public virtual void OnEnter() { }
+
+		/// <summary>
+        /// Called at a weather change, when this is the old weather
+        /// </summary>
 		public virtual void OnExit() { }
 
-		// Turn Start/End
+		/// <summary>
+        /// Called at the beginning of a turn
+        /// </summary>
+		/// <param name="arena">The fight in which the weather is active</param>
 		public virtual void OnTurnStart(I_Combat arena) { }
+
+		/// <summary>
+		/// Called at the end of a turn
+		/// </summary>
+		/// <param name="arena">The fight in which the weather is active</param>
 		public virtual void OnTurnEnd(I_Combat arena) { }
 		#endregion
 	}

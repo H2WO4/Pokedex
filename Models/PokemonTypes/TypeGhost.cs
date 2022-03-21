@@ -3,11 +3,11 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeGhost : PokeType
 	{
 		#region Class Variables
-		protected static TypeGhost? _singleton;
+		protected static TypeGhost? __singleton;
 		#endregion
 
 		#region Properties
-		public static TypeGhost Singleton { get => _singleton ?? (_singleton = new TypeGhost()); }
+		public static TypeGhost Singleton { get => __singleton ?? (__singleton = new TypeGhost()); }
 		#endregion
 
 		#region Constructor

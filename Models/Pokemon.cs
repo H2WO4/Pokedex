@@ -6,20 +6,14 @@ using Pokedex.Models.Events;
 
 namespace Pokedex.Models
 {
-	public abstract class Pokemon : I_Battler
+	public class Pokemon : I_Battler
 	{
 		private const int N_SEGMENTS = 25;
 
 		#region Variables
-		private PokeSpecies _species;
-		private string _name;
 		private PokeMove?[] _moves;
 		private I_Player? _owner;
-
-		private int _level;
 		private int _currHP;
-		private Dictionary<string, int> _ivs;
-		private Dictionary<string, int> _evs;
 		private Nature _nature;
 		private Dictionary<string, int> _statBoosts;
 
@@ -29,7 +23,7 @@ namespace Pokedex.Models
 		#region Class Variables
 		private static Nature[] __natures =
 			((Nature[])Enum.GetValues(typeof(Nature)))
-				.Where(nature => Math.Log2(((int)nature)) % 1 != 0)
+				.Where(nature => Math.Log2((int)nature) % 1 != 0)
 				.ToArray();
 
 		private static Dictionary<int, double> __stageMult = new Dictionary<int, double>()
@@ -53,42 +47,36 @@ namespace Pokedex.Models
 		#endregion
 
 		#region Properties
-		/// <inheritdoc/>
-		public int ID => this._species.ID;
+		public int ID => this.Species.ID;
 
-		/// <inheritdoc/>
-		public List<PokeType> Types => this._species.Types;
+		public List<PokeType> Types => this.Species.Types;
 
-		/// <inheritdoc/>
 		public PokeMove?[] Moves => this._moves;
 
-		/// <inheritdoc/>
 		public I_Player Owner
 		{
 			get => this._owner ?? throw new InvalidOperationException("Pokemon does not have an owner");
 			set => this._owner = value;
 		}
 
-		/// <inheritdoc/>
 		public I_Combat Arena => this.Owner.Arena;
 
-		/// <inheritdoc/>
-		public string Name { get => this._name; set => this._name = value; }
+		public string Name { get; set; }
 
 		/// <summary>
 		/// The level the Pokemon is at [1-100]
 		/// </summary>
-		public int Level => this._level;
+		public int Level { get; private set; }
 
 		/// <summary>
 		/// Random stat bonuses [0-31] determined at birth
 		/// </summary>
-		public Dictionary<string, int> IVs => this._ivs;
+		public Dictionary<string, int> IVs { get; private set; }
 
 		/// <summary>
 		/// User-defined stat bonuses [0-252], totaling 510
 		/// </summary>
-		public Dictionary<string, int> EVs => this._evs;
+		public Dictionary<string, int> EVs { get; private set; }
 
 		/// <summary>
 		/// The nature of the Pokemon
@@ -96,10 +84,14 @@ namespace Pokedex.Models
 		public Nature Nature
 		{
 			get => this._nature;
-			set { this._nature = value; this._nMarks = this.GetNatureChars(); }
+			set
+			{
+				if (Math.Log2((int)value) % 1 == 0) throw new ArgumentException();
+				this._nature = value;
+				this._nMarks = this.GetNatureChars();
+			}
 		}
 
-		/// <inheritdoc/>
 		public virtual int CurrHP
 		{
 			get => this._currHP;
@@ -113,12 +105,12 @@ namespace Pokedex.Models
 		protected virtual int BaseSpDef => this.Species.Stats["spDef"];
 		protected virtual int BaseSpd => this.Species.Stats["spd"];
 
-		public PokeSpecies Species => this._species;
-		public string SpeciesName => this._species.Name;
-		public string Genus => this._species.Genus;
-		public PokeClass Class => this._species.Class;
-		public int Height => this._species.Height;
-		public int Weight => this._species.Weight;
+		public PokeSpecies Species { get; }
+		public string SpeciesName => this.Species.Name;
+		public string Genus => this.Species.Genus;
+		public PokeClass Class => this.Species.Class;
+		public int Height => this.Species.Height;
+		public int Weight => this.Species.Weight;
 		#endregion
 
 		#region Constructors
@@ -128,16 +120,16 @@ namespace Pokedex.Models
 			int level
 		)
 		{
-			this._species = species;
-			this._name = species.Name;
+			this.Species = species;
+			this.Name = species.Name;
 
 			if (level >= 1 && level <= 100)
-				this._level = level;
+				this.Level = level;
 			else throw new ArgumentException("Level must be between 1-100");
 
 			var rnd = Program.rnd;
 
-			this._ivs = new Dictionary<string, int>(){
+			this.IVs = new Dictionary<string, int>(){
 				{"hp", rnd.Next(0, 32)},
 				{"atk", rnd.Next(0, 32)},
 				{"def", rnd.Next(0, 32)},
@@ -146,7 +138,7 @@ namespace Pokedex.Models
 				{"spd", rnd.Next(0, 32)},
 			};
 
-			this._evs = new Dictionary<string, int>(){
+			this.EVs = new Dictionary<string, int>(){
 				{"hp", 0},
 				{"atk", 0},
 				{"def", 0},
@@ -163,6 +155,7 @@ namespace Pokedex.Models
 
 			this._currHP = this.HP();
 		}
+
 		public Pokemon
 		(
 			PokeSpecies species,
@@ -171,9 +164,10 @@ namespace Pokedex.Models
 		) : this(species, level)
 		{
 			if (nickname != "")
-				this._name = nickname;
+				this.Name = nickname;
 			else throw new ArgumentException("Nickname must not be empty");
 		}
+		
 		public Pokemon
 		(
 			PokeSpecies species,
@@ -187,6 +181,7 @@ namespace Pokedex.Models
 
 			this._currHP = this.HP();
 		}
+		
 		public Pokemon
 		(
 			PokeSpecies species,
@@ -196,33 +191,29 @@ namespace Pokedex.Models
 			Dictionary<string, int> evs
 		) : this(species, level, nickname, nature)
 		{
-			if (evs.Keys.SequenceEqual(new string[] { "hp", "atk", "def", "spAtk", "spDef", "spd" }))
-				this._evs = evs;
-			else throw new ArgumentException("EVs must be: hp, atk, def, spAtk, spDef, spd");
+			this.SetEVs(evs["hp"], evs["atk"], evs["def"], evs["spAtk"], evs["spDef"], evs["spd"]);
 
 			this._currHP = this.HP();
 		}
 		#endregion
 
 		#region Methods
-		/// <inheritdoc/>
 		public int HP()
 		{
 			int result = this.BaseHP * 2; // Base stat
-			result += this._ivs["hp"]; // IVs
-			result += (int)(this._evs["hp"] / 4d); // EVs
-			result = (int)(result * this._level / 100d); // Adjust for level part 1
-			result += this._level + 10; // Adjust for level part 2
+			result += this.IVs["hp"]; // IVs
+			result += (int)(this.EVs["hp"] / 4d); // EVs
+			result = (int)(result * this.Level / 100d); // Adjust for level part 1
+			result += this.Level + 10; // Adjust for level part 2
 
 			return result;
 		}
-		/// <inheritdoc/>
 		public int Atk()
 		{
 			int result = this.BaseAtk * 2; // Base stat
-			result += this._ivs["atk"]; // IVs
-			result += (int)(this._evs["atk"] / 4d); // EVs
-			result = (int)(result * this._level / 100d); // Adjust for level
+			result += this.IVs["atk"]; // IVs
+			result += (int)(this.EVs["atk"] / 4d); // EVs
+			result = (int)(result * this.Level / 100d); // Adjust for level
 			result += 5; // Flat value
 
 			double natureBonus = 1 // Calculate Nature bonus
@@ -235,13 +226,12 @@ namespace Pokedex.Models
 
 			return result;
 		}
-		/// <inheritdoc/>
 		public int Def()
 		{
 			int result = this.BaseDef * 2; // Base stat
-			result += this._ivs["def"]; // IVs
-			result += (int)(this._evs["def"] / 4d); // EVs
-			result = (int)(result * this._level / 100d); // Adjust for level
+			result += this.IVs["def"]; // IVs
+			result += (int)(this.EVs["def"] / 4d); // EVs
+			result = (int)(result * this.Level / 100d); // Adjust for level
 			result += 5; // Flat value
 
 			double natureBonus = 1 // Calculate Nature bonus
@@ -254,13 +244,12 @@ namespace Pokedex.Models
 
 			return result;
 		}
-		/// <inheritdoc/>
 		public int SpAtk()
 		{
 			int result = this.BaseSpAtk * 2; // Base stat
-			result += this._ivs["spAtk"]; // IVs
-			result += (int)(this._evs["spAtk"] / 4d); // EVs
-			result = (int)(result * this._level / 100d); // Adjust for level
+			result += this.IVs["spAtk"]; // IVs
+			result += (int)(this.EVs["spAtk"] / 4d); // EVs
+			result = (int)(result * this.Level / 100d); // Adjust for level
 			result += 5; // Flat value
 
 			double natureBonus = 1 // Calculate Nature bonus
@@ -273,13 +262,12 @@ namespace Pokedex.Models
 
 			return result;
 		}
-		/// <inheritdoc/>
 		public int SpDef()
 		{
 			int result = this.BaseSpDef * 2; // Base stat
-			result += this._ivs["spDef"]; // IVs
-			result += (int)(this._evs["spDef"] / 4d); // EVs
-			result = (int)(result * this._level / 100d); // Adjust for level
+			result += this.IVs["spDef"]; // IVs
+			result += (int)(this.EVs["spDef"] / 4d); // EVs
+			result = (int)(result * this.Level / 100d); // Adjust for level
 			result += 5; // Flat value
 
 			double natureBonus = 1 // Calculate Nature bonus
@@ -292,13 +280,12 @@ namespace Pokedex.Models
 
 			return result;
 		}
-		/// <inheritdoc/>
 		public int Spd()
 		{
 			int result = this.BaseSpd * 2; // Base stat
-			result += this._ivs["spd"]; // IVs
-			result += (int)(this._evs["spd"] / 4d); // EVs
-			result = (int)(result * this._level / 100d); // Adjust for level
+			result += this.IVs["spd"]; // IVs
+			result += (int)(this.EVs["spd"] / 4d); // EVs
+			result = (int)(result * this.Level / 100d); // Adjust for level
 			result += 5; // Flat value
 
 			double natureBonus = 1 // Calculate Nature bonus
@@ -317,7 +304,7 @@ namespace Pokedex.Models
 			if (val > 31 || val < 0)
 				throw new ArgumentException("Invalid IV value");
 
-			this._ivs[stat] = val;
+			this.IVs[stat] = val;
 		}
 		public void SetIVs(int hp, int atk, int def, int spAtk, int spDef, int spd)
 		{
@@ -335,7 +322,7 @@ namespace Pokedex.Models
 
 		public void SetEV(string stat, int val)
 		{
-			var total = this._evs
+			var total = this.EVs
 				.Where(pair => pair.Key != stat)
 				.Select(pair => pair.Value)
 				.Aggregate((a, b) => a + b);
@@ -347,7 +334,7 @@ namespace Pokedex.Models
 			if (val < 0)
 				throw new ArgumentException("EV is below 0");
 			
-			this._evs[stat] = val;
+			this.EVs[stat] = val;
 		}
 		private void SetEVUnsafe(string stat, int val)
 		{
@@ -356,7 +343,7 @@ namespace Pokedex.Models
 			if (val < 0)
 				throw new ArgumentException("EV cannot be negative");
 			
-			this._evs[stat] = val;
+			this.EVs[stat] = val;
 		}
 		public void SetEVs(int hp, int atk, int def, int spAtk, int spDef, int spd)
 		{
@@ -411,7 +398,7 @@ namespace Pokedex.Models
 		/// <param name="attacker">The attacking type</param>
 		/// <returns>A multipler, as a double</returns>
 		public double GetAffinity(PokeType attacker)
-			=> attacker.CalculateAffinity(this._species.Types);
+			=> attacker.CalculateAffinity(this.Species.Types);
 
 		/// <summary>
 		/// Handles the drawing of the HP bar
@@ -530,7 +517,7 @@ namespace Pokedex.Models
 		/// <param name="caster">The Pokemon who casted the move</param>
 		/// <param name="damageInfo">Describes what kind of damage is being dealt</param>
 		/// <returns></returns>
-		public bool ReceiveDamage(Pokemon caster, DamageInfo damageInfo)
+		public bool ReceiveDamage(I_Battler caster, DamageInfo damageInfo)
 		{
 			// If this pokemon fainted, do nothing
 			if (this.CurrHP == 0)
@@ -622,9 +609,6 @@ namespace Pokedex.Models
 				{ "spd", Math.Clamp(this._statBoosts["spd"] + spd, -6, 6) },
 			};
 
-		/// <summary>
-		/// Handles a Pokemon being K.O.
-		/// </summary>
 		public void DoKO()
 		{
 			// Set HP to 0
@@ -646,7 +630,6 @@ namespace Pokedex.Models
 			Console.WriteLine();
 		}
 
-		/// <inheritdoc/>
 		public string GetQuickStatus()
 		{
 			var status = new StringBuilder();
@@ -656,7 +639,7 @@ namespace Pokedex.Models
 			// Add the species
 			status.AppendLine($"\x1b[2m - {this.SpeciesName}\x1b[0m");
 			// Add the level
-			status.Append($"Lvl : {this._level, 3}      ");
+			status.Append($"Lvl : {this.Level, 3}      ");
 			// Add the types
 			status.AppendLine(string.Join('-', this.Types));
 			// Add the HP
@@ -665,7 +648,6 @@ namespace Pokedex.Models
 			return status.ToString();
 		}
 
-		/// <inheritdoc/>
 		public string GetFullStatus()
 		{
 			var status = new StringBuilder();
@@ -682,7 +664,7 @@ namespace Pokedex.Models
 			// Add the actual name, in gray
 			status.AppendLine($"\x1b[2m - {this.SpeciesName}\x1b[0m");
 			// Add the level
-			status.Append($"Lvl : {this._level, 3}      ");
+			status.Append($"Lvl : {this.Level, 3}      ");
 			// Add the types
 			status.AppendJoin('-', this.Types); status.AppendLine();
 			// Add the HP

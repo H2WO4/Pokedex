@@ -6,11 +6,11 @@ namespace Pokedex.Models.Weathers
 	public class WeatherHail : Weather
 	{
 		#region Class Variables
-		private static WeatherHail? _singleton;
+		private static WeatherHail? __singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherHail Singleton { get => _singleton ?? (_singleton = new WeatherHail()); }
+		public static WeatherHail Singleton { get => __singleton ?? (__singleton = new WeatherHail()); }
 		#endregion
 
 		#region Constructors
@@ -38,9 +38,9 @@ namespace Pokedex.Models.Weathers
 		public override void OnTurnStart(I_Combat arena)
 			=> Console.WriteLine("Hail continues to fall.");
 		public override void OnEnter()
-			=> Console.WriteLine("Hail continues to fall.");
+			=> Console.WriteLine("It started to hail!");
 		public override void OnExit()
-			=> Console.WriteLine("Hail continues to fall.");
+			=> Console.WriteLine("The hail stopped.");
 
 		#endregion
 	}

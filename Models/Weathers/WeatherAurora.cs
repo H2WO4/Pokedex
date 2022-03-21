@@ -6,11 +6,11 @@ namespace Pokedex.Models.Weathers
 	public class WeatherAurora : Weather
 	{
 		#region Class Variables
-		private static WeatherAurora? _singleton;
+		private static WeatherAurora? __singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherAurora Singleton { get => _singleton ?? (_singleton = new WeatherAurora()); }
+		public static WeatherAurora Singleton { get => __singleton ?? (__singleton = new WeatherAurora()); }
 		#endregion
 
 		#region Constructors
@@ -26,9 +26,9 @@ namespace Pokedex.Models.Weathers
 		public override void OnTurnStart(I_Combat arena)
 			=> Console.WriteLine("The aurora borealis shines brightly.");
 		public override void OnEnter()
-			=> Console.WriteLine("The aurora borealis shines brightly.");
+			=> Console.WriteLine("An aurora borealis has appeared!");
 		public override void OnExit()
-			=> Console.WriteLine("The aurora borealis shines brightly.");
+			=> Console.WriteLine("The aurora borealis has disappeared.");
 
 		#endregion
 	}

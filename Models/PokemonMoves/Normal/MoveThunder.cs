@@ -1,4 +1,5 @@
 using Pokedex.Enums;
+using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 using Pokedex.Models.Weathers;
 
@@ -15,7 +16,7 @@ namespace Pokedex.Models.PokemonMoves
 		)
 		{ }
 
-		protected override bool AccuracyCheck(Pokemon target)
+		protected override bool AccuracyCheck(I_Battler target)
 		{
 			if (this.Arena.Weather == WeatherRain.Singleton ||
 				this.Arena.Weather == WeatherThunderstorm.Singleton)

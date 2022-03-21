@@ -3,11 +3,11 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeGrass : PokeType
 	{
 		#region Class Variables
-		protected static TypeGrass? _singleton;
+		protected static TypeGrass? __singleton;
 		#endregion
 
 		#region Properties
-		public static TypeGrass Singleton { get => _singleton ?? (_singleton = new TypeGrass()); }
+		public static TypeGrass Singleton { get => __singleton ?? (__singleton = new TypeGrass()); }
 		#endregion
 
 		#region Constructor

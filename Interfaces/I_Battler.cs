@@ -24,15 +24,20 @@ namespace Pokedex.Interfaces
 		PokeMove?[] Moves { get; }
 
 		/// <summary>
+		/// The level the Pokemon is at [1-100]
+		/// </summary>
+		int Level { get; }
+
+		/// <summary>
 		/// The player whose Team contains this
 		/// </summary>
-		/// <paramref name="Team">
-		I_Player? Owner { get; }
+		/// <paramref name="Team"/>
+		I_Player Owner { get; set; }
 
 		/// <summary>
 		/// The combat instance the fight is happening in
 		/// </summary>
-		I_Combat? Arena { get; }
+		I_Combat Arena { get; }
 
 		/// <summary>
 		/// How much health the Pokemon has
@@ -84,18 +89,21 @@ namespace Pokedex.Interfaces
 		/// <param name="caster">The pokemon inflicting the damage</param>
 		/// <param name="dmgInfo">The DamageInfo describing the damage</param>
 		/// <returns>If the damage was correctly applied, true, otherwise, false</returns>
-		bool ReceiveDamage(Pokemon caster, DamageInfo dmgInfo);
+		bool ReceiveDamage(I_Battler caster, DamageInfo dmgInfo);
+
+		/// <summary>
+		/// Handles a Pokemon being K.O.
+		/// </summary>
+		void DoKO();
 
 		/// <summary>
 		/// String representation of the basic status of the battler
 		/// </summary>
-		/// <returns></returns>
 		string GetQuickStatus();
 
 		/// <summary>
 		/// String representation of most information about the battler
 		/// </summary>
-		/// <returns></returns>
 		string GetFullStatus();
 		#endregion
 	}

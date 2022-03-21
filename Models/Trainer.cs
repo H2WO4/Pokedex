@@ -1,61 +1,52 @@
 using Pokedex.Interfaces;
 using Pokedex.Models.Events;
+using Pokedex.Models.Pokemons;
 
 namespace Pokedex.Models
 {
 	/// <summary>
-	/// Implements human-controlled player
+	/// Implements an human-controlled Player
 	/// </summary>
 	public class Trainer : I_Player
 	{
 		#region Variables
-		private string _name;
-
 		private int _activeIndex;
-		private Pokemon[] _team;
-
-		private Combat _arena;
 		#endregion
 
 		#region Properties
-		/// <inheritdoc/>
-		public string Name => this._name;
+		public string Name { get; }
 
-		/// <inheritdoc/>
-		public Pokemon Active => this._team[this._activeIndex];
+		public I_Battler Active => this.Team[this._activeIndex];
 
-		/// <inheritdoc/>
-		public Pokemon[] Team => this._team;
+		public I_Battler[] Team { get; }
 
-		/// <inheritdoc/>
-		public I_Combat Arena => this._arena;
+		public I_Combat Arena { get; }
 		#endregion
 
 		#region Constructors
 		public Trainer(
 			string name,
-			Pokemon[] team,
+			I_Battler[] team,
 			Combat arena
 		)
 		{
-			this._name = name;
+			this.Name = name;
 
 			this._activeIndex = 0;
 
 			if (team.Count() >= 1 && team.Count() <= 6)
-				this._team = team;
+				this.Team = team;
 			else throw new ArgumentException("Team must have between 1 and 6 Pokemon.");
 
 			this.Team
 				.ToList()
 				.ForEach(poke => poke.Owner = this);
 
-			this._arena = arena;
+			this.Arena = arena;
 		}
 		#endregion
 
 		#region Methods
-		/// <inheritdoc/>
 		public void PlayTurn()
 		{
 			bool endTurn = false;
@@ -69,36 +60,38 @@ namespace Pokedex.Models
 					.ToLower()
 					.Split(' ');
 
-				// If nothing was entered, ignore
-				if (action[0] == "")
-					continue;
-
-				// Depending on the first word
-				switch (action[0])
+				switch (action)
 				{
-					case "status":
-						this.StatusCommand(action);
+					case ["status", string argWhat, "full" or "detailled"]:
+						StatusCommand(argWhat, true);
 						break;
 
-					case "use":
-						this.MoveCommand(action, out endTurn);
+					case ["status", string argWhat]:
+						StatusCommand(argWhat, false);
 						break;
-
-					case "switch":
-						this.SwitchCommand(action, out endTurn);
+					
+					case ["use", string argWhich]:
+						MoveCommand(argWhich, out endTurn);
 						break;
-
-					case "help":
+					
+					case ["switch", string argWhich]:
+						SwitchCommand(argWhich, out endTurn);
+						break;
+					
+					case ["help"]:
 						Console.WriteLine("- status [self | enemy | bench | moves] <full>");
 						Console.WriteLine("- use [#move]");
 						Console.WriteLine("- switch [#pokemon]");
+						Console.WriteLine();
 						break;
-
-					// Incorrect command
+					
+					case [""]:
+						continue;
+					
 					default:
 						Console.WriteLine("Invalid command");
 						break;
-				}
+				};
 
 				Console.WriteLine();
 			}
@@ -107,36 +100,28 @@ namespace Pokedex.Models
 		/// <summary>
 		/// Sub-method handling the <c>status ...</c> commands
 		/// </summary>
-		/// <param name="action">The command parameters inputed by the player</param>
-		private void StatusCommand(string[] action)
+		/// <param name="argWhat">The command parameter inputed by the player</param>
+		/// <param name="detail">Whether full details are asked</param>
+		private void StatusCommand(string argWhat, bool detail)
 		{
-			// Check if 2 or 3 args
-			if (action.Count() != 2 && action.Count() != 3)
-			{
-				Console.WriteLine("Invalid number of arguments");
-				return;
-			}
 
 			// Depending on the second word
-			switch (action[1])
+			switch (argWhat)
 			{
-				case "active":
-				case "self":
-					SelfStatus(action.ElementAtOrDefault(2));
+				case "active" or "self":
+					SelfStatus(detail);
 					break;
 
-				case "enemy":
-				case "other":
-					OtherStatus(action.ElementAtOrDefault(2));
+				case "enemy" or "other" when !detail:
+					OtherStatus(detail);
 					break;
 
 				case "bench":
-					BenchStatus(action.ElementAtOrDefault(2));
+					BenchStatus(detail);
 					break;
 
-				case "move":
-				case "moves":
-					MoveStatus(action.ElementAtOrDefault(2));
+				case "move" or "moves":
+					MoveStatus(detail);
 					break;
 
 				default:
@@ -145,28 +130,18 @@ namespace Pokedex.Models
 			}
 
 			// Display the active pokemon's status
-			void SelfStatus(string? arg)
+			void SelfStatus(bool detail)
 			{
-				if (arg == "full" || arg == "detailed")
+				if (detail)
 					Console.WriteLine(this.Active.GetFullStatus());
-
-				else if (arg == null)
-					Console.WriteLine(this.Active.GetQuickStatus());
-
 				else
-					Console.WriteLine("Invalid parameter");
+					Console.WriteLine(this.Active.GetQuickStatus());
 			}
 
 			// Display the opponent's active pokemon's status
-			void OtherStatus(string? arg)
+			void OtherStatus(bool detail)
 			{
-				if (arg != null)
-				{
-					Console.WriteLine("Invalid number of arguments");
-					return;
-				}
-
-				this._arena.Players
+				this.Arena.Players
 					.Where(player => player != this)
 					.Select(player => player.Active)
 					.ToList()
@@ -174,68 +149,46 @@ namespace Pokedex.Models
 			}
 
 			// Display the rest of the team statuses
-			void BenchStatus(string? arg)
+			void BenchStatus(bool detail)
 			{
-				if (arg == "full" || arg == "detailed")
-					if (this._team.Count() == 1)
-						Console.WriteLine("No pokemon on the bench");
-					else
-						this._team
-							.Select((poke, i) => (poke, i))
-							.Where(pair => pair.poke != this.Active)
-							.ToList()
-							.ForEach(pair => Console.WriteLine($"\x1b[38;2;255;127;0;1m{pair.i+1}\x1b[0m {pair.poke.GetFullStatus()}"));
+				for (var i = 0; i < this.Team.Count(); i++)
+				{
+					if (i == this._activeIndex) continue;
 
-				else if (arg == null)
-					if (this._team.Count() == 1)
-						Console.WriteLine("No pokemon on the bench");
-					else
-						this._team
-							.Select((poke, i) => (poke, i))
-							.Where(pair => pair.poke != this.Active)
-							.ToList()
-							.ForEach(pair => Console.WriteLine($"\x1b[38;2;255;127;0;1m{pair.i+1}\x1b[0m {pair.poke.GetQuickStatus()}"));
+					string pokeStatus = detail
+						? this.Team[i].GetFullStatus()
+						: this.Team[i].GetQuickStatus();
+					Console.WriteLine($"\x1b[38;2;255;127;0;1m{i+1}\x1b[0m {pokeStatus}");
+				}
 
-				else
-					Console.WriteLine("Invalid parameter");
+				if (this.Team.Count() == 1)
+					Console.WriteLine("No pokemon on the bench");
 			}
 
 			// Display the active pokemon's moves
-			void MoveStatus(string? arg)
+			void MoveStatus(bool detail)
 			{
-				if (arg == "full" || arg == "detailed")
+				for (var i = 0; i < 4; i++)
 				{
-					for (var i = 0; i < 4; i++)
-						Console.WriteLine($"\x1b[38;2;255;127;0;1m{i+1}\x1b[0m {this.Active.Moves[i]?.GetFullStatus() ?? "---"}");
+					string moveStatus = detail
+						? this.Active.Moves[i]?.GetFullStatus() ?? "---"
+						: this.Active.Moves[i]?.GetQuickStatus() ?? "---";
+					Console.WriteLine($"\x1b[38;2;255;127;0;1m{i+1}\x1b[0m {moveStatus}");
 				}
-				else if (arg == null)
-				{
-					for (var i = 0; i < 4; i++)
-						Console.WriteLine($"\x1b[38;2;255;127;0;1m{i+1}\x1b[0m {this.Active.Moves[i]?.GetQuickStatus() ?? "---"}");
-				}
-				else
-					Console.WriteLine("Invalid parameter");
 			}
 		}
 
 		/// <summary>
 		/// Sub-method handling the <c>move ...</c> commands
 		/// </summary>
-		/// <param name="action">The command parameters inputed by the player</param>
-		private void MoveCommand(string[] action, out bool endTurn)
+		/// <param name="argWhich">The command parameters inputed by the player</param>
+		private void MoveCommand(string argWhich, out bool endTurn)
 		{
 			endTurn = false;
 
-			// Check if 2 args
-			if (action.Count() != 2)
-			{
-				Console.WriteLine("Invalid number of arguments");
-				return;
-			}
-
 			int moveNum;
-			// Check if 2nd arg is a number
-			if (!Int32.TryParse(action[1], out moveNum))
+			// Check if arg is a number
+			if (!Int32.TryParse(argWhich, out moveNum))
 			{
 				Console.WriteLine("Second argument must be a number");
 				return;
@@ -260,10 +213,10 @@ namespace Pokedex.Models
 			// Create the event
 			var ev = new MoveEvent(
 				this.Active, this,
-				move, this._arena
+				move, this.Arena
 			);
 			// Add it to the queue
-			this._arena.AddToBottom(ev);
+			this.Arena.AddToBottom(ev);
 
 			// Conclude the player's turn
 			endTurn = true;
@@ -272,21 +225,14 @@ namespace Pokedex.Models
 		/// <summary>
 		/// Sub-method handling the <c>switch ...</c> commands
 		/// </summary>
-		/// <param name="action">The command parameters inputed by the player</param>
-		private void SwitchCommand(string[] action, out bool endTurn)
+		/// <param name="argWhich">The command parameters inputed by the player</param>
+		private void SwitchCommand(string argWhich, out bool endTurn)
 		{
 			endTurn = false;
 
-			// Check if 2 args
-			if (action.Count() != 2)
-			{
-				Console.WriteLine("Invalid number of arguments");
-				return;
-			}
-
 			int pokeNum;
 			// Check if 2nd arg is a number
-			if (!Int32.TryParse(action[1], out pokeNum))
+			if (!Int32.TryParse(argWhich, out pokeNum))
 			{
 				Console.WriteLine("Second argument must be a number");
 				return;
@@ -294,7 +240,7 @@ namespace Pokedex.Models
 			pokeNum--; // Change from 1-based index to 0-based
 
 			// Check if 2nd arg within bounds
-			if (pokeNum < 1 || pokeNum > this._team.Count())
+			if (pokeNum < 1 || pokeNum > this.Team.Count())
 			{
 				Console.WriteLine("Invalid pokemon number");
 				return;
@@ -307,7 +253,7 @@ namespace Pokedex.Models
 				return;
 			}
 
-			if (this._team[pokeNum].CurrHP == 0)
+			if (this.Team[pokeNum].CurrHP == 0)
 			{
 				Console.WriteLine("This pokémon is K.O.");
 				return;
@@ -316,19 +262,17 @@ namespace Pokedex.Models
 			// Create the event
 			var ev = new SwitchEvent(
 				this, pokeNum,
-				this._arena
+				this.Arena
 			);
 			// Add it to the queue
-			this._arena.AddToBottom(ev);
+			this.Arena.AddToBottom(ev);
 
 			// Conclude the player's turn
 			endTurn = true;
 		}
 
-		/// <inheritdoc/>
 		public void ChangeActive(int index) => this._activeIndex = index;
 
-		/// <inheritdoc/>
 		public void AskActiveChange()
 		{
 			Console.WriteLine("\x1b[4m" + "Choose a pokemon to send" + "\x1b[0m");

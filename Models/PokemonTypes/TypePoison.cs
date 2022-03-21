@@ -3,11 +3,11 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypePoison : PokeType
 	{
 		#region Class Variables
-		protected static TypePoison? _singleton;
+		protected static TypePoison? __singleton;
 		#endregion
 
 		#region Properties
-		public static TypePoison Singleton { get => _singleton ?? (_singleton = new TypePoison()); }
+		public static TypePoison Singleton { get => __singleton ?? (__singleton = new TypePoison()); }
 		#endregion
 
 		#region Constructor
