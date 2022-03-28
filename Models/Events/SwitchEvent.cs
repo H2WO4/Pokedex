@@ -46,11 +46,7 @@ namespace Pokedex.Models.Events
 			if (this.Origin.Active.CurrHP == 0)
 				return;
 
-			Console.WriteLine("\x1b[4m" + $"{this.Origin.Name} takes out {this.Origin.Active.Name}" + "\x1b[0m");
-			// ? Handles OnExit abilities
 			this.Origin.ChangeActive(this.Target);
-			Console.WriteLine("\x1b[4m" + $"{this.Origin.Name} sends out {this.Origin.Active.Name}" + "\x1b[0m");
-			// ? Handles OnEnter abilities
 		}
 		
 		public void PreUpdate() { }

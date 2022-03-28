@@ -1,6 +1,5 @@
 using Pokedex.Interfaces;
 using Pokedex.Models.Events;
-using Pokedex.Models.Pokemons;
 
 namespace Pokedex.Models
 {
@@ -51,9 +50,12 @@ namespace Pokedex.Models
 		{
 			bool endTurn = false;
 
+			this.Active.Ability.OnTurnStart();
+
 			// Until the player entered a command ending their turn
 			// Or stdin is empty
-			while (!endTurn && Console.In.Peek() != -1)
+			while (!endTurn
+					&& Console.In.Peek() != -1)
 			{
 				// Read the command, and split it into words
 				string[] action = Console.ReadLine()!
@@ -95,6 +97,8 @@ namespace Pokedex.Models
 
 				Console.WriteLine();
 			}
+
+			this.Active.Ability.OnTurnEnd();
 		}
 
 		/// <summary>
@@ -271,7 +275,17 @@ namespace Pokedex.Models
 			endTurn = true;
 		}
 
-		public void ChangeActive(int index) => this._activeIndex = index;
+		public void ChangeActive(int index)
+		{
+			Console.WriteLine("\x1b[4m" + $"{this.Name} takes out {this.Active.Name}" + "\x1b[0m");
+			Console.WriteLine();
+			this.Active.Ability.OnExit();
+
+			this._activeIndex = index;
+
+			Console.WriteLine("\x1b[4m" + $"{this.Name} sends out {this.Active.Name}\n" + "\x1b[0m");
+			this.Active.Ability.OnEnter();
+		}
 
 		public void AskActiveChange()
 		{
@@ -318,10 +332,7 @@ namespace Pokedex.Models
 					continue;
 				}
 
-				Console.WriteLine("\x1b[4m" + $"{this.Name} takes out {this.Active.Name}" + "\x1b[0m");
-				Console.WriteLine();
 				this.ChangeActive(pokeNum);
-				Console.WriteLine("\x1b[4m" + $"{this.Name} sends out {this.Active.Name}\n" + "\x1b[0m");
 				pokeChosen = true;
 			}
 		}

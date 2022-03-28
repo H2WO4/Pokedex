@@ -70,6 +70,8 @@ namespace Pokedex.Models
 		#region Methods
 		public virtual void OnUse()
 		{
+			this.Caster.Ability.BeforeAttack(this);
+
 			// Select targets
 			var targets = this.GetTargets();
 
@@ -114,23 +116,22 @@ namespace Pokedex.Models
 		/// <param name="target">The target to use</param>
 		protected virtual void DoAction(I_Battler target)
 		{
-			DamageClass dmgClass = this.Class == MoveClass.Physical
-									? DamageClass.Physical
-									: DamageClass.Special;
+			/* target.Ability.BeforeDefend(this);
+
+			InterType dmgClass = this.Class == MoveClass.Physical
+									? InterType.Physical
+									: InterType.Special;
 
 			double power = this.Power ?? 0;
-
-			// ? Implement BeforeAttack
-			// Code
 
 			// Apply STAB
 			if (this.Caster.Types.Contains(this.Type))
 				power *= 1.5;
 
 
-			bool success = target.ReceiveDamage(this.Caster, new DamageInfo(dmgClass, this.Power ?? 0, this.Type));
+			bool success = target.ReceiveDamage(this.Caster, new Interaction(dmgClass, this.Power ?? 0, this.Type));
 			if (!success)
-				Console.WriteLine("But it failed");
+				Console.WriteLine("But it failed"); */
 		}
 
 		public virtual void PreAction(MoveEvent event_) { }

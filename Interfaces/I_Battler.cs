@@ -29,15 +29,19 @@ namespace Pokedex.Interfaces
 		int Level { get; }
 
 		/// <summary>
-		/// The player whose Team contains this
+		/// The player whose team contains this
 		/// </summary>
-		/// <paramref name="Team"/>
 		I_Player Owner { get; set; }
 
 		/// <summary>
 		/// The combat instance the fight is happening in
 		/// </summary>
 		I_Combat Arena { get; }
+
+		/// <summary>
+		/// The passive talent of the Pokemon
+		/// </summary>
+		Ability Ability { get; set; }
 
 		/// <summary>
 		/// How much health the Pokemon has
@@ -82,14 +86,6 @@ namespace Pokedex.Interfaces
 		/// <param name="attacker">The incoming damage's type</param>
 		/// <returns>Damage multiplier as a double</returns>
 		double GetAffinity(PokeType attacker);
-
-		/// <summary>
-		/// Receive damage via a DamageInfo
-		/// </summary>
-		/// <param name="caster">The pokemon inflicting the damage</param>
-		/// <param name="dmgInfo">The DamageInfo describing the damage</param>
-		/// <returns>If the damage was correctly applied, true, otherwise, false</returns>
-		bool ReceiveDamage(I_Battler caster, DamageInfo dmgInfo);
 
 		/// <summary>
 		/// Handles a Pokemon being K.O.

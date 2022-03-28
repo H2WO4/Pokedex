@@ -19,18 +19,18 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 
 		protected override void DoAction(I_Battler target)
 		{
-			DamageClass dmgClass = this.Class == MoveClass.Physical
-									? DamageClass.Physical
-									: DamageClass.Special;
+			/* InterType dmgClass = this.Class == MoveClass.Physical
+									? InterType.Physical
+									: InterType.Special;
 
-			bool success = target.ReceiveDamage(this.Caster, new DamageInfo(dmgClass, this.Power ?? 0, this.Type));
+			bool success = target.ReceiveDamage(this.Caster, new Interaction(dmgClass, this.Power ?? 0, this.Type));
 			if (!success)
 				Console.WriteLine("But it failed");
 			else
 			{
 				var ev = new SwitchInputEvent(this.Caster.Owner, this.Arena);
 				this.Arena.AddToTop(ev);
-			}
+			} */
 		}
 	}
 }

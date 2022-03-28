@@ -100,7 +100,10 @@ namespace Pokedex.Models
 				}
 
 				// Do weather effects
-				this._weather.OnTurnEnd(this);
+				if (this.Players
+						.Select(player => player.Active)
+						.All(poke => poke.Ability.AllowWeather()))
+					this._weather.OnTurnEnd(this);
 			}
 
 			// Return the winning player

@@ -5,8 +5,8 @@ namespace Pokedex.Enums
 	/// </summary>
 	public enum DamageClass
 	{
-		Physical,
-		Special,
 		Pure,
+		Percent,
+		Calculated,
 	}
 }

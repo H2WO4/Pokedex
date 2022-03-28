@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Pokedex.Enums;
 
 namespace Pokedex.Models
@@ -19,17 +20,24 @@ namespace Pokedex.Models
 		public int Power { get; set; }
 
 		/// <summary>
-		/// The type of the damage, if there is one
+		/// The type of the damage
 		/// </summary>
 		public PokeType? Type { get; set; }
+
+		public string AttackStats { get; init; }
+
+		public string DefenseStats { get; init; }
 		#endregion
 
 		#region Constructors
-		public DamageInfo(DamageClass class_, int power, PokeType? type)
+		public DamageInfo(DamageClass class_, int power, PokeType type = null!)
 		{
 			this.Class = class_;
 			this.Power = power;
 			this.Type = type;
+
+			this.AttackStats = "";
+			this.DefenseStats = "";
 		}
 		#endregion
 

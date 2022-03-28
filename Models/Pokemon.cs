@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Pokedex.Enums;
 using Pokedex.Interfaces;
+using Pokedex.Models.Abilities;
 using Pokedex.Models.Events;
 
 namespace Pokedex.Models
@@ -15,7 +16,6 @@ namespace Pokedex.Models
 		private I_Player? _owner;
 		private int _currHP;
 		private Nature _nature;
-		private Dictionary<string, int> _statBoosts;
 
 		private char[] _nMarks;
 		#endregion
@@ -49,7 +49,7 @@ namespace Pokedex.Models
 		#region Properties
 		public int ID => this.Species.ID;
 
-		public List<PokeType> Types => this.Species.Types;
+		public List<PokeType> Types => this.Ability.ChangeType() ?? this.Species.Types;
 
 		public PokeMove?[] Moves => this._moves;
 
@@ -79,18 +79,25 @@ namespace Pokedex.Models
 		public Dictionary<string, int> EVs { get; private set; }
 
 		/// <summary>
+		/// The levels of boosts associated to each stat
+		/// </summary>
+		public Dictionary<string, int> StatBoosts { get; private set; }
+
+		/// <summary>
 		/// The nature of the Pokemon
 		/// </summary>
 		public Nature Nature
 		{
 			get => this._nature;
 			set
-			{
+			{	
 				if (Math.Log2((int)value) % 1 == 0) throw new ArgumentException();
 				this._nature = value;
 				this._nMarks = this.GetNatureChars();
 			}
 		}
+
+		public Ability Ability { get; set; }
 
 		public virtual int CurrHP
 		{
@@ -105,11 +112,24 @@ namespace Pokedex.Models
 		protected virtual int BaseSpDef => this.Species.Stats["spDef"];
 		protected virtual int BaseSpd => this.Species.Stats["spd"];
 
+		/// <summary>
+		/// The species the battler belongs to
+		/// </summary>
 		public PokeSpecies Species { get; }
+
+		/// <inheritdoc cref="PokeSpecies.Name"/>
 		public string SpeciesName => this.Species.Name;
+
+		/// <inheritdoc cref="PokeSpecies.Genus"/>
 		public string Genus => this.Species.Genus;
+
+		/// <inheritdoc cref="PokeSpecies.Class"/>
 		public PokeClass Class => this.Species.Class;
+
+		/// <inheritdoc cref="PokeSpecies.Height"/>
 		public int Height => this.Species.Height;
+
+		/// <inheritdoc cref="PokeSpecies.Weight"/>
 		public int Weight => this.Species.Weight;
 		#endregion
 
@@ -152,6 +172,9 @@ namespace Pokedex.Models
 
 			this.SetMoves(null, null, null, null);
 			this.SetBoosts(0, 0, 0, 0, 0);
+
+			// Ceci n'est pas un placeholder
+			this.Ability = new Ability___();
 
 			this._currHP = this.HP();
 		}
@@ -206,8 +229,11 @@ namespace Pokedex.Models
 			result = (int)(result * this.Level / 100d); // Adjust for level part 1
 			result += this.Level + 10; // Adjust for level part 2
 
+			result = this.Ability.ChangeHP(result);
+
 			return result;
 		}
+		
 		public int Atk()
 		{
 			int result = this.BaseAtk * 2; // Base stat
@@ -222,10 +248,13 @@ namespace Pokedex.Models
 
 			result = (int)(result * natureBonus); // Apply Nature
 
-			result = (int)(result * __stageMult[this._statBoosts["atk"]]); // Apply stat boost
+			result = (int)(result * __stageMult[this.StatBoosts["atk"]]); // Apply stat boost
+
+			result = this.Ability.ChangeAtk(result);
 
 			return result;
 		}
+		
 		public int Def()
 		{
 			int result = this.BaseDef * 2; // Base stat
@@ -240,10 +269,13 @@ namespace Pokedex.Models
 
 			result = (int)(result * natureBonus); // Apply Nature
 
-			result = (int)(result * __stageMult[(this._statBoosts["def"])]); // Apply stat boost
+			result = (int)(result * __stageMult[(this.StatBoosts["def"])]); // Apply stat boost
+
+			result = this.Ability.ChangeDef(result);
 
 			return result;
 		}
+		
 		public int SpAtk()
 		{
 			int result = this.BaseSpAtk * 2; // Base stat
@@ -258,10 +290,13 @@ namespace Pokedex.Models
 
 			result = (int)(result * natureBonus); // Apply Nature
 
-			result = (int)(result * __stageMult[(this._statBoosts["spAtk"])]); // Apply stat boost
+			result = (int)(result * __stageMult[(this.StatBoosts["spAtk"])]); // Apply stat boost
+
+			result = this.Ability.ChangeSpAtk(result);
 
 			return result;
 		}
+		
 		public int SpDef()
 		{
 			int result = this.BaseSpDef * 2; // Base stat
@@ -276,10 +311,13 @@ namespace Pokedex.Models
 
 			result = (int)(result * natureBonus); // Apply Nature
 
-			result = (int)(result * __stageMult[(this._statBoosts["spDef"])]); // Apply stat boost
+			result = (int)(result * __stageMult[(this.StatBoosts["spDef"])]); // Apply stat boost
+
+			result = this.Ability.ChangeSpDef(result);
 
 			return result;
 		}
+		
 		public int Spd()
 		{
 			int result = this.BaseSpd * 2; // Base stat
@@ -294,7 +332,9 @@ namespace Pokedex.Models
 
 			result = (int)(result * natureBonus); // Apply Nature
 
-			result = (int)(result * __stageMult[(this._statBoosts["spd"])]); // Apply stat boost
+			result = (int)(result * __stageMult[(this.StatBoosts["spd"])]); // Apply stat boost
+
+			result = this.Ability.ChangeSpd(result);
 
 			return result;
 		}
@@ -379,10 +419,10 @@ namespace Pokedex.Models
 		/// <summary>
 		/// Change the stat boost values to the inputs
 		/// </summary>
-		[MemberNotNull(nameof(_statBoosts))]
+		[MemberNotNull(nameof(StatBoosts))]
 		public void SetBoosts(int atk, int def, int spAtk, int spDef, int spd)
 		{
-			this._statBoosts = new Dictionary<string, int>()
+			this.StatBoosts = new Dictionary<string, int>()
 			{
 				{ "atk",   atk   },
 				{ "def",   def   },
@@ -512,102 +552,29 @@ namespace Pokedex.Models
 			};
 
 		/// <summary>
-		/// Handle the damage receiving part
+		/// Add the input value to an already existing stat boost
 		/// </summary>
-		/// <param name="caster">The Pokemon who casted the move</param>
-		/// <param name="damageInfo">Describes what kind of damage is being dealt</param>
-		/// <returns></returns>
-		public bool ReceiveDamage(I_Battler caster, DamageInfo damageInfo)
-		{
-			// If this pokemon fainted, do nothing
-			if (this.CurrHP == 0)
-				return false;
+		/// <param name="stat">The stat boost the change</param>
+		/// <param name="val">The value to add</param>
+		public void ChangeStatBonus(string stat, int val)
+			=> this.StatBoosts[stat] = Math.Clamp(this.StatBoosts[stat] + val, -6, 6);
 
-			int finalDamage;
-
-			// * Damage Calculation
-			if (damageInfo.Class == DamageClass.Pure)
-			{
-				finalDamage = damageInfo.Power;
-
-				// ? Implement abilities OnInflictDamage
-				// Code
-
-				// ? Implement abilities OnReceiveDamage
-				// Code
-			}
-			else
-			{
-				// Initial damage
-				double damage = (0.4 * caster.Level + 2) * (damageInfo.Power);
-
-				// Adjust for stats
-				if (damageInfo.Class == DamageClass.Physical)
-					damage *= ((double)caster.Atk() / this.Def());
-				else
-					damage *= ((double)caster.SpAtk() / this.SpDef());
-
-				// Continue the calculation
-				damage = damage / 50 + 2;
-
-				// Apply weather
-				damage = this.Arena.Weather.OnDamageGive(damage, damageInfo.Type!);
-
-				// Apply type weaknesses
-				damage *= this.GetAffinity(damageInfo.Type!);
-
-				#region TODO
-				// ? Implement Burn
-				// if (burn_cond && move.Class == MoveClass.Physical)
-				//	damage *= 0.5;
-
-				// ? Implement Critical Hits
-				// Code
-
-				// ? Implement abilities OnInflictDamage
-				// Code
-
-				// ? Implement abilities OnReceiveDamage
-				// Code
-				#endregion
-
-				// Floor the result
-				finalDamage = (int)(damage);
-			}
-
-
-			// * Output
-			// Do damage and display
-			this.CurrHP -= finalDamage;
-			int percentage = Math.Clamp(finalDamage * 100 / this.HP(), 0, 100);
-			Console.WriteLine($"{this.Name} lost {percentage}% HP");
-
-
-			// * Fainted
-			// If this pokemon fainted
-			if (this.CurrHP == 0)
-			{
-				// Handles the KO
-				this.DoKO();
-				return true;
-			}
-
-			Console.WriteLine();
-			return true;
-		}
-		
 		/// <summary>
 		/// Add the input value to the already existing stat boosts
 		/// </summary>
 		public void ChangeStatBonuses(int atk, int def, int spAtk, int spDef, int spd)
-			=> this._statBoosts = new Dictionary<string, int>
+		{
+			(atk, def, spAtk, spDef, spd) = this.Ability.OnStatChange(atk, def, spAtk, spDef, spd);
+
+			this.StatBoosts = new Dictionary<string, int>
 			{
-				{ "atk", Math.Clamp(this._statBoosts["atk"] + atk, -6, 6) },
-				{ "def", Math.Clamp(this._statBoosts["def"] + def, -6, 6) },
-				{ "spAtk", Math.Clamp(this._statBoosts["spAtk"] + spAtk, -6, 6) },
-				{ "spDef", Math.Clamp(this._statBoosts["spDef"] + spDef, -6, 6) },
-				{ "spd", Math.Clamp(this._statBoosts["spd"] + spd, -6, 6) },
+				{ "atk", Math.Clamp(this.StatBoosts["atk"] + atk, -6, 6) },
+				{ "def", Math.Clamp(this.StatBoosts["def"] + def, -6, 6) },
+				{ "spAtk", Math.Clamp(this.StatBoosts["spAtk"] + spAtk, -6, 6) },
+				{ "spDef", Math.Clamp(this.StatBoosts["spDef"] + spDef, -6, 6) },
+				{ "spd", Math.Clamp(this.StatBoosts["spd"] + spd, -6, 6) },
 			};
+		}
 
 		public void DoKO()
 		{
@@ -617,7 +584,7 @@ namespace Pokedex.Models
 			// Display that the pokemon is K.O.
 			Console.WriteLine($"{this.Name} fainted");
 
-			// ? Implement OnKO abilities
+			this.Ability.OnDeath();
 
 			// If the trainer has some Pokemons left, ask to send another one
 			if (this.Owner.Team.Any(poke => poke.CurrHP > 0))
@@ -653,7 +620,7 @@ namespace Pokedex.Models
 			var status = new StringBuilder();
 			string[] statColor = new string[]
 			{ "atk", "def", "spAtk", "spDef", "spd" }
-				.Select(stat => this._statBoosts[stat])
+				.Select(stat => this.StatBoosts[stat])
 				.Select(stage => stage > 0 ? "\x1b[38;2;0;128;0m"
 								: stage == 0 ? ""
 								: "\x1b[38;2;255;0;0m")
