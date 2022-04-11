@@ -6,18 +6,18 @@ namespace Pokedex.Models.Weathers
 	public class WeatherZenith : Weather
 	{
 		#region Class Variables
-		private static WeatherZenith? __singleton;
+		private static WeatherZenith? _singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherZenith Singleton { get => __singleton ?? (__singleton = new WeatherZenith()); }
+		public static WeatherZenith Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructors
-		protected WeatherZenith() : base("Zenith")
+		private WeatherZenith() : base("Zenith")
 		{
-			this._typePower.Add(TypeFire.Singleton, 1.5f);
-			this._typePower.Add(TypeWater.Singleton, 0.5f);
+			TypePower.Add(TypeFire.Singleton, 1.5f);
+			TypePower.Add(TypeWater.Singleton, 0.5f);
 		}
 		#endregion
 

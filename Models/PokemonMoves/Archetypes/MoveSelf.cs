@@ -5,18 +5,18 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 {
 	public abstract class MoveSelf : PokeMove
 	{
-		public MoveSelf
+		protected MoveSelf
 		(
 			string name,
-			MoveClass class_,
+			MoveClass @class,
 			int? power,
 			int? accuracy,
 			int maxPp,
 			int priority,
 			PokeType type
-		) : base(name, class_, power, accuracy, maxPp, priority, type) { }
+		) : base(name, @class, power, accuracy, maxPp, priority, type) { }
 
 		protected override List<I_Battler> GetTargets()
-			=> new List<I_Battler> { this.Caster };
+			=> new() { Caster };
 	}
 }

@@ -18,13 +18,13 @@ namespace Pokedex.Models
 			string name
 		)
 		{
-			this.Name = name;
+			Name = name;
 		}
 		#endregion
 
 		#region Methods
 		protected void Announce()
-			=> System.Console.WriteLine($"{this.Origin.Name}'s {this.Name}");
+			=> Console.WriteLine($"{Origin.Name}'s {Name}");
 		
 		#endregion
 

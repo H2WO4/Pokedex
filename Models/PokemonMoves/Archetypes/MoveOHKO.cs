@@ -5,15 +5,15 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 {
 	public abstract class MoveOHKO : PokeMove
 	{
-		public MoveOHKO
+		protected MoveOHKO
 		(
 			string name,
-			MoveClass class_,
+			MoveClass @class,
 			int? accuracy,
 			int maxPp,
 			int priority,
 			PokeType type
-		) : base(name, class_, null, accuracy, maxPp, priority, type) { }
+		) : base(name, @class, null, accuracy, maxPp, priority, type) { }
 
 		protected override void DoAction(I_Battler target)
 			=> target.DoKO();

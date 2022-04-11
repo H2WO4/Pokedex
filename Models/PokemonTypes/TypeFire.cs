@@ -3,15 +3,15 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeFire : PokeType
 	{
 		#region Class Variables
-		protected static TypeFire? __singleton;
+		private static TypeFire? _singleton;
 		#endregion
 
 		#region Properties
-		public static TypeFire Singleton { get => __singleton ?? (__singleton = new TypeFire()); }
+		public static TypeFire Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructor
-		public TypeFire() : base(
+		private TypeFire() : base(
 			"Fire", (236, 66, 37)
 		)
 		{ }

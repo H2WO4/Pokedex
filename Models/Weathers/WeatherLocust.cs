@@ -6,21 +6,21 @@ namespace Pokedex.Models.Weathers
 	public class WeatherLocust : Weather
 	{
 		#region Class Variables
-		private static WeatherLocust? __singleton;
+		private static WeatherLocust? _singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherLocust Singleton { get => __singleton ?? (__singleton = new WeatherLocust()); }
+		public static WeatherLocust Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructors
-		protected WeatherLocust() : base("Locust Swarm")
+		private WeatherLocust() : base("Locust Swarm")
 		{
-			this._typePower.Add(TypeBug.Singleton, 1.5f);
+			TypePower.Add(TypeBug.Singleton, 1.5f);
 
-			this._typeSelector.Append(TypeBug.Singleton);
-			this._typeSelector.Append(TypePoison.Singleton);
-			this._typeSelector.Append(TypeGrass.Singleton);
+			TypeSelector.Add(TypeBug.Singleton);
+			TypeSelector.Add(TypePoison.Singleton);
+			TypeSelector.Add(TypeGrass.Singleton);
 		}
 		#endregion
 
@@ -29,7 +29,7 @@ namespace Pokedex.Models.Weathers
 		{
 			arena.Players
 				.Select(player => player.Active)
-				.Where(poke => poke.Types.Intersect(this._typeSelector).Count() > 0)
+				.Where(poke => poke.Types.Intersect(TypeSelector).Count() > 0)
 				.ToList()
 				.ForEach(poke => Console.WriteLine($"{poke.Name} is buffeted by the locust swarm!"));
 		}

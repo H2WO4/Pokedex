@@ -85,6 +85,7 @@ namespace Pokedex.Interfaces
 		/// Get the corresponding effective stat
 		/// </summary>
 		/// <param name="stat">The stat to get</param>
+		/// <exception cref="ArgumentException">Throws when the stat given is not found</exception>
 		int GetStat(Stat stat);
 
 		/// <summary>

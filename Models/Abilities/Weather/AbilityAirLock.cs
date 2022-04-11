@@ -1,6 +1,6 @@
 namespace Pokedex.Models.Abilities
 {
-	public class AbilityAirLock : Ability
+	public class AbilityAirLock : Models.Ability
 	{
 		#region Constructors
 		public AbilityAirLock()

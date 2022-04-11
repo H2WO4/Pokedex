@@ -8,8 +8,8 @@ namespace Pokedex.Models
 	public abstract class Weather
 	{
 		#region Variables
-		protected Dictionary<PokeType, float> _typePower;
-		protected PokeType[] _typeSelector;
+		protected readonly Dictionary<PokeType, float> TypePower;
+		protected readonly List<PokeType> TypeSelector;
 		#endregion
 
 		#region Properties
@@ -22,9 +22,9 @@ namespace Pokedex.Models
 		#region Constructors
 		protected Weather(string name)
 		{
-			this.Name = name;
-			this._typePower = new Dictionary<PokeType, float>();
-			this._typeSelector = new PokeType[] { };
+			Name = name;
+			TypePower = new Dictionary<PokeType, float>();
+			TypeSelector = new List<PokeType>();
 		}
 		#endregion
 
@@ -36,7 +36,7 @@ namespace Pokedex.Models
 		/// <param name="type">The type of the damage</param>
 		/// <returns>The new damage value</returns>
 		public virtual double OnDamageGive(double damage, PokeType type)
-			=> this._typePower.GetValueOrDefault(type, 1) * damage;
+			=> TypePower.GetValueOrDefault(type, 1) * damage;
 
 		/// <summary>
         /// Called at a weather change, when this is the new weather

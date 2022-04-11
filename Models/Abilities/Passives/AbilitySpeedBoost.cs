@@ -2,7 +2,7 @@ using Pokedex.Enums;
 
 namespace Pokedex.Models.Abilities
 {
-	public class AbilitySpeedBoost : Ability
+	public class AbilitySpeedBoost : Models.Ability
 	{
 		#region Constructors
 		public AbilitySpeedBoost()
@@ -13,8 +13,8 @@ namespace Pokedex.Models.Abilities
 		#region Methods
 		public override void OnTurnEnd()
 		{
-			this.Announce();
-			this.Origin.ChangeStatBonus(Stat.Spd, +1);
+			Announce();
+			Origin.ChangeStatBonus(Stat.Spd, +1);
 		}
 		#endregion
 	}

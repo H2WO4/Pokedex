@@ -33,27 +33,27 @@ namespace Pokedex.Models.Events
 			I_Combat context
 		)
 		{
-			this.Caster = caster;
-			this.Move = move;
-			this.Context = context;
+			Caster = caster;
+			Move = move;
+			Context = context;
 
-			this.Priority = move.Priority;
-			this.Speed = caster.Spd();
+			Priority = move.Priority;
+			Speed = caster.Spd();
 		}
 		#endregion
 
 		#region Methods
 		public void Update()
 		{
-			if (this.Caster.CurrHP == 0)
+			if (Caster.CurrHP == 0)
 				return;
 
 			// Print move usage
-			Console.WriteLine("\x1b[4m" + $"{this.Caster.Name} uses {this.Move.Name}" + "\x1b[0m");
-			this.Move.OnUse();
+			Console.WriteLine("\x1b[4m" + $"{Caster.Name} uses {Move.Name}" + "\x1b[0m");
+			Move.OnUse();
 		}
 
-		public void PreUpdate() => this.Move.PreAction(this);
+		public void PreUpdate() => Move.PreAction(this);
 		#endregion
 	}
 }

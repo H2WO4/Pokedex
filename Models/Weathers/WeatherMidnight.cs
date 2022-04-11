@@ -6,18 +6,18 @@ namespace Pokedex.Models.Weathers
 	public class WeatherMidnight : Weather
 	{
 		#region Class Variables
-		private static WeatherMidnight? __singleton;
+		private static WeatherMidnight? _singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherMidnight Singleton { get => __singleton ?? (__singleton = new WeatherMidnight()); }
+		public static WeatherMidnight Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructors
-		protected WeatherMidnight() : base("Midnight")
+		private WeatherMidnight() : base("Midnight")
 		{
-			this._typePower.Add(TypeDark.Singleton, 1.5f);
-			this._typePower.Add(TypeLight.Singleton, 0.5f);
+			TypePower.Add(TypeDark.Singleton, 1.5f);
+			TypePower.Add(TypeLight.Singleton, 0.5f);
 		}
 		#endregion
 

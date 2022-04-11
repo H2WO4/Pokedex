@@ -4,12 +4,8 @@ using Pokedex.Utils;
 
 namespace Pokedex.Models
 {
-	public class DamageHandler
+	public static class DamageHandler
 	{
-		#region Constructors
-		private DamageHandler() { }
-		#endregion
-
 		#region Methods
 		public static bool DoDamage(DamageInfo dmgInfo, I_Battler caster, I_Battler target)
 		{
@@ -17,7 +13,7 @@ namespace Pokedex.Models
 				return false;
 
 			// Activate abilites and cancel the damage if necessary
-			bool cancel = false;
+			var cancel = false;
 			if (caster != target)
 			{
 				cancel |= caster.Ability?.OnInflictDamage(dmgInfo, target) ?? false;
@@ -33,7 +29,7 @@ namespace Pokedex.Models
 			switch (dmgInfo)
 			{
 				case { Class: DamageClass.Pure }:
-					// Calculate the damge
+					// Calculate the damage
 					damage = dmgInfo.Power;
 				break;
 
@@ -42,7 +38,7 @@ namespace Pokedex.Models
 					damage = target.HP() * dmgInfo.Power / 100d;
 				break;
 
-				case { Class: DamageClass.Calculated, Type: PokeType type }:
+				case { Class: DamageClass.Calculated, Type: {} type }:
 					// Initial damage
 					damage = (0.4 * caster.Level + 2) * (dmgInfo.Power);
 
@@ -50,14 +46,14 @@ namespace Pokedex.Models
 					IEnumerable<Stat> atkStats = dmgInfo.AttackStats.GetFlags();
 					IEnumerable<Stat> defStats = dmgInfo.DefenseStats.GetFlags();
 					// Adjust for stats
-					double multipler = 1;
-					multipler *= atkStats
-						.Select(stat => caster.GetStat(stat))
+					double multiplier = 1;
+					multiplier *= atkStats
+						.Select(caster.GetStat)
 						.Average();
-					multipler /= defStats
-						.Select(stat => target.GetStat(stat))
+					multiplier /= defStats
+						.Select(target.GetStat)
 						.Average();
-					damage *= multipler;
+					damage *= multiplier;
 
 					// Continue the calculation
 					damage = damage / 50 + 2;
@@ -69,7 +65,7 @@ namespace Pokedex.Models
 					damage *= target.GetAffinity(type);
 				break;
 
-				default: throw new ArgumentException();
+				default: throw new ArgumentException("Invalid value");
 			}
 
 			if (damage >= target.CurrHP)

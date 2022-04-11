@@ -6,11 +6,11 @@ namespace Pokedex.Models.Pokemons
 	public class Arceus : PokeSpecies
 	{
 		#region Class Variables
-		private static Arceus? __singleton;
+		private static Arceus? _singleton;
 		#endregion
 
 		#region Properties
-		public static Arceus Singleton { get => __singleton ?? (__singleton = new Arceus()); }
+		public static Arceus Singleton { get => _singleton ?? (_singleton = new Arceus()); }
 		#endregion
 
 		#region Constructor

@@ -6,18 +6,18 @@ namespace Pokedex.Models.Weathers
 	public class WeatherAurora : Weather
 	{
 		#region Class Variables
-		private static WeatherAurora? __singleton;
+		private static WeatherAurora? _singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherAurora Singleton { get => __singleton ?? (__singleton = new WeatherAurora()); }
+		public static WeatherAurora Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructors
-		protected WeatherAurora() : base("Aurora Borealis")
+		private WeatherAurora() : base("Aurora Borealis")
 		{
-			this._typePower.Add(TypeFairy.Singleton, 1.5f);
-			this._typePower.Add(TypeDragon.Singleton, 0.5f);
+			TypePower.Add(TypeFairy.Singleton, 1.5f);
+			TypePower.Add(TypeDragon.Singleton, 0.5f);
 		}
 		#endregion
 

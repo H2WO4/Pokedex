@@ -3,7 +3,7 @@ using Pokedex.Models.PokemonTypes;
 
 namespace Pokedex.Models.Abilities
 {
-	public class AbilityLevitate : Ability
+	public class AbilityLevitate : Models.Ability
 	{
 		#region Constructors
 		public AbilityLevitate()
@@ -16,7 +16,7 @@ namespace Pokedex.Models.Abilities
 		{
 			if (dmgInfo.Type == TypeGround.Singleton)
 			{
-				this.Announce();
+				Announce();
 				return true;
 			}
 			return false;

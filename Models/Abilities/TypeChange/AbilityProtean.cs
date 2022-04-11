@@ -2,7 +2,7 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models.Abilities
 {
-	public class AbilityProtean : Ability
+	public class AbilityProtean : Models.Ability
 	{
 		#region Variables
 		private PokeType? _tempType;
@@ -17,16 +17,13 @@ namespace Pokedex.Models.Abilities
 		#region Methods
 		public override void BeforeAttack(I_PokeMove move)
 		{
-			this.Announce();
-			this._tempType = move.Type;
+			Announce();
+			_tempType = move.Type;
 		}
 
 		public override List<PokeType>? ChangeType()
-		{
-			if (this._tempType != null)
-				return new List<PokeType>(){ this._tempType };
-			return null;
-		}
+			=> _tempType != null ? new List<PokeType>{ _tempType } : null;
+
 		#endregion
 	}
 }

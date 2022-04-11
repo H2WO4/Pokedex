@@ -3,11 +3,11 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeNormal : PokeType
 	{
 		#region Class Variables
-		protected static TypeNormal? __singleton;
+		private static TypeNormal? _singleton;
 		#endregion
 
 		#region Properties
-		public static TypeNormal Singleton { get => __singleton ?? (__singleton = new TypeNormal()); }
+		public static TypeNormal Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructor

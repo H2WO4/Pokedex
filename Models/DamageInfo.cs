@@ -41,11 +41,11 @@ namespace Pokedex.Models
 		#endregion
 
 		#region Constructors
-		public DamageInfo(DamageClass class_, int power, PokeType type = null!)
+		public DamageInfo(DamageClass @class, int power, PokeType type = null!)
 		{
-			this.Class = class_;
-			this.Power = power;
-			this.Type = type;
+			Class = @class;
+			Power = power;
+			Type = type;
 		}
 		#endregion
 

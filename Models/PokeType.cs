@@ -9,7 +9,7 @@ namespace Pokedex.Models
 	public abstract class PokeType
 	{
 		#region Class Variables
-		public static Dictionary<PokeType, Dictionary<PokeType, double>> __affinities = new Dictionary<PokeType, Dictionary<PokeType, double>>();
+		public static Dictionary<PokeType, Dictionary<PokeType, double>> Affinities = new Dictionary<PokeType, Dictionary<PokeType, double>>();
 		#endregion
 
 		#region Properties
@@ -32,23 +32,23 @@ namespace Pokedex.Models
 		)
 		{
 			if (name != "")
-				this.Name = name;
+				Name = name;
 			else throw new ArgumentException("Name must not be empty");
 
 			if (color.R >= 0 && color.R <= 255 &&
 				color.G >= 0 && color.G <= 255 &&
 				color.B >= 0 && color.B <= 255)
-				this.Color = color;
+				Color = color;
 			else throw new ArgumentException("Color channels must be between 0-255");
 
-			__affinities[this] = new Dictionary<PokeType, double>();
+			Affinities[this] = new Dictionary<PokeType, double>();
 		}
 		#endregion
 
 		#region Methods
 		public static void InitializeTypes()
 		{
-			__affinities = new Dictionary<PokeType, Dictionary<PokeType, double>>()
+			Affinities = new Dictionary<PokeType, Dictionary<PokeType, double>>()
 			{
 				{ TypeNormal.Singleton, new() },
 				{ TypeFire.Singleton, new() },
@@ -273,15 +273,15 @@ namespace Pokedex.Models
 		}
 
 		private static double GetAffinity(PokeType attacker, PokeType defender)
-			=> __affinities[attacker].GetValueOrDefault(defender, 1);
+			=> Affinities[attacker].GetValueOrDefault(defender, 1);
 
 		private static void SetAffinity(PokeType attacker, PokeType defender, double value)
-			=> __affinities[attacker][defender] = value;
+			=> Affinities[attacker][defender] = value;
 
 		private void SetAffinities(Dictionary<PokeType, double> weaknesses)
 			=> weaknesses
 				.ToList()
-				.ForEach(pair => PokeType.SetAffinity(this, pair.Key, pair.Value));
+				.ForEach(pair => SetAffinity(this, pair.Key, pair.Value));
 
 		public double CalculateAffinity(IEnumerable<PokeType> defenders)
 			=> defenders
@@ -290,7 +290,7 @@ namespace Pokedex.Models
 
 		public static void DisplayAffinityTable()
 		{
-			(PokeType type, string name)[] types = __affinities
+			(PokeType type, string name)[] types = Affinities
 				.Select(pair => pair.Key)
 				.Select(type => type.Name.Length >= 7
 						? (type, type.Name.Substring(0, 5) + '.')
@@ -313,15 +313,18 @@ namespace Pokedex.Models
 								.PadLeft(maxLen - (maxLen - attacker.name.Length) / 2)
 								.PadRight(maxLen) + ' ');
 				types.Select(type => GetAffinity(attacker.type, type.type))
-					.Select(affinity => affinity == 0 ? "-" :
-										affinity == 0.5 ? "1/2" :
-										affinity == 1 ? "" :
-										"2")
+					.Select(affinity => affinity switch
+						{
+							0 => "-",
+							0.5 => "1/2",
+							1 => "",
+							_ => "2"
+						})
 					.ToList()
 					.ForEach(affinity => output
 						.Append('|' + affinity
-						.PadLeft(maxLen - (maxLen - affinity.Length) / 2)
-						.PadRight(maxLen))
+							.PadLeft(maxLen - (maxLen - affinity.Length) / 2)
+							.PadRight(maxLen))
 					);
 				output.AppendLine("|");
 			});
@@ -330,7 +333,7 @@ namespace Pokedex.Models
 		}
 
 		public override string ToString()
-			=> $"\x1b[38;2;{this.Color.R};{this.Color.G};{this.Color.B}m{this.Name}\x1b[0m";
+			=> $"\x1b[38;2;{Color.R};{Color.G};{Color.B}m{Name}\x1b[0m";
 		#endregion
 	}
 }

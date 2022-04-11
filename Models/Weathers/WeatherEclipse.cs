@@ -6,18 +6,18 @@ namespace Pokedex.Models.Weathers
 	public class WeatherEclipse : Weather
 	{
 		#region Class Variables
-		private static WeatherEclipse? __singleton;
+		private static WeatherEclipse? _singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherEclipse Singleton { get => __singleton ?? (__singleton = new WeatherEclipse()); }
+		public static WeatherEclipse Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructors
-		protected WeatherEclipse() : base("Solar Eclipse")
+		private WeatherEclipse() : base("Solar Eclipse")
 		{
-			this._typePower.Add(TypeDragon.Singleton, 1.5f);
-			this._typePower.Add(TypeFairy.Singleton, 0.5f);
+			TypePower.Add(TypeDragon.Singleton, 1.5f);
+			TypePower.Add(TypeFairy.Singleton, 0.5f);
 		}
 		#endregion
 

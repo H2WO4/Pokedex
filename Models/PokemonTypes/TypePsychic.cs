@@ -3,15 +3,15 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypePsychic : PokeType
 	{
 		#region Class Variables
-		protected static TypePsychic? __singleton;
+		private static TypePsychic? _singleton;
 		#endregion
 
 		#region Properties
-		public static TypePsychic Singleton { get => __singleton ?? (__singleton = new TypePsychic()); }
+		public static TypePsychic Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructor
-		public TypePsychic() : base(
+		private TypePsychic() : base(
 			"Psychic", (238, 84, 153)
 		)
 		{ }

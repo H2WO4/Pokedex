@@ -2,7 +2,7 @@ using Pokedex.Enums;
 
 namespace Pokedex.Models.Abilities
 {
-	public class AbilityIntimidate : Ability
+	public class AbilityIntimidate : Models.Ability
 	{
 		#region Constructors
 		public AbilityIntimidate()
@@ -13,9 +13,9 @@ namespace Pokedex.Models.Abilities
 		#region Methods
 		public override void OnEnter()
 		{
-			this.Announce();
-			this.Origin.Arena.Players
-				.Where(player => player != this.Origin.Owner)
+			Announce();
+			Origin.Arena.Players
+				.Where(player => player != Origin.Owner)
 				.Select(player => player.Active)
 				.OfType<Pokemon>()
 				.ToList()

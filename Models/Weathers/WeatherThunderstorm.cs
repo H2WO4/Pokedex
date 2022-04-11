@@ -6,18 +6,18 @@ namespace Pokedex.Models.Weathers
 	public class WeatherThunderstorm : Weather
 	{
 		#region Class Variables
-		private static WeatherThunderstorm? __singleton;
+		private static WeatherThunderstorm? _singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherThunderstorm Singleton { get => __singleton ?? (__singleton = new WeatherThunderstorm()); }
+		public static WeatherThunderstorm Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructors
-		protected WeatherThunderstorm() : base("Thunderstorm")
+		private WeatherThunderstorm() : base("Thunderstorm")
 		{
-			this._typePower.Add(TypeElectric.Singleton, 1.5f);
-			this._typePower.Add(TypeSteel.Singleton, 0.5f);
+			TypePower.Add(TypeElectric.Singleton, 1.5f);
+			TypePower.Add(TypeSteel.Singleton, 0.5f);
 		}
 		#endregion
 

@@ -1,6 +1,6 @@
 namespace Pokedex.Models.Abilities
 {
-	public class AbilityContrary : Ability
+	public class AbilityContrary : Models.Ability
 	{
 		#region Constructors
 		public AbilityContrary()
@@ -11,7 +11,7 @@ namespace Pokedex.Models.Abilities
 		#region Methods
 		public override (int, int, int, int, int) OnStatChange(int atk, int def, int spAtk, int spDef, int spd)
 		{
-			this.Announce();
+			Announce();
 			return (-atk, -def, -spAtk, -spDef, -spd);
 		}
 		#endregion

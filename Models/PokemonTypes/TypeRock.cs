@@ -3,15 +3,15 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeRock : PokeType
 	{
 		#region Class Variables
-		protected static TypeRock? __singleton;
+		private static TypeRock? _singleton;
 		#endregion
 
 		#region Properties
-		public static TypeRock Singleton { get => __singleton ?? (__singleton = new TypeRock()); }
+		public static TypeRock Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructor
-		public TypeRock() : base(
+		private TypeRock() : base(
 			"Rock", (187, 170, 102)
 		)
 		{ }

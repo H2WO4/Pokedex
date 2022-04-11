@@ -3,15 +3,16 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeFairy : PokeType
 	{
 		#region Class Variables
-		protected static TypeFairy? __singleton;
+		private static TypeFairy? _singleton;
 		#endregion
 
 		#region Properties
-		public static TypeFairy Singleton { get => __singleton ?? (__singleton = new TypeFairy()); }
+		public static TypeFairy Singleton => _singleton ??= new();
+
 		#endregion
 
 		#region Constructor
-		public TypeFairy() : base(
+		private TypeFairy() : base(
 			"Fairy", (238, 153, 238)
 		)
 		{ }

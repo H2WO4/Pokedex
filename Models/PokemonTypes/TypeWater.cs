@@ -3,15 +3,15 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeWater : PokeType
 	{
 		#region Class Variables
-		protected static TypeWater? __singleton;
+		private static TypeWater? _singleton;
 		#endregion
 
 		#region Properties
-		public static TypeWater Singleton { get => __singleton ?? (__singleton = new TypeWater()); }
+		public static TypeWater Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructor
-		public TypeWater() : base(
+		private TypeWater() : base(
 			"Water", (78, 154, 255)
 		)
 		{ }

@@ -1,9 +1,8 @@
-using Pokedex.Enums;
 using Pokedex.Interfaces;
 
 namespace Pokedex.Models.Abilities
 {
-	public class AbilityColorChange : Ability
+	public class AbilityColorChange : Models.Ability
 	{
 		#region Variables
 		private PokeType? _tempType;
@@ -20,19 +19,16 @@ namespace Pokedex.Models.Abilities
 		{
 			if (dmgInfo.Type != null)
 			{
-				this.Announce();
-				this._tempType = dmgInfo.Type;
+				Announce();
+				_tempType = dmgInfo.Type;
 			}
 
 			return true;
 		}
 
 		public override List<PokeType>? ChangeType()
-		{
-			if (this._tempType != null)
-				return new List<PokeType>(){ this._tempType };
-			return null;
-		}
+			=> _tempType != null ? new List<PokeType>{ _tempType } : null;
+
 		#endregion
 	}
 }

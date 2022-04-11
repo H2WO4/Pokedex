@@ -3,7 +3,7 @@ using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models.Abilities
 {
-	public class AbilitySandStream : Ability
+	public class AbilitySandStream : Models.Ability
 	{
 		#region Constructors
 		public AbilitySandStream()
@@ -14,8 +14,8 @@ namespace Pokedex.Models.Abilities
 		#region Methods
 		public override void OnEnter()
 		{
-			this.Announce();
-			this.Origin.Arena.Weather = WeatherZenith.Singleton;
+			Announce();
+			Origin.Arena.Weather = WeatherZenith.Singleton;
 		}
 		#endregion
 	}

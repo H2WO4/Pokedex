@@ -26,14 +26,14 @@ namespace Pokedex.Models.Events
 			I_Combat context
 		)
 		{
-			this.Origin = origin;
-			this.Context = context;
+			Origin = origin;
+			Context = context;
 		}
 		#endregion
 
 		#region Methods
 		public void Update()
-			=> this.Origin.AskActiveChange();
+			=> Origin.AskActiveChange();
 
 		public void PreUpdate() { }
 		#endregion

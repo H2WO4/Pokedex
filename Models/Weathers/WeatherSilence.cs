@@ -6,18 +6,18 @@ namespace Pokedex.Models.Weathers
 	public class WeatherSilence : Weather
 	{
 		#region Class Variables
-		private static WeatherSilence? __singleton;
+		private static WeatherSilence? _singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherSilence Singleton { get => __singleton ?? (__singleton = new WeatherSilence()); }
+		public static WeatherSilence Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructors
-		protected WeatherSilence() : base("Silence")
+		private WeatherSilence() : base("Silence")
 		{
-			this._typePower.Add(TypePsychic.Singleton, 1.5f);
-			this._typePower.Add(TypeGhost.Singleton, 0.5f);
+			TypePower.Add(TypePsychic.Singleton, 1.5f);
+			TypePower.Add(TypeGhost.Singleton, 0.5f);
 		}
 		#endregion
 

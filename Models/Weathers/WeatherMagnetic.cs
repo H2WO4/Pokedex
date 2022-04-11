@@ -6,18 +6,18 @@ namespace Pokedex.Models.Weathers
 	public class WeatherMagnetic : Weather
 	{
 		#region Class Variables
-		private static WeatherMagnetic? __singleton;
+		private static WeatherMagnetic? _singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherMagnetic Singleton { get => __singleton ?? (__singleton = new WeatherMagnetic()); }
+		public static WeatherMagnetic Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructors
-		protected WeatherMagnetic() : base("Magnetic Storm")
+		private WeatherMagnetic() : base("Magnetic Storm")
 		{
-			this._typePower.Add(TypeSteel.Singleton, 1.5f);
-			this._typePower.Add(TypePsychic.Singleton, 0.5f);
+			TypePower.Add(TypeSteel.Singleton, 1.5f);
+			TypePower.Add(TypePsychic.Singleton, 0.5f);
 		}
 		#endregion
 

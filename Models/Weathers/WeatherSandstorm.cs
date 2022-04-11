@@ -6,21 +6,21 @@ namespace Pokedex.Models.Weathers
 	public class WeatherSandstorm : Weather
 	{
 		#region Class Variables
-		private static WeatherSandstorm? __singleton;
+		private static WeatherSandstorm? _singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherSandstorm Singleton { get => __singleton ?? (__singleton = new WeatherSandstorm()); }
+		public static WeatherSandstorm Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructors
-		protected WeatherSandstorm() : base("Sandstorm")
+		private WeatherSandstorm() : base("Sandstorm")
 		{
-			this._typePower.Add(TypeRock.Singleton, 1.5f);
+			TypePower.Add(TypeRock.Singleton, 1.5f);
 
-			this._typeSelector.Append(TypeRock.Singleton);
-			this._typeSelector.Append(TypeSteel.Singleton);
-			this._typeSelector.Append(TypeGround.Singleton);
+			TypeSelector.Add(TypeRock.Singleton);
+			TypeSelector.Add(TypeSteel.Singleton);
+			TypeSelector.Add(TypeGround.Singleton);
 		}
 		#endregion
 
@@ -29,7 +29,7 @@ namespace Pokedex.Models.Weathers
 		{
 			arena.Players
 				.Select(player => player.Active)
-				.Where(poke => poke.Types.Intersect(this._typeSelector).Count() > 0)
+				.Where(poke => poke.Types.Intersect(TypeSelector).Count() > 0)
 				.ToList()
 				.ForEach(poke => Console.WriteLine($"{poke.Name} is buffeted by the sandstorm!"));
 		}

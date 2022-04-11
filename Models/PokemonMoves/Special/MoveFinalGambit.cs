@@ -17,11 +17,9 @@ namespace Pokedex.Models.PokemonMoves
 
 		protected override void DoAction(I_Battler target)
 		{
-			/* int damage = this.Caster.CurrHP;
-
-			target.ReceiveDamage(this.Caster, new DamageInfo(InterType.DmgPure, damage, this.Type));
-
-			this.Caster.DoKO(); */
+			var damage = Caster.CurrHP;
+			DamageHandler.DoDamage(new DamageInfo(DamageClass.Pure, damage, Type), Caster, target);
+			Caster.DoKO(); 
 		}
 	}
 }

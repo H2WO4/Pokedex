@@ -19,7 +19,7 @@ namespace Pokedex.Models
 		public string Name { get; }
 
 		/// <summary>
-		/// Types the Pokemon posseses
+		/// Types the Pokemon possesses
 		/// </summary>
 		public List<PokeType> Types { get; }
 
@@ -60,19 +60,19 @@ namespace Pokedex.Models
 			List<PokeType> types,
 			Dictionary<Stat, int> stats,
 
-			int generation, string genus, PokeClass class_,
+			int generation, string genus, PokeClass @class,
 			int height, int weight
 		)
 		{
-			this.ID = id;
-			this.Name = name;
-			this.Types = types;
-			this.Stats = stats;
-			this.Generation = generation;
-			this.Genus = genus;
-			this.Class = class_;
-			this.Height = height;
-			this.Weight = weight;
+			ID = id;
+			Name = name;
+			Types = types;
+			Stats = stats;
+			Generation = generation;
+			Genus = genus;
+			Class = @class;
+			Height = height;
+			Weight = weight;
 		}
 		#endregion
 	}

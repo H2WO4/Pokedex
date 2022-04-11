@@ -3,15 +3,15 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeFighting : PokeType
 	{
 		#region Class Variables
-		protected static TypeFighting? __singleton;
+		private static TypeFighting? _singleton;
 		#endregion
 
 		#region Properties
-		public static TypeFighting Singleton { get => __singleton ?? (__singleton = new TypeFighting()); }
+		public static TypeFighting Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructor
-		public TypeFighting() : base(
+		private TypeFighting() : base(
 			"Fighting", (187, 85, 69)
 		)
 		{ }

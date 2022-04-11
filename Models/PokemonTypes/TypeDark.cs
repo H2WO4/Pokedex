@@ -3,15 +3,15 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeDark : PokeType
 	{
 		#region Class Variables
-		protected static TypeDark? __singleton;
+		private static TypeDark? _singleton;
 		#endregion
 
 		#region Properties
-		public static TypeDark Singleton { get => __singleton ?? (__singleton = new TypeDark()); }
+		public static TypeDark Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructor
-		public TypeDark() : base(
+		private TypeDark() : base(
 			"Dark", (119, 85, 68)
 		)
 		{ }

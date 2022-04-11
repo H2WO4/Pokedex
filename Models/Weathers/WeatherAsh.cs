@@ -6,18 +6,18 @@ namespace Pokedex.Models.Weathers
 	public class WeatherAsh : Weather
 	{
 		#region Class Variables
-		private static WeatherAsh? __singleton;
+		private static WeatherAsh? _singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherAsh Singleton { get => __singleton ?? (__singleton = new WeatherAsh()); }
+		public static WeatherAsh Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructors
-		protected WeatherAsh() : base("Ash Cloud")
+		private WeatherAsh() : base("Ash Cloud")
 		{
-			this._typePower.Add(TypeGround.Singleton, 1.5f);
-			this._typePower.Add(TypeFlying.Singleton, 0.5f);
+			TypePower.Add(TypeGround.Singleton, 1.5f);
+			TypePower.Add(TypeFlying.Singleton, 0.5f);
 		}
 		#endregion
 

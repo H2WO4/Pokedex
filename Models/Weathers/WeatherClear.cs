@@ -3,15 +3,15 @@ namespace Pokedex.Models.Weathers
 	public class WeatherClear : Weather
 	{
 		#region Class Variables
-		private static WeatherClear? __singleton;
+		private static WeatherClear? _singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherClear Singleton { get => __singleton ?? (__singleton = new WeatherClear()); }
+		public static WeatherClear Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructors
-		protected WeatherClear() : base("Clear") { }
+		private WeatherClear() : base("Clear") { }
 		#endregion
 
 		#region Methods

@@ -18,8 +18,8 @@ namespace Pokedex.Models.PokemonMoves
 
 		protected override bool AccuracyCheck(I_Battler target)
 		{
-			if (this.Arena.Weather == WeatherRain.Singleton ||
-				this.Arena.Weather == WeatherThunderstorm.Singleton)
+			if (Arena.Weather == WeatherRain.Singleton ||
+				Arena.Weather == WeatherThunderstorm.Singleton)
 				return true;
 
 			return base.AccuracyCheck(target);

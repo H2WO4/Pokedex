@@ -6,23 +6,23 @@ namespace Pokedex.Models.Weathers
 	public class WeatherCloudy : Weather
 	{
 		#region Class Variables
-		private static WeatherCloudy? __singleton;
+		private static WeatherCloudy? _singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherCloudy Singleton { get => __singleton ?? (__singleton = new WeatherCloudy()); }
+		public static WeatherCloudy Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructors
-		protected WeatherCloudy() : base("Cloudy")
+		private WeatherCloudy() : base("Cloudy")
 		{
-			this._typePower.Add(TypeNormal.Singleton, 1f);
+			TypePower.Add(TypeNormal.Singleton, 1f);
 		}
 		#endregion
 
 		#region Methods
 		public override double OnDamageGive(double damage, PokeType type)
-			=> this._typePower.GetValueOrDefault(type, 0.75f) * damage;
+			=> TypePower.GetValueOrDefault(type, 0.75f) * damage;
 
 		// Flavor Text
 		public override void OnTurnStart(I_Combat arena)

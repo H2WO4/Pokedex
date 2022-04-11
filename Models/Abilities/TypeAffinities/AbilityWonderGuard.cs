@@ -2,7 +2,7 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models.Abilities
 {
-	public class AbilityWonderGuard : Ability
+	public class AbilityWonderGuard : Models.Ability
 	{
 		#region Constructors
 		public AbilityWonderGuard()
@@ -13,9 +13,9 @@ namespace Pokedex.Models.Abilities
 		#region Methods
 		public override bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler caster)
 		{
-			if (dmgInfo.Type?.CalculateAffinity(this.Origin.Types) <= 1)
+			if (dmgInfo.Type?.CalculateAffinity(Origin.Types) <= 1)
 			{
-				this.Announce();
+				Announce();
 				return true;
 			}
 			

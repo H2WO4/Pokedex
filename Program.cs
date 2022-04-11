@@ -8,11 +8,11 @@ using Pokedex.Models.Weathers;
 
 namespace Pokedex
 {
-	class Program
+	public static class Program
 	{
-		public static Random rnd = new Random(0);
+		public static readonly Random Rnd = new(0);
 
-		static void Main(String[] args)
+		public static void Main(string[] args)
 		{
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
 			PokeType.InitializeTypes();
@@ -27,7 +27,7 @@ namespace Pokedex
 			blastoise.SetIVs(31, 31, 31, 31, 31, 31);
 			blastoise.CurrHP = 999;
 
-			var charizard = new Pokemon(Charizard.Singleton, 100, "Overhyped");
+			var charizard = new Pokemon(Charizard.Singleton, 100, "Over-hyped");
 			charizard.SetMoves(new MoveExtremeSpeed(), null, null, null);
 			charizard.SetIVs(31, 31, 31, 31, 31, 31);
 			charizard.CurrHP = 999;
@@ -37,16 +37,18 @@ namespace Pokedex
 			arceus.SetIVs(31, 31, 31, 31, 31, 31);
 			arceus.CurrHP = 999;
 
-			var fight = new Combat(
-				("Jean", new Pokemon[] { raichu }),
-				("Charles", new Pokemon[] { blastoise, charizard, arceus })
-			);
-			fight.Weather = WeatherRain.Singleton;
+			var fight = new Combat
+			(
+				("Jean", new[] { raichu }),
+				("Charles", new[] { blastoise, charizard, arceus })
+			)
+			{ Weather = WeatherRain.Singleton };
 
+			Console.WriteLine(Directory.GetCurrentDirectory());
 			// Redirect console
-			using var reader = new StreamReader("Tests/test1_in.txt");
+			using var reader = new StreamReader("../../../Tests/test1_in.txt");
 			// var writer = new StringWriter();
-			using var writer = new StreamWriter("Tests/test1_out.ans");
+			using var writer = new StreamWriter("../../../Tests/test1_out.ans");
 			Console.SetIn(reader);
 			Console.SetOut(writer);
 

@@ -6,18 +6,18 @@ namespace Pokedex.Models.Weathers
 	public class WeatherFog : Weather
 	{
 		#region Class Variables
-		private static WeatherFog? __singleton;
+		private static WeatherFog? _singleton;
 		#endregion
 
 		#region Properties
-		public static WeatherFog Singleton { get => __singleton ?? (__singleton = new WeatherFog()); }
+		public static WeatherFog Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructors
-		protected WeatherFog() : base("Fog")
+		private WeatherFog() : base("Fog")
 		{
-			this._typePower.Add(TypeGhost.Singleton, 1.5f);
-			this._typePower.Add(TypeElectric.Singleton, 0.5f);
+			TypePower.Add(TypeGhost.Singleton, 1.5f);
+			TypePower.Add(TypeElectric.Singleton, 0.5f);
 		}
 		#endregion
 

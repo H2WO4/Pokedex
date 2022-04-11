@@ -34,19 +34,19 @@ namespace Pokedex.Models.Events
 			I_Combat context
 		)
 		{
-			this.Origin = originPlayer;
-			this.Target = target;
-			this.Context = context;
+			Origin = originPlayer;
+			Target = target;
+			Context = context;
 		}
 		#endregion
 
 		#region Methods
 		public void Update()
 		{
-			if (this.Origin.Active.CurrHP == 0)
+			if (Origin.Active.CurrHP == 0)
 				return;
 
-			this.Origin.ChangeActive(this.Target);
+			Origin.ChangeActive(Target);
 		}
 		
 		public void PreUpdate() { }

@@ -3,15 +3,15 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeSteel : PokeType
 	{
 		#region Class Variables
-		protected static TypeSteel? __singleton;
+		private static TypeSteel? _singleton;
 		#endregion
 
 		#region Properties
-		public static TypeSteel Singleton { get => __singleton ?? (__singleton = new TypeSteel()); }
+		public static TypeSteel Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructor
-		public TypeSteel() : base(
+		private TypeSteel() : base(
 			"Steel", (170, 170, 187)
 		)
 		{ }

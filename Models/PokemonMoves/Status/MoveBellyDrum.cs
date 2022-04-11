@@ -18,7 +18,7 @@ namespace Pokedex.Models.PokemonMoves
 
 		public override void OnUse()
 		{
-			if (this.Caster.CurrHP * 100 / this.Caster.HP() < 50)
+			if (Caster.CurrHP * 100 / Caster.HP() < 50)
 			{
 				Console.WriteLine("The move failed!");
 				return;

@@ -3,7 +3,7 @@ using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models.Abilities
 {
-	public class AbilitySnowWarning : Ability
+	public class AbilitySnowWarning : Models.Ability
 	{
 		#region Constructors
 		public AbilitySnowWarning()
@@ -14,8 +14,8 @@ namespace Pokedex.Models.Abilities
 		#region Methods
 		public override void OnEnter()
 		{
-			this.Announce();
-			this.Origin.Arena.Weather = WeatherHail.Singleton;
+			Announce();
+			Origin.Arena.Weather = WeatherHail.Singleton;
 		}
 		#endregion
 	}

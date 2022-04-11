@@ -1,6 +1,6 @@
 namespace Pokedex.Models.Abilities
 {
-	public class AbilityHugePower : Ability
+	public class AbilityHugePower : Models.Ability
 	{
 		#region Constructors
 		public AbilityHugePower()

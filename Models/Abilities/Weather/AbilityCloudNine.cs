@@ -1,6 +1,6 @@
 namespace Pokedex.Models.Abilities
 {
-	public class AbilityCloudNine : Ability
+	public class AbilityCloudNine : Models.Ability
 	{
 		#region Constructors
 		public AbilityCloudNine()

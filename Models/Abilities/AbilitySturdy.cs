@@ -2,7 +2,7 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models.Abilities
 {
-	public class AbilitySturdy : Ability
+	public class AbilitySturdy : Models.Ability
 	{
 		#region Constructors
 		public AbilitySturdy()
@@ -13,10 +13,10 @@ namespace Pokedex.Models.Abilities
 		#region Methods
 		public override int OnKilled(I_Battler killer)
 		{
-			if (this.Origin.CurrHP == this.Origin.HP())
+			if (Origin.CurrHP == Origin.HP())
 			{
-				this.Announce();
-				Console.WriteLine($"But {this.Origin.Name} endured the hit!");
+				Announce();
+				Console.WriteLine($"But {Origin.Name} endured the hit!");
 				return 1;
 			}
 			return 0;

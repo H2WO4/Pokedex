@@ -3,15 +3,15 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeBug : PokeType
 	{
 		#region Class Variables
-		protected static TypeBug? __singleton;
+		private static TypeBug? _singleton;
 		#endregion
 
 		#region Properties
-		public static TypeBug Singleton { get => __singleton ?? (__singleton = new TypeBug()); }
+		public static TypeBug Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructor
-		public TypeBug() : base(
+		private TypeBug() : base(
 			"Bug", (170, 187, 34)
 		)
 		{ }

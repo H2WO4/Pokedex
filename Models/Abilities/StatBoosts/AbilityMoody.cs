@@ -2,7 +2,7 @@ using Pokedex.Enums;
 
 namespace Pokedex.Models.Abilities
 {
-	public class AbilityMoody : Ability
+	public class AbilityMoody : Models.Ability
 	{
 		#region Constructors
 		public AbilityMoody()
@@ -13,23 +13,23 @@ namespace Pokedex.Models.Abilities
 		#region Methods
 		public override void OnTurnStart()
 		{
-			this.Announce();
+			Announce();
 			Stat[] stats = { Stat.Atk, Stat.Def, Stat.SpAtk, Stat.SpDef, Stat.Spd };
 
 			var plusStat = stats
-				.Where(stat => this.Origin.StatBoosts[stat] != +6)
-				.OrderBy(stat => Program.rnd.Next())
+				.Where(stat => Origin.StatBoosts[stat] != +6)
+				.OrderBy(_ => Program.Rnd.Next())
 				.First();
 			var minusStat = stats
-				.Where(stat => this.Origin.StatBoosts[stat] != -6)
+				.Where(stat => Origin.StatBoosts[stat] != -6)
 				.Where(stat => stat != plusStat)
-				.OrderBy(stat => Program.rnd.Next())
+				.OrderBy(_ => Program.Rnd.Next())
 				.First();
 			
 			if (plusStat != Stat.None)
-				this.Origin.ChangeStatBonus(plusStat, +2);
+				Origin.ChangeStatBonus(plusStat, +2);
 			if (minusStat != Stat.None)
-				this.Origin.ChangeStatBonus(minusStat, -1);
+				Origin.ChangeStatBonus(minusStat, -1);
 		}
 		#endregion
 	}

@@ -6,31 +6,40 @@ namespace Pokedex.Models.PokemonMoves.Archetypes
 {
 	public abstract class MoveSwitch : PokeMove
 	{
-		public MoveSwitch
+		protected MoveSwitch
 		(
 			string name,
-			MoveClass class_,
+			MoveClass @class,
 			int? power,
 			int? accuracy,
 			int maxPp,
 			int priority,
 			PokeType type
-		) : base(name, class_, power, accuracy, maxPp, priority, type) { }
+		) : base(name, @class, power, accuracy, maxPp, priority, type) { }
 
 		protected override void DoAction(I_Battler target)
 		{
-			/* InterType dmgClass = this.Class == MoveClass.Physical
-									? InterType.Physical
-									: InterType.Special;
+			target.Ability.BeforeDefend(this);
 
-			bool success = target.ReceiveDamage(this.Caster, new Interaction(dmgClass, this.Power ?? 0, this.Type));
+			var dmgInfo = Class switch
+			{
+				MoveClass.Physical => DamageInfo.CreatePhysical(Power ?? 0, Type),
+				MoveClass.Special => DamageInfo.CreateSpecial(Power ?? 0, Type),
+				_ => throw new InvalidOperationException()
+			};
+
+			// Apply STAB
+			if (Caster.Types.Contains(Type))
+				dmgInfo.Power = (int)(dmgInfo.Power * 1.5);
+
+			bool success = DamageHandler.DoDamage(dmgInfo, Caster, target);
 			if (!success)
 				Console.WriteLine("But it failed");
 			else
 			{
 				var ev = new SwitchInputEvent(this.Caster.Owner, this.Arena);
 				this.Arena.AddToTop(ev);
-			} */
+			}
 		}
 	}
 }

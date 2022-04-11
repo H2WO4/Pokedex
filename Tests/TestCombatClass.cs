@@ -3,7 +3,7 @@ using Pokedex.Models;
 using Pokedex.Models.PokemonMoves;
 using Pokedex.Models.Pokemons;
 
-namespace Tests
+namespace Pokedex.Tests
 {
 	[TestClass]
 	public class TestCombatClass

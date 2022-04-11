@@ -3,7 +3,7 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models.Abilities
 {
-	public class AbilityRoughSkin : Ability
+	public class AbilityRoughSkin : Models.Ability
 	{
 		#region Constructors
 		public AbilityRoughSkin()
@@ -17,7 +17,7 @@ namespace Pokedex.Models.Abilities
 		{
 			if (dmgInfo.Contact)
 			{
-				this.Announce();
+				Announce();
 				var damage = new DamageInfo(DamageClass.Percent, 100 / 16);
 			}
 		}

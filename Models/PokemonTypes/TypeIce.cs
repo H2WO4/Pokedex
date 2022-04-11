@@ -3,15 +3,15 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeIce : PokeType
 	{
 		#region Class Variables
-		protected static TypeIce? __singleton;
+		private static TypeIce? _singleton;
 		#endregion
 
 		#region Properties
-		public static TypeIce Singleton { get => __singleton ?? (__singleton = new TypeIce()); }
+		public static TypeIce Singleton => _singleton ??= new();
 		#endregion
 
 		#region Constructor
-		public TypeIce() : base(
+		private TypeIce() : base(
 			"Ice", (102, 204, 255)
 		)
 		{ }

@@ -3,15 +3,16 @@ namespace Pokedex.Models.PokemonTypes
 	public class TypeDragon : PokeType
 	{
 		#region Class Variables
-		protected static TypeDragon? __singleton;
+		private static TypeDragon? _singleton;
 		#endregion
 
 		#region Properties
-		public static TypeDragon Singleton { get => __singleton ?? (__singleton = new TypeDragon()); }
+		public static TypeDragon Singleton => _singleton ??= new();
+
 		#endregion
 
 		#region Constructor
-		public TypeDragon() : base(
+		private TypeDragon() : base(
 			"Dragon", (120, 103, 238)
 		)
 		{ }
