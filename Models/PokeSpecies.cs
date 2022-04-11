@@ -26,7 +26,7 @@ namespace Pokedex.Models
 		/// <summary>
 		/// Stats at level 50
 		/// </summary>
-		public Dictionary<string, int> Stats { get; }
+		public Dictionary<Stat, int> Stats { get; }
 
 		/// <summary>
 		/// Which generation was the Pokemon introduced in
@@ -58,7 +58,7 @@ namespace Pokedex.Models
 		public PokeSpecies(
 			int id, string name,
 			List<PokeType> types,
-			Dictionary<string, int> stats,
+			Dictionary<Stat, int> stats,
 
 			int generation, string genus, PokeClass class_,
 			int height, int weight

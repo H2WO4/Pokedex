@@ -76,18 +76,18 @@ namespace Tests
 			// * Singular EV assignement
 			Assert.ThrowsException<ArgumentException>
 			(
-				() => arceus.SetEV("atk", 253),
+				() => arceus.SetEV(Stat.Atk, 253),
 				"EV above 252 was accepted, whereas it should not"
 			);
 			Assert.ThrowsException<ArgumentException>
 			(
-				() => arceus.SetEV("atk", -1),
+				() => arceus.SetEV(Stat.Atk, -1),
 				"Negative EV was accepted, whereas it should not"
 			);
 			arceus.SetEVs(100, 100, 100, 100, 100, 0);
 			Assert.ThrowsException<ArgumentException>
 			(
-				() => arceus.SetEV("spd", 11),
+				() => arceus.SetEV(Stat.Spd, 11),
 				"EV putting total EVs above 510 was accepted, whereas it should not"
 			);
 

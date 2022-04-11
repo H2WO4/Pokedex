@@ -16,7 +16,10 @@ namespace Pokedex.Models.Abilities
 
 		#region Methods
 		public override void BeforeAttack(I_PokeMove move)
-			=> this._tempType = move.Type;
+		{
+			this.Announce();
+			this._tempType = move.Type;
+		}
 
 		public override List<PokeType>? ChangeType()
 		{

@@ -24,9 +24,20 @@ namespace Pokedex.Models
 		/// </summary>
 		public PokeType? Type { get; set; }
 
-		public string AttackStats { get; init; }
+		/// <summary>
+		/// The stats used to augment damage
+		/// </summary>
+		public Stat AttackStats { get; init; }
 
-		public string DefenseStats { get; init; }
+		/// <summary>
+		/// The stats used to reduce damage
+		/// </summary>
+		public Stat DefenseStats { get; init; }
+
+		/// <summary>
+		/// Whenever the move makes contact
+		/// </summary>
+		public bool Contact {get; init; }
 		#endregion
 
 		#region Constructors
@@ -35,13 +46,25 @@ namespace Pokedex.Models
 			this.Class = class_;
 			this.Power = power;
 			this.Type = type;
-
-			this.AttackStats = "";
-			this.DefenseStats = "";
 		}
 		#endregion
 
 		#region Methods
+		public static DamageInfo CreatePhysical(int power, PokeType type)
+			=> new DamageInfo(DamageClass.Calculated, power, type)
+				{ AttackStats = Stat.Atk, DefenseStats = Stat.Def, Contact = true };
+
+		public static DamageInfo CreatePhysicalNoContact(int power, PokeType type)
+			=> new DamageInfo(DamageClass.Calculated, power, type)
+				{ AttackStats = Stat.Atk, DefenseStats = Stat.Def, Contact = false };
+		
+		public static DamageInfo CreateSpecial(int power, PokeType type)
+			=> new DamageInfo(DamageClass.Calculated, power, type)
+				{ AttackStats = Stat.SpAtk, DefenseStats = Stat.SpDef, Contact = false };
+		
+		public static DamageInfo CreateSpecialContact(int power, PokeType type)
+			=> new DamageInfo(DamageClass.Calculated, power, type)
+				{ AttackStats = Stat.SpAtk, DefenseStats = Stat.SpDef, Contact = true };
 		#endregion
 	}
 }

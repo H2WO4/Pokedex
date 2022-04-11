@@ -1,3 +1,5 @@
+using Pokedex.Enums;
+
 namespace Pokedex.Models.Abilities
 {
 	public class AbilitySpeedBoost : Ability
@@ -12,7 +14,7 @@ namespace Pokedex.Models.Abilities
 		public override void OnTurnEnd()
 		{
 			this.Announce();
-			this.Origin.ChangeStatBonus("spd", +1);
+			this.Origin.ChangeStatBonus(Stat.Spd, +1);
 		}
 		#endregion
 	}

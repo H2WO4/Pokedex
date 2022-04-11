@@ -20,13 +20,13 @@ namespace Pokedex.Models.Pokemons
 			new List<PokeType>(){
 				TypeNormal.Singleton,
 			},
-			new Dictionary<string, int>(){
-				{ "hp", 120 },
-				{ "atk", 120 },
-				{ "def", 120 },
-				{ "spAtk", 120 },
-				{ "spDef", 120 },
-				{ "spd", 120 },
+			new Dictionary<Stat, int>(){
+				{ Stat.HP, 120 },
+				{ Stat.Atk, 120 },
+				{ Stat.Def, 120 },
+				{ Stat.SpAtk, 120 },
+				{ Stat.SpDef, 120 },
+				{ Stat.Spd, 120 },
 			},
 
 			4, "Alpha Pokémon", PokeClass.Mythical,

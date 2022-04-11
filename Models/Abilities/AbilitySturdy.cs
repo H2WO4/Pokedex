@@ -4,10 +4,6 @@ namespace Pokedex.Models.Abilities
 {
 	public class AbilitySturdy : Ability
 	{
-		#region Variables
-		private bool _isFullHP;
-		#endregion
-
 		#region Constructors
 		public AbilitySturdy()
 			: base("Sturdy")
@@ -15,19 +11,15 @@ namespace Pokedex.Models.Abilities
 		#endregion
 
 		#region Methods
-		public override void BeforeDefend(I_PokeMove move)
-			=> this._isFullHP = this.Origin.CurrHP == this.Origin.HP();
-
-		public override bool OnKilled(I_Battler killer)
+		public override int OnKilled(I_Battler killer)
 		{
-			if (this._isFullHP)
+			if (this.Origin.CurrHP == this.Origin.HP())
 			{
-				this.Origin.CurrHP = 1;
 				this.Announce();
 				Console.WriteLine($"But {this.Origin.Name} endured the hit!");
-				return true;
+				return 1;
 			}
-			return false;
+			return 0;
 		}
 		#endregion
 	}

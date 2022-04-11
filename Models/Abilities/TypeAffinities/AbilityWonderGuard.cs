@@ -11,7 +11,16 @@ namespace Pokedex.Models.Abilities
 		#endregion
 
 		#region Methods
-		// public override bool OnReceiveDamage(Interaction damage, I_Battler caster);
+		public override bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler caster)
+		{
+			if (dmgInfo.Type?.CalculateAffinity(this.Origin.Types) <= 1)
+			{
+				this.Announce();
+				return true;
+			}
+			
+			return false;
+		}
 		#endregion
 	}
 }

@@ -1,4 +1,4 @@
-using Pokedex.Interfaces;
+using Pokedex.Enums;
 
 namespace Pokedex.Models.Abilities
 {
@@ -19,7 +19,7 @@ namespace Pokedex.Models.Abilities
 				.Select(player => player.Active)
 				.OfType<Pokemon>()
 				.ToList()
-				.ForEach(poke => poke.ChangeStatBonus("atk", -1));
+				.ForEach(poke => poke.ChangeStatBonus(Stat.Atk, -1));
 		}
 		#endregion
 	}

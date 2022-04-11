@@ -32,20 +32,42 @@ namespace Pokedex.Models
 		/// <summary>
 		/// Called whenever damage is dealt
 		/// </summary>
-		/// <param name="damage">The damage being dealt</param>
+		/// <param name="dmgInfo">The damage being dealt</param>
 		/// <param name="target">The one receiving the damage</param>
 		/// <returns>True if the damage is cancelled</returns>
-		public virtual bool OnInflictDamage(DamageInfo damage, I_Battler target)
+		public virtual bool OnInflictDamage(DamageInfo dmgInfo, I_Battler target)
 			=> false;
 
 		/// <summary>
 		/// Called whenever damage is received
 		/// </summary>
-		/// <param name="damage">The damage being dealt</param>
+		/// <param name="dmgInfo">The damage being dealt</param>
 		/// <param name="caster">The one dealing the damage</param>
 		/// <returns>True if the damage is cancelled</returns>
-		public virtual bool OnReceiveDamage(DamageInfo damage, I_Battler caster)
+		public virtual bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler caster)
 			=> false;
+
+		/// <summary>
+		/// Called whenever damage from self is received
+		/// </summary>
+		/// <param name="dmgInfo">The damage being dealt</param>
+		/// <returns>True if the damage is cancelled</returns>
+		public virtual bool OnSelfDamage(DamageInfo dmgInfo)
+			=> false;
+
+		/// <summary>
+		/// Called after damage is dealt
+		/// </summary>
+		/// <param name="dmgInfo">The damage being dealt</param>
+		/// <param name="target">The one receiving the damage</param>
+		public virtual void AfterInflictDamage(DamageInfo dmgInfo, I_Battler target) { }
+
+		/// <summary>
+		/// Called after damage is received
+		/// </summary>
+		/// <param name="dmgInfo">The damage being dealt</param>
+		/// <param name="caster">The one dealing the damage</param>
+		public virtual void AfterReceiveDamage(DamageInfo dmgInfo, I_Battler caster) { }
 
 		/// <summary>
 		/// Called whenever its owner is made K.O.
@@ -57,9 +79,9 @@ namespace Pokedex.Models
 		/// <summary>
 		/// Called whenever its owner is made K.O. by an opponent
 		/// </summary>
-		/// <returns>True if it cancels death</returns>
-		public virtual bool OnKilled(I_Battler killer)
-			=> false;
+		/// <returns>HP after death</returns>
+		public virtual int OnKilled(I_Battler killer)
+			=> 0;
 
 		/// <summary>
 		/// Called whenever this Pokemon K.O. another Pokemon

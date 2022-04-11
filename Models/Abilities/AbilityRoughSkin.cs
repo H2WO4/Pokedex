@@ -12,7 +12,15 @@ namespace Pokedex.Models.Abilities
 		#endregion
 
 		#region Methods
-		// public override bool OnReceiveDamage(Interaction damage, I_Battler caster);
+
+		public override void AfterReceiveDamage(DamageInfo dmgInfo, I_Battler caster)
+		{
+			if (dmgInfo.Contact)
+			{
+				this.Announce();
+				var damage = new DamageInfo(DamageClass.Percent, 100 / 16);
+			}
+		}
 		#endregion
 	}
 }

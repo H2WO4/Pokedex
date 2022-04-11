@@ -3,6 +3,7 @@ using Pokedex.Enums;
 using Pokedex.Models;
 using Pokedex.Models.PokemonMoves;
 using Pokedex.Models.Pokemons;
+using Pokedex.Models.PokemonTypes;
 using Pokedex.Models.Weathers;
 
 namespace Pokedex
@@ -13,7 +14,7 @@ namespace Pokedex
 
 		static void Main(String[] args)
 		{
-			/* Console.OutputEncoding = System.Text.Encoding.UTF8;
+			Console.OutputEncoding = System.Text.Encoding.UTF8;
 			PokeType.InitializeTypes();
 
 			var raichu = new Pokemon(Raichu.Singleton, 100, "Pikachu");
@@ -49,10 +50,7 @@ namespace Pokedex
 			Console.SetIn(reader);
 			Console.SetOut(writer);
 
-			fight.DoTurn(); */
-
-			for (var i = 1; i < 1 << 9 - 1; i++)
-				Console.WriteLine($"{i,3} - {(Nature)i}");
+			fight.DoTurn();
 		}
 	}
 }

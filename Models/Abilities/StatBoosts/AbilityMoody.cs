@@ -1,4 +1,4 @@
-using Pokedex.Interfaces;
+using Pokedex.Enums;
 
 namespace Pokedex.Models.Abilities
 {
@@ -14,7 +14,7 @@ namespace Pokedex.Models.Abilities
 		public override void OnTurnStart()
 		{
 			this.Announce();
-			string[] stats = { "atk", "def", "spAtk", "spDef", "spd" };
+			Stat[] stats = { Stat.Atk, Stat.Def, Stat.SpAtk, Stat.SpDef, Stat.Spd };
 
 			var plusStat = stats
 				.Where(stat => this.Origin.StatBoosts[stat] != +6)
@@ -26,9 +26,9 @@ namespace Pokedex.Models.Abilities
 				.OrderBy(stat => Program.rnd.Next())
 				.First();
 			
-			if (plusStat != null)
+			if (plusStat != Stat.None)
 				this.Origin.ChangeStatBonus(plusStat, +2);
-			if (minusStat != null)
+			if (minusStat != Stat.None)
 				this.Origin.ChangeStatBonus(minusStat, -1);
 		}
 		#endregion

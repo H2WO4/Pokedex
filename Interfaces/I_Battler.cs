@@ -1,3 +1,4 @@
+using Pokedex.Enums;
 using Pokedex.Models;
 
 namespace Pokedex.Interfaces
@@ -55,30 +56,36 @@ namespace Pokedex.Interfaces
 		/// </summary>
 		int HP();
 
-		// <summary>
+		/// <summary>
 		/// Effective Atk stat
 		/// </summary>
 		int Atk();
 
-		// <summary>
+		/// <summary>
 		/// Effective Def stat
 		/// </summary>
 		int Def();
 
-		// <summary>
+		/// <summary>
 		/// Effective Special Atk stat
 		/// </summary>
 		int SpAtk();
 
-		// <summary>
+		/// <summary>
 		/// Effective Special Def stat
 		/// </summary>
 		int SpDef();
 
-		// <summary>
+		/// <summary>
 		/// Effective Speed stat
 		/// </summary>
 		int Spd();
+
+		/// <summary>
+		/// Get the corresponding effective stat
+		/// </summary>
+		/// <param name="stat">The stat to get</param>
+		int GetStat(Stat stat);
 
 		/// <summary>
 		/// Calculates the damage modifier based on the incoming damage's type

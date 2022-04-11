@@ -71,17 +71,17 @@ namespace Pokedex.Models
 		/// <summary>
 		/// Random stat bonuses [0-31] determined at birth
 		/// </summary>
-		public Dictionary<string, int> IVs { get; private set; }
+		public Dictionary<Stat, int> IVs { get; private set; }
 
 		/// <summary>
 		/// User-defined stat bonuses [0-252], totaling 510
 		/// </summary>
-		public Dictionary<string, int> EVs { get; private set; }
+		public Dictionary<Stat, int> EVs { get; private set; }
 
 		/// <summary>
 		/// The levels of boosts associated to each stat
 		/// </summary>
-		public Dictionary<string, int> StatBoosts { get; private set; }
+		public Dictionary<Stat, int> StatBoosts { get; private set; }
 
 		/// <summary>
 		/// The nature of the Pokemon
@@ -102,15 +102,21 @@ namespace Pokedex.Models
 		public virtual int CurrHP
 		{
 			get => this._currHP;
-			set => this._currHP = Math.Clamp(value, 0, this.HP());
+			set
+			{
+				this._currHP = Math.Clamp(value, 0, this.HP());
+
+				if (this._currHP == 0)
+					this.DoKO();
+			}
 		}
 
-		protected virtual int BaseHP => this.Species.Stats["hp"];
-		protected virtual int BaseAtk => this.Species.Stats["atk"];
-		protected virtual int BaseDef => this.Species.Stats["def"];
-		protected virtual int BaseSpAtk => this.Species.Stats["spAtk"];
-		protected virtual int BaseSpDef => this.Species.Stats["spDef"];
-		protected virtual int BaseSpd => this.Species.Stats["spd"];
+		protected virtual int BaseHP => this.Species.Stats[Stat.HP];
+		protected virtual int BaseAtk => this.Species.Stats[Stat.Atk];
+		protected virtual int BaseDef => this.Species.Stats[Stat.Def];
+		protected virtual int BaseSpAtk => this.Species.Stats[Stat.SpAtk];
+		protected virtual int BaseSpDef => this.Species.Stats[Stat.SpDef];
+		protected virtual int BaseSpd => this.Species.Stats[Stat.Spd];
 
 		/// <summary>
 		/// The species the battler belongs to
@@ -149,22 +155,22 @@ namespace Pokedex.Models
 
 			var rnd = Program.rnd;
 
-			this.IVs = new Dictionary<string, int>(){
-				{"hp", rnd.Next(0, 32)},
-				{"atk", rnd.Next(0, 32)},
-				{"def", rnd.Next(0, 32)},
-				{"spAtk", rnd.Next(0, 32)},
-				{"spDef", rnd.Next(0, 32)},
-				{"spd", rnd.Next(0, 32)},
+			this.IVs = new Dictionary<Stat, int>(){
+				{Stat.HP, rnd.Next(0, 32)},
+				{Stat.Atk, rnd.Next(0, 32)},
+				{Stat.Def, rnd.Next(0, 32)},
+				{Stat.SpAtk, rnd.Next(0, 32)},
+				{Stat.SpDef, rnd.Next(0, 32)},
+				{Stat.Spd, rnd.Next(0, 32)},
 			};
 
-			this.EVs = new Dictionary<string, int>(){
-				{"hp", 0},
-				{"atk", 0},
-				{"def", 0},
-				{"spAtk", 0},
-				{"spDef", 0},
-				{"spd", 0},
+			this.EVs = new Dictionary<Stat, int>(){
+				{Stat.HP, 0},
+				{Stat.Atk, 0},
+				{Stat.Def, 0},
+				{Stat.SpAtk, 0},
+				{Stat.SpDef, 0},
+				{Stat.Spd, 0},
 			};
 
 			this._nature = __natures[rnd.Next(__natures.Length - 1)];
@@ -211,21 +217,21 @@ namespace Pokedex.Models
 			int level,
 			string nickname,
 			Nature nature,
-			Dictionary<string, int> evs
+			Dictionary<Stat, int> evs
 		) : this(species, level, nickname, nature)
 		{
-			this.SetEVs(evs["hp"], evs["atk"], evs["def"], evs["spAtk"], evs["spDef"], evs["spd"]);
+			this.SetEVs(evs[Stat.HP], evs[Stat.Atk], evs[Stat.Def], evs[Stat.SpAtk], evs[Stat.SpDef], evs[Stat.Spd]);
 
 			this._currHP = this.HP();
 		}
 		#endregion
 
 		#region Methods
-		public int HP()
+		public virtual int HP()
 		{
 			int result = this.BaseHP * 2; // Base stat
-			result += this.IVs["hp"]; // IVs
-			result += (int)(this.EVs["hp"] / 4d); // EVs
+			result += this.IVs[Stat.HP]; // IVs
+			result += (int)(this.EVs[Stat.HP] / 4d); // EVs
 			result = (int)(result * this.Level / 100d); // Adjust for level part 1
 			result += this.Level + 10; // Adjust for level part 2
 
@@ -234,11 +240,11 @@ namespace Pokedex.Models
 			return result;
 		}
 		
-		public int Atk()
+		public virtual int Atk()
 		{
 			int result = this.BaseAtk * 2; // Base stat
-			result += this.IVs["atk"]; // IVs
-			result += (int)(this.EVs["atk"] / 4d); // EVs
+			result += this.IVs[Stat.Atk]; // IVs
+			result += (int)(this.EVs[Stat.Atk] / 4d); // EVs
 			result = (int)(result * this.Level / 100d); // Adjust for level
 			result += 5; // Flat value
 
@@ -248,18 +254,18 @@ namespace Pokedex.Models
 
 			result = (int)(result * natureBonus); // Apply Nature
 
-			result = (int)(result * __stageMult[this.StatBoosts["atk"]]); // Apply stat boost
+			result = (int)(result * __stageMult[this.StatBoosts[Stat.Atk]]); // Apply stat boost
 
 			result = this.Ability.ChangeAtk(result);
 
 			return result;
 		}
 		
-		public int Def()
+		public virtual int Def()
 		{
 			int result = this.BaseDef * 2; // Base stat
-			result += this.IVs["def"]; // IVs
-			result += (int)(this.EVs["def"] / 4d); // EVs
+			result += this.IVs[Stat.Def]; // IVs
+			result += (int)(this.EVs[Stat.Def] / 4d); // EVs
 			result = (int)(result * this.Level / 100d); // Adjust for level
 			result += 5; // Flat value
 
@@ -269,18 +275,18 @@ namespace Pokedex.Models
 
 			result = (int)(result * natureBonus); // Apply Nature
 
-			result = (int)(result * __stageMult[(this.StatBoosts["def"])]); // Apply stat boost
+			result = (int)(result * __stageMult[(this.StatBoosts[Stat.Def])]); // Apply stat boost
 
 			result = this.Ability.ChangeDef(result);
 
 			return result;
 		}
 		
-		public int SpAtk()
+		public virtual int SpAtk()
 		{
 			int result = this.BaseSpAtk * 2; // Base stat
-			result += this.IVs["spAtk"]; // IVs
-			result += (int)(this.EVs["spAtk"] / 4d); // EVs
+			result += this.IVs[Stat.SpAtk]; // IVs
+			result += (int)(this.EVs[Stat.SpAtk] / 4d); // EVs
 			result = (int)(result * this.Level / 100d); // Adjust for level
 			result += 5; // Flat value
 
@@ -290,18 +296,18 @@ namespace Pokedex.Models
 
 			result = (int)(result * natureBonus); // Apply Nature
 
-			result = (int)(result * __stageMult[(this.StatBoosts["spAtk"])]); // Apply stat boost
+			result = (int)(result * __stageMult[(this.StatBoosts[Stat.SpAtk])]); // Apply stat boost
 
 			result = this.Ability.ChangeSpAtk(result);
 
 			return result;
 		}
 		
-		public int SpDef()
+		public virtual int SpDef()
 		{
 			int result = this.BaseSpDef * 2; // Base stat
-			result += this.IVs["spDef"]; // IVs
-			result += (int)(this.EVs["spDef"] / 4d); // EVs
+			result += this.IVs[Stat.SpDef]; // IVs
+			result += (int)(this.EVs[Stat.SpDef] / 4d); // EVs
 			result = (int)(result * this.Level / 100d); // Adjust for level
 			result += 5; // Flat value
 
@@ -311,18 +317,18 @@ namespace Pokedex.Models
 
 			result = (int)(result * natureBonus); // Apply Nature
 
-			result = (int)(result * __stageMult[(this.StatBoosts["spDef"])]); // Apply stat boost
+			result = (int)(result * __stageMult[(this.StatBoosts[Stat.SpDef])]); // Apply stat boost
 
 			result = this.Ability.ChangeSpDef(result);
 
 			return result;
 		}
 		
-		public int Spd()
+		public virtual int Spd()
 		{
 			int result = this.BaseSpd * 2; // Base stat
-			result += this.IVs["spd"]; // IVs
-			result += (int)(this.EVs["spd"] / 4d); // EVs
+			result += this.IVs[Stat.Spd]; // IVs
+			result += (int)(this.EVs[Stat.Spd] / 4d); // EVs
 			result = (int)(result * this.Level / 100d); // Adjust for level
 			result += 5; // Flat value
 
@@ -332,14 +338,27 @@ namespace Pokedex.Models
 
 			result = (int)(result * natureBonus); // Apply Nature
 
-			result = (int)(result * __stageMult[(this.StatBoosts["spd"])]); // Apply stat boost
+			result = (int)(result * __stageMult[(this.StatBoosts[Stat.Spd])]); // Apply stat boost
 
 			result = this.Ability.ChangeSpd(result);
 
 			return result;
 		}
 
-		public void SetIV(string stat, int val)
+		public int GetStat(Stat stat)
+			=> stat switch
+			{
+				Stat.HP => this.HP(),
+				Stat.Atk => this.Atk(),
+				Stat.Def => this.Def(),
+				Stat.SpAtk => this.SpAtk(),
+				Stat.SpDef => this.SpDef(),
+				Stat.Spd => this.Spd(),
+
+				_ => throw new ArgumentException(),
+			};
+
+		public void SetIV(Stat stat, int val)
 		{
 			if (val > 31 || val < 0)
 				throw new ArgumentException("Invalid IV value");
@@ -348,19 +367,19 @@ namespace Pokedex.Models
 		}
 		public void SetIVs(int hp, int atk, int def, int spAtk, int spDef, int spd)
 		{
-			this.SetIV("hp", hp);
-			this.SetIV("atk", atk);
-			this.SetIV("def", def);
-			this.SetIV("spAtk", spAtk);
-			this.SetIV("spDef", spDef);
-			this.SetIV("spd", spd);
+			this.SetIV(Stat.HP, hp);
+			this.SetIV(Stat.Atk, atk);
+			this.SetIV(Stat.Def, def);
+			this.SetIV(Stat.SpAtk, spAtk);
+			this.SetIV(Stat.SpDef, spDef);
+			this.SetIV(Stat.Spd, spd);
 
 			// Set the HP to max, in case it was higher
 			/// <see cref="CurrHP">
 			this.CurrHP = this.CurrHP;
 		}
 
-		public void SetEV(string stat, int val)
+		public void SetEV(Stat stat, int val)
 		{
 			var total = this.EVs
 				.Where(pair => pair.Key != stat)
@@ -376,7 +395,7 @@ namespace Pokedex.Models
 			
 			this.EVs[stat] = val;
 		}
-		private void SetEVUnsafe(string stat, int val)
+		private void SetEVUnsafe(Stat stat, int val)
 		{
 			if (val > 252)
 				throw new ArgumentException("EV cannot surpass 252");
@@ -390,12 +409,12 @@ namespace Pokedex.Models
 			if (hp + atk + def + spAtk + spDef + spd > 510)
 				throw new ArgumentException("Total EVs cannot surpass 510");
 			
-			this.SetEVUnsafe("hp", hp);
-			this.SetEVUnsafe("atk", atk);
-			this.SetEVUnsafe("def", def);
-			this.SetEVUnsafe("spAtk", spAtk);
-			this.SetEVUnsafe("spDef", spDef);
-			this.SetEVUnsafe("spd", spd);
+			this.SetEVUnsafe(Stat.HP, hp);
+			this.SetEVUnsafe(Stat.Atk, atk);
+			this.SetEVUnsafe(Stat.Def, def);
+			this.SetEVUnsafe(Stat.SpAtk, spAtk);
+			this.SetEVUnsafe(Stat.SpDef, spDef);
+			this.SetEVUnsafe(Stat.Spd, spd);
 		}
 
 		/// <summary>
@@ -422,13 +441,13 @@ namespace Pokedex.Models
 		[MemberNotNull(nameof(StatBoosts))]
 		public void SetBoosts(int atk, int def, int spAtk, int spDef, int spd)
 		{
-			this.StatBoosts = new Dictionary<string, int>()
+			this.StatBoosts = new Dictionary<Stat, int>()
 			{
-				{ "atk",   atk   },
-				{ "def",   def   },
-				{ "spAtk", spAtk },
-				{ "spDef", spDef },
-				{ "spd",   spd   },
+				{ Stat.Atk,   atk   },
+				{ Stat.Def,   def   },
+				{ Stat.SpAtk, spAtk },
+				{ Stat.SpDef, spDef },
+				{ Stat.Spd,   spd   },
 			};
 		}
 
@@ -556,7 +575,7 @@ namespace Pokedex.Models
 		/// </summary>
 		/// <param name="stat">The stat boost the change</param>
 		/// <param name="val">The value to add</param>
-		public void ChangeStatBonus(string stat, int val)
+		public void ChangeStatBonus(Stat stat, int val)
 			=> this.StatBoosts[stat] = Math.Clamp(this.StatBoosts[stat] + val, -6, 6);
 
 		/// <summary>
@@ -566,13 +585,13 @@ namespace Pokedex.Models
 		{
 			(atk, def, spAtk, spDef, spd) = this.Ability.OnStatChange(atk, def, spAtk, spDef, spd);
 
-			this.StatBoosts = new Dictionary<string, int>
+			this.StatBoosts = new Dictionary<Stat, int>
 			{
-				{ "atk", Math.Clamp(this.StatBoosts["atk"] + atk, -6, 6) },
-				{ "def", Math.Clamp(this.StatBoosts["def"] + def, -6, 6) },
-				{ "spAtk", Math.Clamp(this.StatBoosts["spAtk"] + spAtk, -6, 6) },
-				{ "spDef", Math.Clamp(this.StatBoosts["spDef"] + spDef, -6, 6) },
-				{ "spd", Math.Clamp(this.StatBoosts["spd"] + spd, -6, 6) },
+				{ Stat.Atk, Math.Clamp(this.StatBoosts[Stat.Atk] + atk, -6, 6) },
+				{ Stat.Def, Math.Clamp(this.StatBoosts[Stat.Def] + def, -6, 6) },
+				{ Stat.SpAtk, Math.Clamp(this.StatBoosts[Stat.SpAtk] + spAtk, -6, 6) },
+				{ Stat.SpDef, Math.Clamp(this.StatBoosts[Stat.SpDef] + spDef, -6, 6) },
+				{ Stat.Spd, Math.Clamp(this.StatBoosts[Stat.Spd] + spd, -6, 6) },
 			};
 		}
 
@@ -618,8 +637,8 @@ namespace Pokedex.Models
 		public string GetFullStatus()
 		{
 			var status = new StringBuilder();
-			string[] statColor = new string[]
-			{ "atk", "def", "spAtk", "spDef", "spd" }
+			string[] statColor = new Stat[]
+			{ Stat.Atk, Stat.Def, Stat.SpAtk, Stat.SpDef, Stat.Spd }
 				.Select(stat => this.StatBoosts[stat])
 				.Select(stage => stage > 0 ? "\x1b[38;2;0;128;0m"
 								: stage == 0 ? ""

@@ -16,7 +16,16 @@ namespace Pokedex.Models.Abilities
 		#endregion
 
 		#region Methods
-		// public override bool OnReceiveDamage(Interaction damage, I_Battler caster);
+		public override bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler caster)
+		{
+			if (dmgInfo.Type != null)
+			{
+				this.Announce();
+				this._tempType = dmgInfo.Type;
+			}
+
+			return true;
+		}
 
 		public override List<PokeType>? ChangeType()
 		{

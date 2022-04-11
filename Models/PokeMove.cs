@@ -116,22 +116,22 @@ namespace Pokedex.Models
 		/// <param name="target">The target to use</param>
 		protected virtual void DoAction(I_Battler target)
 		{
-			/* target.Ability.BeforeDefend(this);
+			target.Ability.BeforeDefend(this);
 
-			InterType dmgClass = this.Class == MoveClass.Physical
-									? InterType.Physical
-									: InterType.Special;
-
-			double power = this.Power ?? 0;
+			DamageInfo dmgInfo = this.Class switch
+			{
+				MoveClass.Physical => DamageInfo.CreatePhysical(this.Power ?? 0, this.Type),
+				MoveClass.Special => DamageInfo.CreateSpecial(this.Power ?? 0, this.Type),
+				_ => throw new InvalidOperationException(),
+			};
 
 			// Apply STAB
 			if (this.Caster.Types.Contains(this.Type))
-				power *= 1.5;
+				dmgInfo.Power = (int)(dmgInfo.Power * 1.5);
 
-
-			bool success = target.ReceiveDamage(this.Caster, new Interaction(dmgClass, this.Power ?? 0, this.Type));
+			bool success = DamageHandler.DoDamage(dmgInfo, this.Caster, target);
 			if (!success)
-				Console.WriteLine("But it failed"); */
+				Console.WriteLine("But it failed");
 		}
 
 		public virtual void PreAction(MoveEvent event_) { }

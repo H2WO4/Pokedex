@@ -72,13 +72,13 @@ namespace Pokedex.Models.Pokemons
 				{r'''
 				'''.join([f'Type{type_.title()}.Singleton,' for type_ in poke['types']])}
 			}},
-			new Dictionary<string, int>(){{
-				{{ "hp", {poke['stats']['hp']} }},
-				{{ "atk", {poke['stats']['attack']} }},
-				{{ "def", {poke['stats']['defense']} }},
-				{{ "spAtk", {poke['stats']['special-attack']} }},
-				{{ "spDef", {poke['stats']['special-defense']} }},
-				{{ "spd", {poke['stats']['speed']} }},
+			new Dictionary<Stat, int>(){{
+				{{ Stat.HP, {poke['stats']['hp']} }},
+				{{ Stat.Atk, {poke['stats']['attack']} }},
+				{{ Stat.Def, {poke['stats']['defense']} }},
+				{{ Stat.SpAtk, {poke['stats']['special-attack']} }},
+				{{ Stat.SpDef, {poke['stats']['special-defense']} }},
+				{{ Stat.Spd, {poke['stats']['speed']} }},
 			}},
 
 			{generation}, "{poke['genera']['en']}", {class_},
