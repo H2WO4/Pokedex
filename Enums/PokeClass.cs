@@ -1,13 +1,12 @@
-namespace Pokedex.Enums
+namespace Pokedex.Enums;
+
+/// <summary>
+/// Represents what class a Pokemon can belong to
+/// </summary>
+public enum PokeClass
 {
-	/// <summary>
-	/// Represents what class a Pokemon can belong to
-	/// </summary>
-	public enum PokeClass
-	{
-		Normal,
-		Baby,
-		Legendary,
-		Mythical,
-	}
+	Normal,
+	Baby,
+	Legendary,
+	Mythical,
 }

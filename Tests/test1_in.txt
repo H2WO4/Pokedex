@@ -1,4 +1,4 @@
-status self detailed
+status self full
 status moves full
 use 1
 status self full
@@ -18,6 +18,3 @@ status self
 use 1
 
 use 1
-status other
-status self
-status bench

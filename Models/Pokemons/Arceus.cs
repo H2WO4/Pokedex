@@ -10,7 +10,7 @@ namespace Pokedex.Models.Pokemons
 		#endregion
 
 		#region Properties
-		public static Arceus Singleton { get => _singleton ?? (_singleton = new Arceus()); }
+		public static Arceus Singleton => _singleton ??= new Arceus();
 		#endregion
 
 		#region Constructor

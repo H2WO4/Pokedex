@@ -1,15 +1,14 @@
-namespace Pokedex.Models.Abilities
-{
-	public class Ability : Models.Ability
-	{
-		#region Constructors
-		public Ability()
-			: base("___")
-		{ }
-		#endregion
+namespace Pokedex.Models.Abilities;
 
-		#region Methods
-		
-		#endregion
-	}
+public class Ability : Models.Ability
+{
+	#region Constructors
+	public Ability()
+		: base("___")
+	{ }
+	#endregion
+
+	#region Methods
+	
+	#endregion
 }

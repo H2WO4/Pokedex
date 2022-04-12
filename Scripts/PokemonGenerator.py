@@ -8,22 +8,19 @@ shutil.rmtree("Models/Pokemons")
 os.mkdir("Models/Pokemons")
 
 # Load the json file
-data = {}
 with open("Data/pokemon.json", encoding="utf-8") as f:
 	data = json.load(f)
 
 i = 1
 # For each pokemon
 for poke in data.values():
-	# Potential loop breaker for testing
-	if i > 30 and poke["name"] != "arceus": continue
-	# if poke["name"] != "pikachu": continue
+	# if poke["id"] > 36 and poke["name"] != "arceus":
+	# 	continue
 
 	# Find the name to use in file names
 	className: str = poke["name"].title()
-
-	# If there's an hypen, it's a form, and does not warrant a class (yet)
-	if '-' in className: continue
+	name: str = className.split('-')[0]
+	className = className.replace('-', '')
 
 	# Create the Species class, by opening a file
 	# with open(f"Models/Pokemons/{className}Species.cs", 'w', encoding="utf-8") as f:
@@ -57,17 +54,17 @@ namespace Pokedex.Models.Pokemons
 	public class {className} : PokeSpecies
 	{{
 		#region Class Variables
-		private static {className}? __singleton;
+		private static {className}? _singleton;
 		#endregion
 
 		#region Properties
-		public static {className} Singleton {{ get => __singleton ?? (__singleton = new {className}()); }}
+		public static {className} Singleton => _singleton ??= new {className}();
 		#endregion
 
 		#region Constructor
 		public {className}() : base
 		(
-			{poke['id']}, "{className}",
+			{poke['id']}, "{name}",
 			new List<PokeType>(){{
 				{r'''
 				'''.join([f'Type{type_.title()}.Singleton,' for type_ in poke['types']])}
@@ -82,7 +79,8 @@ namespace Pokedex.Models.Pokemons
 			}},
 
 			{generation}, "{poke['genera']['en']}", {class_},
-			{poke['height']}, {poke['weight']}
+			{poke['height']}, {poke['weight']}{r''',
+			true''' if poke["battle_form"] else ""}
 		)
 		{{ }}
 		#endregion
@@ -94,5 +92,5 @@ namespace Pokedex.Models.Pokemons
 
 		# Write the code to the file
 		f.write(outfile)
-	
+
 	i += 1

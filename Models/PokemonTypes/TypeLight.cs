@@ -1,20 +1,19 @@
-namespace Pokedex.Models.PokemonTypes
+namespace Pokedex.Models.PokemonTypes;
+
+public class TypeLight : PokeType
 {
-	public class TypeLight : PokeType
-	{
-		#region Class Variables
-		private static TypeLight? _singleton;
-		#endregion
+	#region Class Variables
+	private static TypeLight? _singleton;
+	#endregion
 
-		#region Properties
-		public static TypeLight Singleton => _singleton ??= new();
-		#endregion
+	#region Properties
+	public static TypeLight Singleton => _singleton ??= new TypeLight();
+	#endregion
 
-		#region Constructor
-		private TypeLight() : base(
-			"Light", (185, 188, 231)
-		)
-		{ }
-		#endregion
-	}
+	#region Constructor
+	private TypeLight() : base(
+		"Light", (185, 188, 231)
+	)
+	{ }
+	#endregion
 }

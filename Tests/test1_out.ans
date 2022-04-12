@@ -1,48 +1,126 @@
-[1;4mTurn 1[0m
+Turn 1
 Rain continues to fall.
 
-[4mIt's Jean's turn![0m
+It's Jean's turn!
 
-[4mPikachu[0m[2m - Raichu[0m
-Lvl : 100      [38;2;245;204;52mElectric[0m
-[1mHP[0m  : [38;2;144;238;144m[0m 261/261
-[1mAtk[0m : 216[0m      [1mDef[0m : 160[0m+
-[1mSAtk[0m: 216[0m      [1mSDef[0m: 196[0m 
-[1mSpd[0m : 230[0m-
+Pikachu - Raichu
+Lvl : 100      Electric
+HP  :  261/261
+Atk : 216      Def : 160+
+SAtk: 216      SDef: 196 
+Spd : 230-
 
-[38;2;255;127;0;1m1[0m [1mThunder     [0m   [38;2;38;117;244mSpecial[0m-[38;2;245;204;52mElectric[0m
-[38;2;219;112;147mPower[0m:  110      [38;2;173;216;230mAccuracy[0m:  70%
-[38;2;144;238;144mPP[0m:   10/10      [38;2;255;165;0mPriority[0m:    0
+1 Thunder        Special-Electric
+Power:  110      Accuracy:  70%
+PP:   10/10      Priority:    0
 
-[38;2;255;127;0;1m2[0m [1mSwords Dance[0m   [38;2;90;99;123mStatus[0m-[38;2;170;170;153mNormal[0m
-[38;2;219;112;147mPower[0m:  ---      [38;2;173;216;230mAccuracy[0m:  ---
-[38;2;144;238;144mPP[0m:   20/20      [38;2;255;165;0mPriority[0m:    0
+2 Swords Dance   Status-Normal
+Power:  ---      Accuracy:  ---
+PP:   20/20      Priority:    0
 
-[38;2;255;127;0;1m3[0m ---
-[38;2;255;127;0;1m4[0m ---
-
-
-[4mIt's Charles's turn![0m
-
-[4mSquid Game[0m[2m - Blastoise[0m
-Lvl : 100      [38;2;78;154;255mWater[0m
-[1mHP[0m  : [38;2;144;238;144m[0m 299/299
-[1mAtk[0m : 202[0m      [1mDef[0m : 259[0m+
-[1mSAtk[0m: 185[0m-     [1mSDef[0m: 246[0m 
-[1mSpd[0m : 192[0m 
-
-[38;2;255;127;0;1m2[0m [4mOver-hyped[0m[2m - Charizard[0m
-Lvl : 100      [38;2;236;66;37mFire[0m-[38;2;136;153;255mFlying[0m
-[1mHP[0m  : [38;2;144;238;144m[0m 297/297
-[1mAtk[0m : 204[0m      [1mDef[0m : 192[0m 
-[1mSAtk[0m: 254[0m      [1mSDef[0m: 185[0m-
-[1mSpd[0m : 259[0m+
-[38;2;255;127;0;1m3[0m [4mMother Fucking God[0m[2m - Arceus[0m
-Lvl : 100      [38;2;170;170;153mNormal[0m
-[1mHP[0m  : [38;2;144;238;144m[0m 381/381
-[1mAtk[0m : 276[0m      [1mDef[0m : 303[0m+
-[1mSAtk[0m: 276[0m      [1mSDef[0m: 248[0m-
-[1mSpd[0m : 276[0m 
+3 ---
+4 ---
 
 
-[4mPikachu uses Thunder[0m
+It's Charles's turn!
+
+Squid Game - Blastoise
+Lvl : 100      Water
+HP  :  299/299
+Atk : 202      Def : 259+
+SAtk: 185-     SDef: 246 
+Spd : 192 
+
+2 Over-hyped - Charizard
+Lvl : 100      Fire-Flying
+HP  :  297/297
+Atk : 204      Def : 192 
+SAtk: 254      SDef: 185-
+Spd : 259+
+3 Mother Fucking God - Arceus
+Lvl : 100      Normal
+HP  :  381/381
+Atk : 276      Def : 303+
+SAtk: 276      SDef: 248-
+Spd : 276 
+
+
+Pikachu uses Thunder
+Squid Game lost 82% HP
+Squid Game uses U-Turn
+Pikachu lost 29% HP
+Choose a pokemon to send
+
+2: Over-hyped - Charizard
+Lvl : 100      Fire-Flying
+HP  : 
+
+3: Mother Fucking God - Arceus
+Lvl : 100      Normal
+HP  : 
+
+
+Charles takes out Squid Game
+
+Charles sends out Over-hyped
+Turn 2
+Rain continues to fall.
+
+It's Jean's turn!
+
+Pikachu - Raichu
+Lvl : 100      Electric
+HP  : 
+
+
+
+It's Charles's turn!
+
+Over-hyped - Charizard
+Lvl : 100      Fire-Flying
+HP  : 
+
+
+
+Over-hyped uses Extreme Speed
+Pikachu lost 33% HP
+Pikachu uses Thunder
+Over-hyped lost 100% HP
+Over-hyped fainted
+
+Choose a pokemon to send
+
+1: Squid Game - Blastoise
+Lvl : 100      Water
+HP  : 
+
+3: Mother Fucking God - Arceus
+Lvl : 100      Normal
+HP  : 
+
+
+Charles takes out Over-hyped
+
+Charles sends out Mother Fucking God
+Turn 3
+Rain continues to fall.
+
+It's Jean's turn!
+
+Pikachu - Raichu
+Lvl : 100      Electric
+HP  : 
+
+
+
+It's Charles's turn!
+
+Mother Fucking God - Arceus
+Lvl : 100      Normal
+HP  : 
+
+
+
+Mother Fucking God uses Guillotine
+Pikachu fainted
+

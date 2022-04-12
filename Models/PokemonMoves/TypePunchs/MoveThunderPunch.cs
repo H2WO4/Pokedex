@@ -1,17 +1,16 @@
 using Pokedex.Enums;
 using Pokedex.Models.PokemonTypes;
 
-namespace Pokedex.Models.PokemonMoves
+namespace Pokedex.Models.PokemonMoves;
+
+public class MoveThunderPunch : PokeMove
 {
-	public class MoveThunderPunch : PokeMove
-	{
-		public MoveThunderPunch() : base(
-			"Thunder-Punch",
-			MoveClass.Physical,
-			75, 100, // Pow & Acc
-			15, 0, // PP & Priority
-			TypeElectric.Singleton
-		)
-		{ }
-	}
+	public MoveThunderPunch() : base(
+		"Thunder-Punch",
+		MoveClass.Physical,
+		75, 100, // Pow & Acc
+		15, 0, // PP & Priority
+		TypeElectric.Singleton
+	)
+	{ }
 }

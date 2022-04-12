@@ -1,20 +1,19 @@
-namespace Pokedex.Models.PokemonTypes
+namespace Pokedex.Models.PokemonTypes;
+
+public class TypeFlying : PokeType
 {
-	public class TypeFlying : PokeType
-	{
-		#region Class Variables
-		private static TypeFlying? _singleton;
-		#endregion
+	#region Class Variables
+	private static TypeFlying? _singleton;
+	#endregion
 
-		#region Properties
-		public static TypeFlying Singleton => _singleton ??= new();
-		#endregion
+	#region Properties
+	public static TypeFlying Singleton => _singleton ??= new TypeFlying();
+	#endregion
 
-		#region Constructor
-		private TypeFlying() : base(
-			"Flying", (136, 153, 255)
-		)
-		{ }
-		#endregion
-	}
+	#region Constructor
+	private TypeFlying() : base(
+		"Flying", (136, 153, 255)
+	)
+	{ }
+	#endregion
 }
