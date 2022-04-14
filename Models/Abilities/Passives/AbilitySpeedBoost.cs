@@ -5,8 +5,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilitySpeedBoost : Models.Ability
 {
 	#region Constructors
-	public AbilitySpeedBoost()
-		: base("Speed Boost")
+	public AbilitySpeedBoost(Pokemon origin)
+		: base("Speed Boost", origin)
 	{ }
 	#endregion
 

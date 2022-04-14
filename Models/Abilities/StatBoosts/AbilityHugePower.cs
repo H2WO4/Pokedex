@@ -3,8 +3,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilityHugePower : Models.Ability
 {
 	#region Constructors
-	public AbilityHugePower()
-		: base("HugePower")
+	public AbilityHugePower(Pokemon origin)
+		: base("HugePower", origin)
 	{ }
 	#endregion
 

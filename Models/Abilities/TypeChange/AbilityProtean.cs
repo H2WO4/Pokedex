@@ -9,16 +9,18 @@ public class AbilityProtean : Models.Ability
 	#endregion
 
 	#region Constructors
-	public AbilityProtean()
-		: base("Protean")
+	public AbilityProtean(Pokemon origin)
+		: base("Protean", origin)
 	{ }
 	#endregion
 
 	#region Methods
-	public override void BeforeAttack(I_PokeMove move)
+	public override bool BeforeAttack(I_PokeMove move)
 	{
 		Announce();
 		_tempType = move.Type;
+
+		return false;
 	}
 
 	public override List<PokeType>? ChangeType()

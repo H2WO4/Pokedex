@@ -3,8 +3,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilityCloudNine : Models.Ability
 {
 	#region Constructors
-	public AbilityCloudNine()
-		: base("CloudNine")
+	public AbilityCloudNine(Pokemon origin)
+		: base("CloudNine", origin)
 	{ }
 	#endregion
 

@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using Pokedex.Interfaces;
 
 namespace Pokedex.Models;
@@ -8,17 +7,18 @@ public abstract class Ability
 	#region Properties
 	public string Name { get; }
 
-	[property: NotNull]
-	public Pokemon? Origin { get; set; }
+	protected Pokemon Origin { get; }
 	#endregion
 
 	#region Constructors
 	protected Ability
 	(
-		string name
+		string name,
+		Pokemon origin
 	)
 	{
 		Name = name;
+		Origin = origin;
 	}
 	#endregion
 
@@ -72,9 +72,7 @@ public abstract class Ability
 	/// <summary>
 	/// Called whenever its owner is made K.O.
 	/// </summary>
-	/// <returns>True if it cancels death</returns>
-	public virtual bool OnDeath()
-		=> false;
+	public virtual void OnDeath() { }
 
 	/// <summary>
 	/// Called whenever its owner is made K.O. by an opponent
@@ -92,13 +90,17 @@ public abstract class Ability
 	/// Called before a move is used
 	/// </summary>
 	/// <param name="move">The move used</param>
-	public virtual void BeforeAttack(I_PokeMove move) { }
+	/// <returns>True if the attack is canceled</returns>
+	public virtual bool BeforeAttack(I_PokeMove move)
+		=> false;
 
 	/// <summary>
 	/// Called before a move is used
 	/// </summary>
 	/// <param name="move">The move used</param>
-	public virtual void BeforeDefend(I_PokeMove move) { }
+	/// <returns>True if the attack is canceled</returns>
+	public virtual bool BeforeDefend(I_PokeMove move)
+		=> false;
 
 	/// <summary>
 	/// Called before returning a Pokemon's type
@@ -126,12 +128,19 @@ public abstract class Ability
 	/// Called at the end of the turn
 	/// </summary>
 	public virtual void OnTurnEnd() { }
-
+	
+	/// <summary>
+	/// Called whenever the weather changes in battle
+	/// </summary>
+	/// <param name="leaving">The weather that is leaving</param>
+	/// <param name="entering">The weather that is entering</param>
+	public virtual void OnWeatherChange(Weather leaving, Weather entering) { }
+	
 	/// <summary>
 	/// Called when calculating Max HP
 	/// </summary>
 	/// <param name="hp">Current calculated max HP</param>
-	/// <returns></returns>
+	/// <returns>New max HP value</returns>
 	public virtual int ChangeHP(int hp)
 		=> hp;
 
@@ -139,7 +148,7 @@ public abstract class Ability
 	/// Called when calculating Max HP
 	/// </summary>
 	/// <param name="atk">Current calculated attack</param>
-	/// <returns></returns>
+	/// <returns>New attack value</returns>
 	public virtual int ChangeAtk(int atk)
 		=> atk;
 		
@@ -147,7 +156,7 @@ public abstract class Ability
 	/// Called when calculating Max HP
 	/// </summary>
 	/// <param name="def">Current calculated defense</param>
-	/// <returns></returns>
+	/// <returns>New defense value</returns>
 	public virtual int ChangeDef(int def)
 		=> def;
 		
@@ -155,7 +164,7 @@ public abstract class Ability
 	/// Called when calculating Max HP
 	/// </summary>
 	/// <param name="spAtk">Current calculated special attack</param>
-	/// <returns></returns>
+	/// <returns>New special attack value</returns>
 	public virtual int ChangeSpAtk(int spAtk)
 		=> spAtk;
 		
@@ -163,7 +172,7 @@ public abstract class Ability
 	/// Called when calculating Max HP
 	/// </summary>
 	/// <param name="spDef">Current calculated special defense</param>
-	/// <returns></returns>
+	/// <returns>New special defense value</returns>
 	public virtual int ChangeSpDef(int spDef)
 		=> spDef;
 		
@@ -171,7 +180,7 @@ public abstract class Ability
 	/// Called when calculating Max HP
 	/// </summary>
 	/// <param name="spd">Current calculated speed</param>
-	/// <returns></returns>
+	/// <returns>New calculated speed value</returns>
 	public virtual int ChangeSpd(int spd)
 		=> spd;
 
@@ -186,9 +195,22 @@ public abstract class Ability
 	/// <returns>Tuple of the new changed bonuses</returns>
 	public virtual (int, int, int, int, int) OnStatChange(int atk, int def, int spAtk, int spDef, int spd)
 		=> (atk, def, spAtk, spDef, spd);
+
+	/// <summary>
+	/// Called at the start of a combat
+	/// </summary>
+	public virtual void OnCombatStart() { }
+	
+	/// <summary>
+	/// Called at the end of a combat
+	/// </summary>
+	public virtual void OnCombatEnd() { }
 	#endregion
 
 	#region Methods - Conditions
+	/// <summary>
+	/// Whether this ability eliminates the effect of weather
+	/// </summary>
 	public virtual bool AllowWeather() => true;
 	#endregion
 }

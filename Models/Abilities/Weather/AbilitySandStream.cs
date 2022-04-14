@@ -1,4 +1,3 @@
-using Pokedex.Interfaces;
 using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models.Abilities;
@@ -6,8 +5,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilitySandStream : Models.Ability
 {
 	#region Constructors
-	public AbilitySandStream()
-		: base("Sand Stream")
+	public AbilitySandStream(Pokemon origin)
+		: base("Sand Stream", origin)
 	{ }
 	#endregion
 

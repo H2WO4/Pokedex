@@ -11,6 +11,11 @@ os.mkdir("Models/Pokemons")
 with open("Data/pokemon.json", encoding="utf-8") as f:
 	data = json.load(f)
 
+with open("Data/new_pokemon.json", encoding="utf-8-sig") as f:
+	temp_data = json.load(f)
+	for poke in temp_data:
+		data[poke] = temp_data[poke]
+
 i = 1
 # For each pokemon
 for poke in data.values():

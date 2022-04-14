@@ -1,5 +1,3 @@
-using Pokedex.Models;
-
 namespace Pokedex.Interfaces;
 
 /// <summary>

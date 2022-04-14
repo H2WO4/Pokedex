@@ -3,8 +3,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilityContrary : Models.Ability
 {
 	#region Constructors
-	public AbilityContrary()
-		: base("Contrary")
+	public AbilityContrary(Pokemon origin)
+		: base("Contrary", origin)
 	{ }
 	#endregion
 

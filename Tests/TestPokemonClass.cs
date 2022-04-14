@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pokedex.Enums;
 using Pokedex.Models;
 using Pokedex.Models.Pokemons;
+using Pokedex.Utils;
 
 namespace Pokedex.Tests;
 

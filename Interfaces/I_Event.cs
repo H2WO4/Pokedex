@@ -15,6 +15,11 @@ public interface I_Event
 	/// Secondary variable used to sort the queue
 	/// </summary>
 	public int Speed { get; }
+
+	/// <summary>
+	/// In which combat the fight happens in
+	/// </summary>
+	public I_Combat Context { get; }
 	#endregion
 
 	#region Methods

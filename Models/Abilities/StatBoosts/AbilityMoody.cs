@@ -5,8 +5,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilityMoody : Models.Ability
 {
 	#region Constructors
-	public AbilityMoody()
-		: base("Moody")
+	public AbilityMoody(Pokemon origin)
+		: base("Moody", origin)
 	{ }
 	#endregion
 

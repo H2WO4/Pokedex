@@ -70,7 +70,9 @@ public abstract class PokeMove : I_PokeMove
 	#region Methods
 	public virtual void OnUse()
 	{
-		Caster.Ability.BeforeAttack(this);
+		bool cancel = Caster.Ability.BeforeAttack(this);
+		if (cancel)
+			return;
 
 		// Select targets
 		var targets = GetTargets();
@@ -119,7 +121,9 @@ public abstract class PokeMove : I_PokeMove
 	/// <exception cref="InvalidOperationException">Thrown if a status move does not override this</exception>
 	protected virtual void DoAction(I_Battler target)
 	{
-		target.Ability.BeforeDefend(this);
+		bool cancel = target.Ability.BeforeDefend(this);
+		if (cancel)
+			return;
 
 		var dmgInfo = Class switch
 		{

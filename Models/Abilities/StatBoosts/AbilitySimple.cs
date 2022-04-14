@@ -3,8 +3,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilitySimple : Models.Ability
 {
 	#region Constructors
-	public AbilitySimple()
-		: base("Simple")
+	public AbilitySimple(Pokemon origin)
+		: base("Simple", origin)
 	{ }
 	#endregion
 

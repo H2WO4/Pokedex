@@ -5,8 +5,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilitySturdy : Models.Ability
 {
 	#region Constructors
-	public AbilitySturdy()
-		: base("Sturdy")
+	public AbilitySturdy(Pokemon origin)
+		: base("Sturdy", origin)
 	{ }
 	#endregion
 

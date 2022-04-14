@@ -212,7 +212,7 @@ public class Trainer : I_Player
 		// Create the event
 		var ev = new MoveEvent
 		(
-			Active, this,
+			Active,
 			move, Arena
 		);
 		// Add it to the queue

@@ -16,7 +16,7 @@ public class SwitchInputEvent : I_Event
 	/// <summary>
 	/// In which combat the fight happens in
 	/// </summary>
-	protected I_Combat Context { get; }
+	public I_Combat Context { get; }
 	#endregion
 
 	#region Constructor

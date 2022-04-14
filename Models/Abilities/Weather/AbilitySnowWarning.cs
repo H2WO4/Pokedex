@@ -1,4 +1,3 @@
-using Pokedex.Interfaces;
 using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models.Abilities;
@@ -6,8 +5,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilitySnowWarning : Models.Ability
 {
 	#region Constructors
-	public AbilitySnowWarning()
-		: base("Snow Warning")
+	public AbilitySnowWarning(Pokemon origin)
+		: base("Snow Warning", origin)
 	{ }
 	#endregion
 

@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Pokedex.Interfaces;
 using Pokedex.Models;
 using Pokedex.Models.PokemonMoves;
 using Pokedex.Models.Pokemons;
@@ -36,8 +37,8 @@ public class TestCombatClass
 		arceus.CurrHP = 999;
 
 		var fight = new Combat(
-			("Jean", new Pokemon[] { raichu }),
-			("Charles", new Pokemon[] { blastoise, charizard, arceus })
+			("Jean", new I_Battler[] { raichu }),
+			("Charles", new I_Battler[] { blastoise, charizard, arceus })
 		);
 
 		// Redirect console
@@ -47,6 +48,6 @@ public class TestCombatClass
 		Console.SetIn(reader);
 		// Console.SetOut(writer);
 
-		fight.DoTurn();
+		fight.DoCombat();
 	}
 }

@@ -48,6 +48,11 @@ public interface I_Battler
 	/// How much health the Pokemon has
 	/// </summary>
 	int CurrHP { get; set; }
+	
+	/// <summary>
+	/// Status effects the Pokemon is afflicted with
+	/// </summary>
+	List<StatusEffect> StatusEffects { get; }
 	#endregion
 
 	#region Methods

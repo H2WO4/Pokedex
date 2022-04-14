@@ -6,8 +6,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilityLevitate : Models.Ability
 {
 	#region Constructors
-	public AbilityLevitate()
-		: base("Levitate")
+	public AbilityLevitate(Pokemon origin)
+		: base("Levitate", origin)
 	{ }
 	#endregion
 

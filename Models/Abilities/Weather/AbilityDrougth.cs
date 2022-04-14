@@ -1,4 +1,3 @@
-using Pokedex.Interfaces;
 using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models.Abilities;
@@ -6,8 +5,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilityDrougth : Models.Ability
 {
 	#region Constructors
-	public AbilityDrougth()
-		: base("Drougth")
+	public AbilityDrougth(Pokemon origin)
+		: base("Drougth", origin)
 	{ }
 	#endregion
 

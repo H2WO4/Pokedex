@@ -38,6 +38,10 @@ public static class DamageHandler
 		{
 			int postDeathDamage = target.Ability.OnKilled(caster);
 			damage -= postDeathDamage;
+			
+			// If the kill is confirmed, active the killer's ability
+			if (postDeathDamage > 0)
+				caster.Ability.OnKill();
 		}
 
 		// Announce the damage
@@ -47,13 +51,17 @@ public static class DamageHandler
 		// Apply the damage
 		target.CurrHP -= (int)damage;
 
+		// Activate post-damage abilities
+		caster.Ability.AfterInflictDamage(dmgInfo, target);
+		target.Ability.AfterReceiveDamage(dmgInfo, caster);
+		
 		// Indicate that everything went smoothly
 		return true;
 	}
 
 	private static double CalculateDamage(DamageInfo dmgInfo, I_Battler caster, I_Battler target)
 	{
-		double damage;
+		double damage = 0;
 		switch (dmgInfo)
 		{
 			case {Class: DamageClass.Pure}:
@@ -90,12 +98,9 @@ public static class DamageHandler
 				// Apply type weaknesses
 				damage *= target.GetAffinity(type);
 				break;
-
-			default: throw new ArgumentException("Invalid value");
 		}
 
 		return damage;
 	}
-
 	#endregion
 }

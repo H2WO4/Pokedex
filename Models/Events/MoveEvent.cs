@@ -21,14 +21,13 @@ public class MoveEvent : I_Event
 	/// <summary>
 	/// In which combat the fight happens in
 	/// </summary>
-	private I_Combat Context { get; }
+	public I_Combat Context { get; }
 	#endregion
 
 	#region Constructors
 	public MoveEvent
 	(
 		I_Battler caster,
-		Trainer origin,
 		PokeMove move,
 		I_Combat context
 	)

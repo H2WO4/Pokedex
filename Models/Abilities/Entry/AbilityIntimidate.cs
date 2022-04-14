@@ -5,8 +5,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilityIntimidate : Models.Ability
 {
 	#region Constructors
-	public AbilityIntimidate()
-		: base("Intimidate")
+	public AbilityIntimidate(Pokemon origin)
+		: base("Intimidate", origin)
 	{ }
 	#endregion
 

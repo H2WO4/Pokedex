@@ -9,8 +9,8 @@ public class AbilityColorChange : Models.Ability
 	#endregion
 
 	#region Constructors
-	public AbilityColorChange()
-		: base("Color Change")
+	public AbilityColorChange(Pokemon origin)
+		: base("Color Change", origin)
 	{ }
 	#endregion
 

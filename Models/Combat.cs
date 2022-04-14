@@ -26,9 +26,15 @@ public class Combat : I_Combat
 		get => _weather;
 		set
 		{
+			if (_weather == value) return;
+			
+			var old = _weather;
 			_weather.OnExit();
 			_weather = value;
 			_weather.OnEnter();
+
+			foreach (var player in Players)
+				player.Active.Ability.OnWeatherChange(old, value);
 		}
 	}
 	#endregion
@@ -56,48 +62,64 @@ public class Combat : I_Combat
 	public void AddToTop(I_Event ev)
 		=> EventQueue.AddFirst(ev);
 
-	public I_Player DoTurn()
+	public I_Player DoCombat()
 	{
+		// Activate all end of combat abilities, across all pokemons
+		Players
+		   .SelectMany(player => player.Team)
+		   .ToList()
+		   .ForEach(poke => poke.Ability.OnCombatStart());
+		
+		// While all players can fight, give them a turn
 		while (Players.All(player => player.Team.Any(poke => poke.CurrHP > 0)))
-		{
-			// Display turn
-			_turn++;
-			Console.WriteLine($"Turn {_turn}");
-			// Display weather
-			_weather.OnTurnStart(this);
+			DoTurns();
 
-			Console.WriteLine();
-
-			// Take input from players
-			Console.WriteLine($"It's {_playerA.Name}'s turn!");
-			Console.WriteLine();
-			_playerA.PlayTurn();
-
-			// Console.Clear();
-
-			Console.WriteLine($"It's {_playerB.Name}'s turn!");
-			Console.WriteLine();
-			_playerB.PlayTurn();
-
-			// Handles the event queue
-			EventQueue.ToList()
-				.ForEach(ev => ev.PreUpdate()); // Do actions that could reorder the queue
-
-			// Put the higher priority events at the beginning, decide equalities based on speed
-			EventQueue = new LinkedList<I_Event>(EventQueue
-				.OrderByDescending(ev => (ev.Priority, ev.Speed)));
-			
-			// Do the events
-			ExecuteEvents();
-
-			// Do weather effects (if no ability blocks it)
-			if (Players.All(player => player.Active.Ability.AllowWeather()))
-				_weather.OnTurnEnd(this);
-		}
-
+		// Activate all end of combat abilities, across all pokemons
+		Players
+			.SelectMany(player => player.Team)
+			.ToList()
+			.ForEach(poke => poke.Ability.OnCombatEnd());
+		
 		// Return the winning player (the one still standing)
 		return Players
 			.First(player => player.Team.Any(poke => poke.CurrHP > 0));
+	}
+
+	private void DoTurns()
+	{
+		// Display turn
+		_turn++;
+		Console.WriteLine($"Turn {_turn}");
+		// Display weather
+		_weather.OnTurnStart(this);
+
+		Console.WriteLine();
+
+		// Take input from players
+		Console.WriteLine($"It's {_playerA.Name}'s turn!");
+		Console.WriteLine();
+		_playerA.PlayTurn();
+
+		// Console.Clear();
+
+		Console.WriteLine($"It's {_playerB.Name}'s turn!");
+		Console.WriteLine();
+		_playerB.PlayTurn();
+
+		// Handles the event queue
+		EventQueue.ToList()
+			.ForEach(ev => ev.PreUpdate()); // Do actions that could reorder the queue
+
+		// Put the higher priority events at the beginning, decide equalities based on speed
+		EventQueue = new LinkedList<I_Event>(EventQueue
+			.OrderByDescending(ev => (ev.Priority, ev.Speed)));
+
+		// Do the events
+		ExecuteEvents();
+
+		// Do weather effects (if no ability blocks it)
+		if (Players.All(player => player.Active.Ability.AllowWeather()))
+			_weather.OnTurnEnd(this);
 	}
 
 	private void ExecuteEvents()

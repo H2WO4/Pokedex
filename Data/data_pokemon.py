@@ -8,6 +8,8 @@ for poke in contents.values():
     species = json.loads(requests.get(poke["species"]["url"]).content)
     form = json.loads(requests.get(poke["forms"][0]["url"]).content)
 
+    poke["id"] = species["id"]
+
     for var in ["forms", "game_indices", "held_items",
                 "is_default", "location_area_encounters",
                 "sprites", "order", "past_types"]:

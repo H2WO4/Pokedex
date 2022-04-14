@@ -19,12 +19,15 @@ public abstract class MoveSwitch : PokeMove
 
 	protected override void DoAction(I_Battler target)
 	{
-		target.Ability.BeforeDefend(this);
+		bool cancel = target.Ability.BeforeDefend(this);
+		if (cancel)
+			return;
 
 		var dmgInfo = Class switch
 		{
 			MoveClass.Physical => DamageInfo.CreatePhysical(Power ?? 0, Type),
 			MoveClass.Special => DamageInfo.CreateSpecial(Power ?? 0, Type),
+			
 			_ => throw new InvalidOperationException()
 		};
 
@@ -36,9 +39,6 @@ public abstract class MoveSwitch : PokeMove
 		if (!success)
 			Console.WriteLine("But it failed");
 		else
-		{
-			var ev = new SwitchInputEvent(Caster.Owner, Arena);
-			Arena.AddToTop(ev);
-		}
+			Arena.AddToTop(new SwitchInputEvent(Caster.Owner, Arena));
 	}
 }

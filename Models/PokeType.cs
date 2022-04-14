@@ -9,7 +9,7 @@ namespace Pokedex.Models;
 public abstract class PokeType
 {
 	#region Class Variables
-	public static Dictionary<PokeType, Dictionary<PokeType, double>> Affinities = new Dictionary<PokeType, Dictionary<PokeType, double>>();
+	private static Dictionary<PokeType, Dictionary<PokeType, double>> _affinities = new();
 	#endregion
 
 	#region Properties
@@ -42,14 +42,14 @@ public abstract class PokeType
 			Color = color;
 		else throw new ArgumentException("Color channels must be between 0-255");
 
-		Affinities[this] = new Dictionary<PokeType, double>();
+		_affinities[this] = new Dictionary<PokeType, double>();
 	}
 	#endregion
 
 	#region Methods
 	public static void InitializeTypes()
 	{
-		Affinities = new Dictionary<PokeType, Dictionary<PokeType, double>>()
+		_affinities = new Dictionary<PokeType, Dictionary<PokeType, double>>()
 		{
 			{ TypeNormal.Singleton, new() },
 			{ TypeFire.Singleton, new() },
@@ -274,10 +274,10 @@ public abstract class PokeType
 	}
 
 	private static double GetAffinity(PokeType attacker, PokeType defender)
-		=> Affinities[attacker].GetValueOrDefault(defender, 1);
+		=> _affinities[attacker].GetValueOrDefault(defender, 1);
 
 	private static void SetAffinity(PokeType attacker, PokeType defender, double value)
-		=> Affinities[attacker][defender] = value;
+		=> _affinities[attacker][defender] = value;
 
 	private void SetAffinities(Dictionary<PokeType, double> weaknesses)
 		=> weaknesses
@@ -291,7 +291,7 @@ public abstract class PokeType
 
 	public static void DisplayAffinityTable()
 	{
-		(PokeType type, string name)[] types = Affinities
+		(PokeType type, string name)[] types = _affinities
 			.Select(pair => pair.Key)
 			.Select(type => type.Name.Length >= 7
 				? (type, type.Name.Substring(0, 5) + '.')

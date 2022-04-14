@@ -3,8 +3,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilityAirLock : Models.Ability
 {
 	#region Constructors
-	public AbilityAirLock()
-		: base("Air Lock")
+	public AbilityAirLock(Pokemon origin)
+		: base("Air Lock", origin)
 	{ }
 	#endregion
 

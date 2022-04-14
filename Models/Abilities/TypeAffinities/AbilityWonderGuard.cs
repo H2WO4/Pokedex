@@ -5,8 +5,8 @@ namespace Pokedex.Models.Abilities;
 public class AbilityWonderGuard : Models.Ability
 {
 	#region Constructors
-	public AbilityWonderGuard()
-		: base("Wonder Guard")
+	public AbilityWonderGuard(Pokemon origin)
+		: base("Wonder Guard", origin)
 	{ }
 	#endregion
 

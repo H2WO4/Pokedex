@@ -41,6 +41,6 @@ public interface I_Combat
 	/// Called during a full game turn
 	/// </summary>
 	/// <returns>The player that won the fight</returns>
-	I_Player? DoTurn();
+	I_Player? DoCombat();
 	#endregion
 }

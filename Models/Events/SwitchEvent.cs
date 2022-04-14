@@ -22,7 +22,7 @@ public class SwitchEvent : I_Event
 	/// <summary>
 	/// In which combat the fight happens in
 	/// </summary>
-	private I_Combat Context { get; }
+	public I_Combat Context { get; }
 
 	#endregion
 

@@ -122827,13 +122827,15 @@
       "zh-Hans": "国王宝可梦"
     }
   },
+  
+  
   "10001": {
     "abilities": [
       "pressure"
     ],
     "base_experience": 270,
     "height": 17,
-    "id": 10001,
+    "id": 386,
     "moves": [
       "mega-punch",
       "cut",
@@ -122995,7 +122997,7 @@
     ],
     "base_experience": 270,
     "height": 17,
-    "id": 10002,
+    "id": 386,
     "moves": [
       "mega-punch",
       "cut",
@@ -123159,7 +123161,7 @@
     ],
     "base_experience": 270,
     "height": 17,
-    "id": 10003,
+    "id": 386,
     "moves": [
       "mega-punch",
       "fire-punch",
@@ -123328,7 +123330,7 @@
     ],
     "base_experience": 148,
     "height": 5,
-    "id": 10004,
+    "id": 413,
     "moves": [
       "tackle",
       "psybeam",
@@ -123454,7 +123456,7 @@
     ],
     "base_experience": 148,
     "height": 5,
-    "id": 10005,
+    "id": 413,
     "moves": [
       "tackle",
       "psybeam",
@@ -123577,7 +123579,7 @@
     ],
     "base_experience": 270,
     "height": 4,
-    "id": 10006,
+    "id": 492,
     "moves": [
       "swords-dance",
       "headbutt",
@@ -123695,7 +123697,7 @@
     ],
     "base_experience": 340,
     "height": 69,
-    "id": 10007,
+    "id": 487,
     "moves": [
       "cut",
       "fly",
@@ -123851,7 +123853,7 @@
     ],
     "base_experience": 182,
     "height": 3,
-    "id": 10008,
+    "id": 479,
     "moves": [
       "thunder-shock",
       "thunderbolt",
@@ -123980,7 +123982,7 @@
     ],
     "base_experience": 182,
     "height": 3,
-    "id": 10009,
+    "id": 479,
     "moves": [
       "hydro-pump",
       "thunder-shock",
@@ -124109,7 +124111,7 @@
     ],
     "base_experience": 182,
     "height": 3,
-    "id": 10010,
+    "id": 479,
     "moves": [
       "blizzard",
       "thunder-shock",
@@ -124238,7 +124240,7 @@
     ],
     "base_experience": 182,
     "height": 3,
-    "id": 10011,
+    "id": 479,
     "moves": [
       "thunder-shock",
       "thunderbolt",
@@ -124367,7 +124369,7 @@
     ],
     "base_experience": 182,
     "height": 3,
-    "id": 10012,
+    "id": 479,
     "moves": [
       "thunder-shock",
       "thunderbolt",
@@ -124496,7 +124498,7 @@
     ],
     "base_experience": 147,
     "height": 3,
-    "id": 10013,
+    "id": 351,
     "moves": [
       "headbutt",
       "tackle",
@@ -124630,7 +124632,7 @@
     ],
     "base_experience": 147,
     "height": 3,
-    "id": 10014,
+    "id": 351,
     "moves": [
       "headbutt",
       "tackle",
@@ -124764,7 +124766,7 @@
     ],
     "base_experience": 147,
     "height": 3,
-    "id": 10015,
+    "id": 351,
     "moves": [
       "headbutt",
       "tackle",
@@ -124900,7 +124902,7 @@
     ],
     "base_experience": 161,
     "height": 10,
-    "id": 10016,
+    "id": 550,
     "moves": [
       "cut",
       "headbutt",
@@ -125029,7 +125031,7 @@
     ],
     "base_experience": 189,
     "height": 13,
-    "id": 10017,
+    "id": 555,
     "moves": [
       "mega-punch",
       "fire-punch",
@@ -125181,7 +125183,7 @@
     ],
     "base_experience": 270,
     "height": 6,
-    "id": 10018,
+    "id": 648,
     "moves": [
       "fire-punch",
       "ice-punch",
@@ -125335,7 +125337,7 @@
     ],
     "base_experience": 290,
     "height": 14,
-    "id": 10019,
+    "id": 641,
     "moves": [
       "gust",
       "fly",
@@ -125470,7 +125472,7 @@
     ],
     "base_experience": 290,
     "height": 30,
-    "id": 10020,
+    "id": 642,
     "moves": [
       "thunder-punch",
       "fly",
@@ -125614,7 +125616,7 @@
     ],
     "base_experience": 300,
     "height": 13,
-    "id": 10021,
+    "id": 645,
     "moves": [
       "swords-dance",
       "fly",
@@ -125745,7 +125747,7 @@
     ],
     "base_experience": 350,
     "height": 33,
-    "id": 10022,
+    "id": 646,
     "moves": [
       "cut",
       "fly",
@@ -125886,7 +125888,7 @@
     ],
     "base_experience": 350,
     "height": 36,
-    "id": 10023,
+    "id": 646,
     "moves": [
       "cut",
       "fly",
@@ -126027,7 +126029,7 @@
     ],
     "base_experience": 290,
     "height": 14,
-    "id": 10024,
+    "id": 647,
     "moves": [
       "swords-dance",
       "cut",
@@ -126165,7 +126167,7 @@
     ],
     "base_experience": 163,
     "height": 6,
-    "id": 10025,
+    "id": 678,
     "moves": [
       "pay-day",
       "scratch",
@@ -126310,7 +126312,7 @@
     ],
     "base_experience": 250,
     "height": 17,
-    "id": 10026,
+    "id": 681,
     "moves": [
       "swords-dance",
       "cut",
@@ -126437,7 +126439,7 @@
     ],
     "base_experience": 67,
     "height": 3,
-    "id": 10027,
+    "id": 710,
     "moves": [
       "disable",
       "flamethrower",
@@ -126575,7 +126577,7 @@
     ],
     "base_experience": 67,
     "height": 5,
-    "id": 10028,
+    "id": 710,
     "moves": [
       "disable",
       "flamethrower",
@@ -126713,7 +126715,7 @@
     ],
     "base_experience": 67,
     "height": 8,
-    "id": 10029,
+    "id": 710,
     "moves": [
       "disable",
       "flamethrower",
@@ -126851,7 +126853,7 @@
     ],
     "base_experience": 173,
     "height": 7,
-    "id": 10030,
+    "id": 711,
     "moves": [
       "flamethrower",
       "hyper-beam",
@@ -126993,7 +126995,7 @@
     ],
     "base_experience": 173,
     "height": 11,
-    "id": 10031,
+    "id": 711,
     "moves": [
       "flamethrower",
       "hyper-beam",
@@ -127135,7 +127137,7 @@
     ],
     "base_experience": 173,
     "height": 17,
-    "id": 10032,
+    "id": 711,
     "moves": [
       "flamethrower",
       "hyper-beam",
@@ -127275,7 +127277,7 @@
     ],
     "base_experience": 281,
     "height": 24,
-    "id": 10033,
+    "id": 3,
     "moves": [
       "swords-dance",
       "cut",
@@ -127406,7 +127408,7 @@
     ],
     "base_experience": 285,
     "height": 17,
-    "id": 10034,
+    "id": 6,
     "moves": [
       "fire-punch",
       "thunder-punch",
@@ -127554,7 +127556,7 @@
     ],
     "base_experience": 285,
     "height": 17,
-    "id": 10035,
+    "id": 6,
     "moves": [
       "fire-punch",
       "thunder-punch",
@@ -127702,7 +127704,7 @@
     ],
     "base_experience": 284,
     "height": 16,
-    "id": 10036,
+    "id": 9,
     "moves": [
       "ice-punch",
       "headbutt",
@@ -127839,7 +127841,7 @@
     ],
     "base_experience": 270,
     "height": 12,
-    "id": 10037,
+    "id": 65,
     "moves": [
       "fire-punch",
       "ice-punch",
@@ -127983,7 +127985,7 @@
     ],
     "base_experience": 270,
     "height": 14,
-    "id": 10038,
+    "id": 94,
     "moves": [
       "fire-punch",
       "ice-punch",
@@ -128134,7 +128136,7 @@
     ],
     "base_experience": 207,
     "height": 22,
-    "id": 10039,
+    "id": 115,
     "moves": [
       "comet-punch",
       "mega-punch",
@@ -128291,7 +128293,7 @@
     ],
     "base_experience": 210,
     "height": 17,
-    "id": 10040,
+    "id": 127,
     "moves": [
       "vice-grip",
       "guillotine",
@@ -128424,7 +128426,7 @@
     ],
     "base_experience": 224,
     "height": 65,
-    "id": 10041,
+    "id": 130,
     "moves": [
       "bind",
       "headbutt",
@@ -128559,7 +128561,7 @@
     ],
     "base_experience": 215,
     "height": 21,
-    "id": 10042,
+    "id": 142,
     "moves": [
       "wing-attack",
       "whirlwind",
@@ -128701,7 +128703,7 @@
     ],
     "base_experience": 351,
     "height": 23,
-    "id": 10043,
+    "id": 150,
     "moves": [
       "pay-day",
       "fire-punch",
@@ -128880,7 +128882,7 @@
     ],
     "base_experience": 351,
     "height": 15,
-    "id": 10044,
+    "id": 150,
     "moves": [
       "pay-day",
       "fire-punch",
@@ -129058,7 +129060,7 @@
     ],
     "base_experience": 275,
     "height": 14,
-    "id": 10045,
+    "id": 181,
     "moves": [
       "fire-punch",
       "thunder-punch",
@@ -129187,7 +129189,7 @@
     ],
     "base_experience": 210,
     "height": 20,
-    "id": 10046,
+    "id": 212,
     "moves": [
       "razor-wind",
       "swords-dance",
@@ -129313,7 +129315,7 @@
     ],
     "base_experience": 210,
     "height": 17,
-    "id": 10047,
+    "id": 214,
     "moves": [
       "swords-dance",
       "cut",
@@ -129452,7 +129454,7 @@
     ],
     "base_experience": 210,
     "height": 19,
-    "id": 10048,
+    "id": 229,
     "moves": [
       "leer",
       "bite",
@@ -129580,7 +129582,7 @@
     ],
     "base_experience": 315,
     "height": 25,
-    "id": 10049,
+    "id": 248,
     "moves": [
       "fire-punch",
       "ice-punch",
@@ -129733,7 +129735,7 @@
     ],
     "base_experience": 284,
     "height": 19,
-    "id": 10050,
+    "id": 257,
     "moves": [
       "fire-punch",
       "thunder-punch",
@@ -129877,7 +129879,7 @@
     ],
     "base_experience": 278,
     "height": 16,
-    "id": 10051,
+    "id": 282,
     "moves": [
       "fire-punch",
       "ice-punch",
@@ -130023,7 +130025,7 @@
     ],
     "base_experience": 168,
     "height": 10,
-    "id": 10052,
+    "id": 303,
     "moves": [
       "ice-punch",
       "thunder-punch",
@@ -130179,7 +130181,7 @@
     ],
     "base_experience": 284,
     "height": 22,
-    "id": 10053,
+    "id": 306,
     "moves": [
       "fire-punch",
       "ice-punch",
@@ -130334,7 +130336,7 @@
     ],
     "base_experience": 179,
     "height": 13,
-    "id": 10054,
+    "id": 308,
     "moves": [
       "fire-punch",
       "ice-punch",
@@ -130473,7 +130475,7 @@
     ],
     "base_experience": 201,
     "height": 18,
-    "id": 10055,
+    "id": 310,
     "moves": [
       "tackle",
       "leer",
@@ -130587,7 +130589,7 @@
     ],
     "base_experience": 194,
     "height": 12,
-    "id": 10056,
+    "id": 354,
     "moves": [
       "hyper-beam",
       "thunderbolt",
@@ -130717,7 +130719,7 @@
     ],
     "base_experience": 198,
     "height": 12,
-    "id": 10057,
+    "id": 359,
     "moves": [
       "scratch",
       "razor-wind",
@@ -130878,7 +130880,7 @@
     ],
     "base_experience": 315,
     "height": 19,
-    "id": 10058,
+    "id": 445,
     "moves": [
       "swords-dance",
       "cut",
@@ -131009,7 +131011,7 @@
     ],
     "base_experience": 219,
     "height": 13,
-    "id": 10059,
+    "id": 448,
     "moves": [
       "ice-punch",
       "thunder-punch",
@@ -131150,7 +131152,7 @@
     ],
     "base_experience": 208,
     "height": 27,
-    "id": 10060,
+    "id": 460,
     "moves": [
       "ice-punch",
       "swords-dance",
@@ -131278,7 +131280,7 @@
     ],
     "base_experience": 243,
     "height": 2,
-    "id": 10061,
+    "id": 670,
     "moves": [
       "vine-whip",
       "tackle",
@@ -131393,7 +131395,7 @@
     ],
     "base_experience": 315,
     "height": 18,
-    "id": 10062,
+    "id": 380,
     "moves": [
       "cut",
       "fly",
@@ -131544,7 +131546,7 @@
     ],
     "base_experience": 315,
     "height": 23,
-    "id": 10063,
+    "id": 381,
     "moves": [
       "cut",
       "fly",
@@ -131691,7 +131693,7 @@
     ],
     "base_experience": 286,
     "height": 19,
-    "id": 10064,
+    "id": 260,
     "moves": [
       "ice-punch",
       "tackle",
@@ -131825,7 +131827,7 @@
     ],
     "base_experience": 284,
     "height": 19,
-    "id": 10065,
+    "id": 254,
     "moves": [
       "pound",
       "thunder-punch",
@@ -131970,7 +131972,7 @@
     ],
     "base_experience": 168,
     "height": 5,
-    "id": 10066,
+    "id": 302,
     "moves": [
       "fire-punch",
       "ice-punch",
@@ -132127,7 +132129,7 @@
     ],
     "base_experience": 207,
     "height": 15,
-    "id": 10067,
+    "id": 334,
     "moves": [
       "fly",
       "fury-attack",
@@ -132261,7 +132263,7 @@
     ],
     "base_experience": 278,
     "height": 16,
-    "id": 10068,
+    "id": 475,
     "moves": [
       "fire-punch",
       "ice-punch",
@@ -132427,7 +132429,7 @@
     ],
     "base_experience": 425,
     "height": 15,
-    "id": 10069,
+    "id": 531,
     "moves": [
       "pound",
       "double-slap",
@@ -132591,7 +132593,7 @@
     ],
     "base_experience": 196,
     "height": 25,
-    "id": 10070,
+    "id": 319,
     "moves": [
       "leer",
       "bite",
@@ -132719,7 +132721,7 @@
     ],
     "base_experience": 207,
     "height": 20,
-    "id": 10071,
+    "id": 80,
     "moves": [
       "pay-day",
       "ice-punch",
@@ -132872,7 +132874,7 @@
     ],
     "base_experience": 214,
     "height": 105,
-    "id": 10072,
+    "id": 208,
     "moves": [
       "cut",
       "bind",
@@ -133004,7 +133006,7 @@
     ],
     "base_experience": 261,
     "height": 22,
-    "id": 10073,
+    "id": 18,
     "moves": [
       "razor-wind",
       "gust",
@@ -133116,7 +133118,7 @@
     ],
     "base_experience": 203,
     "height": 21,
-    "id": 10074,
+    "id": 362,
     "moves": [
       "headbutt",
       "leer",
@@ -133232,7 +133234,7 @@
     ],
     "base_experience": 315,
     "height": 11,
-    "id": 10075,
+    "id": 719,
     "moves": [
       "tackle",
       "hyper-beam",
@@ -133357,7 +133359,7 @@
     ],
     "base_experience": 315,
     "height": 25,
-    "id": 10076,
+    "id": 376,
     "moves": [
       "ice-punch",
       "thunder-punch",
@@ -133491,7 +133493,7 @@
     ],
     "base_experience": 347,
     "height": 98,
-    "id": 10077,
+    "id": 382,
     "moves": [
       "body-slam",
       "double-edge",
@@ -133612,7 +133614,7 @@
     ],
     "base_experience": 347,
     "height": 50,
-    "id": 10078,
+    "id": 383,
     "moves": [
       "fire-punch",
       "thunder-punch",
@@ -133748,7 +133750,7 @@
     ],
     "base_experience": 351,
     "height": 108,
-    "id": 10079,
+    "id": 384,
     "moves": [
       "swords-dance",
       "fly",
@@ -133894,7 +133896,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10080,
+    "id": 25,
     "moves": [
       "thunder-punch",
       "slam",
@@ -134014,7 +134016,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10081,
+    "id": 25,
     "moves": [
       "thunder-punch",
       "slam",
@@ -134134,7 +134136,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10082,
+    "id": 25,
     "moves": [
       "thunder-punch",
       "slam",
@@ -134254,7 +134256,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10083,
+    "id": 25,
     "moves": [
       "thunder-punch",
       "slam",
@@ -134374,7 +134376,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10084,
+    "id": 25,
     "moves": [
       "thunder-punch",
       "slam",
@@ -134494,7 +134496,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10085,
+    "id": 25,
     "moves": [
       "thunder-punch",
       "slam",
@@ -134612,7 +134614,7 @@
     ],
     "base_experience": 306,
     "height": 65,
-    "id": 10086,
+    "id": 720,
     "moves": [
       "fire-punch",
       "ice-punch",
@@ -134756,7 +134758,7 @@
     ],
     "base_experience": 196,
     "height": 25,
-    "id": 10087,
+    "id": 323,
     "moves": [
       "tackle",
       "take-down",
@@ -134880,7 +134882,7 @@
     ],
     "base_experience": 203,
     "height": 13,
-    "id": 10088,
+    "id": 428,
     "moves": [
       "pound",
       "fire-punch",
@@ -135022,7 +135024,7 @@
     ],
     "base_experience": 315,
     "height": 18,
-    "id": 10089,
+    "id": 373,
     "moves": [
       "cut",
       "fly",
@@ -135151,7 +135153,7 @@
     ],
     "base_experience": 223,
     "height": 14,
-    "id": 10090,
+    "id": 15,
     "moves": [
       "swords-dance",
       "cut",
@@ -135281,7 +135283,7 @@
     ],
     "base_experience": 51,
     "height": 3,
-    "id": 10091,
+    "id": 19,
     "moves": [
       "headbutt",
       "tackle",
@@ -135410,7 +135412,7 @@
     ],
     "base_experience": 145,
     "height": 7,
-    "id": 10092,
+    "id": 20,
     "moves": [
       "swords-dance",
       "headbutt",
@@ -135543,7 +135545,7 @@
     ],
     "base_experience": 145,
     "height": 14,
-    "id": 10093,
+    "id": 20,
     "moves": [
       "swords-dance",
       "tackle",
@@ -135671,7 +135673,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10094,
+    "id": 25,
     "moves": [
       "mega-punch",
       "pay-day",
@@ -135807,7 +135809,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10095,
+    "id": 25,
     "moves": [
       "mega-punch",
       "pay-day",
@@ -135943,7 +135945,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10096,
+    "id": 25,
     "moves": [
       "mega-punch",
       "pay-day",
@@ -136090,7 +136092,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10097,
+    "id": 25,
     "moves": [
       "mega-punch",
       "pay-day",
@@ -136226,7 +136228,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10098,
+    "id": 25,
     "moves": [
       "mega-punch",
       "pay-day",
@@ -136373,7 +136375,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10099,
+    "id": 25,
     "moves": [
       "mega-punch",
       "pay-day",
@@ -136508,7 +136510,7 @@
     ],
     "base_experience": 243,
     "height": 7,
-    "id": 10100,
+    "id": 26,
     "moves": [
       "mega-punch",
       "pay-day",
@@ -136664,7 +136666,7 @@
     ],
     "base_experience": 60,
     "height": 7,
-    "id": 10101,
+    "id": 27,
     "moves": [
       "ice-punch",
       "scratch",
@@ -136812,7 +136814,7 @@
     ],
     "base_experience": 158,
     "height": 12,
-    "id": 10102,
+    "id": 28,
     "moves": [
       "ice-punch",
       "scratch",
@@ -136961,7 +136963,7 @@
     ],
     "base_experience": 60,
     "height": 6,
-    "id": 10103,
+    "id": 37,
     "moves": [
       "headbutt",
       "tackle",
@@ -137097,7 +137099,7 @@
     ],
     "base_experience": 177,
     "height": 11,
-    "id": 10104,
+    "id": 38,
     "moves": [
       "headbutt",
       "tackle",
@@ -137241,7 +137243,7 @@
     ],
     "base_experience": 53,
     "height": 2,
-    "id": 10105,
+    "id": 50,
     "moves": [
       "scratch",
       "sand-attack",
@@ -137373,7 +137375,7 @@
     ],
     "base_experience": 149,
     "height": 7,
-    "id": 10106,
+    "id": 51,
     "moves": [
       "scratch",
       "sand-attack",
@@ -137506,7 +137508,7 @@
     ],
     "base_experience": 58,
     "height": 4,
-    "id": 10107,
+    "id": 52,
     "moves": [
       "pay-day",
       "scratch",
@@ -137650,7 +137652,7 @@
     ],
     "base_experience": 154,
     "height": 11,
-    "id": 10108,
+    "id": 53,
     "moves": [
       "pay-day",
       "scratch",
@@ -137799,7 +137801,7 @@
     ],
     "base_experience": 60,
     "height": 4,
-    "id": 10109,
+    "id": 74,
     "moves": [
       "fire-punch",
       "thunder-punch",
@@ -137936,7 +137938,7 @@
     ],
     "base_experience": 137,
     "height": 10,
-    "id": 10110,
+    "id": 75,
     "moves": [
       "fire-punch",
       "thunder-punch",
@@ -138068,7 +138070,7 @@
     ],
     "base_experience": 223,
     "height": 17,
-    "id": 10111,
+    "id": 76,
     "moves": [
       "mega-punch",
       "fire-punch",
@@ -138209,7 +138211,7 @@
     ],
     "base_experience": 65,
     "height": 7,
-    "id": 10112,
+    "id": 88,
     "moves": [
       "pound",
       "fire-punch",
@@ -138354,7 +138356,7 @@
     ],
     "base_experience": 175,
     "height": 10,
-    "id": 10113,
+    "id": 89,
     "moves": [
       "pound",
       "fire-punch",
@@ -138498,7 +138500,7 @@
     ],
     "base_experience": 186,
     "height": 109,
-    "id": 10114,
+    "id": 103,
     "moves": [
       "swords-dance",
       "headbutt",
@@ -138647,7 +138649,7 @@
     ],
     "base_experience": 149,
     "height": 10,
-    "id": 10115,
+    "id": 105,
     "moves": [
       "mega-punch",
       "fire-punch",
@@ -138808,7 +138810,7 @@
     ],
     "base_experience": 239,
     "height": 15,
-    "id": 10116,
+    "id": 658,
     "moves": [
       "pound",
       "ice-punch",
@@ -138934,7 +138936,7 @@
     ],
     "base_experience": 288,
     "height": 15,
-    "id": 10117,
+    "id": 658,
     "moves": [
       "pound",
       "ice-punch",
@@ -139060,7 +139062,7 @@
     ],
     "base_experience": 243,
     "height": 12,
-    "id": 10118,
+    "id": 718,
     "moves": [
       "bind",
       "body-slam",
@@ -139190,7 +139192,7 @@
     ],
     "base_experience": 300,
     "height": 50,
-    "id": 10119,
+    "id": 718,
     "moves": [
       "bind",
       "body-slam",
@@ -139320,7 +139322,7 @@
     ],
     "base_experience": 354,
     "height": 45,
-    "id": 10120,
+    "id": 718,
     "moves": [
       "bind",
       "body-slam",
@@ -139452,7 +139454,7 @@
     ],
     "base_experience": 146,
     "height": 14,
-    "id": 10121,
+    "id": 735,
     "moves": [
       "fire-punch",
       "ice-punch",
@@ -139570,7 +139572,7 @@
     ],
     "base_experience": 225,
     "height": 26,
-    "id": 10122,
+    "id": 738,
     "moves": [
       "vice-grip",
       "guillotine",
@@ -139685,7 +139687,7 @@
     ],
     "base_experience": 167,
     "height": 6,
-    "id": 10123,
+    "id": 741,
     "moves": [
       "pound",
       "double-slap",
@@ -139799,7 +139801,7 @@
     ],
     "base_experience": 167,
     "height": 6,
-    "id": 10124,
+    "id": 741,
     "moves": [
       "pound",
       "double-slap",
@@ -139913,7 +139915,7 @@
     ],
     "base_experience": 167,
     "height": 6,
-    "id": 10125,
+    "id": 741,
     "moves": [
       "pound",
       "double-slap",
@@ -140029,7 +140031,7 @@
     ],
     "base_experience": 170,
     "height": 11,
-    "id": 10126,
+    "id": 745,
     "moves": [
       "mega-punch",
       "fire-punch",
@@ -140164,7 +140166,7 @@
     ],
     "base_experience": 217,
     "height": 82,
-    "id": 10127,
+    "id": 746,
     "moves": [
       "take-down",
       "double-edge",
@@ -140279,7 +140281,7 @@
     ],
     "base_experience": 168,
     "height": 15,
-    "id": 10128,
+    "id": 754,
     "moves": [
       "swords-dance",
       "hyper-beam",
@@ -140397,7 +140399,7 @@
     ],
     "base_experience": 168,
     "height": 21,
-    "id": 10129,
+    "id": 758,
     "moves": [
       "pound",
       "double-slap",
@@ -140518,7 +140520,7 @@
     ],
     "base_experience": 154,
     "height": 3,
-    "id": 10130,
+    "id": 774,
     "moves": [
       "tackle",
       "take-down",
@@ -140639,7 +140641,7 @@
     ],
     "base_experience": 154,
     "height": 3,
-    "id": 10131,
+    "id": 774,
     "moves": [
       "tackle",
       "take-down",
@@ -140760,7 +140762,7 @@
     ],
     "base_experience": 154,
     "height": 3,
-    "id": 10132,
+    "id": 774,
     "moves": [
       "tackle",
       "take-down",
@@ -140881,7 +140883,7 @@
     ],
     "base_experience": 154,
     "height": 3,
-    "id": 10133,
+    "id": 774,
     "moves": [
       "tackle",
       "take-down",
@@ -141002,7 +141004,7 @@
     ],
     "base_experience": 154,
     "height": 3,
-    "id": 10134,
+    "id": 774,
     "moves": [
       "tackle",
       "take-down",
@@ -141123,7 +141125,7 @@
     ],
     "base_experience": 154,
     "height": 3,
-    "id": 10135,
+    "id": 774,
     "moves": [
       "tackle",
       "take-down",
@@ -141244,7 +141246,7 @@
     ],
     "base_experience": 175,
     "height": 3,
-    "id": 10136,
+    "id": 774,
     "moves": [
       "tackle",
       "take-down",
@@ -141365,7 +141367,7 @@
     ],
     "base_experience": 175,
     "height": 3,
-    "id": 10137,
+    "id": 774,
     "moves": [
       "tackle",
       "take-down",
@@ -141486,7 +141488,7 @@
     ],
     "base_experience": 175,
     "height": 3,
-    "id": 10138,
+    "id": 774,
     "moves": [
       "tackle",
       "take-down",
@@ -141607,7 +141609,7 @@
     ],
     "base_experience": 175,
     "height": 3,
-    "id": 10139,
+    "id": 774,
     "moves": [
       "tackle",
       "take-down",
@@ -141728,7 +141730,7 @@
     ],
     "base_experience": 175,
     "height": 3,
-    "id": 10140,
+    "id": 774,
     "moves": [
       "tackle",
       "take-down",
@@ -141849,7 +141851,7 @@
     ],
     "base_experience": 175,
     "height": 3,
-    "id": 10141,
+    "id": 774,
     "moves": [
       "tackle",
       "take-down",
@@ -141970,7 +141972,7 @@
     ],
     "base_experience": 175,
     "height": 3,
-    "id": 10142,
+    "id": 774,
     "moves": [
       "tackle",
       "take-down",
@@ -142091,7 +142093,7 @@
     ],
     "base_experience": 167,
     "height": 2,
-    "id": 10143,
+    "id": 778,
     "moves": [
       "scratch",
       "swords-dance",
@@ -142233,7 +142235,7 @@
     ],
     "base_experience": 167,
     "height": 4,
-    "id": 10144,
+    "id": 778,
     "moves": [
       "scratch",
       "swords-dance",
@@ -142362,7 +142364,7 @@
     ],
     "base_experience": 167,
     "height": 4,
-    "id": 10145,
+    "id": 778,
     "moves": [
       "scratch",
       "swords-dance",
@@ -142494,7 +142496,7 @@
     ],
     "base_experience": 270,
     "height": 24,
-    "id": 10146,
+    "id": 784,
     "moves": [
       "fire-punch",
       "ice-punch",
@@ -142637,7 +142639,7 @@
     ],
     "base_experience": 300,
     "height": 10,
-    "id": 10147,
+    "id": 801,
     "moves": [
       "sonic-boom",
       "ice-beam",
@@ -142783,7 +142785,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10148,
+    "id": 25,
     "moves": [
       "mega-punch",
       "pay-day",
@@ -142920,7 +142922,7 @@
     ],
     "base_experience": 149,
     "height": 17,
-    "id": 10149,
+    "id": 105,
     "moves": [
       "fire-punch",
       "thunder-punch",
@@ -143065,7 +143067,7 @@
     ],
     "base_experience": 162,
     "height": 4,
-    "id": 10150,
+    "id": 743,
     "moves": [
       "absorb",
       "solar-beam",
@@ -143188,7 +143190,7 @@
     ],
     "base_experience": 56,
     "height": 5,
-    "id": 10151,
+    "id": 744,
     "moves": [
       "swords-dance",
       "sand-attack",
@@ -143302,7 +143304,7 @@
     ],
     "base_experience": 170,
     "height": 8,
-    "id": 10152,
+    "id": 745,
     "moves": [
       "swords-dance",
       "sand-attack",
@@ -143434,7 +143436,7 @@
     ],
     "base_experience": 159,
     "height": 31,
-    "id": 10153,
+    "id": 752,
     "moves": [
       "bite",
       "surf",
@@ -143550,7 +143552,7 @@
     ],
     "base_experience": 152,
     "height": 6,
-    "id": 10154,
+    "id": 777,
     "moves": [
       "tackle",
       "twineedle",
@@ -143682,7 +143684,7 @@
     ],
     "base_experience": 340,
     "height": 38,
-    "id": 10155,
+    "id": 800,
     "moves": [
       "swords-dance",
       "hyper-beam",
@@ -143830,7 +143832,7 @@
     ],
     "base_experience": 340,
     "height": 42,
-    "id": 10156,
+    "id": 800,
     "moves": [
       "swords-dance",
       "hyper-beam",
@@ -143978,7 +143980,7 @@
     ],
     "base_experience": 339,
     "height": 75,
-    "id": 10157,
+    "id": 800,
     "moves": [
       "swords-dance",
       "hyper-beam",
@@ -144117,7 +144119,7 @@
     ],
     "base_experience": 86,
     "height": 4,
-    "id": 10158,
+    "id": 25,
     "moves": [
       "pay-day",
       "thunder-punch",
@@ -144213,7 +144215,7 @@
     ],
     "base_experience": 87,
     "height": 3,
-    "id": 10159,
+    "id": 133,
     "moves": [
       "pay-day",
       "double-kick",
@@ -144307,7 +144309,7 @@
     ],
     "base_experience": 112,
     "height": 4,
-    "id": 10160,
+    "id": 25,
     "moves": [
       "mega-punch",
       "pay-day",
@@ -144428,7 +144430,7 @@
     ],
     "base_experience": 58,
     "height": 4,
-    "id": 10161,
+    "id": 52,
     "moves": [
       "pay-day",
       "scratch",
@@ -144553,7 +144555,7 @@
     ],
     "base_experience": 82,
     "height": 8,
-    "id": 10162,
+    "id": 77,
     "moves": [
       "stomp",
       "double-kick",
@@ -144663,7 +144665,7 @@
     ],
     "base_experience": 175,
     "height": 17,
-    "id": 10163,
+    "id": 78,
     "moves": [
       "pay-day",
       "swords-dance",
@@ -144784,7 +144786,7 @@
     ],
     "base_experience": 63,
     "height": 12,
-    "id": 10164,
+    "id": 79,
     "moves": [
       "pay-day",
       "stomp",
@@ -144920,7 +144922,7 @@
     ],
     "base_experience": 172,
     "height": 16,
-    "id": 10165,
+    "id": 80,
     "moves": [
       "mega-punch",
       "pay-day",
@@ -145073,7 +145075,7 @@
     ],
     "base_experience": 132,
     "height": 8,
-    "id": 10166,
+    "id": 83,
     "moves": [
       "swords-dance",
       "slam",
@@ -145189,7 +145191,7 @@
     ],
     "base_experience": 172,
     "height": 30,
-    "id": 10167,
+    "id": 110,
     "moves": [
       "tackle",
       "flamethrower",
@@ -145315,7 +145317,7 @@
     ],
     "base_experience": 161,
     "height": 14,
-    "id": 10168,
+    "id": 122,
     "moves": [
       "pound",
       "mega-punch",
@@ -145468,7 +145470,7 @@
     ],
     "base_experience": 290,
     "height": 17,
-    "id": 10169,
+    "id": 144,
     "moves": [
       "gust",
       "fly",
@@ -145579,7 +145581,7 @@
     ],
     "base_experience": 290,
     "height": 16,
-    "id": 10170,
+    "id": 145,
     "moves": [
       "fly",
       "mega-kick",
@@ -145693,7 +145695,7 @@
     ],
     "base_experience": 290,
     "height": 20,
-    "id": 10171,
+    "id": 146,
     "moves": [
       "gust",
       "wing-attack",
@@ -145801,7 +145803,7 @@
     ],
     "base_experience": 172,
     "height": 18,
-    "id": 10172,
+    "id": 199,
     "moves": [
       "mega-punch",
       "pay-day",
@@ -145955,7 +145957,7 @@
     ],
     "base_experience": 144,
     "height": 6,
-    "id": 10173,
+    "id": 222,
     "moves": [
       "tackle",
       "body-slam",
@@ -146088,7 +146090,7 @@
     ],
     "base_experience": 56,
     "height": 4,
-    "id": 10174,
+    "id": 263,
     "moves": [
       "sand-attack",
       "headbutt",
@@ -146210,7 +146212,7 @@
     ],
     "base_experience": 147,
     "height": 5,
-    "id": 10175,
+    "id": 264,
     "moves": [
       "sand-attack",
       "headbutt",
@@ -146338,7 +146340,7 @@
     ],
     "base_experience": 63,
     "height": 7,
-    "id": 10176,
+    "id": 554,
     "moves": [
       "mega-punch",
       "fire-punch",
@@ -146458,7 +146460,7 @@
     ],
     "base_experience": 168,
     "height": 17,
-    "id": 10177,
+    "id": 555,
     "moves": [
       "mega-punch",
       "fire-punch",
@@ -146587,7 +146589,7 @@
     ],
     "base_experience": 189,
     "height": 17,
-    "id": 10178,
+    "id": 555,
     "moves": [
       "mega-punch",
       "fire-punch",
@@ -146716,7 +146718,7 @@
     ],
     "base_experience": 61,
     "height": 5,
-    "id": 10179,
+    "id": 562,
     "moves": [
       "slam",
       "disable",
@@ -146830,7 +146832,7 @@
     ],
     "base_experience": 165,
     "height": 7,
-    "id": 10180,
+    "id": 618,
     "moves": [
       "bind",
       "tackle",
@@ -146951,7 +146953,7 @@
     ],
     "base_experience": 243,
     "height": 12,
-    "id": 10181,
+    "id": 718,
     "moves": [
       "bind",
       "body-slam",
@@ -147081,7 +147083,7 @@
     ],
     "base_experience": 166,
     "height": 8,
-    "id": 10182,
+    "id": 845,
     "moves": [
       "fly",
       "fury-attack",
@@ -147196,7 +147198,7 @@
     ],
     "base_experience": 166,
     "height": 8,
-    "id": 10183,
+    "id": 845,
     "moves": [
       "fly",
       "fury-attack",
@@ -147313,7 +147315,7 @@
     ],
     "base_experience": 176,
     "height": 16,
-    "id": 10184,
+    "id": 849,
     "moves": [
       "mega-punch",
       "fire-punch",
@@ -147437,7 +147439,7 @@
     ],
     "base_experience": 165,
     "height": 14,
-    "id": 10185,
+    "id": 875,
     "moves": [
       "ice-punch",
       "headbutt",
@@ -147545,7 +147547,7 @@
     ],
     "base_experience": 166,
     "height": 9,
-    "id": 10186,
+    "id": 876,
     "moves": [
       "pay-day",
       "psybeam",
@@ -147658,7 +147660,7 @@
     ],
     "base_experience": 153,
     "height": 3,
-    "id": 10187,
+    "id": 877,
     "moves": [
       "thunder-punch",
       "thrash",
@@ -147786,7 +147788,7 @@
     ],
     "base_experience": 360,
     "height": 28,
-    "id": 10188,
+    "id": 888,
     "moves": [
       "swords-dance",
       "bite",
@@ -147902,7 +147904,7 @@
     ],
     "base_experience": 360,
     "height": 29,
-    "id": 10189,
+    "id": 889,
     "moves": [
       "bite",
       "hyper-beam",
@@ -148021,7 +148023,7 @@
     ],
     "base_experience": 563,
     "height": 1000,
-    "id": 10190,
+    "id": 890,
     "moves": [
       "fly",
       "flamethrower",
@@ -148127,7 +148129,7 @@
     ],
     "base_experience": 275,
     "height": 19,
-    "id": 10191,
+    "id": 892,
     "moves": [
       "mega-punch",
       "fire-punch",
@@ -148254,7 +148256,7 @@
     ],
     "base_experience": 300,
     "height": 18,
-    "id": 10192,
+    "id": 893,
     "moves": [
       "mega-punch",
       "scratch",
@@ -148386,7 +148388,7 @@
     ],
     "base_experience": 340,
     "height": 24,
-    "id": 10193,
+    "id": 898,
     "moves": [
       "pound",
       "pay-day",
@@ -148549,7 +148551,7 @@
     ],
     "base_experience": 340,
     "height": 24,
-    "id": 10194,
+    "id": 898,
     "moves": [
       "pound",
       "pay-day",
@@ -148704,7 +148706,7 @@
     ],
     "base_experience": 236,
     "height": 240,
-    "id": 10195,
+    "id": 3,
     "moves": [],
     "name": "venusaur-gmax",
     "stats": {
@@ -148769,7 +148771,7 @@
     ],
     "base_experience": 240,
     "height": 280,
-    "id": 10196,
+    "id": 6,
     "moves": [],
     "name": "charizard-gmax",
     "stats": {
@@ -148834,7 +148836,7 @@
     ],
     "base_experience": 239,
     "height": 250,
-    "id": 10197,
+    "id": 9,
     "moves": [],
     "name": "blastoise-gmax",
     "stats": {
@@ -148898,7 +148900,7 @@
     ],
     "base_experience": 178,
     "height": 170,
-    "id": 10198,
+    "id": 12,
     "moves": [],
     "name": "butterfree-gmax",
     "stats": {
@@ -148962,7 +148964,7 @@
     ],
     "base_experience": 112,
     "height": 210,
-    "id": 10199,
+    "id": 25,
     "moves": [],
     "name": "pikachu-gmax",
     "stats": {
@@ -149027,7 +149029,7 @@
     ],
     "base_experience": 58,
     "height": 330,
-    "id": 10200,
+    "id": 52,
     "moves": [],
     "name": "meowth-gmax",
     "stats": {
@@ -149091,7 +149093,7 @@
     ],
     "base_experience": 227,
     "height": 250,
-    "id": 10201,
+    "id": 68,
     "moves": [],
     "name": "machamp-gmax",
     "stats": {
@@ -149153,7 +149155,7 @@
     ],
     "base_experience": 225,
     "height": 200,
-    "id": 10202,
+    "id": 94,
     "moves": [],
     "name": "gengar-gmax",
     "stats": {
@@ -149218,7 +149220,7 @@
     ],
     "base_experience": 166,
     "height": 190,
-    "id": 10203,
+    "id": 99,
     "moves": [],
     "name": "kingler-gmax",
     "stats": {
@@ -149282,7 +149284,7 @@
     ],
     "base_experience": 187,
     "height": 240,
-    "id": 10204,
+    "id": 131,
     "moves": [],
     "name": "lapras-gmax",
     "stats": {
@@ -149348,7 +149350,7 @@
     ],
     "base_experience": 65,
     "height": 180,
-    "id": 10205,
+    "id": 133,
     "moves": [],
     "name": "eevee-gmax",
     "stats": {
@@ -149412,7 +149414,7 @@
     ],
     "base_experience": 189,
     "height": 350,
-    "id": 10206,
+    "id": 143,
     "moves": [],
     "name": "snorlax-gmax",
     "stats": {
@@ -149476,7 +149478,7 @@
     ],
     "base_experience": 166,
     "height": 210,
-    "id": 10207,
+    "id": 569,
     "moves": [],
     "name": "garbodor-gmax",
     "stats": {
@@ -149537,7 +149539,7 @@
     ],
     "base_experience": 270,
     "height": 250,
-    "id": 10208,
+    "id": 809,
     "moves": [],
     "name": "melmetal-gmax",
     "stats": {
@@ -149599,7 +149601,7 @@
     ],
     "base_experience": 265,
     "height": 280,
-    "id": 10209,
+    "id": 812,
     "moves": [],
     "name": "rillaboom-gmax",
     "stats": {
@@ -149662,7 +149664,7 @@
     ],
     "base_experience": 265,
     "height": 270,
-    "id": 10210,
+    "id": 815,
     "moves": [],
     "name": "cinderace-gmax",
     "stats": {
@@ -149725,7 +149727,7 @@
     ],
     "base_experience": 265,
     "height": 400,
-    "id": 10211,
+    "id": 818,
     "moves": [],
     "name": "inteleon-gmax",
     "stats": {
@@ -149789,7 +149791,7 @@
     ],
     "base_experience": 248,
     "height": 140,
-    "id": 10212,
+    "id": 823,
     "moves": [],
     "name": "corviknight-gmax",
     "stats": {
@@ -149853,7 +149855,7 @@
     ],
     "base_experience": 253,
     "height": 140,
-    "id": 10213,
+    "id": 826,
     "moves": [],
     "name": "orbeetle-gmax",
     "stats": {
@@ -149917,7 +149919,7 @@
     ],
     "base_experience": 170,
     "height": 240,
-    "id": 10214,
+    "id": 834,
     "moves": [],
     "name": "drednaw-gmax",
     "stats": {
@@ -149982,7 +149984,7 @@
     ],
     "base_experience": 255,
     "height": 420,
-    "id": 10215,
+    "id": 839,
     "moves": [],
     "name": "coalossal-gmax",
     "stats": {
@@ -150046,7 +150048,7 @@
     ],
     "base_experience": 170,
     "height": 240,
-    "id": 10216,
+    "id": 841,
     "moves": [],
     "name": "flapple-gmax",
     "stats": {
@@ -150111,7 +150113,7 @@
     ],
     "base_experience": 170,
     "height": 240,
-    "id": 10217,
+    "id": 842,
     "moves": [],
     "name": "appletun-gmax",
     "stats": {
@@ -150176,7 +150178,7 @@
     ],
     "base_experience": 179,
     "height": 220,
-    "id": 10218,
+    "id": 844,
     "moves": [],
     "name": "sandaconda-gmax",
     "stats": {
@@ -150240,7 +150242,7 @@
     ],
     "base_experience": 176,
     "height": 240,
-    "id": 10219,
+    "id": 849,
     "moves": [],
     "name": "toxtricity-amped-gmax",
     "stats": {
@@ -150304,7 +150306,7 @@
     ],
     "base_experience": 184,
     "height": 750,
-    "id": 10220,
+    "id": 851,
     "moves": [],
     "name": "centiskorch-gmax",
     "stats": {
@@ -150368,7 +150370,7 @@
     ],
     "base_experience": 255,
     "height": 260,
-    "id": 10221,
+    "id": 858,
     "moves": [],
     "name": "hatterene-gmax",
     "stats": {
@@ -150432,7 +150434,7 @@
     ],
     "base_experience": 255,
     "height": 320,
-    "id": 10222,
+    "id": 861,
     "moves": [],
     "name": "grimmsnarl-gmax",
     "stats": {
@@ -150496,7 +150498,7 @@
     ],
     "base_experience": 173,
     "height": 300,
-    "id": 10223,
+    "id": 869,
     "moves": [],
     "name": "alcremie-gmax",
     "stats": {
@@ -150559,7 +150561,7 @@
     ],
     "base_experience": 175,
     "height": 230,
-    "id": 10224,
+    "id": 879,
     "moves": [],
     "name": "copperajah-gmax",
     "stats": {
@@ -150623,7 +150625,7 @@
     ],
     "base_experience": 187,
     "height": 430,
-    "id": 10225,
+    "id": 884,
     "moves": [],
     "name": "duraludon-gmax",
     "stats": {
@@ -150686,7 +150688,7 @@
     ],
     "base_experience": 275,
     "height": 290,
-    "id": 10226,
+    "id": 892,
     "moves": [],
     "name": "urshifu-single-strike-gmax",
     "stats": {
@@ -150748,7 +150750,7 @@
     ],
     "base_experience": 275,
     "height": 260,
-    "id": 10227,
+    "id": 892,
     "moves": [],
     "name": "urshifu-rapid-strike-gmax",
     "stats": {
@@ -150812,7 +150814,7 @@
     ],
     "base_experience": 176,
     "height": 240,
-    "id": 10228,
+    "id": 849,
     "moves": [],
     "name": "toxtricity-low-key-gmax",
     "stats": {

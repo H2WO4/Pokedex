@@ -1,8 +1,10 @@
-﻿using Pokedex.Interfaces;
+﻿using Pokedex.Enums;
+using Pokedex.Interfaces;
 using Pokedex.Models;
 using Pokedex.Models.PokemonMoves;
 using Pokedex.Models.Pokemons;
 using Pokedex.Models.Weathers;
+using Pokedex.Utils;
 
 namespace Pokedex;
 
@@ -15,7 +17,7 @@ public static class Program
 		Console.OutputEncoding = System.Text.Encoding.UTF8;
 		PokeType.InitializeTypes();
 
-		var raichu = new Pokemon(Raichu.Singleton, 100, "Pikachu");
+		/*var raichu = new Pokemon(Raichu.Singleton, 100, "Pikachu");
 		raichu.SetMoves(new MoveThunder(), new MoveSwordsDance(), null, null);
 		raichu.SetIVs(31, 31, 31, 31, 31, 31);
 		raichu.CurrHP = 999;
@@ -50,6 +52,11 @@ public static class Program
 		Console.SetIn(reader);
 		// Console.SetOut(writer);
 
-		fight.DoTurn();
+		fight.DoCombat();*/
+		
+		foreach (var nature in Nature.Adamant.GetFlags())
+		{
+			Console.WriteLine(nature);
+		}
 	}
 }

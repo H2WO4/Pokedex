@@ -3,7 +3,7 @@ using Pokedex.Enums;
 namespace Pokedex.Models;
 
 /// <summary>
-/// Contains the immutable informations of a Pokemon
+/// Contains the immutable info of a Pokemon
 /// </summary>
 public abstract class PokeSpecies
 {
@@ -53,11 +53,14 @@ public abstract class PokeSpecies
 	/// </summary>
 	public int Weight { get; }
 	
+	/// <summary>
+	/// Determine if this form can be used only in combat
+	/// </summary>
 	public bool BattleOnly { get; }
 	#endregion
 
 	#region Constructors
-	public PokeSpecies(
+	protected PokeSpecies(
 		int id, string name,
 		List<PokeType> types,
 		Dictionary<Stat, int> stats,
