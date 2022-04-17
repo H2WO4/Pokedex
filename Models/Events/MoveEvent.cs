@@ -1,62 +1,59 @@
 using Pokedex.Interfaces;
 
-
 namespace Pokedex.Models.Events;
 
 public class MoveEvent : I_Event
 {
-	#region Constructors
-	public MoveEvent
-	(
-		I_Battler caster,
-		PokeMove move,
-		I_Combat context
-	)
-	{
-		Caster  = caster;
-		Move    = move;
-		Context = context;
+    #region Properties
+    public int Priority { get; set; }
 
-		Priority = move.Priority;
-		Speed    = caster.Spd();
-	}
-	#endregion
+    public int Speed { get; set; }
 
-	#region Properties
-	public int Priority { get; set; }
+    /// <summary>
+    /// The Pokemon who used the move
+    /// </summary>
+    public I_Battler Caster { get; }
 
-	public int Speed { get; set; }
+    /// <summary>
+    /// The move used
+    /// </summary>
+    public PokeMove Move { get; }
 
-	/// <summary>
-	///     The Pokemon who used the move
-	/// </summary>
-	public I_Battler Caster { get; }
+    /// <summary>
+    /// In which combat the fight happens in
+    /// </summary>
+    public I_Combat Context { get; }
+    #endregion
 
-	/// <summary>
-	///     The move used
-	/// </summary>
-	public PokeMove Move { get; }
+    #region Constructors
+    public MoveEvent
+    (
+        I_Battler caster,
+        PokeMove move,
+        I_Combat context
+    )
+    {
+        Caster  = caster;
+        Move    = move;
+        Context = context;
 
-	/// <summary>
-	///     In which combat the fight happens in
-	/// </summary>
-	public I_Combat Context { get; }
-	#endregion
+        Priority = move.Priority;
+        Speed    = caster.Spd();
+    }
+    #endregion
 
-	#region Methods
-	public void Update()
-	{
-		if (Caster.CurrHP == 0)
-			return;
+    #region Methods
+    public void Update()
+    {
+        if (Caster.CurrHP == 0)
+            return;
 
-		// Print move usage
-		Console.WriteLine($"{Caster.Name} uses {Move.Name}");
-		Move.OnUse();
-	}
+        // Print move usage
+        Console.WriteLine("" + $"{Caster.Name} uses {Move.Name}" + "");
+        Move.OnUse();
+    }
 
-	public void PreUpdate()
-	{
-		Move.PreAction(this);
-	}
-	#endregion
+    public void PreUpdate()
+        => Move.PreAction(this);
+    #endregion
 }

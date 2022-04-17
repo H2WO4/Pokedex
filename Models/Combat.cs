@@ -1,149 +1,143 @@
 using Pokedex.Interfaces;
 using Pokedex.Models.Weathers;
 
-
 namespace Pokedex.Models;
 
 /// <summary>
-///     A 2-player fight
+/// A 2-player fight
 /// </summary>
 public class Combat : I_Combat
 {
-	#region Constructors
-	public Combat
-	(
-		(string name, I_Battler[] team) playerA,
-		(string name, I_Battler[] team) playerB
-	)
-	{
-		(string nameA, I_Battler[] teamA) = playerA;
-		(string nameB, I_Battler[] teamB) = playerB;
+    #region Variables
+    private int _turn;
+    private readonly I_Player _playerA;
+    private readonly I_Player _playerB;
 
-		_turn = 0;
+    private Weather _weather;
+    #endregion
 
-		_playerA = new Trainer(nameA, teamA, this);
-		_playerB = new Trainer(nameB, teamB, this);
+    #region Properties
+    public I_Player[] Players
+        => new[] { _playerA, _playerB };
 
-		_weather = WeatherClear.Singleton;
-	}
-	#endregion
+    public LinkedList<I_Event> EventQueue { get; private set; } = new();
 
-	#region Variables
-	private int _turn;
-	private readonly I_Player _playerA;
-	private readonly I_Player _playerB;
+    public Weather Weather
+    {
+        get => _weather;
+        set
+        {
+            if (_weather == value) return;
 
-	private Weather _weather;
-	#endregion
+            Weather old = _weather;
+            _weather.OnExit();
+            _weather = value;
+            _weather.OnEnter();
 
-	#region Properties
-	public I_Player[] Players => new[] { _playerA, _playerB };
+            foreach (I_Player player in Players)
+                player.Active.Ability.OnWeatherChange(old, value);
+        }
+    }
+    #endregion
 
-	public LinkedList<I_Event> EventQueue { get; private set; } = new();
+    #region Constructors
+    public Combat
+    (
+        (string name, I_Battler[] team) playerA,
+        (string name, I_Battler[] team) playerB
+    )
+    {
+        (string? name1, I_Battler[]? team1) = playerA;
+        (string? name2, I_Battler[]? team2) = playerB;
+        
+        _turn = 0;
 
-	public Weather Weather
-	{
-		get => _weather;
-		set
-		{
-			if (_weather == value) return;
+        _playerA = new Trainer(name1, team1, this);
+        _playerB = new Trainer(name2, team2, this);
 
-			Weather old = _weather;
-			_weather.OnExit();
-			_weather = value;
-			_weather.OnEnter();
+        _weather = WeatherClear.Singleton;
+    }
+    #endregion
 
-			foreach (I_Player player in Players)
-				player.Active.Ability.OnWeatherChange(old, value);
-		}
-	}
-	#endregion
+    #region Methods
+    public void AddToBottom(I_Event ev)
+        => EventQueue.AddLast(ev);
 
-	#region Methods
-	public void AddToBottom(I_Event ev)
-	{
-		EventQueue.AddLast(ev);
-	}
+    public void AddToTop(I_Event ev)
+        => EventQueue.AddFirst(ev);
 
-	public void AddToTop(I_Event ev)
-	{
-		EventQueue.AddFirst(ev);
-	}
+    public I_Player DoCombat()
+    {
+        // Activate all end of combat abilities, across all pokemons
+        Players.SelectMany(player => player.Team)
+               .ToList()
+               .ForEach(poke => poke.Ability.OnCombatStart());
 
-	public I_Player DoCombat()
-	{
-		// Activate all start of combat abilities, across all pokemons
-		Players
-		   .SelectMany(player => player.Team)
-		   .ToList()
-		   .ForEach(poke => poke.Ability.OnCombatStart());
+        // While all players can fight, give them a turn
+        while (Players.All(player => player.Team.Any(poke => poke.CurrHP > 0)))
+            DoTurns();
 
-		// While all players can fight, give them a turn
-		while (Players.All(player => player.Team.Any(poke => poke.CurrHP > 0)))
-			DoTurns();
+        // Activate all end of combat abilities, across all pokemons
+        Players.SelectMany(player => player.Team)
+               .ToList()
+               .ForEach(poke => poke.Ability.OnCombatEnd());
 
-		// Activate all end of combat abilities, across all pokemons
-		Players
-		   .SelectMany(player => player.Team)
-		   .ToList()
-		   .ForEach(poke => poke.Ability.OnCombatEnd());
+        // Return the winning player (the one still standing)
+        return Players.First(player => player.Team
+                                             .Any(poke => poke.CurrHP > 0));
+    }
 
-		// Return the winning player (the one still standing)
-		return Players
-		   .First(player => player.Team.Any(poke => poke.CurrHP > 0));
-	}
+    private void DoTurns()
+    {
+        // Display turn
+        _turn++;
+        Console.WriteLine($"Turn {_turn}");
+        // Display weather
+        _weather.OnTurnStart(this);
 
-	private void DoTurns()
-	{
-		// Display turn
-		_turn++;
-		Console.WriteLine($"Turn {_turn}");
-		// Display weather
-		_weather.OnTurnStart(this);
+        Console.WriteLine();
 
-		Console.WriteLine();
+        // Take input from players
+        Console.WriteLine($"It's {_playerA.Name}'s turn!");
+        Console.WriteLine();
+        _playerA.PlayTurn();
 
-		// Take input from players
-		Console.WriteLine($"It's {_playerA.Name}'s turn!");
-		Console.WriteLine();
-		_playerA.PlayTurn();
+        // Console.Clear();
 
-		// Console.Clear();
+        Console.WriteLine($"It's {_playerB.Name}'s turn!");
+        Console.WriteLine();
+        _playerB.PlayTurn();
 
-		Console.WriteLine($"It's {_playerB.Name}'s turn!");
-		Console.WriteLine();
-		_playerB.PlayTurn();
+        // Do actions that could reorder the queue
+        foreach (I_Event ev in EventQueue)
+            ev.PreUpdate();
 
-		// Handles the event queue
-		EventQueue.ToList()
-				  .ForEach(ev => ev.PreUpdate()); // Do actions that could reorder the queue
+        // Put the higher priority events at the beginning, decide equalities based on speed
+        EventQueue = new LinkedList<I_Event>(EventQueue
+                                                .OrderByDescending(ev => (ev.Priority, ev.Speed)));
 
-		// Put the higher priority events at the beginning, decide equalities based on speed
-		EventQueue = new LinkedList<I_Event>(EventQueue
-												.OrderByDescending(ev => (ev.Priority, ev.Speed)));
+        // Do the events
+        ExecuteEvents();
 
-		// Process the events
-		ExecuteEvents();
+        // Do weather effects (if no ability blocks it)
+        if (Players.All(player => player.Active.Ability.AllowWeather()))
+            _weather.OnTurnEnd(this);
+    }
 
-		// Do weather effects (if no ability blocks it)
-		if (Players.All(player => player.Active.Ability.AllowWeather()))
-			_weather.OnTurnEnd(this);
-	}
+    private void ExecuteEvents()
+    {
+        // While the event queue is not empty
+        while (EventQueue.Any())
+        {
+            // Take the first event
+            I_Event next = EventQueue.First();
 
-	private void ExecuteEvents()
-	{
-		// While the event queue is not empty
-		while (EventQueue.Any())
-		{
-			// Take the first event
-			I_Event next = EventQueue.First();
+            // Remove it from the queue
+            EventQueue.RemoveFirst();
 
-			// Remove it from the queue
-			EventQueue.RemoveFirst();
-
-			// Execute it
-			next.Update();
-		}
-	}
-	#endregion
+            // Execute it
+            next.Update();
+        }
+    }
+    #endregion
 }

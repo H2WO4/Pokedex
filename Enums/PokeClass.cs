@@ -5,8 +5,8 @@ namespace Pokedex.Enums;
 /// </summary>
 public enum PokeClass
 {
-	Normal,
-	Baby,
-	Legendary,
-	Mythical,
+    Normal,
+    Baby,
+    Legendary,
+    Mythical,
 }

@@ -5,7 +5,7 @@ namespace Pokedex.Enums;
 /// </summary>
 public enum MoveClass
 {
-	Physical,
-	Special,
-	Status,
+    Physical,
+    Special,
+    Status,
 }

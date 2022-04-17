@@ -1,6 +1,5 @@
 using System.Runtime.Intrinsics.X86;
 
-
 namespace Pokedex.Utils;
 
 public static class EnumExtension

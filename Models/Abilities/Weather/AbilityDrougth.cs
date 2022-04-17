@@ -1,20 +1,19 @@
 using Pokedex.Models.Weathers;
 
-
 namespace Pokedex.Models.Abilities;
 
 public class AbilityDrougth : Models.Ability
 {
-	#region Constructors
-	public AbilityDrougth(Pokemon origin)
-		: base("Drougth", origin) { }
-	#endregion
+    #region Constructors
+    public AbilityDrougth(Pokemon origin)
+        : base("Drougth", origin) { }
+    #endregion
 
-	#region Methods
-	public override void OnEnter()
-	{
-		Announce();
-		Origin.Arena.Weather = WeatherZenith.Singleton;
-	}
-	#endregion
+    #region Methods
+    public override void OnEnter()
+    {
+        Announce();
+        Origin.Arena.Weather = WeatherZenith.Singleton;
+    }
+    #endregion
 }

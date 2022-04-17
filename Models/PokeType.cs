@@ -1,300 +1,257 @@
-using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 using Pokedex.Models.PokemonTypes;
-
 
 namespace Pokedex.Models;
 
 /// <summary>
-///     The type of a Pokemon, Move, or DamageInfo
+/// The type of a Pokemon, Move, or DamageInfo
 /// </summary>
 public abstract class PokeType
 {
-	#region Constructor
-	protected PokeType
-	(
-		string name,
-		(int R, int G, int B) color
-	)
-	{
-		if (name != "")
-			Name = name;
-		else throw new ArgumentException("Name must not be empty");
+    #region Class Properties
+    private static Dictionary<PokeType, Dictionary<PokeType, double>> Affinities { get; } = new();
+    #endregion
 
-		if (color.R is >= 0 and <= 255
-		 && color.G is >= 0 and <= 255
-		 && color.B is >= 0 and <= 255)
-			Color = color;
-		else throw new ArgumentException("Color channels must be between 0-255");
-	}
-	#endregion
+    #region Properties
+    /// <summary>
+    /// Name used for display
+    /// </summary>
+    public string Name { get; }
 
-	#region Class Properties
-	/// <summary>
-	///     Represents the damage relations between types
-	/// </summary>
-	[NotNull]
-	public static Dictionary<PokeType, Dictionary<PokeType, double>>? Affinities { get; private set; }
-	#endregion
+    /// <summary>
+    /// Color used for display
+    /// </summary>
+    private (int R, int G, int B) Color { get; }
+    #endregion
 
-	#region Properties
-	/// <summary>
-	///     Name used for display
-	/// </summary>
-	public string Name { get; }
+    #region Constructor
+    protected PokeType
+    (
+        string name,
+        (int R, int G, int B) color
+    )
+    {
+        if (name != "")
+            Name = name;
+        else throw new ArgumentException("Name must not be empty");
 
-	/// <summary>
-	///     Color used for display
-	/// </summary>
-	private (int R, int G, int B) Color { get; }
-	#endregion
+        if (color.R is >= 0 and <= 255
+         && color.G is >= 0 and <= 255
+         && color.B is >= 0 and <= 255)
+            Color = color;
+        else throw new ArgumentException("Color channels must be between 0-255");
 
-	#region Methods
-	/// <summary>
-	///     Initializes type resistances
-	/// </summary>
-	/// <remarks>
-	///     Should be called at the beginning of the program
-	/// </remarks>
-	public static void InitializeTypes()
-	{
-		Affinities =
-			new Dictionary<PokeType, Dictionary<PokeType, double>>
-			{
-				{ TypeNormal.Singleton, new() }, { TypeFire.Singleton, new() },
-				{ TypeWater.Singleton, new() }, { TypeElectric.Singleton, new() },
-				{ TypeGrass.Singleton, new() }, { TypeIce.Singleton, new() },
-				{ TypeFighting.Singleton, new() }, { TypePoison.Singleton, new() },
-				{ TypeGround.Singleton, new() }, { TypeFlying.Singleton, new() },
-				{ TypePsychic.Singleton, new() }, { TypeBug.Singleton, new() },
-				{ TypeRock.Singleton, new() }, { TypeGhost.Singleton, new() },
-				{ TypeDragon.Singleton, new() }, { TypeDark.Singleton, new() },
-				{ TypeSteel.Singleton, new() }, { TypeFairy.Singleton, new() },
-				{ TypeLight.Singleton, new() },
-			};
+        Affinities[this] = new Dictionary<PokeType, double>();
+    }
+    #endregion
 
-		Dictionary<PokeType, double> normal =
-			new()
-			{
-				{ TypeRock.Singleton, 0.5 }, { TypeGhost.Singleton, 0 },
-				{ TypeSteel.Singleton, 0.5 }, { TypeFairy.Singleton, 2 },
-			};
-		TypeNormal.Singleton.SetAffinities(normal);
+    #region Methods
+    public static void InitializeTypes()
+    {
+        Affinities.Add(TypeNormal.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeFire.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeWater.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeElectric.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeGrass.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeIce.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeFighting.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypePoison.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeGround.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeFlying.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypePsychic.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeBug.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeRock.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeGhost.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeDragon.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeDark.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeSteel.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeFairy.Singleton, new Dictionary<PokeType, double>());
+        Affinities.Add(TypeLight.Singleton, new Dictionary<PokeType, double>());
 
-		Dictionary<PokeType, double> fire =
-			new()
-			{
-				{ TypeFire.Singleton, 0.5 }, { TypeWater.Singleton, 0.5 },
-				{ TypeGrass.Singleton, 2 }, { TypeIce.Singleton, 2 },
-				{ TypeBug.Singleton, 2 }, { TypeRock.Singleton, 0.5 },
-				{ TypeDragon.Singleton, 0.5 }, { TypeSteel.Singleton, 2 },
-			};
-		TypeFire.Singleton.SetAffinities(fire);
+        Affinities[TypeNormal.Singleton] = 
+            new Dictionary<PokeType, double>
+            {
+                                               { TypeRock.Singleton, 0.5 }, { TypeGhost.Singleton, 0 },
+                                               { TypeSteel.Singleton, 0.5 }, { TypeFairy.Singleton, 2 },
+                                           };;
 
-		Dictionary<PokeType, double> water =
-			new()
-			{
-				{ TypeFire.Singleton, 2 }, { TypeWater.Singleton, 0.5 },
-				{ TypeGrass.Singleton, 0.5 }, { TypeGround.Singleton, 2 },
-				{ TypeRock.Singleton, 2 }, { TypeDragon.Singleton, 0.5 },
-				{ TypeLight.Singleton, 0.5 },
-			};
-		TypeWater.Singleton.SetAffinities(water);
+        Affinities[TypeFire.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeFire.Singleton, 0.5 }, { TypeWater.Singleton, 0.5 },
+                { TypeGrass.Singleton, 2 }, { TypeIce.Singleton, 2 },
+                { TypeBug.Singleton, 2 }, { TypeRock.Singleton, 0.5 },
+                { TypeDragon.Singleton, 0.5 }, { TypeSteel.Singleton, 2 },
+            };
 
-		Dictionary<PokeType, double> electric =
-			new()
-			{
-				{ TypeFire.Singleton, 2 }, { TypeWater.Singleton, 2 },
-				{ TypeElectric.Singleton, 0.5 }, { TypeGrass.Singleton, 0.5 },
-				{ TypeGround.Singleton, 0 }, { TypeFlying.Singleton, 2 },
-				{ TypeDragon.Singleton, 0.5 }, { TypeLight.Singleton, 0.5 },
-			};
-		TypeElectric.Singleton.SetAffinities(electric);
+        Affinities[TypeWater.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeFire.Singleton, 2 }, { TypeWater.Singleton, 0.5 },
+                { TypeGrass.Singleton, 0.5 }, { TypeGround.Singleton, 2 },
+                { TypeRock.Singleton, 2 }, { TypeDragon.Singleton, 0.5 },
+                { TypeLight.Singleton, 0.5 },
+            };
 
-		Dictionary<PokeType, double> grass =
-			new()
-			{
-				{ TypeFire.Singleton, 0.5 }, { TypeWater.Singleton, 2 },
-				{ TypeGrass.Singleton, 0.5 }, { TypePoison.Singleton, 0.5 },
-				{ TypeGround.Singleton, 2 }, { TypeFlying.Singleton, 0.5 },
-				{ TypeBug.Singleton, 0.5 }, { TypeRock.Singleton, 2 },
-				{ TypeDragon.Singleton, 0.5 }, { TypeSteel.Singleton, 0.5 },
-			};
-		TypeGrass.Singleton.SetAffinities(grass);
+        Affinities[TypeElectric.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeFire.Singleton, 2 }, { TypeWater.Singleton, 2 },
+                { TypeElectric.Singleton, 0.5 }, { TypeGrass.Singleton, 0.5 },
+                { TypeGround.Singleton, 0 }, { TypeFlying.Singleton, 2 },
+                { TypeDragon.Singleton, 0.5 }, { TypeLight.Singleton, 0.5 },
+            };
 
-		Dictionary<PokeType, double> ice =
-			new()
-			{
-				{ TypeFire.Singleton, 0.5 }, { TypeWater.Singleton, 0.5 },
-				{ TypeGrass.Singleton, 2 }, { TypeIce.Singleton, 0.5 },
-				{ TypeGround.Singleton, 2 }, { TypeFlying.Singleton, 2 },
-				{ TypeDragon.Singleton, 2 }, { TypeSteel.Singleton, 0.5 },
-				{ TypeLight.Singleton, 2 },
-			};
-		TypeIce.Singleton.SetAffinities(ice);
+        Affinities[TypeGrass.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeFire.Singleton, 0.5 }, { TypeWater.Singleton, 2 },
+                { TypeGrass.Singleton, 0.5 }, { TypePoison.Singleton, 0.5 },
+                { TypeGround.Singleton, 2 }, { TypeFlying.Singleton, 0.5 },
+                { TypeBug.Singleton, 0.5 }, { TypeRock.Singleton, 2 },
+                { TypeDragon.Singleton, 0.5 }, { TypeSteel.Singleton, 0.5 },
+            };
 
-		Dictionary<PokeType, double> fighting =
-			new()
-			{
-				{ TypeNormal.Singleton, 2 }, { TypeIce.Singleton, 2 },
-				{ TypePoison.Singleton, 0.5 }, { TypeFlying.Singleton, 0.5 },
-				{ TypePsychic.Singleton, 0.5 }, { TypeBug.Singleton, 0.5 },
-				{ TypeRock.Singleton, 2 }, { TypeGhost.Singleton, 0 },
-				{ TypeDark.Singleton, 2 }, { TypeSteel.Singleton, 2 },
-				{ TypeFairy.Singleton, 0.5 },
-			};
-		TypeFighting.Singleton.SetAffinities(fighting);
+        Affinities[TypeIce.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeFire.Singleton, 0.5 }, { TypeWater.Singleton, 0.5 },
+                { TypeGrass.Singleton, 2 }, { TypeIce.Singleton, 0.5 },
+                { TypeGround.Singleton, 2 }, { TypeFlying.Singleton, 2 },
+                { TypeDragon.Singleton, 2 }, { TypeSteel.Singleton, 0.5 },
+                { TypeLight.Singleton, 2 },
+            };
 
-		Dictionary<PokeType, double> poison =
-			new()
-			{
-				{ TypeGrass.Singleton, 2 }, { TypePoison.Singleton, 0.5 },
-				{ TypeGround.Singleton, 0.5 }, { TypeRock.Singleton, 0.5 },
-				{ TypeGhost.Singleton, 0.5 }, { TypeSteel.Singleton, 0 },
-				{ TypeFairy.Singleton, 2 },
-			};
-		TypePoison.Singleton.SetAffinities(poison);
+        Affinities[TypeFighting.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeNormal.Singleton, 2 }, { TypeIce.Singleton, 2 },
+                { TypePoison.Singleton, 0.5 }, { TypeFlying.Singleton, 0.5 },
+                { TypePsychic.Singleton, 0.5 }, { TypeBug.Singleton, 0.5 },
+                { TypeRock.Singleton, 2 }, { TypeGhost.Singleton, 0 },
+                { TypeDark.Singleton, 2 }, { TypeSteel.Singleton, 2 },
+                { TypeFairy.Singleton, 0.5 },
+            };
 
-		Dictionary<PokeType, double> ground =
-			new()
-			{
-				{ TypeFire.Singleton, 2 }, { TypeElectric.Singleton, 2 },
-				{ TypeGrass.Singleton, 0.5 }, { TypePoison.Singleton, 2 },
-				{ TypeFlying.Singleton, 0 }, { TypeBug.Singleton, 0.5 },
-				{ TypeRock.Singleton, 2 }, { TypeSteel.Singleton, 2 },
-				{ TypeLight.Singleton, 0.5 },
-			};
-		TypeGround.Singleton.SetAffinities(ground);
+        Affinities[TypePoison.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeGrass.Singleton, 2 }, { TypePoison.Singleton, 0.5 },
+                { TypeGround.Singleton, 0.5 }, { TypeRock.Singleton, 0.5 },
+                { TypeGhost.Singleton, 0.5 }, { TypeSteel.Singleton, 0 },
+                { TypeFairy.Singleton, 2 },
+            };
 
-		Dictionary<PokeType, double> flying =
-			new()
-			{
-				{ TypeElectric.Singleton, 0.5 }, { TypeGrass.Singleton, 2 },
-				{ TypeFighting.Singleton, 2 }, { TypeFlying.Singleton, 0.5 },
-				{ TypeBug.Singleton, 2 }, { TypeRock.Singleton, 0.5 },
-				{ TypeSteel.Singleton, 0.5 },
-			};
-		TypeFlying.Singleton.SetAffinities(flying);
+        Affinities[TypeGround.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeFire.Singleton, 2 }, { TypeElectric.Singleton, 2 },
+                { TypeGrass.Singleton, 0.5 }, { TypePoison.Singleton, 2 },
+                { TypeFlying.Singleton, 0 }, { TypeBug.Singleton, 0.5 },
+                { TypeRock.Singleton, 2 }, { TypeSteel.Singleton, 2 },
+                { TypeLight.Singleton, 0.5 },
+            };
 
-		Dictionary<PokeType, double> psychic =
-			new()
-			{
-				{ TypeNormal.Singleton, 0.5 }, { TypeFighting.Singleton, 2 },
-				{ TypePoison.Singleton, 2 }, { TypePsychic.Singleton, 0.5 },
-				{ TypeDark.Singleton, 0 }, { TypeSteel.Singleton, 2 },
-				{ TypeLight.Singleton, 2 },
-			};
-		TypePsychic.Singleton.SetAffinities(psychic);
+        Affinities[TypeFlying.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeElectric.Singleton, 0.5 }, { TypeGrass.Singleton, 2 },
+                { TypeFighting.Singleton, 2 }, { TypeFlying.Singleton, 0.5 },
+                { TypeBug.Singleton, 2 }, { TypeRock.Singleton, 0.5 },
+                { TypeSteel.Singleton, 0.5 },
+            };
 
-		Dictionary<PokeType, double> bug =
-			new()
-			{
-				{ TypeFire.Singleton, 0.5 }, { TypeElectric.Singleton, 0.5 },
-				{ TypeGrass.Singleton, 2 }, { TypeFighting.Singleton, 0.5 },
-				{ TypePoison.Singleton, 0.5 }, { TypeFlying.Singleton, 0.5 },
-				{ TypePsychic.Singleton, 2 }, { TypeGhost.Singleton, 0.5 },
-				{ TypeDark.Singleton, 2 }, { TypeSteel.Singleton, 0.5 },
-				{ TypeFairy.Singleton, 0.5 },
-			};
-		TypeBug.Singleton.SetAffinities(bug);
+        Affinities[TypePsychic.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeNormal.Singleton, 0.5 }, { TypeFighting.Singleton, 2 },
+                { TypePoison.Singleton, 2 }, { TypePsychic.Singleton, 0.5 },
+                { TypeDark.Singleton, 0 }, { TypeSteel.Singleton, 2 },
+                { TypeLight.Singleton, 2 },
+            };
 
-		Dictionary<PokeType, double> rock =
-			new()
-			{
-				{ TypeFire.Singleton, 2 }, { TypeIce.Singleton, 2 },
-				{ TypeFighting.Singleton, 0.5 }, { TypeGround.Singleton, 0.5 },
-				{ TypeFlying.Singleton, 2 }, { TypeBug.Singleton, 2 },
-				{ TypeSteel.Singleton, 0.5 },
-			};
-		TypeRock.Singleton.SetAffinities(rock);
+        Affinities[TypeBug.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeFire.Singleton, 0.5 }, { TypeElectric.Singleton, 0.5 },
+                { TypeGrass.Singleton, 2 }, { TypeFighting.Singleton, 0.5 },
+                { TypePoison.Singleton, 0.5 }, { TypeFlying.Singleton, 0.5 },
+                { TypePsychic.Singleton, 2 }, { TypeGhost.Singleton, 0.5 },
+                { TypeDark.Singleton, 2 }, { TypeSteel.Singleton, 0.5 },
+                { TypeFairy.Singleton, 0.5 },
+            };
 
-		Dictionary<PokeType, double> ghost =
-			new()
-			{
-				{ TypeNormal.Singleton, 0 }, { TypePsychic.Singleton, 2 },
-				{ TypeGhost.Singleton, 2 }, { TypeDark.Singleton, 0.5 },
-			};
-		TypeGhost.Singleton.SetAffinities(ghost);
+        Affinities[TypeRock.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeFire.Singleton, 2 }, { TypeIce.Singleton, 2 },
+                { TypeFighting.Singleton, 0.5 }, { TypeGround.Singleton, 0.5 },
+                { TypeFlying.Singleton, 2 }, { TypeBug.Singleton, 2 },
+                { TypeSteel.Singleton, 0.5 },
+            };
 
-		Dictionary<PokeType, double> dragon =
-			new()
-			{
-				{ TypeIce.Singleton, 0.5 }, { TypeFlying.Singleton, 2 },
-				{ TypeDragon.Singleton, 2 }, { TypeSteel.Singleton, 0.5 },
-				{ TypeFairy.Singleton, 0 }, { TypeLight.Singleton, 2 },
-			};
-		TypeDragon.Singleton.SetAffinities(dragon);
+        Affinities[TypeGhost.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeNormal.Singleton, 0 }, { TypePsychic.Singleton, 2 },
+                { TypeGhost.Singleton, 2 }, { TypeDark.Singleton, 0.5 },
+            };
 
-		Dictionary<PokeType, double> dark =
-			new()
-			{
-				{ TypeFighting.Singleton, 0.5 }, { TypePsychic.Singleton, 2 },
-				{ TypeGhost.Singleton, 2 }, { TypeDark.Singleton, 0.5 },
-				{ TypeFairy.Singleton, 0.5 }, { TypeLight.Singleton, 2 },
-			};
-		TypeDark.Singleton.SetAffinities(dark);
+        Affinities[TypeDragon.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeIce.Singleton, 0.5 }, { TypeFlying.Singleton, 2 },
+                { TypeDragon.Singleton, 2 }, { TypeSteel.Singleton, 0.5 },
+                { TypeFairy.Singleton, 0 }, { TypeLight.Singleton, 2 },
+            };
 
-		Dictionary<PokeType, double> steel =
-			new()
-			{
-				{ TypeFire.Singleton, 0.5 }, { TypeWater.Singleton, 0.5 },
-				{ TypeElectric.Singleton, 0.5 }, { TypeIce.Singleton, 2 },
-				{ TypeRock.Singleton, 2 }, { TypeSteel.Singleton, 0.5 },
-				{ TypeFairy.Singleton, 2 },
-			};
-		TypeSteel.Singleton.SetAffinities(steel);
+        Affinities[TypeDark.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeFighting.Singleton, 0.5 }, { TypePsychic.Singleton, 2 },
+                { TypeGhost.Singleton, 2 }, { TypeDark.Singleton, 0.5 },
+                { TypeFairy.Singleton, 0.5 }, { TypeLight.Singleton, 2 },
+            };
 
-		Dictionary<PokeType, double> fairy =
-			new()
-			{
-				{ TypeFire.Singleton, 0.5 }, { TypeFighting.Singleton, 2 },
-				{ TypePoison.Singleton, 0.5 }, { TypeDragon.Singleton, 2 },
-				{ TypeDark.Singleton, 2 }, { TypeSteel.Singleton, 0.5 },
-				{ TypeLight.Singleton, 0 },
-			};
-		TypeFairy.Singleton.SetAffinities(fairy);
+        Affinities[TypeSteel.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeFire.Singleton, 0.5 }, { TypeWater.Singleton, 0.5 },
+                { TypeElectric.Singleton, 0.5 }, { TypeIce.Singleton, 2 },
+                { TypeRock.Singleton, 2 }, { TypeSteel.Singleton, 0.5 },
+                { TypeFairy.Singleton, 2 },
+            };
 
-		Dictionary<PokeType, double> light =
-			new()
-			{
-				{ TypeWater.Singleton, 2 }, { TypeElectric.Singleton, 2 },
-				{ TypeIce.Singleton, 0.5 }, { TypeGround.Singleton, 0.5 },
-				{ TypeGhost.Singleton, 2 }, { TypeDark.Singleton, 2 },
-				{ TypeFairy.Singleton, 0 }, { TypeLight.Singleton, 0.5 },
-			};
-		TypeLight.Singleton.SetAffinities(light);
-	}
+        Affinities[TypeFairy.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeFire.Singleton, 0.5 }, { TypeFighting.Singleton, 2 },
+                { TypePoison.Singleton, 0.5 }, { TypeDragon.Singleton, 2 },
+                { TypeDark.Singleton, 2 }, { TypeSteel.Singleton, 0.5 },
+                { TypeLight.Singleton, 0 },
+            };
 
-	public double GetAffinity(PokeType defender)
-	{
-		return Affinities[this].GetValueOrDefault(defender, 1);
-	}
+        Affinities[TypeLight.Singleton] =
+            new Dictionary<PokeType, double>
+            {
+                { TypeWater.Singleton, 2 }, { TypeElectric.Singleton, 2 },
+                { TypeIce.Singleton, 0.5 }, { TypeGround.Singleton, 0.5 },
+                { TypeGhost.Singleton, 2 }, { TypeDark.Singleton, 2 },
+                { TypeFairy.Singleton, 0 }, { TypeLight.Singleton, 0.5 },
+            };
+    }
 
-	public void SetAffinity(PokeType defender, double value)
-	{
-		Affinities[this][defender] = value;
-	}
+    private static double GetAffinity(PokeType attacker, PokeType defender)
+        => Affinities[attacker]
+           .GetValueOrDefault(defender, 1);
 
-	private void SetAffinities(Dictionary<PokeType, double> weaknesses)
-	{
-		foreach ((PokeType type, double value) in weaknesses)
-			SetAffinity(type, value);
-	}
+    public double CalculateAffinity(IEnumerable<PokeType> defenders)
+        => defenders
+          .Select(defender => GetAffinity(this, defender))
+          .Aggregate((a, b) => a * b);
 
-	/// <summary>
-	///     Calculate the compound damage resistance between this and other types
-	/// </summary>
-	/// <param name="defenders">The types of the defending pokemon</param>
-	public double CalculateAffinity(IEnumerable<PokeType> defenders)
-	{
-		return defenders
-			  .Select(GetAffinity)
-			  .Aggregate((a, b) => a * b);
-	}
-
-	public override string ToString()
-	{
-		return Name;
-	}
-	#endregion
+    public override string ToString()
+        => $"{Name}";
+    #endregion
 }
