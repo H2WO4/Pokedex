@@ -1,6 +1,7 @@
-using Pokedex.Interfaces;
 using Pokedex.Enums;
+using Pokedex.Interfaces;
 using Pokedex.Utils;
+
 
 namespace Pokedex.Models;
 
@@ -10,7 +11,8 @@ public static class DamageHandler
 	public static bool DoDamage(DamageInfo dmgInfo, I_Battler caster, I_Battler target)
 	{
 		// If the caster or the target is dead, cancel the damage
-		if (caster.CurrHP == 0 || target.CurrHP == 0)
+		if (caster.CurrHP == 0
+		 || target.CurrHP == 0)
 			return false;
 
 		// Activate abilities and cancel the damage if necessary
@@ -23,13 +25,11 @@ public static class DamageHandler
 		}
 		// Otherwise, it's a case of self-inflicted damage
 		else
-		{
 			cancel |= caster.Ability.OnSelfDamage(dmgInfo);
-		}
-		
+
 		// If any of the abilities asked for damage cancellation, do it
 		if (cancel) return false;
-		
+
 		// Calculate the damage, depending on the class of damage
 		double damage = CalculateDamage(dmgInfo, caster, target);
 
@@ -38,7 +38,7 @@ public static class DamageHandler
 		{
 			int postDeathDamage = target.Ability.OnKilled(caster);
 			damage -= postDeathDamage;
-			
+
 			// If the kill is confirmed, active the killer's ability
 			if (postDeathDamage > 0)
 				caster.Ability.OnKill();
@@ -54,7 +54,7 @@ public static class DamageHandler
 		// Activate post-damage abilities
 		caster.Ability.AfterInflictDamage(dmgInfo, target);
 		target.Ability.AfterReceiveDamage(dmgInfo, caster);
-		
+
 		// Indicate that everything went smoothly
 		return true;
 	}
@@ -64,17 +64,19 @@ public static class DamageHandler
 		double damage = 0;
 		switch (dmgInfo)
 		{
-			case {Class: DamageClass.Pure}:
+			case { Class: DamageClass.Pure }:
 				// Calculate the damage
 				damage = dmgInfo.Power;
+
 				break;
 
-			case {Class: DamageClass.Percent}:
+			case { Class: DamageClass.Percent }:
 				// Calculate the damage
 				damage = target.HP() * dmgInfo.Power / 100d;
+
 				break;
 
-			case {Class: DamageClass.Calculated, Type: { } type}:
+			case { Class: DamageClass.Calculated, Type: { } type }:
 				// Initial damage
 				damage = (0.4 * caster.Level + 2) * dmgInfo.Power;
 
@@ -84,9 +86,9 @@ public static class DamageHandler
 				// Adjust for stats
 				double multiplier = 1;
 				multiplier *= atkStats
-					.Average(caster.GetStat);
+				   .Average(caster.GetStat);
 				multiplier /= defStats
-					.Average(target.GetStat);
+				   .Average(target.GetStat);
 				damage *= multiplier;
 
 				// Continue the calculation
@@ -97,6 +99,7 @@ public static class DamageHandler
 
 				// Apply type weaknesses
 				damage *= target.GetAffinity(type);
+
 				break;
 		}
 

@@ -1,6 +1,7 @@
 using Pokedex.Enums;
 using Pokedex.Interfaces;
 
+
 namespace Pokedex.Models.PokemonMoves.Archetypes;
 
 public abstract class MoveSelf : PokeMove
@@ -14,8 +15,12 @@ public abstract class MoveSelf : PokeMove
 		int maxPp,
 		int priority,
 		PokeType type
-	) : base(name, @class, power, accuracy, maxPp, priority, type) { }
+	)
+		: base(name, @class, power, accuracy,
+			   maxPp, priority, type) { }
 
-	protected override List<I_Battler> GetTargets()
-		=> new() { Caster };
+	protected override IEnumerable<I_Battler> GetTargets()
+	{
+		yield return Caster;
+	}
 }

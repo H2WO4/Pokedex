@@ -6,14 +6,12 @@ public class TypeDark : PokeType
 	private static TypeDark? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypeDark Singleton => _singleton ??= new TypeDark();
+	#region Constructor
+	private TypeDark()
+		: base("Dark", (119, 85, 68)) { }
 	#endregion
 
-	#region Constructor
-	private TypeDark() : base(
-		"Dark", (119, 85, 68)
-	)
-	{ }
+	#region Properties
+	public static TypeDark Singleton => _singleton ??= new TypeDark();
 	#endregion
 }

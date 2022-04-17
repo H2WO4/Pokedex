@@ -3,19 +3,19 @@ using Pokedex.Interfaces;
 using Pokedex.Models.Events;
 using Pokedex.Models.PokemonTypes;
 
+
 namespace Pokedex.Models.PokemonMoves;
 
 public class MovePursuit : PokeMove
 {
 	private bool _doesPursuit;
 
-	public MovePursuit() : base(
-		"Pursuit",
-		MoveClass.Physical,
-		40, 100, // Pow & Acc
-		20, 0, // PP & Priority
-		TypeDark.Singleton
-	)
+	public MovePursuit()
+		: base("Pursuit",
+			   MoveClass.Physical,
+			   40, 100, // Pow & Acc
+			   20, 0, // PP & Priority
+			   TypeDark.Singleton)
 	{
 		_doesPursuit = false;
 	}
@@ -23,10 +23,10 @@ public class MovePursuit : PokeMove
 	public override void PreAction(MoveEvent @event)
 	{
 		if (@event.Caster.Arena.EventQueue
-		    .OfType<SwitchEvent>()
-		    .Any(ev => ev.Origin != Caster.Owner))
+				  .OfType<SwitchEvent>()
+				  .Any(ev => ev.Origin != Caster.Owner))
 		{
-			_doesPursuit = true;
+			_doesPursuit    = true;
 			@event.Priority = 8;
 		}
 	}
@@ -43,5 +43,7 @@ public class MovePursuit : PokeMove
 	}
 
 	protected override bool AccuracyCheck(I_Battler target)
-		=> _doesPursuit || base.AccuracyCheck(target);
+	{
+		return _doesPursuit || base.AccuracyCheck(target);
+	}
 }

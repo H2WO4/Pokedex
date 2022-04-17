@@ -1,7 +1,7 @@
 namespace Pokedex.Enums;
 
 /// <summary>
-/// Represents what class a Pokemon can belong to
+///     Represents what class a Pokemon can belong to
 /// </summary>
 public enum PokeClass
 {

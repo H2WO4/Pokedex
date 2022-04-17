@@ -1,15 +1,40 @@
 using Pokedex.Interfaces;
 using Pokedex.Models.Events;
 
+
 namespace Pokedex.Models;
 
 /// <summary>
-/// Implements an human-controlled Player
+///     Implements an human-controlled Player
 /// </summary>
 public class Trainer : I_Player
 {
 	#region Variables
 	private int _activeIndex;
+	#endregion
+
+	#region Constructors
+	public Trainer
+	(
+		string name,
+		I_Battler[] team,
+		Combat arena
+	)
+	{
+		Name = name;
+
+		_activeIndex = 0;
+
+		if (team.Any()
+		 && team.Length <= 6)
+			Team = team;
+		else throw new ArgumentException("Team must have between 1 and 6 Pokemon.");
+
+		Team.ToList()
+			.ForEach(poke => poke.Owner = this);
+
+		Arena = arena;
+	}
 	#endregion
 
 	#region Properties
@@ -20,29 +45,6 @@ public class Trainer : I_Player
 	public I_Battler[] Team { get; }
 
 	public I_Combat Arena { get; }
-	#endregion
-
-	#region Constructors
-	public Trainer(
-		string name,
-		I_Battler[] team,
-		Combat arena
-	)
-	{
-		Name = name;
-
-		_activeIndex = 0;
-
-		if (team.Any() && team.Count() <= 6)
-			Team = team;
-		else throw new ArgumentException("Team must have between 1 and 6 Pokemon.");
-
-		Team
-			.ToList()
-			.ForEach(poke => poke.Owner = this);
-
-		Arena = arena;
-	}
 	#endregion
 
 	#region Methods
@@ -57,42 +59,61 @@ public class Trainer : I_Player
 		while (!endTurn)
 		{
 			// Read the command, and split it into words
-			var action = Console.ReadLine()!
-				.ToLower()
-				.Split(' ');
+			string[] action = Console.ReadLine()!
+									 .ToLower()
+									 .Split(' ');
 
 			Console.WriteLine(string.Join(' ', action));
 
 			switch (action)
 			{
-				case ["status", string argWhat, "full" or "detailed"]:
+				case [
+
+					"status", string argWhat,  "full" or "detailed"]:
 					StatusCommand(argWhat, true);
+
 					break;
 
-				case ["status", string argWhat]:
+				case [
+
+					"status", string argWhat]:
 					StatusCommand(argWhat, false);
+
 					break;
-					
-				case ["use", string argWhich]:
+
+				case [
+
+					"use", string argWhich]:
 					MoveCommand(argWhich, out endTurn);
+
 					break;
-					
-				case ["switch", string argWhich]:
+
+				case [
+
+					"switch", string argWhich]:
 					SwitchCommand(argWhich, out endTurn);
+
 					break;
-					
-				case ["help"]:
+
+				case [
+
+					"help"]:
 					Console.WriteLine("- status [self | enemy | bench | moves] <full>");
 					Console.WriteLine("- use [#move]");
 					Console.WriteLine("- switch [#pokemon]");
 					Console.WriteLine();
+
 					break;
-					
-				case [""]:
+
+				case [
+
+					""]:
+
 					continue;
-					
+
 				default:
 					Console.WriteLine("Invalid command");
+
 					break;
 			}
 
@@ -103,34 +124,38 @@ public class Trainer : I_Player
 	}
 
 	/// <summary>
-	/// Sub-method handling the <c>status ...</c> commands
+	///     Sub-method handling the <c>status ...</c> commands
 	/// </summary>
 	/// <param name="argWhat">The command parameter inputted by the player</param>
 	/// <param name="detail">Whether full details are asked</param>
 	private void StatusCommand(string argWhat, bool detail)
 	{
-
 		// Depending on the second word
 		switch (argWhat)
 		{
 			case "active" or "self":
 				SelfStatus(detail);
+
 				break;
 
 			case "enemy" or "other" when !detail:
 				OtherStatus();
+
 				break;
 
 			case "bench":
 				BenchStatus(detail);
+
 				break;
 
 			case "move" or "moves":
 				MoveStatus(detail);
+
 				break;
 
 			default:
 				Console.WriteLine("Invalid parameter");
+
 				break;
 		}
 	}
@@ -147,37 +172,37 @@ public class Trainer : I_Player
 			if (i == _activeIndex) continue;
 
 			string pokeStatus = showDetail
-				? Team[i].GetFullStatus()
-				: Team[i].GetQuickStatus();
-			Console.WriteLine($"{i+1} {pokeStatus}");
+									? Team[i].GetFullStatus()
+									: Team[i].GetQuickStatus();
+			Console.WriteLine($"{i + 1} {pokeStatus}");
 		}
 
 		if (Team.Length == 1)
 			Console.WriteLine("No pokemon on the bench");
 	}
-	
+
 	private void OtherStatus()
 	{
 		Arena.Players
-			.Where(player => player != this)
-			.Select(player => player.Active)
-			.ToList()
-			.ForEach(poke => Console.WriteLine(poke.GetQuickStatus()));
+			 .Where(player => player != this)
+			 .Select(player => player.Active)
+			 .ToList()
+			 .ForEach(poke => Console.WriteLine(poke.GetQuickStatus()));
 	}
-	
+
 	private void MoveStatus(bool showDetail)
 	{
 		for (var i = 0; i < 4; i++)
 		{
 			string moveStatus = showDetail
-				? Active.Moves[i]?.GetFullStatus() ?? "---"
-				: Active.Moves[i]?.GetQuickStatus() ?? "---";
-			Console.WriteLine($"{i+1} {moveStatus}");
+									? Active.Moves[i]?.GetFullStatus() ?? "---"
+									: Active.Moves[i]?.GetQuickStatus() ?? "---";
+			Console.WriteLine($"{i + 1} {moveStatus}");
 		}
 	}
 
 	/// <summary>
-	/// Sub-method handling the <c>move ...</c> commands
+	///     Sub-method handling the <c>move ...</c> commands
 	/// </summary>
 	/// <param name="argWhich">The command parameters inputted by the player</param>
 	/// <param name="endTurn">Set to true if this action ends the turn</param>
@@ -190,6 +215,7 @@ public class Trainer : I_Player
 		if (!int.TryParse(argWhich, out moveNum))
 		{
 			Console.WriteLine("Second argument must be a number");
+
 			return;
 		}
 
@@ -197,6 +223,7 @@ public class Trainer : I_Player
 		if (moveNum is < 1 or > 4)
 		{
 			Console.WriteLine("Invalid move number");
+
 			return;
 		}
 
@@ -206,15 +233,12 @@ public class Trainer : I_Player
 		if (move is null)
 		{
 			Console.WriteLine("No move is in that slot");
+
 			return;
 		}
 
 		// Create the event
-		var ev = new MoveEvent
-		(
-			Active,
-			move, Arena
-		);
+		var ev = new MoveEvent(Active, move, Arena);
 		// Add it to the queue
 		Arena.AddToBottom(ev);
 
@@ -223,7 +247,7 @@ public class Trainer : I_Player
 	}
 
 	/// <summary>
-	/// Sub-method handling the <c>switch ...</c> commands
+	///     Sub-method handling the <c>switch ...</c> commands
 	/// </summary>
 	/// <param name="argWhich">The command parameters inputted by the player</param>
 	/// <param name="endTurn">Set to true if this action ends the turn</param>
@@ -236,14 +260,18 @@ public class Trainer : I_Player
 		if (!int.TryParse(argWhich, out pokeNum))
 		{
 			Console.WriteLine("Second argument must be a number");
+
 			return;
 		}
+
 		pokeNum--; // Change from 1-based index to 0-based
 
 		// Check if 2nd arg within bounds
-		if (pokeNum < 1 || pokeNum > Team.Length)
+		if (pokeNum < 1
+		 || pokeNum > Team.Length)
 		{
 			Console.WriteLine("Invalid pokemon number");
+
 			return;
 		}
 
@@ -251,21 +279,19 @@ public class Trainer : I_Player
 		if (pokeNum == _activeIndex)
 		{
 			Console.WriteLine("This pokemon is already on the field");
+
 			return;
 		}
 
 		if (Team[pokeNum].CurrHP == 0)
 		{
 			Console.WriteLine("This pokemon is K.O.");
+
 			return;
 		}
 
 		// Create the event
-		var ev = new SwitchEvent
-		(
-			this, pokeNum,
-			Arena
-		);
+		var ev = new SwitchEvent(this, pokeNum, Arena);
 		// Add it to the queue
 		Arena.AddToBottom(ev);
 
@@ -292,12 +318,13 @@ public class Trainer : I_Player
 		Console.WriteLine();
 
 		// Print the available pokemons
-		Team
-			.Select((poke, i) => (poke, i))
-			.Where(pair => pair.poke != Active)
-			.Where(pair => pair.poke.CurrHP > 0)
-			.ToList()
-			.ForEach(pair => Console.WriteLine($"{pair.i + 1}: {pair.poke.GetQuickStatus()}"));
+		for (var i = 0; i < Team.Length; i++)
+		{
+			I_Battler poke = Team[i];
+			if (i != _activeIndex
+			 && poke.CurrHP > 0)
+				Console.WriteLine($"{i + 1}: {poke.GetQuickStatus()}");
+		}
 
 		Console.WriteLine();
 
@@ -306,21 +333,25 @@ public class Trainer : I_Player
 		while (!pokeChosen)
 		{
 			// Take input
-			var input = Console.ReadLine();
-			int pokeNum;
+			string? input = Console.ReadLine();
+			int     pokeNum;
 
 			// Check if arg is a number
 			if (!int.TryParse(input, out pokeNum))
 			{
 				Console.WriteLine("Second argument must be a number");
+
 				continue;
 			}
+
 			pokeNum--; // Change from 1-based index to 0-based
 
 			// Check if arg within bounds
-			if (pokeNum < 1 || pokeNum > Team.Length)
+			if (pokeNum < 1
+			 || pokeNum > Team.Length)
 			{
 				Console.WriteLine("Invalid pokemon number");
+
 				continue;
 			}
 
@@ -328,6 +359,7 @@ public class Trainer : I_Player
 			if (Team[pokeNum].CurrHP == 0)
 			{
 				Console.WriteLine("This pokemon is K.O.");
+
 				continue;
 			}
 

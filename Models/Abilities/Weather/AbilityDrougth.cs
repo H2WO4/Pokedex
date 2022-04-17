@@ -1,13 +1,13 @@
 using Pokedex.Models.Weathers;
 
+
 namespace Pokedex.Models.Abilities;
 
 public class AbilityDrougth : Models.Ability
 {
 	#region Constructors
 	public AbilityDrougth(Pokemon origin)
-		: base("Drougth", origin)
-	{ }
+		: base("Drougth", origin) { }
 	#endregion
 
 	#region Methods

@@ -6,15 +6,12 @@ public class TypeFairy : PokeType
 	private static TypeFairy? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypeFairy Singleton => _singleton ??= new TypeFairy();
-
+	#region Constructor
+	private TypeFairy()
+		: base("Fairy", (238, 153, 238)) { }
 	#endregion
 
-	#region Constructor
-	private TypeFairy() : base(
-		"Fairy", (238, 153, 238)
-	)
-	{ }
+	#region Properties
+	public static TypeFairy Singleton => _singleton ??= new TypeFairy();
 	#endregion
 }

@@ -1,5 +1,6 @@
 using Pokedex.Interfaces;
 
+
 namespace Pokedex.Models.Abilities;
 
 public class AbilityColorChange : Models.Ability
@@ -10,8 +11,7 @@ public class AbilityColorChange : Models.Ability
 
 	#region Constructors
 	public AbilityColorChange(Pokemon origin)
-		: base("Color Change", origin)
-	{ }
+		: base("Color Change", origin) { }
 	#endregion
 
 	#region Methods
@@ -27,7 +27,8 @@ public class AbilityColorChange : Models.Ability
 	}
 
 	public override List<PokeType>? ChangeType()
-		=> _tempType != null ? new List<PokeType>{ _tempType } : null;
-
+	{
+		return _tempType != null ? new List<PokeType> { _tempType } : null;
+	}
 	#endregion
 }

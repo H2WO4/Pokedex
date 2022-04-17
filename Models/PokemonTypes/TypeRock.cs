@@ -6,14 +6,12 @@ public class TypeRock : PokeType
 	private static TypeRock? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypeRock Singleton => _singleton ??= new TypeRock();
+	#region Constructor
+	private TypeRock()
+		: base("Rock", (187, 170, 102)) { }
 	#endregion
 
-	#region Constructor
-	private TypeRock() : base(
-		"Rock", (187, 170, 102)
-	)
-	{ }
+	#region Properties
+	public static TypeRock Singleton => _singleton ??= new TypeRock();
 	#endregion
 }

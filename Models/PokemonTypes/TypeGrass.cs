@@ -6,14 +6,12 @@ public class TypeGrass : PokeType
 	private static TypeGrass? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypeGrass Singleton => _singleton ??= new TypeGrass();
+	#region Constructor
+	private TypeGrass()
+		: base("Grass", (119, 204, 85)) { }
 	#endregion
 
-	#region Constructor
-	private TypeGrass() : base(
-		"Grass", (119, 204, 85)
-	)
-	{ }
+	#region Properties
+	public static TypeGrass Singleton => _singleton ??= new TypeGrass();
 	#endregion
 }

@@ -9,47 +9,47 @@ os.mkdir("Models/Pokemons")
 
 # Load the json file
 with open("Data/pokemon.json", encoding="utf-8") as f:
-	data = json.load(f)
+    data = json.load(f)
 
 with open("Data/new_pokemon.json", encoding="utf-8-sig") as f:
-	temp_data = json.load(f)
-	for poke in temp_data:
-		data[poke] = temp_data[poke]
+    temp_data = json.load(f)
+    for poke in temp_data:
+        data[poke] = temp_data[poke]
 
 i = 1
 # For each pokemon
 for poke in data.values():
-	# if poke["id"] > 36 and poke["name"] != "arceus":
-	# 	continue
+    if poke["id"] > 36 and poke["name"] != "arceus" and (not poke["name"].startswith("castform")):
+        continue
 
-	# Find the name to use in file names
-	className: str = poke["name"].title()
-	name: str = className.split('-')[0]
-	className = className.replace('-', '')
+    # Find the name to use in file names
+    className: str = poke["name"].title()
+    name: str = className.split('-')[0]
+    className = className.replace('-', '')
 
-	# Create the Species class, by opening a file
-	# with open(f"Models/Pokemons/{className}Species.cs", 'w', encoding="utf-8") as f:
-	with open(f"Models/Pokemons/{className}.cs", 'w', encoding="utf-8") as f:
-		# Find the class the pokemon belongs to
-		class_ = \
-			'PokeClass.Baby' if poke["is_baby"] else \
-			'PokeClass.Mythical' if poke["is_mythical"] else \
-			'PokeClass.Legendary' if poke["is_legendary"] else \
-			'PokeClass.Normal'
+    # Create the Species class, by opening a file
+    # with open(f"Models/Pokemons/{className}Species.cs", 'w', encoding="utf-8") as f:
+    with open(f"Models/Pokemons/{className}.cs", 'w', encoding="utf-8") as f:
+        # Find the class the pokemon belongs to
+        class_ = \
+            'PokeClass.Baby' if poke["is_baby"] else \
+                'PokeClass.Mythical' if poke["is_mythical"] else \
+                    'PokeClass.Legendary' if poke["is_legendary"] else \
+                        'PokeClass.Normal'
 
-		# Find the generation the pokemon belongs to
-		generation = \
-			1 if poke["generation"] == "generation-i" else \
-			2 if poke["generation"] == "generation-ii" else \
-			3 if poke["generation"] == "generation-iii" else \
-			4 if poke["generation"] == "generation-iv" else \
-			5 if poke["generation"] == "generation-v" else \
-			6 if poke["generation"] == "generation-vi" else \
-			7 if poke["generation"] == "generation-vii" else \
-			8
+        # Find the generation the pokemon belongs to
+        generation = \
+            1 if poke["generation"] == "generation-i" else \
+                2 if poke["generation"] == "generation-ii" else \
+                    3 if poke["generation"] == "generation-iii" else \
+                        4 if poke["generation"] == "generation-iv" else \
+                            5 if poke["generation"] == "generation-v" else \
+                                6 if poke["generation"] == "generation-vi" else \
+                                    7 if poke["generation"] == "generation-vii" else \
+                                        8
 
-		# Load the template code
-		outfile = f"""
+        # Load the template code
+        outfile = f"""
 
 using Pokedex.Models.PokemonTypes;
 using Pokedex.Enums;
@@ -93,9 +93,9 @@ namespace Pokedex.Models.Pokemons
 }}
 
 """[2:-2]
-		# ↑ Delete the first two and last two newlines, here for readability
+        # ↑ Delete the first two and last two newlines, here for readability
 
-		# Write the code to the file
-		f.write(outfile)
+        # Write the code to the file
+        f.write(outfile)
 
-	i += 1
+    i += 1

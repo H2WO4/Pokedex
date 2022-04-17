@@ -1,29 +1,10 @@
 using Pokedex.Interfaces;
 
+
 namespace Pokedex.Models.Events;
 
 public class MoveEvent : I_Event
 {
-	#region Properties
-	public int Priority { get; set; }
-	public int Speed { get; set; }
-
-	/// <summary>
-	/// The Pokemon who used the move
-	/// </summary>
-	public I_Battler Caster { get; }
-
-	/// <summary>
-	/// The move used
-	/// </summary>
-	public PokeMove Move { get; }
-
-	/// <summary>
-	/// In which combat the fight happens in
-	/// </summary>
-	public I_Combat Context { get; }
-	#endregion
-
 	#region Constructors
 	public MoveEvent
 	(
@@ -32,13 +13,34 @@ public class MoveEvent : I_Event
 		I_Combat context
 	)
 	{
-		Caster = caster;
-		Move = move;
+		Caster  = caster;
+		Move    = move;
 		Context = context;
 
 		Priority = move.Priority;
-		Speed = caster.Spd();
+		Speed    = caster.Spd();
 	}
+	#endregion
+
+	#region Properties
+	public int Priority { get; set; }
+
+	public int Speed { get; set; }
+
+	/// <summary>
+	///     The Pokemon who used the move
+	/// </summary>
+	public I_Battler Caster { get; }
+
+	/// <summary>
+	///     The move used
+	/// </summary>
+	public PokeMove Move { get; }
+
+	/// <summary>
+	///     In which combat the fight happens in
+	/// </summary>
+	public I_Combat Context { get; }
 	#endregion
 
 	#region Methods
@@ -48,10 +50,13 @@ public class MoveEvent : I_Event
 			return;
 
 		// Print move usage
-		Console.WriteLine("" + $"{Caster.Name} uses {Move.Name}" + "");
+		Console.WriteLine($"{Caster.Name} uses {Move.Name}");
 		Move.OnUse();
 	}
 
-	public void PreUpdate() => Move.PreAction(this);
+	public void PreUpdate()
+	{
+		Move.PreAction(this);
+	}
 	#endregion
 }

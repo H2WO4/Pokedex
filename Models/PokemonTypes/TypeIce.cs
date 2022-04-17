@@ -6,14 +6,12 @@ public class TypeIce : PokeType
 	private static TypeIce? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypeIce Singleton => _singleton ??= new TypeIce();
+	#region Constructor
+	private TypeIce()
+		: base("Ice", (102, 204, 255)) { }
 	#endregion
 
-	#region Constructor
-	private TypeIce() : base(
-		"Ice", (102, 204, 255)
-	)
-	{ }
+	#region Properties
+	public static TypeIce Singleton => _singleton ??= new TypeIce();
 	#endregion
 }

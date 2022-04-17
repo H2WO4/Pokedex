@@ -1,5 +1,6 @@
 using Pokedex.Interfaces;
 
+
 namespace Pokedex.Models.Abilities;
 
 public class AbilityProtean : Models.Ability
@@ -10,8 +11,7 @@ public class AbilityProtean : Models.Ability
 
 	#region Constructors
 	public AbilityProtean(Pokemon origin)
-		: base("Protean", origin)
-	{ }
+		: base("Protean", origin) { }
 	#endregion
 
 	#region Methods
@@ -24,7 +24,8 @@ public class AbilityProtean : Models.Ability
 	}
 
 	public override List<PokeType>? ChangeType()
-		=> _tempType != null ? new List<PokeType>{ _tempType } : null;
-
+	{
+		return _tempType != null ? new List<PokeType> { _tempType } : null;
+	}
 	#endregion
 }

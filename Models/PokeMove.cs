@@ -1,4 +1,5 @@
 using System.Text;
+
 using Pokedex.Enums;
 using Pokedex.Interfaces;
 using Pokedex.Models.Events;
@@ -7,12 +8,38 @@ using Pokedex.Models.Events;
 namespace Pokedex.Models;
 
 /// <summary>
-/// A selectable Pokemon move
+///     A selectable Pokemon move
 /// </summary>
 public abstract class PokeMove : I_PokeMove
 {
 	#region Variables
 	private I_Battler? _caster;
+	#endregion
+
+	#region Constructors
+	protected PokeMove
+	(
+		string name,
+		MoveClass @class,
+		int? power,
+		int? accuracy,
+		int maxPp,
+		int priority,
+		PokeType type
+	)
+	{
+		if (name != "")
+			Name = name;
+		else throw new ArgumentException("Name cannot be empty");
+
+		Class    = @class;
+		Power    = power;
+		Accuracy = accuracy;
+		MaxPP    = maxPp;
+		PP       = maxPp;
+		Priority = priority;
+		Type     = type;
+	}
 	#endregion
 
 	#region Properties
@@ -32,55 +59,25 @@ public abstract class PokeMove : I_PokeMove
 
 	public PokeType Type { get; }
 
-	public I_Battler Caster
-	{
-		get => _caster ?? throw new InvalidOperationException();
-		set => _caster = value;
-	}
-		
+	public I_Battler Caster { get => _caster ?? throw new InvalidOperationException(); set => _caster = value; }
+
 	public I_Combat Arena => Caster.Arena;
-
-	#endregion
-
-	#region Constructors
-	protected PokeMove(
-		string name,
-		MoveClass @class,
-		int? power,
-		int? accuracy,
-		int maxPp,
-		int priority,
-		PokeType type
-	)
-	{
-		if (name != "")
-			Name = name;
-		else throw new ArgumentException("Name cannot be empty");
-
-		Class = @class;
-		Power = power;
-		Accuracy = accuracy;
-		MaxPP = maxPp;
-		PP = maxPp;
-		Priority = priority;
-		Type = type;
-	}
 	#endregion
 
 	#region Methods
 	public virtual void OnUse()
 	{
+		// Active the caster's ability
 		bool cancel = Caster.Ability.BeforeAttack(this);
+
+		// Cancel the attack if needed
 		if (cancel)
 			return;
 
-		// Select targets
-		var targets = GetTargets();
-
-		// If it hits, deal damage, and check if fainted
-		foreach (var target in targets)
+		// For each target, if the move hits, deal damage
+		foreach (I_Battler? target in GetTargets())
 		{
-			var hit = AccuracyCheck(target);
+			bool hit = AccuracyCheck(target);
 
 			if (hit)
 				DoAction(target);
@@ -90,19 +87,19 @@ public abstract class PokeMove : I_PokeMove
 	}
 
 	/// <summary>
-	/// Get the targets of the move
+	///     Get the targets of the move
 	/// </summary>
 	/// <returns>All targets to be hit by the move</returns>
-	protected virtual List<I_Battler> GetTargets()
+	protected virtual IEnumerable<I_Battler> GetTargets()
 	{
 		return Arena.Players
-			.Where(player => player != Caster.Owner)
-			.Select(player => player.Active)
-			.ToList();
+					.Where(player => player != Caster.Owner)
+					.Select(player => player.Active)
+					.ToList();
 	}
 
 	/// <summary>
-	/// Checks whether the move hits a target
+	///     Checks whether the move hits a target
 	/// </summary>
 	/// <param name="target">The target to check for</param>
 	/// <returns>If the move hits, true, else false</returns>
@@ -115,23 +112,27 @@ public abstract class PokeMove : I_PokeMove
 	}
 
 	/// <summary>
-	/// Execute the action of the move unto the target
+	///     Execute the action of the move unto the target
 	/// </summary>
 	/// <param name="target">The target to use</param>
 	/// <exception cref="InvalidOperationException">Thrown if a status move does not override this</exception>
 	protected virtual void DoAction(I_Battler target)
 	{
+		// Activate the target's ability
 		bool cancel = target.Ability.BeforeDefend(this);
+
+		// Cancel the attack if needed
 		if (cancel)
 			return;
 
-		var dmgInfo = Class switch
-		{
-			MoveClass.Physical => DamageInfo.CreatePhysical(Power ?? 0, Type),
-			MoveClass.Special => DamageInfo.CreateSpecial(Power ?? 0, Type),
-			
-			_ => throw new InvalidOperationException(),
-		};
+		DamageInfo dmgInfo =
+			Class switch
+			{
+				MoveClass.Physical => DamageInfo.CreatePhysical(Power ?? 0, Type),
+				MoveClass.Special  => DamageInfo.CreateSpecial(Power ?? 0, Type),
+
+				_ => throw new InvalidOperationException(),
+			};
 
 		// Apply STAB
 		if (Caster.Types.Contains(Type))
@@ -145,14 +146,16 @@ public abstract class PokeMove : I_PokeMove
 	public virtual void PreAction(MoveEvent @event) { }
 
 	public string GetQuickStatus()
-		=> $"{Name} - {PP}/{MaxPP} PP";
+	{
+		return $"{Name} - {PP}/{MaxPP} PP";
+	}
 
 	public string GetFullStatus()
 	{
 		var status = new StringBuilder();
 
 		// Add the name
-		status.Append($"{Name, -12}   ");
+		status.Append($"{Name,-12}   ");
 		// Add the class and type
 		status.AppendLine($"{Class}-{Type}");
 		// Add the Power, '---' if null

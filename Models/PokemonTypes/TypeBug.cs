@@ -6,14 +6,12 @@ public class TypeBug : PokeType
 	private static TypeBug? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypeBug Singleton => _singleton ??= new TypeBug();
+	#region Constructor
+	private TypeBug()
+		: base("Bug", (170, 187, 34)) { }
 	#endregion
 
-	#region Constructor
-	private TypeBug() : base(
-		"Bug", (170, 187, 34)
-	)
-	{ }
+	#region Properties
+	public static TypeBug Singleton => _singleton ??= new TypeBug();
 	#endregion
 }

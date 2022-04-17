@@ -6,18 +6,20 @@ public class WeatherClear : Weather
 	private static WeatherClear? _singleton;
 	#endregion
 
-	#region Properties
-	public static WeatherClear Singleton => _singleton ??= new WeatherClear();
+	#region Constructors
+	private WeatherClear()
+		: base("Clear") { }
 	#endregion
 
-	#region Constructors
-	private WeatherClear() : base("Clear") { }
+	#region Properties
+	public static WeatherClear Singleton => _singleton ??= new WeatherClear();
 	#endregion
 
 	#region Methods
 	// Flavor Text
 	public override void OnEnter()
-		=> Console.WriteLine("The sky clears up.");
-
+	{
+		Console.WriteLine("The sky clears up.");
+	}
 	#endregion
 }

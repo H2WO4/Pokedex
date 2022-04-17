@@ -6,14 +6,12 @@ public class TypePoison : PokeType
 	private static TypePoison? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypePoison Singleton => _singleton ??= new TypePoison();
+	#region Constructor
+	private TypePoison()
+		: base("Poison", (170, 85, 153)) { }
 	#endregion
 
-	#region Constructor
-	private TypePoison() : base(
-		"Poison", (170, 85, 153)
-	)
-	{ }
+	#region Properties
+	public static TypePoison Singleton => _singleton ??= new TypePoison();
 	#endregion
 }

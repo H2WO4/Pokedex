@@ -6,14 +6,12 @@ public class TypeLight : PokeType
 	private static TypeLight? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypeLight Singleton => _singleton ??= new TypeLight();
+	#region Constructor
+	private TypeLight()
+		: base("Light", (185, 188, 231)) { }
 	#endregion
 
-	#region Constructor
-	private TypeLight() : base(
-		"Light", (185, 188, 231)
-	)
-	{ }
+	#region Properties
+	public static TypeLight Singleton => _singleton ??= new TypeLight();
 	#endregion
 }

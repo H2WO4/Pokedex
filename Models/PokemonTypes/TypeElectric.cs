@@ -6,15 +6,12 @@ public class TypeElectric : PokeType
 	private static TypeElectric? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypeElectric Singleton => _singleton ??= new TypeElectric();
-
+	#region Constructor
+	private TypeElectric()
+		: base("Electric", (245, 204, 52)) { }
 	#endregion
 
-	#region Constructor
-	private TypeElectric() : base(
-		"Electric", (245, 204, 52)
-	)
-	{ }
+	#region Properties
+	public static TypeElectric Singleton => _singleton ??= new TypeElectric();
 	#endregion
 }

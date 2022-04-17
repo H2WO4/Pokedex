@@ -1,7 +1,7 @@
 namespace Pokedex.Enums;
 
 /// <summary>
-/// Represents the natures a Pokemon can possess
+///     Represents the natures a Pokemon can possess
 /// </summary>
 /// <remarks>Each valid value is the association of 2 flags</remarks>
 [Flags]

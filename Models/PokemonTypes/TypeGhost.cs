@@ -6,14 +6,12 @@ public class TypeGhost : PokeType
 	private static TypeGhost? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypeGhost Singleton => _singleton ??= new TypeGhost();
+	#region Constructor
+	private TypeGhost()
+		: base("Ghost", (102, 103, 188)) { }
 	#endregion
 
-	#region Constructor
-	private TypeGhost() : base(
-		"Ghost", (102, 103, 188)
-	)
-	{ }
+	#region Properties
+	public static TypeGhost Singleton => _singleton ??= new TypeGhost();
 	#endregion
 }

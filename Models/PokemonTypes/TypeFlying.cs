@@ -6,14 +6,12 @@ public class TypeFlying : PokeType
 	private static TypeFlying? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypeFlying Singleton => _singleton ??= new TypeFlying();
+	#region Constructor
+	private TypeFlying()
+		: base("Flying", (136, 153, 255)) { }
 	#endregion
 
-	#region Constructor
-	private TypeFlying() : base(
-		"Flying", (136, 153, 255)
-	)
-	{ }
+	#region Properties
+	public static TypeFlying Singleton => _singleton ??= new TypeFlying();
 	#endregion
 }

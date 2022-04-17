@@ -6,14 +6,12 @@ public class TypeFire : PokeType
 	private static TypeFire? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypeFire Singleton => _singleton ??= new TypeFire();
+	#region Constructor
+	private TypeFire()
+		: base("Fire", (236, 66, 37)) { }
 	#endregion
 
-	#region Constructor
-	private TypeFire() : base(
-		"Fire", (236, 66, 37)
-	)
-	{ }
+	#region Properties
+	public static TypeFire Singleton => _singleton ??= new TypeFire();
 	#endregion
 }

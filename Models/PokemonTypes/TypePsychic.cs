@@ -6,14 +6,12 @@ public class TypePsychic : PokeType
 	private static TypePsychic? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypePsychic Singleton => _singleton ??= new TypePsychic();
+	#region Constructor
+	private TypePsychic()
+		: base("Psychic", (238, 84, 153)) { }
 	#endregion
 
-	#region Constructor
-	private TypePsychic() : base(
-		"Psychic", (238, 84, 153)
-	)
-	{ }
+	#region Properties
+	public static TypePsychic Singleton => _singleton ??= new TypePsychic();
 	#endregion
 }

@@ -6,14 +6,12 @@ public class TypeFighting : PokeType
 	private static TypeFighting? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypeFighting Singleton => _singleton ??= new TypeFighting();
+	#region Constructor
+	private TypeFighting()
+		: base("Fighting", (187, 85, 69)) { }
 	#endregion
 
-	#region Constructor
-	private TypeFighting() : base(
-		"Fighting", (187, 85, 69)
-	)
-	{ }
+	#region Properties
+	public static TypeFighting Singleton => _singleton ??= new TypeFighting();
 	#endregion
 }

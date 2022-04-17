@@ -6,15 +6,12 @@ public class TypeDragon : PokeType
 	private static TypeDragon? _singleton;
 	#endregion
 
-	#region Properties
-	public static TypeDragon Singleton => _singleton ??= new TypeDragon();
-
+	#region Constructor
+	private TypeDragon()
+		: base("Dragon", (120, 103, 238)) { }
 	#endregion
 
-	#region Constructor
-	private TypeDragon() : base(
-		"Dragon", (120, 103, 238)
-	)
-	{ }
+	#region Properties
+	public static TypeDragon Singleton => _singleton ??= new TypeDragon();
 	#endregion
 }
