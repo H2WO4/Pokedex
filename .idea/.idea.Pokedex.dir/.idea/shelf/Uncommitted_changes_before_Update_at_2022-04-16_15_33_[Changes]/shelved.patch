@@ -1,0 +1,976 @@
+Index: Utils/EnumExtension.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>namespace Pokedex.Utils\r\n{\r\n\tpublic static class EnumExtension\r\n\t{\r\n\t\t/// <summary>\r\n\t\t/// Return all flags from a flag enum value\r\n\t\t/// </summary>\r\n\t\t/// <param name=\"input\">The value the get the flags from</param>\r\n\t\t/// <returns>An enumerable containing all found flags</returns>\r\n\t\tpublic static IEnumerable<T> GetFlags<T>(this T input)\r\n\t\t\twhere T : Enum\r\n\t\t{\r\n\t\t\tforeach (T flag in Enum.GetValues(input.GetType()))\r\n\t\t\t\tif (input.HasFlag(flag))\r\n\t\t\t\t\tyield return flag;\r\n\t\t}\r\n\t}\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Utils/EnumExtension.cs b/Utils/EnumExtension.cs
+--- a/Utils/EnumExtension.cs	(revision a0c1e7f4b42f1ddc850c3a97067191cfeb0dff95)
++++ b/Utils/EnumExtension.cs	(date 1650115817061)
+@@ -2,17 +2,83 @@
+ {
+ 	public static class EnumExtension
+ 	{
++		/// <summary>
++		/// Check whenever a given enum value contains a certain flag
++		/// </summary>
++		/// <param name="input">The enum value to check in</param>
++		/// <param name="flag">The flag to check for</param>
++		/// <typeparam name="T">An int-based Enum</typeparam>
++		public static unsafe bool HasFlagUnsafe<T>(this T input, T flag)
++			where T : unmanaged, Enum
++		{
++			uint inputInt = *(uint*)&input,
++				 flagInt  = *(uint*)&flag;
++
++			return (inputInt & flagInt) == flagInt;
++		}
++
++		/// <summary>
++		/// Determines whether a given int-based Enum value is a flag
++		/// </summary>
++		/// <remarks>
++		/// Might produce undefined behavior if T is not a flag-Enum.
++		/// </remarks>
++		/// <param name="input">The value to check</param>
++		public static unsafe bool IsFlag<T>(this T input)
++			where T : unmanaged, Enum
++		{
++			uint inputInt = *(uint*)&input;
++
++			return System.Runtime.Intrinsics.X86.Popcnt.PopCount(inputInt) == 1;
++		}
++		
++		/// <summary>
++		/// Convert an int value to its equivalent Enum value
++		/// </summary>
++		/// <param name="value">The value to convert</param>
++		/// <typeparam name="T">The int-based Enum to convert it to</typeparam>
++		public static unsafe T AsEnum<T>(this int value)
++			where T : unmanaged, Enum
++		{
++			return *(T*)&value;
++		}
++
++		/// <summary>
++		/// Return all single-flag values of a flag-Enum
++		/// </summary>
++		/// <remarks>
++		/// Might produce undefined behavior if T is not a flag-Enum.
++		/// </remarks>
++		/// <typeparam name="T">The Enum to look in</typeparam>
++		/// <returns></returns>
++		public static IEnumerable<T> GetAllFlags<T>()
++			where T : unmanaged, Enum
++		{
++			var i = 1;
++			while (true)
++			{
++				if (Enum.IsDefined(typeof(T), i) is false)
++					yield break;
++
++				yield return i.AsEnum<T>();
++
++				i *= 2;
++			}
++		}
++
+ 		/// <summary>
+ 		/// Return all flags from a flag enum value
+ 		/// </summary>
+ 		/// <param name="input">The value the get the flags from</param>
+ 		/// <returns>An enumerable containing all found flags</returns>
+ 		public static IEnumerable<T> GetFlags<T>(this T input)
+-			where T : Enum
++			where T : unmanaged, Enum
+ 		{
+-			foreach (T flag in Enum.GetValues(input.GetType()))
+-				if (input.HasFlag(flag))
++			foreach (T flag in GetAllFlags<T>())
++			{
++				if (input.HasFlagUnsafe(flag))
+ 					yield return flag;
++			}
+ 		}
+ 	}
+ }
+\ No newline at end of file
+Index: Models/Pokemon.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using System.Diagnostics.CodeAnalysis;\r\nusing System.Text;\r\nusing Pokedex.Enums;\r\nusing Pokedex.Interfaces;\r\nusing Pokedex.Models.Events;\r\n\r\nnamespace Pokedex.Models\r\n{\r\n\tpublic class Pokemon : I_Battler\r\n\t{\r\n\t\tprivate const int N_SEGMENTS = 25;\r\n\r\n\t\t#region Variables\r\n\t\tprivate PokeMove?[] _moves;\r\n\t\tprivate I_Player? _owner;\r\n\t\tprivate int _currHP;\r\n\t\tprivate Nature _nature;\r\n\r\n\t\tprivate char[] _nMarks;\r\n\t\t#endregion\r\n\r\n\t\t#region Class Variables\r\n\t\tprivate static readonly Nature[] Natures =\r\n\t\t\t((Nature[])Enum.GetValues(typeof(Nature)))\r\n\t\t\t\t.Where(nature => Math.Log2((int)nature) % 1 != 0)\r\n\t\t\t\t.ToArray();\r\n\r\n\t\tprivate static readonly Dictionary<int, double> StageMult = new()\r\n\t\t{\r\n\t\t\t\t{ -6, 2d/8 },\r\n\t\t\t\t{ -5, 2d/7 },\r\n\t\t\t\t{ -4, 2d/6 },\r\n\t\t\t\t{ -3, 2d/5 },\r\n\t\t\t\t{ -2, 2d/4 },\r\n\t\t\t\t{ -1, 2d/3 },\r\n\r\n\t\t\t\t{  0, 2d/2 },\r\n\r\n\t\t\t\t{ +1, 3d/2 },\r\n\t\t\t\t{ +2, 4d/2 },\r\n\t\t\t\t{ +3, 5d/2 },\r\n\t\t\t\t{ +4, 6d/2 },\r\n\t\t\t\t{ +5, 7d/2 },\r\n\t\t\t\t{ +6, 8d/2 },\r\n\t\t\t};\r\n\t\t#endregion\r\n\r\n\t\t#region Properties\r\n\t\tpublic int ID => Species.ID;\r\n\r\n\t\tpublic List<PokeType> Types => Ability.ChangeType() ?? Species.Types;\r\n\r\n\t\tpublic PokeMove?[] Moves => _moves;\r\n\r\n\t\tpublic I_Player Owner\r\n\t\t{\r\n\t\t\tget => _owner ?? throw new InvalidOperationException(\"Pokemon does not have an owner\");\r\n\t\t\tset => _owner = value;\r\n\t\t}\r\n\r\n\t\tpublic I_Combat Arena => Owner.Arena;\r\n\r\n\t\tpublic string Name { get; set; }\r\n\r\n\t\t/// <summary>\r\n\t\t/// The level the Pokemon is at [1-100]\r\n\t\t/// </summary>\r\n\t\tpublic int Level { get; private set; }\r\n\r\n\t\t/// <summary>\r\n\t\t/// Random stat bonuses [0-31] determined at birth\r\n\t\t/// </summary>\r\n\t\tpublic Dictionary<Stat, int> IVs { get; private set; }\r\n\r\n\t\t/// <summary>\r\n\t\t/// User-defined stat bonuses [0-252], totaling 510\r\n\t\t/// </summary>\r\n\t\tpublic Dictionary<Stat, int> EVs { get; private set; }\r\n\r\n\t\t/// <summary>\r\n\t\t/// The levels of boosts associated to each stat\r\n\t\t/// </summary>\r\n\t\tpublic Dictionary<Stat, int> StatBoosts { get; private set; }\r\n\r\n\t\t/// <summary>\r\n\t\t/// The nature of the Pokemon\r\n\t\t/// </summary>\r\n\t\t/// <exception cref=\"ArgumentException\">Throws if value is non-valid</exception>\r\n\t\tpublic Nature Nature\r\n\t\t{\r\n\t\t\tget => _nature;\r\n\t\t\tset\r\n\t\t\t{\t\r\n\t\t\t\tif (Math.Log2((int)value) % 1 == 0) throw new ArgumentException(\"Invalid value\");\r\n\t\t\t\t_nature = value;\r\n\t\t\t\t_nMarks = GetNatureChars();\r\n\t\t\t}\r\n\t\t}\r\n\r\n\t\tpublic Ability Ability { get; set; }\r\n\r\n\t\tpublic int CurrHP\r\n\t\t{\r\n\t\t\tget => _currHP;\r\n\t\t\tset\r\n\t\t\t{\r\n\t\t\t\t_currHP = Math.Clamp(value, 0, HP());\r\n\r\n\t\t\t\tif (_currHP == 0)\r\n\t\t\t\t\tDoKO();\r\n\t\t\t}\r\n\t\t}\r\n\r\n\t\tprivate int BaseHP => Species.Stats[Stat.HP];\r\n\t\tprivate int BaseAtk => Species.Stats[Stat.Atk];\r\n\t\tprivate int BaseDef => Species.Stats[Stat.Def];\r\n\t\tprivate int BaseSpAtk => Species.Stats[Stat.SpAtk];\r\n\t\tprivate int BaseSpDef => Species.Stats[Stat.SpDef];\r\n\t\tprivate int BaseSpd => Species.Stats[Stat.Spd];\r\n\r\n\t\t/// <summary>\r\n\t\t/// The species the battler belongs to\r\n\t\t/// </summary>\r\n\t\tpublic PokeSpecies Species { get; }\r\n\r\n\t\t/// <inheritdoc cref=\"PokeSpecies.Name\"/>\r\n\t\tpublic string SpeciesName => Species.Name;\r\n\r\n\t\t/// <inheritdoc cref=\"PokeSpecies.Genus\"/>\r\n\t\tpublic string Genus => Species.Genus;\r\n\r\n\t\t/// <inheritdoc cref=\"PokeSpecies.Class\"/>\r\n\t\tpublic PokeClass Class => Species.Class;\r\n\r\n\t\t/// <inheritdoc cref=\"PokeSpecies.Height\"/>\r\n\t\tpublic int Height => Species.Height;\r\n\r\n\t\t/// <inheritdoc cref=\"PokeSpecies.Weight\"/>\r\n\t\tpublic int Weight => Species.Weight;\r\n\t\t#endregion\r\n\r\n\t\t#region Constructors\r\n\t\tpublic Pokemon\r\n\t\t(\r\n\t\t\tPokeSpecies species,\r\n\t\t\tint level\r\n\t\t)\r\n\t\t{\r\n\t\t\tSpecies = species;\r\n\t\t\tName = species.Name;\r\n\r\n\t\t\tif (level is >= 1 and <= 100)\r\n\t\t\t\tLevel = level;\r\n\t\t\telse throw new ArgumentException(\"Level must be between 1-100\");\r\n\r\n\t\t\tIVs = new Dictionary<Stat, int>\r\n\t\t\t{\r\n\t\t\t\t{Stat.HP, Program.Rnd.Next(0, 32)},\r\n\t\t\t\t{Stat.Atk, Program.Rnd.Next(0, 32)},\r\n\t\t\t\t{Stat.Def, Program.Rnd.Next(0, 32)},\r\n\t\t\t\t{Stat.SpAtk, Program.Rnd.Next(0, 32)},\r\n\t\t\t\t{Stat.SpDef, Program.Rnd.Next(0, 32)},\r\n\t\t\t\t{Stat.Spd, Program.Rnd.Next(0, 32)},\r\n\t\t\t};\r\n\r\n\t\t\tEVs = new Dictionary<Stat, int>\r\n\t\t\t{\r\n\t\t\t\t{Stat.HP, 0},\r\n\t\t\t\t{Stat.Atk, 0},\r\n\t\t\t\t{Stat.Def, 0},\r\n\t\t\t\t{Stat.SpAtk, 0},\r\n\t\t\t\t{Stat.SpDef, 0},\r\n\t\t\t\t{Stat.Spd, 0},\r\n\t\t\t};\r\n\r\n\t\t\t_nature = Natures[Program.Rnd.Next(Natures.Length - 1)];\r\n\t\t\t_nMarks = GetNatureChars();\r\n\r\n\t\t\tSetMoves(null, null, null, null);\r\n\t\t\tSetBoosts(0, 0, 0, 0, 0);\r\n\r\n\t\t\tAbility = new Abilities.Ability();\r\n\r\n\t\t\t_currHP = HP();\r\n\t\t}\r\n\r\n\t\tpublic Pokemon\r\n\t\t(\r\n\t\t\tPokeSpecies species,\r\n\t\t\tint level,\r\n\t\t\tstring nickname\r\n\t\t) : this(species, level)\r\n\t\t{\r\n\t\t\tif (nickname != \"\")\r\n\t\t\t\tName = nickname;\r\n\t\t\telse throw new ArgumentException(\"Nickname must not be empty\");\r\n\t\t}\r\n\t\t\r\n\t\tpublic Pokemon\r\n\t\t(\r\n\t\t\tPokeSpecies species,\r\n\t\t\tint level,\r\n\t\t\tstring nickname,\r\n\t\t\tNature nature\r\n\t\t) : this(species, level, nickname)\r\n\t\t{\r\n\t\t\t_nature = nature;\r\n\t\t\t_nMarks = GetNatureChars();\r\n\r\n\t\t\t_currHP = HP();\r\n\t\t}\r\n\t\t\r\n\t\tpublic Pokemon\r\n\t\t(\r\n\t\t\tPokeSpecies species,\r\n\t\t\tint level,\r\n\t\t\tstring nickname,\r\n\t\t\tNature nature,\r\n\t\t\tDictionary<Stat, int> evs\r\n\t\t) : this(species, level, nickname, nature)\r\n\t\t{\r\n\t\t\tSetEVs(evs[Stat.HP], evs[Stat.Atk], evs[Stat.Def], evs[Stat.SpAtk], evs[Stat.SpDef], evs[Stat.Spd]);\r\n\r\n\t\t\t_currHP = HP();\r\n\t\t}\r\n\t\t#endregion\r\n\r\n\t\t#region Methods\r\n\t\tpublic int HP()\r\n\t\t{\r\n\t\t\tvar result = BaseHP * 2; // Base stat\r\n\t\t\tresult += IVs[Stat.HP]; // IVs\r\n\t\t\tresult += (int)(EVs[Stat.HP] / 4d); // EVs\r\n\t\t\tresult = (int)(result * Level / 100d); // Adjust for level part 1\r\n\t\t\tresult += Level + 10; // Adjust for level part 2\r\n\r\n\t\t\tresult = Ability.ChangeHP(result);\r\n\r\n\t\t\treturn result;\r\n\t\t}\r\n\t\t\r\n\t\tpublic int Atk()\r\n\t\t{\r\n\t\t\tint result = BaseAtk * 2; // Base stat\r\n\t\t\tresult += IVs[Stat.Atk]; // IVs\r\n\t\t\tresult += (int)(EVs[Stat.Atk] / 4d); // EVs\r\n\t\t\tresult = (int)(result * Level / 100d); // Adjust for level\r\n\t\t\tresult += 5; // Flat value\r\n\r\n\t\t\tdouble natureBonus = 1 // Calculate Nature bonus\r\n\t\t\t\t+ (_nature.HasFlag(Nature.PlusAtk) ? .1 : 0) // Increasing Nature\r\n\t\t\t\t- (_nature.HasFlag(Nature.MinusAtk) ? .1 : 0); // Decreasing Nature\r\n\r\n\t\t\tresult = (int)(result * natureBonus); // Apply Nature\r\n\r\n\t\t\tresult = (int)(result * StageMult[StatBoosts[Stat.Atk]]); // Apply stat boost\r\n\r\n\t\t\tresult = Ability.ChangeAtk(result);\r\n\r\n\t\t\treturn result;\r\n\t\t}\r\n\t\t\r\n\t\tpublic int Def()\r\n\t\t{\r\n\t\t\tint result = BaseDef * 2; // Base stat\r\n\t\t\tresult += IVs[Stat.Def]; // IVs\r\n\t\t\tresult += (int)(EVs[Stat.Def] / 4d); // EVs\r\n\t\t\tresult = (int)(result * Level / 100d); // Adjust for level\r\n\t\t\tresult += 5; // Flat value\r\n\r\n\t\t\tdouble natureBonus = 1 // Calculate Nature bonus\r\n\t\t\t\t+ (_nature.HasFlag(Nature.PlusDef) ? .1 : 0) // Increasing Nature\r\n\t\t\t\t- (_nature.HasFlag(Nature.MinusDef) ? .1 : 0); // Decreasing Nature\r\n\r\n\t\t\tresult = (int)(result * natureBonus); // Apply Nature\r\n\r\n\t\t\tresult = (int)(result * StageMult[(StatBoosts[Stat.Def])]); // Apply stat boost\r\n\r\n\t\t\tresult = Ability.ChangeDef(result);\r\n\r\n\t\t\treturn result;\r\n\t\t}\r\n\t\t\r\n\t\tpublic int SpAtk()\r\n\t\t{\r\n\t\t\tint result = BaseSpAtk * 2; // Base stat\r\n\t\t\tresult += IVs[Stat.SpAtk]; // IVs\r\n\t\t\tresult += (int)(EVs[Stat.SpAtk] / 4d); // EVs\r\n\t\t\tresult = (int)(result * Level / 100d); // Adjust for level\r\n\t\t\tresult += 5; // Flat value\r\n\r\n\t\t\tdouble natureBonus = 1 // Calculate Nature bonus\r\n\t\t\t\t+ (_nature.HasFlag(Nature.PlusSpAtk) ? .1 : 0) // Increasing Nature\r\n\t\t\t\t- (_nature.HasFlag(Nature.MinusSpAtk) ? .1 : 0); // Decreasing Nature\r\n\r\n\t\t\tresult = (int)(result * natureBonus); // Apply Nature\r\n\r\n\t\t\tresult = (int)(result * StageMult[(StatBoosts[Stat.SpAtk])]); // Apply stat boost\r\n\r\n\t\t\tresult = Ability.ChangeSpAtk(result);\r\n\r\n\t\t\treturn result;\r\n\t\t}\r\n\t\t\r\n\t\tpublic int SpDef()\r\n\t\t{\r\n\t\t\tint result = BaseSpDef * 2; // Base stat\r\n\t\t\tresult += IVs[Stat.SpDef]; // IVs\r\n\t\t\tresult += (int)(EVs[Stat.SpDef] / 4d); // EVs\r\n\t\t\tresult = (int)(result * Level / 100d); // Adjust for level\r\n\t\t\tresult += 5; // Flat value\r\n\r\n\t\t\tdouble natureBonus = 1 // Calculate Nature bonus\r\n\t\t\t\t+ (_nature.HasFlag(Nature.PlusSpDef) ? .1 : 0) // Increasing Nature\r\n\t\t\t\t- (_nature.HasFlag(Nature.MinusSpDef) ? .1 : 0); // Decreasing Nature\r\n\r\n\t\t\tresult = (int)(result * natureBonus); // Apply Nature\r\n\r\n\t\t\tresult = (int)(result * StageMult[(StatBoosts[Stat.SpDef])]); // Apply stat boost\r\n\r\n\t\t\tresult = Ability.ChangeSpDef(result);\r\n\r\n\t\t\treturn result;\r\n\t\t}\r\n\t\t\r\n\t\tpublic int Spd()\r\n\t\t{\r\n\t\t\tint result = BaseSpd * 2; // Base stat\r\n\t\t\tresult += IVs[Stat.Spd]; // IVs\r\n\t\t\tresult += (int)(EVs[Stat.Spd] / 4d); // EVs\r\n\t\t\tresult = (int)(result * Level / 100d); // Adjust for level\r\n\t\t\tresult += 5; // Flat value\r\n\r\n\t\t\tdouble natureBonus = 1 // Calculate Nature bonus\r\n\t\t\t\t+ (_nature.HasFlag(Nature.PlusSpd) ? .1 : 0) // Increasing Nature\r\n\t\t\t\t- (_nature.HasFlag(Nature.MinusSpd) ? .1 : 0); // Decreasing Nature\r\n\r\n\t\t\tresult = (int)(result * natureBonus); // Apply Nature\r\n\r\n\t\t\tresult = (int)(result * StageMult[(StatBoosts[Stat.Spd])]); // Apply stat boost\r\n\r\n\t\t\tresult = Ability.ChangeSpd(result);\r\n\r\n\t\t\treturn result;\r\n\t\t}\r\n\r\n\t\tpublic int GetStat(Stat stat)\r\n\t\t\t=> stat switch\r\n\t\t\t{\r\n\t\t\t\tStat.HP => HP(),\r\n\t\t\t\tStat.Atk => Atk(),\r\n\t\t\t\tStat.Def => Def(),\r\n\t\t\t\tStat.SpAtk => SpAtk(),\r\n\t\t\t\tStat.SpDef => SpDef(),\r\n\t\t\t\tStat.Spd => Spd(),\r\n\r\n\t\t\t\t_ => throw new ArgumentException(\"Invalid value\"),\r\n\t\t\t};\r\n\r\n\t\t/// <summary>\r\n\t\t/// Set a specific IV value\r\n\t\t/// </summary>\r\n\t\t/// <param name=\"stat\">The stat whose IV should be set</param>\r\n\t\t/// <param name=\"val\">The value to set</param>\r\n\t\t/// <exception cref=\"ArgumentException\">Throws if value is outside of bounds</exception>\r\n\t\tpublic void SetIV(Stat stat, int val)\r\n\t\t{\r\n\t\t\tif (val is > 31 or < 0)\r\n\t\t\t\tthrow new ArgumentException(\"Invalid IV value\");\r\n\r\n\t\t\tIVs[stat] = val;\r\n\t\t}\r\n\t\t\r\n\t\t/// <summary>\r\n\t\t/// Set all IVs at once\r\n\t\t/// </summary>\r\n\t\t/// <param name=\"hp\">The value for the HP IV</param>\r\n\t\t/// <param name=\"atk\">The value for the Atk IV</param>\r\n\t\t/// <param name=\"def\">The value for the Def IV</param>\r\n\t\t/// <param name=\"spAtk\">The value for the SpAtk IV</param>\r\n\t\t/// <param name=\"spDef\">The value for the SpDef IV</param>\r\n\t\t/// <param name=\"spd\">The value for the Spd IV</param>\r\n\t\tpublic void SetIVs(int hp, int atk, int def, int spAtk, int spDef, int spd)\r\n\t\t{\r\n\t\t\tSetIV(Stat.HP, hp);\r\n\t\t\tSetIV(Stat.Atk, atk);\r\n\t\t\tSetIV(Stat.Def, def);\r\n\t\t\tSetIV(Stat.SpAtk, spAtk);\r\n\t\t\tSetIV(Stat.SpDef, spDef);\r\n\t\t\tSetIV(Stat.Spd, spd);\r\n\r\n\t\t\t// Set the HP to max, in case it was higher\r\n\t\t\tCurrHP = _currHP;\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// Set a specific EV value\r\n\t\t/// </summary>\r\n\t\t/// <param name=\"stat\">The stat whose EV should be set</param>\r\n\t\t/// <param name=\"val\">The value to set</param>\r\n\t\t/// <exception cref=\"ArgumentException\">Throws if value is outside of bounds</exception>\r\n\t\tpublic void SetEV(Stat stat, int val)\r\n\t\t{\r\n\t\t\tvar total = EVs\r\n\t\t\t\t.Where(pair => pair.Key != stat)\r\n\t\t\t\t.Select(pair => pair.Value)\r\n\t\t\t\t.Aggregate((a, b) => a + b);\r\n\r\n\t\t\tif (total + val > 510)\r\n\t\t\t\tthrow new ArgumentException(\"Total EVs surpass 510\");\r\n\t\t\tEVs[stat] = val switch\r\n\t\t\t{\r\n\t\t\t\t> 252 => throw new ArgumentException(\"EV surpass 252\"),\r\n\t\t\t\t< 0 => throw new ArgumentException(\"EV is below 0\"),\r\n\t\t\t\t_ => val\r\n\t\t\t};\r\n\t\t}\r\n\t\t\r\n\t\t/// <summary>\r\n\t\t/// Same as SetEV, but with less checks\r\n\t\t/// </summary>\r\n\t\t/// <remarks>To be used with care</remarks>\r\n\t\t/// <inheritdoc cref=\"SetEV\"/>\r\n\t\tprivate void SetEVUnsafe(Stat stat, int val)\r\n\t\t{\r\n\t\t\tEVs[stat] = val switch\r\n\t\t\t{\r\n\t\t\t\t> 252 => throw new ArgumentException(\"EV cannot surpass 252\"),\r\n\t\t\t\t< 0 => throw new ArgumentException(\"EV cannot be negative\"),\r\n\t\t\t\t_ => val\r\n\t\t\t};\r\n\t\t}\r\n\t\t\r\n\t\t/// <summary>\r\n\t\t/// Set all EVs at once\r\n\t\t/// </summary>\r\n\t\t/// <param name=\"hp\">The value for the HP EV</param>\r\n\t\t/// <param name=\"atk\">The value for the Atk EV</param>\r\n\t\t/// <param name=\"def\">The value for the Def EV</param>\r\n\t\t/// <param name=\"spAtk\">The value for the SpAtk EV</param>\r\n\t\t/// <param name=\"spDef\">The value for the SpDef EV</param>\r\n\t\t/// <param name=\"spd\">The value for the Spd EV</param>\r\n\t\t/// <exception cref=\"ArgumentException\">Throws if any value is outside bounds</exception>\r\n\t\tpublic void SetEVs(int hp, int atk, int def, int spAtk, int spDef, int spd)\r\n\t\t{\r\n\t\t\tif (hp + atk + def + spAtk + spDef + spd > 510)\r\n\t\t\t\tthrow new ArgumentException(\"Total EVs cannot surpass 510\");\r\n\t\t\t\r\n\t\t\tSetEVUnsafe(Stat.HP, hp);\r\n\t\t\tSetEVUnsafe(Stat.Atk, atk);\r\n\t\t\tSetEVUnsafe(Stat.Def, def);\r\n\t\t\tSetEVUnsafe(Stat.SpAtk, spAtk);\r\n\t\t\tSetEVUnsafe(Stat.SpDef, spDef);\r\n\t\t\tSetEVUnsafe(Stat.Spd, spd);\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// Change the current moveset to the inputs\r\n\t\t/// </summary>\r\n\t\t/// <param name=\"move1\">The move to put in slot 1</param>\r\n\t\t/// <param name=\"move2\">The move to put in slot 2</param>\r\n\t\t/// <param name=\"move3\">The move to put in slot 3</param>\r\n\t\t/// <param name=\"move4\">The move to put in slot 4</param>\r\n\t\t[MemberNotNull(nameof(_moves))]\r\n\t\tpublic void SetMoves(PokeMove? move1, PokeMove? move2, PokeMove? move3, PokeMove? move4)\r\n\t\t{\r\n\t\t\tif (move1 != null) move1.Caster = this;\r\n\t\t\tif (move2 != null) move2.Caster = this;\r\n\t\t\tif (move3 != null) move3.Caster = this;\r\n\t\t\tif (move4 != null) move4.Caster = this;\r\n\r\n\t\t\t_moves = new[]\r\n\t\t\t{\r\n\t\t\t\tmove1, move2,\r\n\t\t\t\tmove3, move4\r\n\t\t\t};\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// Change the stat boost values to the inputs\r\n\t\t/// </summary>\r\n\t\t/// <param name=\"atk\">The value for the Atk stat boost</param>\r\n\t\t/// <param name=\"def\">The value for the Def stat boost</param>\r\n\t\t/// <param name=\"spAtk\">The value for the SpAtk stat boost</param>\r\n\t\t/// <param name=\"spDef\">The value for the SpDef stat boost</param>\r\n\t\t/// <param name=\"spd\">The value for the Spd stat boost</param>\r\n\t\t[MemberNotNull(nameof(StatBoosts))]\r\n\t\tpublic void SetBoosts(int atk, int def, int spAtk, int spDef, int spd)\r\n\t\t{\r\n\t\t\tStatBoosts = new Dictionary<Stat, int>\r\n\t\t\t{\r\n\t\t\t\t{ Stat.Atk,   atk   },\r\n\t\t\t\t{ Stat.Def,   def   },\r\n\t\t\t\t{ Stat.SpAtk, spAtk },\r\n\t\t\t\t{ Stat.SpDef, spDef },\r\n\t\t\t\t{ Stat.Spd,   spd   },\r\n\t\t\t};\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// Calculate the damage multiplier between an attacking type and this Pokemon's types\r\n\t\t/// </summary>\r\n\t\t/// <param name=\"attacker\">The attacking type</param>\r\n\t\t/// <returns>A multiplier, as a double</returns>\r\n\t\tpublic double GetAffinity(PokeType attacker)\r\n\t\t\t=> attacker.CalculateAffinity(Species.Types);\r\n\r\n\t\t/// <summary>\r\n\t\t/// Handles the drawing of the HP bar\r\n\t\t/// </summary>\r\n\t\t/// <returns>String representation of the HP bar</returns>\r\n\t\tprivate string GetHPBar()\r\n\t\t{\r\n\t\t\t// Get the HP percentage\r\n\t\t\tvar hpPercentBase = (int)(_currHP * 100f / HP());\r\n\t\t\tvar hpPercent = hpPercentBase;\r\n\t\t\tvar color = hpPercentBase switch\r\n\t\t\t{\r\n\t\t\t\t<= 10 => \"\\x1b[38;2;255;69;0m\",\r\n\t\t\t\t<= 50 => \"\\x1b[38;2;255;165;0m\",\r\n\t\t\t\t_ => \"\\x1b[38;2;144;238;144m\"\r\n\t\t\t};\r\n\t\t\t\r\n\t\t\t// ! Change this before the end. Only works with Fira Code\r\n\t\t\t// Build the HP Bar, first segment\r\n\t\t\tvar hpBar = new StringBuilder(color);\r\n\t\t\thpBar.Append(hpPercent > 0 ? '\uEE03' : '\uEE00');\r\n\r\n\t\t\thpPercent -= 4;\r\n\t\t\t// Add every full segment as needed\r\n\t\t\tvar i = 0;\r\n\t\t\twhile (hpPercent > 0 && i < N_SEGMENTS - 2)\r\n\t\t\t{\r\n\t\t\t\thpBar.Append('\uEE04');\r\n\t\t\t\thpPercent -= 100 / N_SEGMENTS;\r\n\t\t\t\ti++;\r\n\t\t\t}\r\n\t\t\t// Fills the rest with empty segments\r\n\t\t\tfor (; i < N_SEGMENTS - 2; i++)\r\n\t\t\t{\r\n\t\t\t\thpBar.Append('\uEE01');\r\n\t\t\t}\r\n\t\t\t// Add the last segment\r\n\t\t\thpBar.Append(hpPercent > 0 ? '\uEE05' : '\uEE02');\r\n\t\t\thpBar.Append(\"\\x1b[0m\");\r\n\r\n\t\t\t// * Unicode Version\r\n\t\t\t// // Build the HP Bar, first segment\r\n\t\t\t// var hpBar = new StringBuilder(\"[\");\r\n\t\t\t// hpBar.Append(color);\r\n\r\n\t\t\t// // Add every full segment as needed\r\n\t\t\t// var i = 0;\r\n\t\t\t// while (hpPercent > 0 && i < N_SEGMENTS)\r\n\t\t\t// {\r\n\t\t\t// \thpBar.Append(\"#\");\r\n\t\t\t// \thpPercent -= 100 / N_SEGMENTS;\r\n\t\t\t// \ti++;\r\n\t\t\t// }\r\n\t\t\t// // Fills the rest with empty segments\r\n\t\t\t// for (; i < N_SEGMENTS; i++)\r\n\t\t\t// {\r\n\t\t\t// \thpBar.Append(\".\");\r\n\t\t\t// }\r\n\t\t\t// // Add the last segment\r\n\t\t\t// hpBar.Append(\"\\x1b[0m\");\r\n\t\t\t// hpBar.Append(\"]\");\r\n\r\n\r\n\t\t\treturn hpBar.ToString();\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// Determine what suffix to put after stats in the status view\r\n\t\t/// </summary>\r\n\t\t/// <returns>The array of such prefixes</returns>\r\n\t\tprivate char[] GetNatureChars()\r\n\t\t\t=> new[]\r\n\t\t\t{\r\n\t\t\t\t// Atk\r\n\t\t\t\t_nature.HasFlag(Nature.PlusAtk) && _nature.HasFlag(Nature.MinusAtk)\r\n\t\t\t\t? ' '\r\n\t\t\t\t: _nature.HasFlag(Nature.PlusAtk)\r\n\t\t\t\t\t? '+'\r\n\t\t\t\t\t: _nature.HasFlag(Nature.MinusAtk)\r\n\t\t\t\t\t\t? '-'\r\n\t\t\t\t\t\t: ' ',\r\n\t\t\t\t\r\n\t\t\t\t// Def\r\n\t\t\t\t_nature.HasFlag(Nature.PlusDef) && _nature.HasFlag(Nature.MinusDef)\r\n\t\t\t\t? ' '\r\n\t\t\t\t: _nature.HasFlag(Nature.PlusDef)\r\n\t\t\t\t\t? '+'\r\n\t\t\t\t\t: _nature.HasFlag(Nature.MinusDef)\r\n\t\t\t\t\t\t? '-'\r\n\t\t\t\t\t\t: ' ',\r\n\t\t\t\t\r\n\t\t\t\t// SpAtk\r\n\t\t\t\t_nature.HasFlag(Nature.PlusSpAtk) && _nature.HasFlag(Nature.MinusSpAtk)\r\n\t\t\t\t? ' '\r\n\t\t\t\t: _nature.HasFlag(Nature.PlusSpAtk)\r\n\t\t\t\t\t? '+'\r\n\t\t\t\t\t: _nature.HasFlag(Nature.MinusSpAtk)\r\n\t\t\t\t\t\t? '-'\r\n\t\t\t\t\t\t: ' ',\r\n\t\t\t\t\r\n\t\t\t\t// SpDef\r\n\t\t\t\t_nature.HasFlag(Nature.PlusSpDef) && _nature.HasFlag(Nature.MinusSpDef)\r\n\t\t\t\t? ' '\r\n\t\t\t\t: _nature.HasFlag(Nature.PlusSpDef)\r\n\t\t\t\t\t? '+'\r\n\t\t\t\t\t: _nature.HasFlag(Nature.MinusSpDef)\r\n\t\t\t\t\t\t? '-'\r\n\t\t\t\t\t\t: ' ',\r\n\t\t\t\t\r\n\t\t\t\t// Spd\r\n\t\t\t\t_nature.HasFlag(Nature.PlusSpd) && _nature.HasFlag(Nature.MinusSpd)\r\n\t\t\t\t? ' '\r\n\t\t\t\t: _nature.HasFlag(Nature.PlusSpd)\r\n\t\t\t\t\t? '+'\r\n\t\t\t\t\t: _nature.HasFlag(Nature.MinusSpd)\r\n\t\t\t\t\t\t? '-'\r\n\t\t\t\t\t\t: ' ',\r\n\t\t\t};\r\n\r\n\t\t/// <summary>\r\n\t\t/// Add the input value to an already existing stat boost\r\n\t\t/// </summary>\r\n\t\t/// <param name=\"stat\">The stat boost the change</param>\r\n\t\t/// <param name=\"val\">The value to add</param>\r\n\t\tpublic void ChangeStatBonus(Stat stat, int val)\r\n\t\t\t=> StatBoosts[stat] = Math.Clamp(StatBoosts[stat] + val, -6, 6);\r\n\r\n\t\t/// <summary>\r\n\t\t/// Add the input value to the already existing stat boosts\r\n\t\t/// </summary>\r\n\t\tpublic void ChangeStatBonuses(int atk, int def, int spAtk, int spDef, int spd)\r\n\t\t{\r\n\t\t\t(atk, def, spAtk, spDef, spd) = Ability.OnStatChange(atk, def, spAtk, spDef, spd);\r\n\r\n\t\t\tStatBoosts = new Dictionary<Stat, int>\r\n\t\t\t{\r\n\t\t\t\t{ Stat.Atk, Math.Clamp(StatBoosts[Stat.Atk] + atk, -6, 6) },\r\n\t\t\t\t{ Stat.Def, Math.Clamp(StatBoosts[Stat.Def] + def, -6, 6) },\r\n\t\t\t\t{ Stat.SpAtk, Math.Clamp(StatBoosts[Stat.SpAtk] + spAtk, -6, 6) },\r\n\t\t\t\t{ Stat.SpDef, Math.Clamp(StatBoosts[Stat.SpDef] + spDef, -6, 6) },\r\n\t\t\t\t{ Stat.Spd, Math.Clamp(StatBoosts[Stat.Spd] + spd, -6, 6) },\r\n\t\t\t};\r\n\t\t}\r\n\r\n\t\tpublic void DoKO()\r\n\t\t{\r\n\t\t\t// Set HP to 0\r\n\t\t\tCurrHP = 0;\r\n\r\n\t\t\t// Display that the pokemon is K.O.\r\n\t\t\tConsole.WriteLine($\"{Name} fainted\");\r\n\r\n\t\t\tAbility.OnDeath();\r\n\r\n\t\t\t// If the trainer has some Pokemons left, ask to send another one\r\n\t\t\tif (Owner.Team.Any(poke => poke.CurrHP > 0))\r\n\t\t\t{\r\n\t\t\t\t// Append the switch to the event list\r\n\t\t\t\tvar ev = new SwitchInputEvent(Owner, Arena);\r\n\t\t\t\tArena.AddToBottom(ev);\r\n\t\t\t}\r\n\r\n\t\t\tConsole.WriteLine();\r\n\t\t}\r\n\r\n\t\tpublic string GetQuickStatus()\r\n\t\t{\r\n\t\t\tvar status = new StringBuilder();\r\n\r\n\t\t\t// Add the name\r\n\t\t\tstatus.Append($\"\\x1b[4m{Name}\\x1b[0m\");\r\n\t\t\t// Add the species\r\n\t\t\tstatus.AppendLine($\"\\x1b[2m - {SpeciesName}\\x1b[0m\");\r\n\t\t\t// Add the level\r\n\t\t\tstatus.Append($\"Lvl : {Level, 3}      \");\r\n\t\t\t// Add the types\r\n\t\t\tstatus.AppendLine(string.Join('-', Types));\r\n\t\t\t// Add the HP\r\n\t\t\tstatus.AppendLine($\"HP  : {GetHPBar()}\");\r\n\r\n\t\t\treturn status.ToString();\r\n\t\t}\r\n\r\n\t\tpublic string GetFullStatus()\r\n\t\t{\r\n\t\t\tvar status = new StringBuilder();\r\n\t\t\tvar statColor = new[]\r\n\t\t\t{ Stat.Atk, Stat.Def, Stat.SpAtk, Stat.SpDef, Stat.Spd }\r\n\t\t\t\t.Select(stat => StatBoosts[stat])\r\n\t\t\t\t.Select(stage => stage > 0 ? \"\\x1b[38;2;0;128;0m\"\r\n\t\t\t\t\t\t\t\t: stage == 0 ? \"\"\r\n\t\t\t\t\t\t\t\t: \"\\x1b[38;2;255;0;0m\")\r\n\t\t\t\t.ToArray();\r\n\r\n\t\t\t// Add the nickname\r\n\t\t\tstatus.Append($\"\\x1b[4m{Name}\\x1b[0m\");\r\n\t\t\t// Add the actual name, in gray\r\n\t\t\tstatus.AppendLine($\"\\x1b[2m - {SpeciesName}\\x1b[0m\");\r\n\t\t\t// Add the level\r\n\t\t\tstatus.Append($\"Lvl : {Level, 3}      \");\r\n\t\t\t// Add the types\r\n\t\t\tstatus.AppendJoin('-', Types); status.AppendLine();\r\n\t\t\t// Add the HP\r\n\t\t\tstatus.AppendLine($\"\\x1b[1mHP\\x1b[0m  : {GetHPBar()} {_currHP, 3}/{HP(), 3}\");\r\n\t\t\t// Add the Atk\r\n\t\t\tstatus.Append($\"\\x1b[1mAtk\\x1b[0m : {statColor[0]}{Atk(), 3}\\x1b[0m{_nMarks[0]}     \");\r\n\t\t\t// Add the Def\r\n\t\t\tstatus.AppendLine($\"\\x1b[1mDef\\x1b[0m : {statColor[1]}{Def(), 3}\\x1b[0m{_nMarks[1]}\");\r\n\t\t\t// Add the SpAtk\r\n\t\t\tstatus.Append($\"\\x1b[1mSAtk\\x1b[0m: {statColor[2]}{SpAtk(), 3}\\x1b[0m{_nMarks[2]}     \");\r\n\t\t\t// Add the SpDef\r\n\t\t\tstatus.AppendLine($\"\\x1b[1mSDef\\x1b[0m: {statColor[3]}{SpDef(), 3}\\x1b[0m{_nMarks[3]}\");\r\n\t\t\t// Add the Spd\r\n\t\t\tstatus.Append($\"\\x1b[1mSpd\\x1b[0m : {statColor[4]}{Spd(), 3}\\x1b[0m{_nMarks[4]}\");\r\n\r\n\t\t\treturn status.ToString();\r\n\t\t}\r\n\t\t#endregion\r\n\t}\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Models/Pokemon.cs b/Models/Pokemon.cs
+--- a/Models/Pokemon.cs	(revision a0c1e7f4b42f1ddc850c3a97067191cfeb0dff95)
++++ b/Models/Pokemon.cs	(date 1650116025473)
+@@ -1,8 +1,11 @@
+ using System.Diagnostics.CodeAnalysis;
+ using System.Text;
++
+ using Pokedex.Enums;
+ using Pokedex.Interfaces;
+ using Pokedex.Models.Events;
++using Pokedex.Utils;
++
+ 
+ namespace Pokedex.Models
+ {
+@@ -11,7 +14,7 @@
+ 		private const int N_SEGMENTS = 25;
+ 
+ 		#region Variables
+-		private PokeMove?[] _moves;
++		private readonly PokeMove?[] _moves = new []{};
+ 		private I_Player? _owner;
+ 		private int _currHP;
+ 		private Nature _nature;
+@@ -21,27 +24,19 @@
+ 
+ 		#region Class Variables
+ 		private static readonly Nature[] Natures =
+-			((Nature[])Enum.GetValues(typeof(Nature)))
+-				.Where(nature => Math.Log2((int)nature) % 1 != 0)
+-				.ToArray();
++			EnumExtension.GetAllFlags<Nature>()
++						 .ToArray();
+ 
+-		private static readonly Dictionary<int, double> StageMult = new()
+-		{
+-				{ -6, 2d/8 },
+-				{ -5, 2d/7 },
+-				{ -4, 2d/6 },
+-				{ -3, 2d/5 },
+-				{ -2, 2d/4 },
+-				{ -1, 2d/3 },
+-
+-				{  0, 2d/2 },
+-
+-				{ +1, 3d/2 },
+-				{ +2, 4d/2 },
+-				{ +3, 5d/2 },
+-				{ +4, 6d/2 },
+-				{ +5, 7d/2 },
+-				{ +6, 8d/2 },
++		private static readonly Dictionary<int, double> StageMult =
++			new()
++			{
++				{ -6, 2d / 8 }, { -5, 2d / 7 },
++				{ -4, 2d / 6 }, { -3, 2d / 5 },
++				{ -2, 2d / 4 }, { -1, 2d / 3 },
++				{ 0, 2d / 2 }, { +1, 3d / 2 },
++				{ +2, 4d / 2 }, { +3, 5d / 2 },
++				{ +4, 6d / 2 }, { +5, 7d / 2 },
++				{ +6, 8d / 2 },
+ 			};
+ 		#endregion
+ 
+@@ -90,8 +85,9 @@
+ 		{
+ 			get => _nature;
+ 			set
+-			{	
+-				if (Math.Log2((int)value) % 1 == 0) throw new ArgumentException("Invalid value");
++			{
++				if (value.IsFlag()) throw new ArgumentException("Invalid value");
++
+ 				_nature = value;
+ 				_nMarks = GetNatureChars();
+ 			}
+@@ -112,10 +108,15 @@
+ 		}
+ 
+ 		private int BaseHP => Species.Stats[Stat.HP];
++
+ 		private int BaseAtk => Species.Stats[Stat.Atk];
++
+ 		private int BaseDef => Species.Stats[Stat.Def];
++
+ 		private int BaseSpAtk => Species.Stats[Stat.SpAtk];
++
+ 		private int BaseSpDef => Species.Stats[Stat.SpDef];
++
+ 		private int BaseSpd => Species.Stats[Stat.Spd];
+ 
+ 		/// <summary>
+@@ -147,31 +148,25 @@
+ 		)
+ 		{
+ 			Species = species;
+-			Name = species.Name;
++			Name    = species.Name;
+ 
+ 			if (level is >= 1 and <= 100)
+ 				Level = level;
+ 			else throw new ArgumentException("Level must be between 1-100");
+ 
+ 			IVs = new Dictionary<Stat, int>
+-			{
+-				{Stat.HP, Program.Rnd.Next(0, 32)},
+-				{Stat.Atk, Program.Rnd.Next(0, 32)},
+-				{Stat.Def, Program.Rnd.Next(0, 32)},
+-				{Stat.SpAtk, Program.Rnd.Next(0, 32)},
+-				{Stat.SpDef, Program.Rnd.Next(0, 32)},
+-				{Stat.Spd, Program.Rnd.Next(0, 32)},
+-			};
++				  {
++					  { Stat.HP, Program.Rnd.Next(0, 32) }, { Stat.Atk, Program.Rnd.Next(0, 32) },
++					  { Stat.Def, Program.Rnd.Next(0, 32) }, { Stat.SpAtk, Program.Rnd.Next(0, 32) },
++					  { Stat.SpDef, Program.Rnd.Next(0, 32) }, { Stat.Spd, Program.Rnd.Next(0, 32) },
++				  };
+ 
+ 			EVs = new Dictionary<Stat, int>
+-			{
+-				{Stat.HP, 0},
+-				{Stat.Atk, 0},
+-				{Stat.Def, 0},
+-				{Stat.SpAtk, 0},
+-				{Stat.SpDef, 0},
+-				{Stat.Spd, 0},
+-			};
++				  {
++					  { Stat.HP, 0 }, { Stat.Atk, 0 },
++					  { Stat.Def, 0 }, { Stat.SpAtk, 0 },
++					  { Stat.SpDef, 0 }, { Stat.Spd, 0 },
++				  };
+ 
+ 			_nature = Natures[Program.Rnd.Next(Natures.Length - 1)];
+ 			_nMarks = GetNatureChars();
+@@ -189,27 +184,29 @@
+ 			PokeSpecies species,
+ 			int level,
+ 			string nickname
+-		) : this(species, level)
++		)
++			: this(species, level)
+ 		{
+ 			if (nickname != "")
+ 				Name = nickname;
+ 			else throw new ArgumentException("Nickname must not be empty");
+ 		}
+-		
++
+ 		public Pokemon
+ 		(
+ 			PokeSpecies species,
+ 			int level,
+ 			string nickname,
+ 			Nature nature
+-		) : this(species, level, nickname)
++		)
++			: this(species, level, nickname)
+ 		{
+ 			_nature = nature;
+ 			_nMarks = GetNatureChars();
+ 
+ 			_currHP = HP();
+ 		}
+-		
++
+ 		public Pokemon
+ 		(
+ 			PokeSpecies species,
+@@ -217,9 +214,11 @@
+ 			string nickname,
+ 			Nature nature,
+ 			Dictionary<Stat, int> evs
+-		) : this(species, level, nickname, nature)
++		)
++			: this(species, level, nickname, nature)
+ 		{
+-			SetEVs(evs[Stat.HP], evs[Stat.Atk], evs[Stat.Def], evs[Stat.SpAtk], evs[Stat.SpDef], evs[Stat.Spd]);
++			SetEVs(evs[Stat.HP], evs[Stat.Atk], evs[Stat.Def],
++				   evs[Stat.SpAtk], evs[Stat.SpDef], evs[Stat.Spd]);
+ 
+ 			_currHP = HP();
+ 		}
+@@ -231,25 +230,25 @@
+ 			var result = BaseHP * 2; // Base stat
+ 			result += IVs[Stat.HP]; // IVs
+ 			result += (int)(EVs[Stat.HP] / 4d); // EVs
+-			result = (int)(result * Level / 100d); // Adjust for level part 1
++			result =  (int)(result * Level / 100d); // Adjust for level part 1
+ 			result += Level + 10; // Adjust for level part 2
+ 
+ 			result = Ability.ChangeHP(result);
+ 
+ 			return result;
+ 		}
+-		
++
+ 		public int Atk()
+ 		{
+ 			int result = BaseAtk * 2; // Base stat
+ 			result += IVs[Stat.Atk]; // IVs
+ 			result += (int)(EVs[Stat.Atk] / 4d); // EVs
+-			result = (int)(result * Level / 100d); // Adjust for level
++			result =  (int)(result * Level / 100d); // Adjust for level
+ 			result += 5; // Flat value
+ 
+ 			double natureBonus = 1 // Calculate Nature bonus
+-				+ (_nature.HasFlag(Nature.PlusAtk) ? .1 : 0) // Increasing Nature
+-				- (_nature.HasFlag(Nature.MinusAtk) ? .1 : 0); // Decreasing Nature
++							   + (_nature.HasFlagUnsafe(Nature.PlusAtk) ? .1 : 0) // Increasing Nature
++							   - (_nature.HasFlagUnsafe(Nature.MinusAtk) ? .1 : 0); // Decreasing Nature
+ 
+ 			result = (int)(result * natureBonus); // Apply Nature
+ 
+@@ -259,18 +258,18 @@
+ 
+ 			return result;
+ 		}
+-		
++
+ 		public int Def()
+ 		{
+ 			int result = BaseDef * 2; // Base stat
+ 			result += IVs[Stat.Def]; // IVs
+ 			result += (int)(EVs[Stat.Def] / 4d); // EVs
+-			result = (int)(result * Level / 100d); // Adjust for level
++			result =  (int)(result * Level / 100d); // Adjust for level
+ 			result += 5; // Flat value
+ 
+ 			double natureBonus = 1 // Calculate Nature bonus
+-				+ (_nature.HasFlag(Nature.PlusDef) ? .1 : 0) // Increasing Nature
+-				- (_nature.HasFlag(Nature.MinusDef) ? .1 : 0); // Decreasing Nature
++							   + (_nature.HasFlagUnsafe(Nature.PlusDef) ? .1 : 0) // Increasing Nature
++							   - (_nature.HasFlagUnsafe(Nature.MinusDef) ? .1 : 0); // Decreasing Nature
+ 
+ 			result = (int)(result * natureBonus); // Apply Nature
+ 
+@@ -280,18 +279,18 @@
+ 
+ 			return result;
+ 		}
+-		
++
+ 		public int SpAtk()
+ 		{
+ 			int result = BaseSpAtk * 2; // Base stat
+ 			result += IVs[Stat.SpAtk]; // IVs
+ 			result += (int)(EVs[Stat.SpAtk] / 4d); // EVs
+-			result = (int)(result * Level / 100d); // Adjust for level
++			result =  (int)(result * Level / 100d); // Adjust for level
+ 			result += 5; // Flat value
+ 
+ 			double natureBonus = 1 // Calculate Nature bonus
+-				+ (_nature.HasFlag(Nature.PlusSpAtk) ? .1 : 0) // Increasing Nature
+-				- (_nature.HasFlag(Nature.MinusSpAtk) ? .1 : 0); // Decreasing Nature
++							   + (_nature.HasFlagUnsafe(Nature.PlusSpAtk) ? .1 : 0) // Increasing Nature
++							   - (_nature.HasFlagUnsafe(Nature.MinusSpAtk) ? .1 : 0); // Decreasing Nature
+ 
+ 			result = (int)(result * natureBonus); // Apply Nature
+ 
+@@ -301,18 +300,18 @@
+ 
+ 			return result;
+ 		}
+-		
++
+ 		public int SpDef()
+ 		{
+ 			int result = BaseSpDef * 2; // Base stat
+ 			result += IVs[Stat.SpDef]; // IVs
+ 			result += (int)(EVs[Stat.SpDef] / 4d); // EVs
+-			result = (int)(result * Level / 100d); // Adjust for level
++			result =  (int)(result * Level / 100d); // Adjust for level
+ 			result += 5; // Flat value
+ 
+ 			double natureBonus = 1 // Calculate Nature bonus
+-				+ (_nature.HasFlag(Nature.PlusSpDef) ? .1 : 0) // Increasing Nature
+-				- (_nature.HasFlag(Nature.MinusSpDef) ? .1 : 0); // Decreasing Nature
++							   + (_nature.HasFlagUnsafe(Nature.PlusSpDef) ? .1 : 0) // Increasing Nature
++							   - (_nature.HasFlagUnsafe(Nature.MinusSpDef) ? .1 : 0); // Decreasing Nature
+ 
+ 			result = (int)(result * natureBonus); // Apply Nature
+ 
+@@ -322,18 +321,18 @@
+ 
+ 			return result;
+ 		}
+-		
++
+ 		public int Spd()
+ 		{
+ 			int result = BaseSpd * 2; // Base stat
+ 			result += IVs[Stat.Spd]; // IVs
+ 			result += (int)(EVs[Stat.Spd] / 4d); // EVs
+-			result = (int)(result * Level / 100d); // Adjust for level
++			result =  (int)(result * Level / 100d); // Adjust for level
+ 			result += 5; // Flat value
+ 
+ 			double natureBonus = 1 // Calculate Nature bonus
+-				+ (_nature.HasFlag(Nature.PlusSpd) ? .1 : 0) // Increasing Nature
+-				- (_nature.HasFlag(Nature.MinusSpd) ? .1 : 0); // Decreasing Nature
++							   + (_nature.HasFlagUnsafe(Nature.PlusSpd) ? .1 : 0) // Increasing Nature
++							   - (_nature.HasFlagUnsafe(Nature.MinusSpd) ? .1 : 0); // Decreasing Nature
+ 
+ 			result = (int)(result * natureBonus); // Apply Nature
+ 
+@@ -346,16 +345,16 @@
+ 
+ 		public int GetStat(Stat stat)
+ 			=> stat switch
+-			{
+-				Stat.HP => HP(),
+-				Stat.Atk => Atk(),
+-				Stat.Def => Def(),
+-				Stat.SpAtk => SpAtk(),
+-				Stat.SpDef => SpDef(),
+-				Stat.Spd => Spd(),
++			   {
++				   Stat.HP    => HP(),
++				   Stat.Atk   => Atk(),
++				   Stat.Def   => Def(),
++				   Stat.SpAtk => SpAtk(),
++				   Stat.SpDef => SpDef(),
++				   Stat.Spd   => Spd(),
+ 
+-				_ => throw new ArgumentException("Invalid value"),
+-			};
++				   _ => throw new ArgumentException("Invalid value"),
++			   };
+ 
+ 		/// <summary>
+ 		/// Set a specific IV value
+@@ -370,7 +369,7 @@
+ 
+ 			IVs[stat] = val;
+ 		}
+-		
++
+ 		/// <summary>
+ 		/// Set all IVs at once
+ 		/// </summary>
+@@ -380,7 +379,8 @@
+ 		/// <param name="spAtk">The value for the SpAtk IV</param>
+ 		/// <param name="spDef">The value for the SpDef IV</param>
+ 		/// <param name="spd">The value for the Spd IV</param>
+-		public void SetIVs(int hp, int atk, int def, int spAtk, int spDef, int spd)
++		public void SetIVs(int hp, int atk, int def,
++						   int spAtk, int spDef, int spd)
+ 		{
+ 			SetIV(Stat.HP, hp);
+ 			SetIV(Stat.Atk, atk);
+@@ -401,36 +401,37 @@
+ 		/// <exception cref="ArgumentException">Throws if value is outside of bounds</exception>
+ 		public void SetEV(Stat stat, int val)
+ 		{
+-			var total = EVs
+-				.Where(pair => pair.Key != stat)
+-				.Select(pair => pair.Value)
+-				.Aggregate((a, b) => a + b);
++			int total = EVs
++					   .Where(pair => pair.Key != stat)
++					   .Select(pair => pair.Value)
++					   .Aggregate((a, b) => a + b);
+ 
+ 			if (total + val > 510)
+ 				throw new ArgumentException("Total EVs surpass 510");
++			
+ 			EVs[stat] = val switch
+-			{
+-				> 252 => throw new ArgumentException("EV surpass 252"),
+-				< 0 => throw new ArgumentException("EV is below 0"),
+-				_ => val
+-			};
++						{
++							> 252 => throw new ArgumentException("EV surpass 252"),
++							< 0   => throw new ArgumentException("EV is below 0"),
++							_     => val,
++						};
+ 		}
+-		
++
+ 		/// <summary>
+ 		/// Same as SetEV, but with less checks
+ 		/// </summary>
+ 		/// <remarks>To be used with care</remarks>
+ 		/// <inheritdoc cref="SetEV"/>
+-		private void SetEVUnsafe(Stat stat, int val)
++		private void SetEVNoCheck(Stat stat, int val)
+ 		{
+ 			EVs[stat] = val switch
+-			{
+-				> 252 => throw new ArgumentException("EV cannot surpass 252"),
+-				< 0 => throw new ArgumentException("EV cannot be negative"),
+-				_ => val
+-			};
++						{
++							> 252 => throw new ArgumentException("EV cannot surpass 252"),
++							< 0   => throw new ArgumentException("EV cannot be negative"),
++							_     => val,
++						};
+ 		}
+-		
++
+ 		/// <summary>
+ 		/// Set all EVs at once
+ 		/// </summary>
+@@ -441,17 +442,18 @@
+ 		/// <param name="spDef">The value for the SpDef EV</param>
+ 		/// <param name="spd">The value for the Spd EV</param>
+ 		/// <exception cref="ArgumentException">Throws if any value is outside bounds</exception>
+-		public void SetEVs(int hp, int atk, int def, int spAtk, int spDef, int spd)
++		public void SetEVs(int hp, int atk, int def,
++						   int spAtk, int spDef, int spd)
+ 		{
+ 			if (hp + atk + def + spAtk + spDef + spd > 510)
+ 				throw new ArgumentException("Total EVs cannot surpass 510");
+-			
+-			SetEVUnsafe(Stat.HP, hp);
+-			SetEVUnsafe(Stat.Atk, atk);
+-			SetEVUnsafe(Stat.Def, def);
+-			SetEVUnsafe(Stat.SpAtk, spAtk);
+-			SetEVUnsafe(Stat.SpDef, spDef);
+-			SetEVUnsafe(Stat.Spd, spd);
++
++			SetEVNoCheck(Stat.HP, hp);
++			SetEVNoCheck(Stat.Atk, atk);
++			SetEVNoCheck(Stat.Def, def);
++			SetEVNoCheck(Stat.SpAtk, spAtk);
++			SetEVNoCheck(Stat.SpDef, spDef);
++			SetEVNoCheck(Stat.Spd, spd);
+ 		}
+ 
+ 		/// <summary>
+@@ -461,19 +463,18 @@
+ 		/// <param name="move2">The move to put in slot 2</param>
+ 		/// <param name="move3">The move to put in slot 3</param>
+ 		/// <param name="move4">The move to put in slot 4</param>
+-		[MemberNotNull(nameof(_moves))]
+-		public void SetMoves(PokeMove? move1, PokeMove? move2, PokeMove? move3, PokeMove? move4)
++		public void SetMoves(PokeMove? move1, PokeMove? move2,
++							 PokeMove? move3, PokeMove? move4)
+ 		{
+ 			if (move1 != null) move1.Caster = this;
+ 			if (move2 != null) move2.Caster = this;
+ 			if (move3 != null) move3.Caster = this;
+ 			if (move4 != null) move4.Caster = this;
+ 
+-			_moves = new[]
+-			{
+-				move1, move2,
+-				move3, move4
+-			};
++			_moves[0] = move1;
++			_moves[1] = move2;
++			_moves[2] = move3;
++			_moves[3] = move4;
+ 		}
+ 
+ 		/// <summary>
+@@ -485,16 +486,19 @@
+ 		/// <param name="spDef">The value for the SpDef stat boost</param>
+ 		/// <param name="spd">The value for the Spd stat boost</param>
+ 		[MemberNotNull(nameof(StatBoosts))]
+-		public void SetBoosts(int atk, int def, int spAtk, int spDef, int spd)
++		public void SetBoosts
++		(
++			int atk, int def,
++			int spAtk,
++			int spDef, int spd
++		)
+ 		{
+ 			StatBoosts = new Dictionary<Stat, int>
+-			{
+-				{ Stat.Atk,   atk   },
+-				{ Stat.Def,   def   },
+-				{ Stat.SpAtk, spAtk },
+-				{ Stat.SpDef, spDef },
+-				{ Stat.Spd,   spd   },
+-			};
++						 {
++							 { Stat.Atk, atk }, { Stat.Def, def },
++							 { Stat.SpAtk, spAtk }, { Stat.SpDef, spDef },
++							 { Stat.Spd, spd },
++						 };
+ 		}
+ 
+ 		/// <summary>
+@@ -513,14 +517,14 @@
+ 		{
+ 			// Get the HP percentage
+ 			var hpPercentBase = (int)(_currHP * 100f / HP());
+-			var hpPercent = hpPercentBase;
++			var hpPercent     = hpPercentBase;
+ 			var color = hpPercentBase switch
+-			{
+-				<= 10 => "\x1b[38;2;255;69;0m",
+-				<= 50 => "\x1b[38;2;255;165;0m",
+-				_ => "\x1b[38;2;144;238;144m"
+-			};
+-			
++						{
++							<= 10 => "\x1b[38;2;255;69;0m",
++							<= 50 => "\x1b[38;2;255;165;0m",
++							_     => "\x1b[38;2;144;238;144m",
++						};
++
+ 			// ! Change this before the end. Only works with Fira Code
+ 			// Build the HP Bar, first segment
+ 			var hpBar = new StringBuilder(color);
+@@ -529,17 +533,20 @@
+ 			hpPercent -= 4;
+ 			// Add every full segment as needed
+ 			var i = 0;
+-			while (hpPercent > 0 && i < N_SEGMENTS - 2)
++			while (hpPercent > 0
++				&& i < N_SEGMENTS - 2)
+ 			{
+ 				hpBar.Append('');
+ 				hpPercent -= 100 / N_SEGMENTS;
+ 				i++;
+ 			}
++
+ 			// Fills the rest with empty segments
+ 			for (; i < N_SEGMENTS - 2; i++)
+ 			{
+ 				hpBar.Append('');
+ 			}
++
+ 			// Add the last segment
+ 			hpBar.Append(hpPercent > 0 ? '' : '');
+ 			hpBar.Append("\x1b[0m");
+@@ -576,52 +583,32 @@
+ 		/// <returns>The array of such prefixes</returns>
+ 		private char[] GetNatureChars()
+ 			=> new[]
+-			{
+-				// Atk
+-				_nature.HasFlag(Nature.PlusAtk) && _nature.HasFlag(Nature.MinusAtk)
+-				? ' '
+-				: _nature.HasFlag(Nature.PlusAtk)
+-					? '+'
+-					: _nature.HasFlag(Nature.MinusAtk)
+-						? '-'
+-						: ' ',
+-				
+-				// Def
+-				_nature.HasFlag(Nature.PlusDef) && _nature.HasFlag(Nature.MinusDef)
+-				? ' '
+-				: _nature.HasFlag(Nature.PlusDef)
+-					? '+'
+-					: _nature.HasFlag(Nature.MinusDef)
+-						? '-'
+-						: ' ',
+-				
+-				// SpAtk
+-				_nature.HasFlag(Nature.PlusSpAtk) && _nature.HasFlag(Nature.MinusSpAtk)
+-				? ' '
+-				: _nature.HasFlag(Nature.PlusSpAtk)
+-					? '+'
+-					: _nature.HasFlag(Nature.MinusSpAtk)
+-						? '-'
+-						: ' ',
+-				
+-				// SpDef
+-				_nature.HasFlag(Nature.PlusSpDef) && _nature.HasFlag(Nature.MinusSpDef)
+-				? ' '
+-				: _nature.HasFlag(Nature.PlusSpDef)
+-					? '+'
+-					: _nature.HasFlag(Nature.MinusSpDef)
+-						? '-'
+-						: ' ',
+-				
+-				// Spd
+-				_nature.HasFlag(Nature.PlusSpd) && _nature.HasFlag(Nature.MinusSpd)
+-				? ' '
+-				: _nature.HasFlag(Nature.PlusSpd)
+-					? '+'
+-					: _nature.HasFlag(Nature.MinusSpd)
+-						? '-'
+-						: ' ',
+-			};
++			   {
++				   // Atk
++				   _nature.HasFlagUnsafe(Nature.PlusAtk) && _nature.HasFlagUnsafe(Nature.MinusAtk) ? ' ' :
++				   _nature.HasFlagUnsafe(Nature.PlusAtk)                                           ? '+' :
++				   _nature.HasFlagUnsafe(Nature.MinusAtk)                                          ? '-' : ' ',
++
++				   // Def
++				   _nature.HasFlagUnsafe(Nature.PlusDef) && _nature.HasFlagUnsafe(Nature.MinusDef) ? ' ' :
++				   _nature.HasFlagUnsafe(Nature.PlusDef)                                           ? '+' :
++				   _nature.HasFlagUnsafe(Nature.MinusDef)                                          ? '-' : ' ',
++
++				   // SpAtk
++				   _nature.HasFlagUnsafe(Nature.PlusSpAtk) && _nature.HasFlagUnsafe(Nature.MinusSpAtk) ? ' ' :
++				   _nature.HasFlagUnsafe(Nature.PlusSpAtk)                                             ? '+' :
++				   _nature.HasFlagUnsafe(Nature.MinusSpAtk)                                            ? '-' : ' ',
++
++				   // SpDef
++				   _nature.HasFlagUnsafe(Nature.PlusSpDef) && _nature.HasFlagUnsafe(Nature.MinusSpDef) ? ' ' :
++				   _nature.HasFlagUnsafe(Nature.PlusSpDef)                                             ? '+' :
++				   _nature.HasFlagUnsafe(Nature.MinusSpDef)                                            ? '-' : ' ',
++
++				   // Spd
++				   _nature.HasFlagUnsafe(Nature.PlusSpd) && _nature.HasFlagUnsafe(Nature.MinusSpd) ? ' ' :
++				   _nature.HasFlagUnsafe(Nature.PlusSpd)                                           ? '+' :
++				   _nature.HasFlagUnsafe(Nature.MinusSpd)                                          ? '-' : ' ',
++			   };
+ 
+ 		/// <summary>
+ 		/// Add the input value to an already existing stat boost
+@@ -629,23 +616,46 @@
+ 		/// <param name="stat">The stat boost the change</param>
+ 		/// <param name="val">The value to add</param>
+ 		public void ChangeStatBonus(Stat stat, int val)
+-			=> StatBoosts[stat] = Math.Clamp(StatBoosts[stat] + val, -6, 6);
++			=> StatBoosts[stat] = Math.Clamp(StatBoosts[stat] + val, -6,
++											 6);
+ 
+ 		/// <summary>
+ 		/// Add the input value to the already existing stat boosts
+ 		/// </summary>
+-		public void ChangeStatBonuses(int atk, int def, int spAtk, int spDef, int spd)
++		public void ChangeStatBonuses
++		(
++			int atk, int def,
++			int spAtk,
++			int spDef, int spd
++		)
+ 		{
+-			(atk, def, spAtk, spDef, spd) = Ability.OnStatChange(atk, def, spAtk, spDef, spd);
++			(atk, def, spAtk, spDef, spd) = Ability.OnStatChange(atk, def,
++																 spAtk,
++																 spDef, spd);
+ 
+ 			StatBoosts = new Dictionary<Stat, int>
+-			{
+-				{ Stat.Atk, Math.Clamp(StatBoosts[Stat.Atk] + atk, -6, 6) },
+-				{ Stat.Def, Math.Clamp(StatBoosts[Stat.Def] + def, -6, 6) },
+-				{ Stat.SpAtk, Math.Clamp(StatBoosts[Stat.SpAtk] + spAtk, -6, 6) },
+-				{ Stat.SpDef, Math.Clamp(StatBoosts[Stat.SpDef] + spDef, -6, 6) },
+-				{ Stat.Spd, Math.Clamp(StatBoosts[Stat.Spd] + spd, -6, 6) },
+-			};
++						 {
++							 {
++								 Stat.Atk, Math.Clamp(StatBoosts[Stat.Atk] + atk, -6,
++													  6)
++							 },
++							 {
++								 Stat.Def, Math.Clamp(StatBoosts[Stat.Def] + def, -6,
++													  6)
++							 },
++							 {
++								 Stat.SpAtk, Math.Clamp(StatBoosts[Stat.SpAtk] + spAtk, -6,
++														6)
++							 },
++							 {
++								 Stat.SpDef, Math.Clamp(StatBoosts[Stat.SpDef] + spDef, -6,
++														6)
++							 },
++							 {
++								 Stat.Spd, Math.Clamp(StatBoosts[Stat.Spd] + spd, -6,
++													  6)
++							 },
++						 };
+ 		}
+ 
+ 		public void DoKO()
+@@ -678,7 +688,7 @@
+ 			// Add the species
+ 			status.AppendLine($"\x1b[2m - {SpeciesName}\x1b[0m");
+ 			// Add the level
+-			status.Append($"Lvl : {Level, 3}      ");
++			status.Append($"Lvl : {Level,3}      ");
+ 			// Add the types
+ 			status.AppendLine(string.Join('-', Types));
+ 			// Add the HP
+@@ -690,34 +700,33 @@
+ 		public string GetFullStatus()
+ 		{
+ 			var status = new StringBuilder();
+-			var statColor = new[]
+-			{ Stat.Atk, Stat.Def, Stat.SpAtk, Stat.SpDef, Stat.Spd }
+-				.Select(stat => StatBoosts[stat])
+-				.Select(stage => stage > 0 ? "\x1b[38;2;0;128;0m"
+-								: stage == 0 ? ""
+-								: "\x1b[38;2;255;0;0m")
+-				.ToArray();
++			var statColor = new[] { Stat.Atk, Stat.Def, Stat.SpAtk, Stat.SpDef, Stat.Spd }
++						   .Select(stat => StatBoosts[stat])
++						   .Select(stage => stage > 0  ? "\x1b[38;2;0;128;0m" :
++											stage == 0 ? "" : "\x1b[38;2;255;0;0m")
++						   .ToArray();
+ 
+ 			// Add the nickname
+ 			status.Append($"\x1b[4m{Name}\x1b[0m");
+ 			// Add the actual name, in gray
+ 			status.AppendLine($"\x1b[2m - {SpeciesName}\x1b[0m");
+ 			// Add the level
+-			status.Append($"Lvl : {Level, 3}      ");
++			status.Append($"Lvl : {Level,3}      ");
+ 			// Add the types
+-			status.AppendJoin('-', Types); status.AppendLine();
++			status.AppendJoin('-', Types);
++			status.AppendLine();
+ 			// Add the HP
+-			status.AppendLine($"\x1b[1mHP\x1b[0m  : {GetHPBar()} {_currHP, 3}/{HP(), 3}");
++			status.AppendLine($"\x1b[1mHP\x1b[0m  : {GetHPBar()} {_currHP,3}/{HP(),3}");
+ 			// Add the Atk
+-			status.Append($"\x1b[1mAtk\x1b[0m : {statColor[0]}{Atk(), 3}\x1b[0m{_nMarks[0]}     ");
++			status.Append($"\x1b[1mAtk\x1b[0m : {statColor[0]}{Atk(),3}\x1b[0m{_nMarks[0]}     ");
+ 			// Add the Def
+-			status.AppendLine($"\x1b[1mDef\x1b[0m : {statColor[1]}{Def(), 3}\x1b[0m{_nMarks[1]}");
++			status.AppendLine($"\x1b[1mDef\x1b[0m : {statColor[1]}{Def(),3}\x1b[0m{_nMarks[1]}");
+ 			// Add the SpAtk
+-			status.Append($"\x1b[1mSAtk\x1b[0m: {statColor[2]}{SpAtk(), 3}\x1b[0m{_nMarks[2]}     ");
++			status.Append($"\x1b[1mSAtk\x1b[0m: {statColor[2]}{SpAtk(),3}\x1b[0m{_nMarks[2]}     ");
+ 			// Add the SpDef
+-			status.AppendLine($"\x1b[1mSDef\x1b[0m: {statColor[3]}{SpDef(), 3}\x1b[0m{_nMarks[3]}");
++			status.AppendLine($"\x1b[1mSDef\x1b[0m: {statColor[3]}{SpDef(),3}\x1b[0m{_nMarks[3]}");
+ 			// Add the Spd
+-			status.Append($"\x1b[1mSpd\x1b[0m : {statColor[4]}{Spd(), 3}\x1b[0m{_nMarks[4]}");
++			status.Append($"\x1b[1mSpd\x1b[0m : {statColor[4]}{Spd(),3}\x1b[0m{_nMarks[4]}");
+ 
+ 			return status.ToString();
+ 		}
+Index: Models/PokeMove.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using System;\r\nusing System.Text;\r\nusing Pokedex.Enums;\r\nusing Pokedex.Interfaces;\r\nusing Pokedex.Models.Events;\r\n\r\n\r\nnamespace Pokedex.Models\r\n{\r\n\t/// <summary>\r\n\t/// A selectable Pokemon move\r\n\t/// </summary>\r\n\tpublic abstract class PokeMove : I_PokeMove\r\n\t{\r\n\t\t#region Variables\r\n\t\tprivate I_Battler? _caster;\r\n\t\t#endregion\r\n\r\n\t\t#region Properties\r\n\t\tpublic string Name { get; }\r\n\r\n\t\tpublic int? Power { get; protected set; }\r\n\r\n\t\tpublic MoveClass Class { get; }\r\n\r\n\t\tpublic int? Accuracy { get; }\r\n\r\n\t\tpublic int MaxPP { get; }\r\n\r\n\t\tpublic int PP { get; protected set; }\r\n\r\n\t\tpublic int Priority { get; protected set; }\r\n\r\n\t\tpublic PokeType Type { get; }\r\n\r\n        public I_Battler Caster\r\n\t\t{\r\n\t\t\tget => _caster ?? throw new InvalidOperationException();\r\n\t\t\tset => _caster = value;\r\n\t\t}\r\n\t\t\r\n\t\tpublic I_Combat Arena => Caster.Arena;\r\n\r\n        #endregion\r\n\r\n        #region Constructors\r\n\r\n        protected PokeMove(\r\n\t\t\tstring name,\r\n\t\t\tMoveClass @class,\r\n\t\t\tint? power,\r\n\t\t\tint? accuracy,\r\n\t\t\tint maxPp,\r\n\t\t\tint priority,\r\n\t\t\tPokeType type\r\n\t\t)\r\n\t\t{\r\n\t\t\tif (name != \"\")\r\n\t\t\t\tName = name;\r\n\t\t\telse throw new ArgumentException(\"Name cannot be empty\");\r\n\r\n\t\t\tClass = @class;\r\n\t\t\tPower = power;\r\n\t\t\tAccuracy = accuracy;\r\n\t\t\tMaxPP = maxPp;\r\n\t\t\tPP = maxPp;\r\n\t\t\tPriority = priority;\r\n\t\t\tType = type;\r\n\t\t}\r\n\t\t#endregion\r\n\r\n\t\t#region Methods\r\n\t\tpublic virtual void OnUse()\r\n\t\t{\r\n\t\t\tCaster.Ability.BeforeAttack(this);\r\n\r\n\t\t\t// Select targets\r\n\t\t\tvar targets = GetTargets();\r\n\r\n\t\t\t// If it hits, deal damage, and check if fainted\r\n\t\t\tforeach (var target in targets)\r\n\t\t\t{\r\n\t\t\t\tvar hit = AccuracyCheck(target);\r\n\r\n\t\t\t\tif (hit)\r\n\t\t\t\t\tDoAction(target);\r\n\t\t\t\telse\r\n\t\t\t\t\tConsole.WriteLine($\"{Caster.Name}'s {Name} missed {target.Name}\\n\");\r\n\t\t\t}\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// Get the targets of the move\r\n\t\t/// </summary>\r\n\t\t/// <returns>All targets to be hit by the move</returns>\r\n\t\tprotected virtual List<I_Battler> GetTargets()\r\n\t\t\t=> Arena.Players\r\n\t\t\t\t.Where(player => player != Caster.Owner)\r\n\t\t\t\t.Select(player => player.Active)\r\n\t\t\t\t.ToList();\r\n\r\n\t\t/// <summary>\r\n\t\t/// Checks whether the move hits a target\r\n\t\t/// </summary>\r\n\t\t/// <param name=\"target\">The target to check for</param>\r\n\t\t/// <returns>If the move hits, true, else false</returns>\r\n\t\tprotected virtual bool AccuracyCheck(I_Battler target)\r\n\t\t{\r\n\t\t\tif (Accuracy == null)\r\n\t\t\t\treturn true;\r\n\r\n\t\t\treturn (Accuracy ?? 100) >= Program.Rnd.Next(1, 100);\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// Execute the action of the move unto the target\r\n\t\t/// </summary>\r\n\t\t/// <param name=\"target\">The target to use</param>\r\n\t\t/// <exception cref=\"InvalidOperationException\">Thrown if a status move does not override this</exception>\r\n\t\tprotected virtual void DoAction(I_Battler target)\r\n\t\t{\r\n\t\t\ttarget.Ability.BeforeDefend(this);\r\n\r\n\t\t\tvar dmgInfo = Class switch\r\n\t\t\t{\r\n\t\t\t\tMoveClass.Physical => DamageInfo.CreatePhysical(Power ?? 0, Type),\r\n\t\t\t\tMoveClass.Special => DamageInfo.CreateSpecial(Power ?? 0, Type),\r\n\t\t\t\t_ => throw new InvalidOperationException(),\r\n\t\t\t};\r\n\r\n\t\t\t// Apply STAB\r\n\t\t\tif (Caster.Types.Contains(Type))\r\n\t\t\t\tdmgInfo.Power = (int)(dmgInfo.Power * 1.5);\r\n\r\n\t\t\tbool success = DamageHandler.DoDamage(dmgInfo, Caster, target);\r\n\t\t\tif (!success)\r\n\t\t\t\tConsole.WriteLine(\"But it failed\");\r\n\t\t}\r\n\r\n\t\tpublic virtual void PreAction(MoveEvent @event) { }\r\n\r\n\t\tpublic string GetQuickStatus()\r\n\t\t\t=> $\"{Name} - {PP}/{MaxPP} \\x1b[38;2;144;238;144mPP\\x1b[0m\";\r\n\r\n\t\tpublic string GetFullStatus()\r\n\t\t{\r\n\t\t\tvar status = new StringBuilder();\r\n\t\t\tvar classColor = Class switch\r\n\t\t\t{\r\n\t\t\t\tMoveClass.Physical => \"\\x1b[38;2;245;78;10m\",\r\n\t\t\t\tMoveClass.Special => \"\\x1b[38;2;38;117;244m\",\r\n\t\t\t\t_ => \"\\x1b[38;2;90;99;123m\"\r\n\t\t\t};\r\n\r\n\t\t\t// Add the name\r\n\t\t\tstatus.Append($\"\\x1b[1m{Name,-12}\\x1b[0m   \");\r\n\t\t\t// Add the class and type\r\n\t\t\tstatus.AppendLine($\"{classColor}{Class}\\x1b[0m-{Type}\");\r\n\t\t\t// Add the Power, '---' if null\r\n\t\t\tstatus.Append($\"\\x1b[38;2;219;112;147mPower\\x1b[0m: {Power?.ToString() ?? \"---\",4}      \");\r\n\t\t\t// Add the Accuracy, '---' if null\r\n\t\t\tstatus.AppendLine($\"\\x1b[38;2;173;216;230mAccuracy\\x1b[0m: {Accuracy?.ToString(\"#'%'\") ?? \"---\",4}\");\r\n\t\t\t// Add the PP\r\n\t\t\tstatus.Append($\"\\x1b[38;2;144;238;144mPP\\x1b[0m:   {PP,2}/{MaxPP,2}      \");\r\n\t\t\t// Add the Priority, with sign if positive, but not if 0\r\n\t\t\tstatus.AppendLine($\"\\x1b[38;2;255;165;0mPriority\\x1b[0m:  {Priority,3:+#;-#;0}\");\r\n\r\n\t\t\treturn status.ToString();\r\n\t\t}\r\n        #endregion\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Models/PokeMove.cs b/Models/PokeMove.cs
+--- a/Models/PokeMove.cs	(revision a0c1e7f4b42f1ddc850c3a97067191cfeb0dff95)
++++ b/Models/PokeMove.cs	(date 1650115874035)
+@@ -149,7 +149,7 @@
+ 			{
+ 				MoveClass.Physical => "\x1b[38;2;245;78;10m",
+ 				MoveClass.Special => "\x1b[38;2;38;117;244m",
+-				_ => "\x1b[38;2;90;99;123m"
++				_ => "\x1b[38;2;90;99;123m",
+ 			};
+ 
+ 			// Add the name
+Index: Pokedex.csproj
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><Project Sdk=\"Microsoft.NET.Sdk\">\r\n\r\n  <PropertyGroup>\r\n\t<LangVersion>preview</LangVersion>\r\n    <OutputType>Exe</OutputType>\r\n    <TargetFramework>net6.0</TargetFramework>\r\n    <ImplicitUsings>enable</ImplicitUsings>\r\n    <Nullable>enable</Nullable>\r\n    <StartupObject>Pokedex.Program</StartupObject>\r\n  </PropertyGroup>\r\n\r\n\r\n  <ItemGroup>\r\n    <PackageReference Include=\"Microsoft.NET.Test.Sdk\" Version=\"16.11.0\" />\r\n    <PackageReference Include=\"MSTest.TestAdapter\" Version=\"2.2.7\" />\r\n    <PackageReference Include=\"MSTest.TestFramework\" Version=\"2.2.7\" />\r\n    <PackageReference Include=\"coverlet.collector\" Version=\"3.1.0\" />\r\n  </ItemGroup>\r\n\r\n</Project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Pokedex.csproj b/Pokedex.csproj
+--- a/Pokedex.csproj	(revision a0c1e7f4b42f1ddc850c3a97067191cfeb0dff95)
++++ b/Pokedex.csproj	(date 1650109672819)
+@@ -7,6 +7,7 @@
+     <ImplicitUsings>enable</ImplicitUsings>
+     <Nullable>enable</Nullable>
+     <StartupObject>Pokedex.Program</StartupObject>
++    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+   </PropertyGroup>
+ 
+ 
+Index: Models/PokeType.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using System.Text;\r\nusing Pokedex.Models.PokemonTypes;\r\n\r\nnamespace Pokedex.Models\r\n{\r\n\t/// <summary>\r\n\t/// The type of a Pokemon, Move, or DamageInfo\r\n\t/// </summary>\r\n\tpublic abstract class PokeType\r\n\t{\r\n\t\t#region Class Variables\r\n\t\tpublic static Dictionary<PokeType, Dictionary<PokeType, double>> Affinities = new Dictionary<PokeType, Dictionary<PokeType, double>>();\r\n\t\t#endregion\r\n\r\n\t\t#region Properties\r\n\t\t/// <summary>\r\n\t\t/// Name used for display\r\n\t\t/// </summary>\r\n\t\tpublic string Name { get; }\r\n\r\n\t\t/// <summary>\r\n\t\t/// Color used for display\r\n\t\t/// </summary>\r\n\t\tprivate (int R, int G, int B) Color { get; }\r\n\t\t#endregion\r\n\r\n\t\t#region Constructor\r\n\t\tpublic PokeType\r\n\t\t(\r\n\t\t\tstring name,\r\n\t\t\t(int R, int G, int B) color\r\n\t\t)\r\n\t\t{\r\n\t\t\tif (name != \"\")\r\n\t\t\t\tName = name;\r\n\t\t\telse throw new ArgumentException(\"Name must not be empty\");\r\n\r\n\t\t\tif (color.R >= 0 && color.R <= 255 &&\r\n\t\t\t\tcolor.G >= 0 && color.G <= 255 &&\r\n\t\t\t\tcolor.B >= 0 && color.B <= 255)\r\n\t\t\t\tColor = color;\r\n\t\t\telse throw new ArgumentException(\"Color channels must be between 0-255\");\r\n\r\n\t\t\tAffinities[this] = new Dictionary<PokeType, double>();\r\n\t\t}\r\n\t\t#endregion\r\n\r\n\t\t#region Methods\r\n\t\tpublic static void InitializeTypes()\r\n\t\t{\r\n\t\t\tAffinities = new Dictionary<PokeType, Dictionary<PokeType, double>>()\r\n\t\t\t{\r\n\t\t\t\t{ TypeNormal.Singleton, new() },\r\n\t\t\t\t{ TypeFire.Singleton, new() },\r\n\t\t\t\t{ TypeWater.Singleton, new() },\r\n\t\t\t\t{ TypeElectric.Singleton, new() },\r\n\t\t\t\t{ TypeGrass.Singleton, new() },\r\n\t\t\t\t{ TypeIce.Singleton, new() },\r\n\t\t\t\t{ TypeFighting.Singleton, new() },\r\n\t\t\t\t{ TypePoison.Singleton, new() },\r\n\t\t\t\t{ TypeGround.Singleton, new() },\r\n\t\t\t\t{ TypeFlying.Singleton, new() },\r\n\t\t\t\t{ TypePsychic.Singleton, new() },\r\n\t\t\t\t{ TypeBug.Singleton, new() },\r\n\t\t\t\t{ TypeRock.Singleton, new() },\r\n\t\t\t\t{ TypeGhost.Singleton, new() },\r\n\t\t\t\t{ TypeDragon.Singleton, new() },\r\n\t\t\t\t{ TypeDark.Singleton, new() },\r\n\t\t\t\t{ TypeSteel.Singleton, new() },\r\n\t\t\t\t{ TypeFairy.Singleton, new() },\r\n\t\t\t\t{ TypeLight.Singleton, new() },\r\n\t\t\t};\r\n\r\n\t\t\tTypeNormal.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeRock.Singleton, 0.5},\r\n\t\t\t\t{TypeGhost.Singleton, 0},\r\n\t\t\t\t{TypeSteel.Singleton, 0.5},\r\n\t\t\t\t{TypeFairy.Singleton, 2},\r\n\t\t\t});\r\n\t\t\tTypeFire.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeFire.Singleton, 0.5},\r\n\t\t\t\t{TypeWater.Singleton, 0.5},\r\n\t\t\t\t{TypeGrass.Singleton, 2},\r\n\t\t\t\t{TypeIce.Singleton, 2},\r\n\t\t\t\t{TypeBug.Singleton, 2},\r\n\t\t\t\t{TypeRock.Singleton, 0.5},\r\n\t\t\t\t{TypeDragon.Singleton, 0.5},\r\n\t\t\t\t{TypeSteel.Singleton, 2},\r\n\t\t\t});\r\n\t\t\tTypeWater.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeFire.Singleton, 2},\r\n\t\t\t\t{TypeWater.Singleton, 0.5},\r\n\t\t\t\t{TypeGrass.Singleton, 0.5},\r\n\t\t\t\t{TypeGround.Singleton, 2},\r\n\t\t\t\t{TypeRock.Singleton, 2},\r\n\t\t\t\t{TypeDragon.Singleton, 0.5},\r\n\t\t\t\t{TypeLight.Singleton, 0.5}\r\n\t\t\t});\r\n\t\t\tTypeElectric.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeFire.Singleton, 2},\r\n\t\t\t\t{TypeWater.Singleton, 2},\r\n\t\t\t\t{TypeElectric.Singleton, 0.5},\r\n\t\t\t\t{TypeGrass.Singleton, 0.5},\r\n\t\t\t\t{TypeGround.Singleton, 0},\r\n\t\t\t\t{TypeFlying.Singleton, 2},\r\n\t\t\t\t{TypeDragon.Singleton, 0.5},\r\n\t\t\t\t{TypeLight.Singleton, 0.5}\r\n\t\t\t});\r\n\t\t\tTypeGrass.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeFire.Singleton, 0.5},\r\n\t\t\t\t{TypeWater.Singleton, 2},\r\n\t\t\t\t{TypeGrass.Singleton, 0.5},\r\n\t\t\t\t{TypePoison.Singleton, 0.5},\r\n\t\t\t\t{TypeGround.Singleton, 2},\r\n\t\t\t\t{TypeFlying.Singleton, 0.5},\r\n\t\t\t\t{TypeBug.Singleton, 0.5},\r\n\t\t\t\t{TypeRock.Singleton, 2},\r\n\t\t\t\t{TypeDragon.Singleton, 0.5},\r\n\t\t\t\t{TypeSteel.Singleton, 0.5},\r\n\t\t\t});\r\n\t\t\tTypeIce.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeFire.Singleton, 0.5},\r\n\t\t\t\t{TypeWater.Singleton, 0.5},\r\n\t\t\t\t{TypeGrass.Singleton, 2},\r\n\t\t\t\t{TypeIce.Singleton, 0.5},\r\n\t\t\t\t{TypeGround.Singleton, 2},\r\n\t\t\t\t{TypeFlying.Singleton, 2},\r\n\t\t\t\t{TypeDragon.Singleton, 2},\r\n\t\t\t\t{TypeSteel.Singleton, 0.5},\r\n\t\t\t\t{TypeLight.Singleton, 2}\r\n\t\t\t});\r\n\t\t\tTypeFighting.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeNormal.Singleton, 2},\r\n\t\t\t\t{TypeIce.Singleton, 2},\r\n\t\t\t\t{TypePoison.Singleton, 0.5},\r\n\t\t\t\t{TypeFlying.Singleton, 0.5},\r\n\t\t\t\t{TypePsychic.Singleton, 0.5},\r\n\t\t\t\t{TypeBug.Singleton, 0.5},\r\n\t\t\t\t{TypeRock.Singleton, 2},\r\n\t\t\t\t{TypeGhost.Singleton, 0},\r\n\t\t\t\t{TypeDark.Singleton, 2},\r\n\t\t\t\t{TypeSteel.Singleton, 2},\r\n\t\t\t\t{TypeFairy.Singleton, 0.5},\r\n\t\t\t});\r\n\t\t\tTypePoison.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeGrass.Singleton, 2},\r\n\t\t\t\t{TypePoison.Singleton, 0.5},\r\n\t\t\t\t{TypeGround.Singleton, 0.5},\r\n\t\t\t\t{TypeRock.Singleton, 0.5},\r\n\t\t\t\t{TypeGhost.Singleton, 0.5},\r\n\t\t\t\t{TypeSteel.Singleton, 0},\r\n\t\t\t\t{TypeFairy.Singleton, 2},\r\n\t\t\t});\r\n\t\t\tTypeGround.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeFire.Singleton, 2},\r\n\t\t\t\t{TypeElectric.Singleton, 2},\r\n\t\t\t\t{TypeGrass.Singleton, 0.5},\r\n\t\t\t\t{TypePoison.Singleton, 2},\r\n\t\t\t\t{TypeFlying.Singleton, 0},\r\n\t\t\t\t{TypeBug.Singleton, 0.5},\r\n\t\t\t\t{TypeRock.Singleton, 2},\r\n\t\t\t\t{TypeSteel.Singleton, 2},\r\n\t\t\t\t{TypeLight.Singleton, 0.5}\r\n\t\t\t});\r\n\t\t\tTypeFlying.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeElectric.Singleton, 0.5},\r\n\t\t\t\t{TypeGrass.Singleton, 2},\r\n\t\t\t\t{TypeFighting.Singleton, 2},\r\n\t\t\t\t{TypeFlying.Singleton, 0.5},\r\n\t\t\t\t{TypeBug.Singleton, 2},\r\n\t\t\t\t{TypeRock.Singleton, 0.5},\r\n\t\t\t\t{TypeSteel.Singleton, 0.5},\r\n\t\t\t});\r\n\t\t\tTypePsychic.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeNormal.Singleton, 0.5},\r\n\t\t\t\t{TypeFighting.Singleton, 2},\r\n\t\t\t\t{TypePoison.Singleton, 2},\r\n\t\t\t\t{TypePsychic.Singleton, 0.5},\r\n\t\t\t\t{TypeDark.Singleton, 0},\r\n\t\t\t\t{TypeSteel.Singleton, 2},\r\n\t\t\t\t{TypeLight.Singleton, 2}\r\n\t\t\t});\r\n\t\t\tTypeBug.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeFire.Singleton, 0.5},\r\n\t\t\t\t{TypeElectric.Singleton, 0.5},\r\n\t\t\t\t{TypeGrass.Singleton, 2},\r\n\t\t\t\t{TypeFighting.Singleton, 0.5},\r\n\t\t\t\t{TypePoison.Singleton, 0.5},\r\n\t\t\t\t{TypeFlying.Singleton, 0.5},\r\n\t\t\t\t{TypePsychic.Singleton, 2},\r\n\t\t\t\t{TypeGhost.Singleton, 0.5},\r\n\t\t\t\t{TypeDark.Singleton, 2},\r\n\t\t\t\t{TypeSteel.Singleton, 0.5},\r\n\t\t\t\t{TypeFairy.Singleton, 0.5},\r\n\t\t\t});\r\n\t\t\tTypeRock.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeFire.Singleton, 2},\r\n\t\t\t\t{TypeIce.Singleton, 2},\r\n\t\t\t\t{TypeFighting.Singleton, 0.5},\r\n\t\t\t\t{TypeGround.Singleton, 0.5},\r\n\t\t\t\t{TypeFlying.Singleton, 2},\r\n\t\t\t\t{TypeBug.Singleton, 2},\r\n\t\t\t\t{TypeSteel.Singleton, 0.5}\r\n\t\t\t});\r\n\t\t\tTypeGhost.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeNormal.Singleton, 0},\r\n\t\t\t\t{TypePsychic.Singleton, 2},\r\n\t\t\t\t{TypeGhost.Singleton, 2},\r\n\t\t\t\t{TypeDark.Singleton, 0.5},\r\n\t\t\t});\r\n\t\t\tTypeDragon.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeIce.Singleton, 0.5},\r\n\t\t\t\t{TypeFlying.Singleton, 2},\r\n\t\t\t\t{TypeDragon.Singleton, 2},\r\n\t\t\t\t{TypeSteel.Singleton, 0.5}, {TypeFairy.Singleton, 0},\r\n\t\t\t\t{TypeLight.Singleton, 2}\r\n\t\t\t});\r\n\t\t\tTypeDark.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeFighting.Singleton, 0.5},\r\n\t\t\t\t{TypePsychic.Singleton, 2},\r\n\t\t\t\t{TypeGhost.Singleton, 2},\r\n\t\t\t\t{TypeDark.Singleton, 0.5},\r\n\t\t\t\t{TypeFairy.Singleton, 0.5},\r\n\t\t\t\t{TypeLight.Singleton, 2}\r\n\t\t\t});\r\n\t\t\tTypeSteel.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeFire.Singleton, 0.5},\r\n\t\t\t\t{TypeWater.Singleton, 0.5},\r\n\t\t\t\t{TypeElectric.Singleton, 0.5},\r\n\t\t\t\t{TypeIce.Singleton, 2},\r\n\t\t\t\t{TypeRock.Singleton, 2},\r\n\t\t\t\t{TypeSteel.Singleton, 0.5},\r\n\t\t\t\t{TypeFairy.Singleton, 2},\r\n\t\t\t});\r\n\t\t\tTypeFairy.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeFire.Singleton, 0.5},\r\n\t\t\t\t{TypeFighting.Singleton, 2},\r\n\t\t\t\t{TypePoison.Singleton, 0.5},\r\n\t\t\t\t{TypeDragon.Singleton, 2},\r\n\t\t\t\t{TypeDark.Singleton, 2},\r\n\t\t\t\t{TypeSteel.Singleton, 0.5},\r\n\t\t\t\t{TypeLight.Singleton, 0}\r\n\t\t\t});\r\n\t\t\tTypeLight.Singleton.SetAffinities(new()\r\n\t\t\t{\r\n\t\t\t\t{TypeWater.Singleton, 2},\r\n\t\t\t\t{TypeElectric.Singleton, 2},\r\n\t\t\t\t{TypeIce.Singleton, 0.5},\r\n\t\t\t\t{TypeGround.Singleton, 0.5},\r\n\t\t\t\t{TypeGhost.Singleton, 2},\r\n\t\t\t\t{TypeDark.Singleton, 2},\r\n\t\t\t\t{TypeFairy.Singleton, 0},\r\n\t\t\t\t{TypeLight.Singleton, 0.5}\r\n\t\t\t});\r\n\t\t}\r\n\r\n\t\tprivate static double GetAffinity(PokeType attacker, PokeType defender)\r\n\t\t\t=> Affinities[attacker].GetValueOrDefault(defender, 1);\r\n\r\n\t\tprivate static void SetAffinity(PokeType attacker, PokeType defender, double value)\r\n\t\t\t=> Affinities[attacker][defender] = value;\r\n\r\n\t\tprivate void SetAffinities(Dictionary<PokeType, double> weaknesses)\r\n\t\t\t=> weaknesses\r\n\t\t\t\t.ToList()\r\n\t\t\t\t.ForEach(pair => SetAffinity(this, pair.Key, pair.Value));\r\n\r\n\t\tpublic double CalculateAffinity(IEnumerable<PokeType> defenders)\r\n\t\t\t=> defenders\r\n\t\t\t\t.Select(defender => GetAffinity(this, defender))\r\n\t\t\t\t.Aggregate((a, b) => a * b);\r\n\r\n\t\tpublic static void DisplayAffinityTable()\r\n\t\t{\r\n\t\t\t(PokeType type, string name)[] types = Affinities\r\n\t\t\t\t.Select(pair => pair.Key)\r\n\t\t\t\t.Select(type => type.Name.Length >= 7\r\n\t\t\t\t\t\t? (type, type.Name.Substring(0, 5) + '.')\r\n\t\t\t\t\t\t: (type, type.Name))\r\n\t\t\t\t.ToArray();\r\n\r\n\t\t\tint maxLen = types.Select(type => type.name.Length).Max() + 1;\r\n\t\t\tvar output = new StringBuilder(\"\".PadRight(maxLen + 1));\r\n\r\n\t\t\tArray.ForEach(types, defender\r\n\t\t\t\t=> output.Append(' ' + defender.name\r\n\t\t\t\t\t\t\t\t\t\t.PadLeft(maxLen - (maxLen - defender.name.Length) / 2)\r\n\t\t\t\t\t\t\t\t\t\t.PadRight(maxLen)\r\n\t\t\t\t));\r\n\t\t\toutput.AppendLine();\r\n\r\n\t\t\tArray.ForEach(types, attacker\r\n\t\t\t=> {\r\n\t\t\t\toutput.Append(attacker.name\r\n\t\t\t\t\t\t\t\t.PadLeft(maxLen - (maxLen - attacker.name.Length) / 2)\r\n\t\t\t\t\t\t\t\t.PadRight(maxLen) + ' ');\r\n\t\t\t\ttypes.Select(type => GetAffinity(attacker.type, type.type))\r\n\t\t\t\t\t.Select(affinity => affinity switch\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t0 => \"-\",\r\n\t\t\t\t\t\t\t0.5 => \"1/2\",\r\n\t\t\t\t\t\t\t1 => \"\",\r\n\t\t\t\t\t\t\t_ => \"2\"\r\n\t\t\t\t\t\t})\r\n\t\t\t\t\t.ToList()\r\n\t\t\t\t\t.ForEach(affinity => output\r\n\t\t\t\t\t\t.Append('|' + affinity\r\n\t\t\t\t\t\t\t.PadLeft(maxLen - (maxLen - affinity.Length) / 2)\r\n\t\t\t\t\t\t\t.PadRight(maxLen))\r\n\t\t\t\t\t);\r\n\t\t\t\toutput.AppendLine(\"|\");\r\n\t\t\t});\r\n\r\n\t\t\tConsole.WriteLine(output);\r\n\t\t}\r\n\r\n\t\tpublic override string ToString()\r\n\t\t\t=> $\"\\x1b[38;2;{Color.R};{Color.G};{Color.B}m{Name}\\x1b[0m\";\r\n\t\t#endregion\r\n\t}\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Models/PokeType.cs b/Models/PokeType.cs
+--- a/Models/PokeType.cs	(revision a0c1e7f4b42f1ddc850c3a97067191cfeb0dff95)
++++ b/Models/PokeType.cs	(date 1650115874050)
+@@ -97,7 +97,7 @@
+ 				{TypeGround.Singleton, 2},
+ 				{TypeRock.Singleton, 2},
+ 				{TypeDragon.Singleton, 0.5},
+-				{TypeLight.Singleton, 0.5}
++				{TypeLight.Singleton, 0.5},
+ 			});
+ 			TypeElectric.Singleton.SetAffinities(new()
+ 			{
+@@ -108,7 +108,7 @@
+ 				{TypeGround.Singleton, 0},
+ 				{TypeFlying.Singleton, 2},
+ 				{TypeDragon.Singleton, 0.5},
+-				{TypeLight.Singleton, 0.5}
++				{TypeLight.Singleton, 0.5},
+ 			});
+ 			TypeGrass.Singleton.SetAffinities(new()
+ 			{
+@@ -133,7 +133,7 @@
+ 				{TypeFlying.Singleton, 2},
+ 				{TypeDragon.Singleton, 2},
+ 				{TypeSteel.Singleton, 0.5},
+-				{TypeLight.Singleton, 2}
++				{TypeLight.Singleton, 2},
+ 			});
+ 			TypeFighting.Singleton.SetAffinities(new()
+ 			{
+@@ -169,7 +169,7 @@
+ 				{TypeBug.Singleton, 0.5},
+ 				{TypeRock.Singleton, 2},
+ 				{TypeSteel.Singleton, 2},
+-				{TypeLight.Singleton, 0.5}
++				{TypeLight.Singleton, 0.5},
+ 			});
+ 			TypeFlying.Singleton.SetAffinities(new()
+ 			{
+@@ -189,7 +189,7 @@
+ 				{TypePsychic.Singleton, 0.5},
+ 				{TypeDark.Singleton, 0},
+ 				{TypeSteel.Singleton, 2},
+-				{TypeLight.Singleton, 2}
++				{TypeLight.Singleton, 2},
+ 			});
+ 			TypeBug.Singleton.SetAffinities(new()
+ 			{
+@@ -213,7 +213,7 @@
+ 				{TypeGround.Singleton, 0.5},
+ 				{TypeFlying.Singleton, 2},
+ 				{TypeBug.Singleton, 2},
+-				{TypeSteel.Singleton, 0.5}
++				{TypeSteel.Singleton, 0.5},
+ 			});
+ 			TypeGhost.Singleton.SetAffinities(new()
+ 			{
+@@ -228,7 +228,7 @@
+ 				{TypeFlying.Singleton, 2},
+ 				{TypeDragon.Singleton, 2},
+ 				{TypeSteel.Singleton, 0.5}, {TypeFairy.Singleton, 0},
+-				{TypeLight.Singleton, 2}
++				{TypeLight.Singleton, 2},
+ 			});
+ 			TypeDark.Singleton.SetAffinities(new()
+ 			{
+@@ -237,7 +237,7 @@
+ 				{TypeGhost.Singleton, 2},
+ 				{TypeDark.Singleton, 0.5},
+ 				{TypeFairy.Singleton, 0.5},
+-				{TypeLight.Singleton, 2}
++				{TypeLight.Singleton, 2},
+ 			});
+ 			TypeSteel.Singleton.SetAffinities(new()
+ 			{
+@@ -257,7 +257,7 @@
+ 				{TypeDragon.Singleton, 2},
+ 				{TypeDark.Singleton, 2},
+ 				{TypeSteel.Singleton, 0.5},
+-				{TypeLight.Singleton, 0}
++				{TypeLight.Singleton, 0},
+ 			});
+ 			TypeLight.Singleton.SetAffinities(new()
+ 			{
+@@ -268,7 +268,7 @@
+ 				{TypeGhost.Singleton, 2},
+ 				{TypeDark.Singleton, 2},
+ 				{TypeFairy.Singleton, 0},
+-				{TypeLight.Singleton, 0.5}
++				{TypeLight.Singleton, 0.5},
+ 			});
+ 		}
+ 
+@@ -318,7 +318,7 @@
+ 							0 => "-",
+ 							0.5 => "1/2",
+ 							1 => "",
+-							_ => "2"
++							_ => "2",
+ 						})
+ 					.ToList()
+ 					.ForEach(affinity => output
