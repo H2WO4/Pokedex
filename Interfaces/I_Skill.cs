@@ -7,7 +7,7 @@ namespace Pokedex.Interfaces;
 /// <summary>
 /// Classes implementing this interface can be used by Pokemons
 /// </summary>
-public interface I_PokeMove
+public interface I_Skill
 {
     #region Properties
     /// <summary>
@@ -59,6 +59,8 @@ public interface I_PokeMove
     /// The combat instance the fight is happening in
     /// </summary>
     I_Combat Arena { get; }
+
+    bool CanThaw { get; }
     #endregion
 
     #region Methods

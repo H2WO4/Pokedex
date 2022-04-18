@@ -16,7 +16,12 @@ public class DamageInfo
     /// <summary>
     /// How much damage is being dealt
     /// </summary>
-    public int Power { get; set; }
+    /// <remarks>
+    /// Pure -> Raw damage number<br />
+    /// Percent -> Percentage of MaxHP<br />
+    /// Calculated -> Multiplier
+    /// </remarks>
+    public double Power { get; set; }
 
     /// <summary>
     /// The type of the damage
@@ -40,7 +45,7 @@ public class DamageInfo
     #endregion
 
     #region Constructors
-    public DamageInfo(DamageClass @class, int power, PokeType type = null!)
+    public DamageInfo(DamageClass @class, double power, PokeType type = null!)
     {
         Class = @class;
         Power = power;

@@ -14,20 +14,20 @@ public class AbilityColorChange : Models.Ability
     #endregion
 
     #region Methods
-    public override bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler caster)
+    public override bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler? caster = null)
     {
-        if (dmgInfo.Type != null)
-        {
-            Announce();
-            _tempType = dmgInfo.Type;
-        }
+        if (dmgInfo.Type is null)
+            return true;
+
+        Announce();
+        _tempType = dmgInfo.Type;
 
         return true;
     }
 
-    public override List<PokeType>? ChangeType()
-        => _tempType != null
-               ? new List<PokeType> { _tempType }
-               : null;
+    public override IEnumerable<PokeType>? ChangeType()
+        => _tempType is null
+               ? null
+               : new[] { _tempType };
     #endregion
 }

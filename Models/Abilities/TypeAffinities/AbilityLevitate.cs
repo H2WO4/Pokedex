@@ -11,15 +11,14 @@ public class AbilityLevitate : Models.Ability
     #endregion
 
     #region Methods
-    public override bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler caster)
+    public override bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler? caster = null)
     {
-        if (dmgInfo.Type == TypeGround.Singleton)
-        {
-            Announce();
-            return true;
-        }
+        if (dmgInfo.Type != TypeGround.Singleton)
+            return false;
+        
+        Announce();
+        return true;
 
-        return false;
     }
     #endregion
 }

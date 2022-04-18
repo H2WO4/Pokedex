@@ -42,7 +42,7 @@ public class Pokemon : I_Battler
     public int ID
         => Species.ID;
 
-    public List<PokeType> Types
+    public IEnumerable<PokeType> Types
         => Ability.ChangeType() ?? Species.Types;
 
     public PokeMove?[] Moves { get; } = { null, null, null, null };
@@ -776,5 +776,8 @@ public class Pokemon : I_Battler
 
         return status.ToString();
     }
+
+    public override string ToString()
+        => Name;
     #endregion
 }

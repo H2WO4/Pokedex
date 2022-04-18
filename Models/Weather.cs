@@ -9,7 +9,6 @@ public abstract class Weather
 {
     #region Variables
     protected readonly Dictionary<PokeType, float> TypePower;
-    protected readonly List<PokeType> TypeSelector;
     #endregion
 
     #region Properties
@@ -22,9 +21,8 @@ public abstract class Weather
     #region Constructors
     protected Weather(string name)
     {
-        Name         = name;
-        TypePower    = new Dictionary<PokeType, float>();
-        TypeSelector = new List<PokeType>();
+        Name      = name;
+        TypePower = new Dictionary<PokeType, float>();
     }
     #endregion
 

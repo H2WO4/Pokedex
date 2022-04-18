@@ -14,7 +14,7 @@ public class AbilityProtean : Models.Ability
     #endregion
 
     #region Methods
-    public override bool BeforeAttack(I_PokeMove move)
+    public override bool BeforeAttack(I_Skill move)
     {
         Announce();
         _tempType = move.Type;
@@ -22,9 +22,9 @@ public class AbilityProtean : Models.Ability
         return false;
     }
 
-    public override List<PokeType>? ChangeType()
-        => _tempType != null
-               ? new List<PokeType> { _tempType }
-               : null;
+    public override IEnumerable<PokeType>? ChangeType()
+        => _tempType is null
+               ? null
+               : new[] { _tempType };
     #endregion
 }

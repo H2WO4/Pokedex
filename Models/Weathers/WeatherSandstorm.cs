@@ -1,3 +1,4 @@
+using Pokedex.Enums;
 using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
@@ -12,6 +13,16 @@ public class WeatherSandstorm : Weather
     #region Properties
     public static WeatherSandstorm Singleton
         => _singleton ??= new WeatherSandstorm();
+
+    protected virtual IEnumerable<PokeType> TypeSelector
+    {
+        get
+        {
+            yield return TypeRock.Singleton;
+            yield return TypeSteel.Singleton;
+            yield return TypeGround.Singleton;
+        }
+    }
     #endregion
 
     #region Constructors
@@ -19,22 +30,24 @@ public class WeatherSandstorm : Weather
         : base("Sandstorm")
     {
         TypePower.Add(TypeRock.Singleton, 1.5f);
-
-        TypeSelector.Add(TypeRock.Singleton);
-        TypeSelector.Add(TypeSteel.Singleton);
-        TypeSelector.Add(TypeGround.Singleton);
     }
     #endregion
 
     #region Methods
     public override void OnTurnEnd(I_Combat arena)
     {
-        arena.Players
-             .Select(player => player.Active)
-             .Where(poke => poke.Types.Intersect(TypeSelector)
-                                .Any())
-             .ToList()
-             .ForEach(poke => Console.WriteLine($"{poke.Name} is buffeted by the sandstorm!"));
+        IEnumerable<I_Battler> attacked =
+            arena.Players
+                 .Select(player => player.Active)
+                 .Where(poke => poke.Types
+                                    .Intersect(TypeSelector)
+                                    .Any() is false);
+
+        foreach (I_Battler poke in attacked)
+        {
+            Console.WriteLine($"{poke} is buffeted by the sandstorm!");
+            DamageHandler.DoDamageNoCaster(new DamageInfo(DamageClass.Percent, 6.25), poke);
+        }
     }
 
     // Flavor Text

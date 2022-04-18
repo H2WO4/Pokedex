@@ -13,12 +13,15 @@ public class AbilityIntimidate : Models.Ability
     public override void OnEnter()
     {
         Announce();
-        Origin.Arena.Players
-              .Where(player => player != Origin.Owner)
-              .Select(player => player.Active)
-              .OfType<Pokemon>()
-              .ToList()
-              .ForEach(poke => poke.ChangeStatBonus(Stat.Atk, -1));
+
+        IEnumerable<Pokemon> opponentPokemons =
+            Origin.Arena.Players
+                  .Where(player => player != Origin.Owner)
+                  .Select(player => player.Active)
+                  .OfType<Pokemon>();
+
+        foreach (Pokemon poke in opponentPokemons)
+            poke.ChangeStatBonus(Stat.Atk, -1);
     }
     #endregion
 }

@@ -17,8 +17,8 @@ namespace Pokedex.Models.Pokemons
         #region Constructor
         public Arceus()
             : base(493, "Arceus",
-                   new List<PokeType>() { TypeNormal.Singleton },
-                   new Dictionary<Stat, int>()
+                   new List<PokeType> { TypeNormal.Singleton },
+                   new Dictionary<Stat, int>
                    {
                        { Stat.HP, 120 }, { Stat.Atk, 120 }, { Stat.Def, 120 },
                        { Stat.SpAtk, 120 }, { Stat.SpDef, 120 }, { Stat.Spd, 120 },

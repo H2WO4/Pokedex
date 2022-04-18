@@ -75,42 +75,30 @@ public class Trainer : I_Player
     {
         switch (action)
         {
-            case [
-
-                "status", string argWhat,  "full" or "detailed"]:
+            case ["status", string argWhat,  "full" or "detailed"]:
                 StatusCommand(argWhat, true);
                 break;
 
-            case [
-
-                "status", string argWhat]:
+            case ["status", string argWhat]:
                 StatusCommand(argWhat, false);
                 break;
 
-            case [
-
-                "use", string argWhich]:
+            case ["use", string argWhich]:
                 MoveCommand(argWhich, out endTurn);
                 break;
 
-            case [
-
-                "switch", string argWhich]:
+            case ["switch", string argWhich]:
                 SwitchCommand(argWhich, out endTurn);
                 break;
 
-            case [
-
-                "help"]:
+            case ["help"]:
                 Console.WriteLine("- status [self | enemy | bench | moves] <full>");
                 Console.WriteLine("- use [#move]");
                 Console.WriteLine("- switch [#pokemon]");
                 Console.WriteLine();
                 break;
 
-            case [
-
-                ""]:
+            case [""]:
                 continue;
 
             default:
@@ -292,13 +280,13 @@ public class Trainer : I_Player
 
     public void ChangeActive(int index)
     {
-        Console.WriteLine($"{Name} takes out {Active.Name}");
+        Console.WriteLine($"{Name} takes out {Active}");
         Active.Ability.OnExit();
         Console.WriteLine();
 
         _activeIndex = index;
 
-        Console.WriteLine($"{Name} sends out {Active.Name}");
+        Console.WriteLine($"{Name} sends out {Active}");
         Active.Ability.OnEnter();
         Console.WriteLine();
     }

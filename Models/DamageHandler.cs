@@ -7,6 +7,13 @@ namespace Pokedex.Models;
 public static class DamageHandler
 {
     #region Methods
+    /// <summary>
+    /// Inflict damage, as defined in the DamageInfo, on the target, from the caster
+    /// </summary>
+    /// <param name="dmgInfo">What damage to inflict</param>
+    /// <param name="caster">The Pokemon initiating the damage</param>
+    /// <param name="target">The Pokemon receiving the attack</param>
+    /// <returns>Whether the damage was correctly applied</returns>
     public static bool DoDamage(DamageInfo dmgInfo, I_Battler caster, I_Battler target)
     {
         // If the caster or the target is dead, cancel the damage
@@ -45,7 +52,7 @@ public static class DamageHandler
 
         // Announce the damage
         int percentage = Math.Clamp((int)damage * 100 / target.HP(), 0, 100);
-        Console.WriteLine($"{target.Name} lost {percentage}% HP");
+        Console.WriteLine($"{target} lost {percentage}% HP");
 
         // Apply the damage
         target.CurrHP -= (int)damage;
@@ -58,9 +65,63 @@ public static class DamageHandler
         return true;
     }
 
-    private static double CalculateDamage(DamageInfo dmgInfo, I_Battler caster, I_Battler target)
+    /// <summary>
+    /// Inflict damage, as defined in the DamageInfo, on the target
+    /// </summary>
+    /// <param name="dmgInfo">What damage to inflict</param>
+    /// <param name="target">The Pokemon receiving the attack</param>
+    /// <returns>Whether the damage was correctly applied</returns>
+    public static bool DoDamageNoCaster(DamageInfo dmgInfo, I_Battler target)
     {
-        double damage = 0;
+        // If the target is dead, cancel the damage
+        if (target.CurrHP == 0)
+            return false;
+
+        // Activate abilities and cancel the damage if necessary
+        var cancel = false;
+        cancel |= target.Ability.OnReceiveDamage(dmgInfo);
+
+
+        // If any of the abilities asked for damage cancellation, do it
+        if (cancel) return false;
+
+        // Calculate the damage, depending on the class of damage
+        double damage = CalculateDamage(dmgInfo, null, target);
+
+        // If the damage would be lethal, activate abilities that could cancel death
+        if (damage >= target.CurrHP)
+        {
+            int postDeathDamage = target.Ability.OnKilled();
+            damage -= postDeathDamage;
+        }
+
+        // Announce the damage
+        int percentage = Math.Clamp((int)damage * 100 / target.HP(), 0, 100);
+        Console.WriteLine($"{target} lost {percentage}% HP");
+
+        // Apply the damage
+        target.CurrHP -= (int)damage;
+
+        // Activate post-damage abilities
+        target.Ability.AfterReceiveDamage(dmgInfo);
+
+        // Indicate that everything went smoothly
+        return true;
+    }
+
+    /// <summary>
+    /// Calculate, from a DamageInfo, how much numerical damage to inflict
+    /// </summary>
+    /// <param name="dmgInfo">What damage to calculate</param>
+    /// <param name="caster">The Pokemon initiating the damage</param>
+    /// <param name="target">The Pokemon receiving the attack</param>
+    /// <returns>The numerical amount of HP damage to inflict</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if the DamageInfo possess impossible parameters combination
+    /// </exception>
+    private static double CalculateDamage(DamageInfo dmgInfo, I_Battler? caster, I_Battler target)
+    {
+        double damage;
         switch (dmgInfo)
         {
             case { Class: DamageClass.Pure }:
@@ -75,20 +136,20 @@ public static class DamageHandler
 
                 break;
 
-            case { Class: DamageClass.Calculated, Type: { } type }:
+            case { Class: DamageClass.Calculated, Type: { } type }
+                when caster is not null:
                 // Initial damage
                 damage = (0.4 * caster.Level + 2) * dmgInfo.Power;
 
                 // Find which stat to use
                 IEnumerable<Stat> atkStats = dmgInfo.AttackStats.GetFlags();
                 IEnumerable<Stat> defStats = dmgInfo.DefenseStats.GetFlags();
-                
+
                 // Adjust for stats
                 double multiplier = 1;
-                multiplier *= atkStats
-                   .Average(caster.GetStat);
-                multiplier /= defStats
-                   .Average(target.GetStat);
+                multiplier *= atkStats.Average(caster.GetStat);
+                multiplier /= defStats.Average(target.GetStat);
+
                 damage *= multiplier;
 
                 // Continue the calculation
@@ -101,6 +162,9 @@ public static class DamageHandler
                 damage *= target.GetAffinity(type);
 
                 break;
+
+            default:
+                throw new InvalidOperationException();
         }
 
         return damage;

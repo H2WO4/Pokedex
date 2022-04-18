@@ -10,15 +10,14 @@ public class AbilityWonderGuard : Models.Ability
     #endregion
 
     #region Methods
-    public override bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler caster)
+    public override bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler? caster = null)
     {
-        if (dmgInfo.Type?.CalculateAffinity(Origin.Types) <= 1)
-        {
-            Announce();
-            return true;
-        }
+        if (dmgInfo.Type?.CalculateAffinity(Origin.Types) > 1)
+            return false;
+        
+        Announce();
+        return true;
 
-        return false;
     }
     #endregion
 }

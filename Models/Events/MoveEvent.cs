@@ -49,7 +49,7 @@ public class MoveEvent : I_Event
             return;
 
         // Print move usage
-        Console.WriteLine("" + $"{Caster.Name} uses {Move.Name}" + "");
+        Console.WriteLine("" + $"{Caster} uses {Move}" + "");
         Move.OnUse();
     }
 

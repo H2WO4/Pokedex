@@ -10,7 +10,7 @@ namespace Pokedex.Models;
 /// <summary>
 /// A selectable Pokemon move
 /// </summary>
-public abstract class PokeMove : I_PokeMove
+public abstract class PokeMove : I_Skill
 {
     #region Variables
     private I_Battler? _caster;
@@ -41,6 +41,9 @@ public abstract class PokeMove : I_PokeMove
 
     public I_Combat Arena
         => Caster.Arena;
+
+    public bool CanThaw
+        => false;
     #endregion
 
     #region Constructors
@@ -85,7 +88,7 @@ public abstract class PokeMove : I_PokeMove
             if (hit)
                 DoAction(target);
             else
-                Console.WriteLine($"{Caster.Name}'s {Name} missed {target.Name}\n");
+                Console.WriteLine($"{Caster}'s {Name} missed {target}\n");
         }
     }
 
@@ -170,5 +173,8 @@ public abstract class PokeMove : I_PokeMove
 
         return status.ToString();
     }
+
+    public override string ToString()
+        => Name;
     #endregion
 }

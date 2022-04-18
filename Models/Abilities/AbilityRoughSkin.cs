@@ -11,12 +11,16 @@ public class AbilityRoughSkin : Models.Ability
     #endregion
 
     #region Methods
-    public override void AfterReceiveDamage(DamageInfo dmgInfo, I_Battler caster)
+    public override void AfterReceiveDamage(DamageInfo dmgInfo, I_Battler? caster = null)
     {
-        if (!dmgInfo.Contact) return;
+        if (caster is null)
+            return;
+        
+        if (!dmgInfo.Contact)
+            return;
 
         Announce();
-        DamageHandler.DoDamage(new DamageInfo(DamageClass.Percent, 16), Origin, caster);
+        DamageHandler.DoDamage(new DamageInfo(DamageClass.Percent, 6.25), Origin, caster);
     }
     #endregion
 }

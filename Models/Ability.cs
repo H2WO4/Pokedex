@@ -24,7 +24,7 @@ public abstract class Ability
 
     #region Methods
     protected void Announce()
-        => Console.WriteLine($"{Origin.Name}'s {Name}");
+        => Console.WriteLine($"{Origin}'s {Name}");
     #endregion
 
     #region Methods - Hooks
@@ -43,7 +43,7 @@ public abstract class Ability
     /// <param name="dmgInfo">The damage being dealt</param>
     /// <param name="caster">The one dealing the damage</param>
     /// <returns>True if the damage is cancelled</returns>
-    public virtual bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler caster)
+    public virtual bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler? caster = null)
         => false;
 
     /// <summary>
@@ -66,7 +66,7 @@ public abstract class Ability
     /// </summary>
     /// <param name="dmgInfo">The damage being dealt</param>
     /// <param name="caster">The one dealing the damage</param>
-    public virtual void AfterReceiveDamage(DamageInfo dmgInfo, I_Battler caster) { }
+    public virtual void AfterReceiveDamage(DamageInfo dmgInfo, I_Battler? caster = null) { }
 
     /// <summary>
     /// Called whenever its owner is made K.O.
@@ -77,7 +77,7 @@ public abstract class Ability
     /// Called whenever its owner is made K.O. by an opponent
     /// </summary>
     /// <returns>HP after death</returns>
-    public virtual int OnKilled(I_Battler killer)
+    public virtual int OnKilled(I_Battler? killer = null)
         => 0;
 
     /// <summary>
@@ -90,7 +90,7 @@ public abstract class Ability
     /// </summary>
     /// <param name="move">The move used</param>
     /// <returns>True if the attack is canceled</returns>
-    public virtual bool BeforeAttack(I_PokeMove move)
+    public virtual bool BeforeAttack(I_Skill move)
         => false;
 
     /// <summary>
@@ -98,14 +98,14 @@ public abstract class Ability
     /// </summary>
     /// <param name="move">The move used</param>
     /// <returns>True if the attack is canceled</returns>
-    public virtual bool BeforeDefend(I_PokeMove move)
+    public virtual bool BeforeDefend(I_Skill move)
         => false;
 
     /// <summary>
     /// Called before returning a Pokemon's type
     /// </summary>
     /// <returns>The new types, or null if identical</returns>
-    public virtual List<PokeType>? ChangeType()
+    public virtual IEnumerable<PokeType>? ChangeType()
         => null;
 
     /// <summary>

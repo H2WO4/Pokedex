@@ -10,16 +10,18 @@ public class AbilitySturdy : Models.Ability
     #endregion
 
     #region Methods
-    public override int OnKilled(I_Battler killer)
+    public override int OnKilled(I_Battler? killer = null)
     {
-        if (Origin.CurrHP == Origin.HP())
-        {
-            Announce();
-            Console.WriteLine($"But {Origin.Name} endured the hit!");
-            return 1;
-        }
+        if (killer is null)
+            return 0;
+        
+        if (Origin.CurrHP != Origin.HP())
+            return 0;
+        
+        Announce();
+        Console.WriteLine($"But {Origin} endured the hit!");
+        return 1;
 
-        return 0;
     }
     #endregion
 }

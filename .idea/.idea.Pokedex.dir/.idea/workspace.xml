@@ -7,7 +7,45 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2780b296-9398-4d57-97f4-3903d3e23d18" name="Changes" comment="" />
+    <list default="true" id="8f8b8ec9-e664-4e2f-bfc4-790e34ffcbb2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Models/StatusEffects/BurnEffect.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/StatusEffects/FreezeEffect.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/StatusEffects/ParalysisEffect.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/StatusEffects/PoisonEffect.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/StatusEffects/ToxicEffect.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Pokedex.dir/.idea/shelf/Uncommitted_changes_before_Update_at_2022-04-16_15_33__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Pokedex.dir/.idea/shelf/Uncommitted_changes_before_Update_at_2022-04-16_15_33__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Pokedex.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Pokedex.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/I_Battler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/I_Battler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/I_PokeMove.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/I_Skill.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Abilities/AbilityRoughSkin.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Abilities/AbilityRoughSkin.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Abilities/AbilitySturdy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Abilities/AbilitySturdy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Abilities/Entry/AbilityIntimidate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Abilities/Entry/AbilityIntimidate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Abilities/StatBoosts/AbilityMoody.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Abilities/StatBoosts/AbilityMoody.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Abilities/TypeAffinities/AbilityLevitate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Abilities/TypeAffinities/AbilityLevitate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Abilities/TypeAffinities/AbilityWonderGuard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Abilities/TypeAffinities/AbilityWonderGuard.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Abilities/TypeChange/AbilityColorChange.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Abilities/TypeChange/AbilityColorChange.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Abilities/TypeChange/AbilityProtean.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Abilities/TypeChange/AbilityProtean.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Ability.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Ability.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Combat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Combat.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/DamageHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/DamageHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/DamageInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/DamageInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Events/MoveEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Events/MoveEvent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMove.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMove.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Pokemon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Pokemon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokemonMoves/Archetypes/MoveMultiHit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokemonMoves/Archetypes/MoveMultiHit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Pokemons/Arceus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Pokemons/Arceus.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/StatusEffect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/StatusEffect.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Trainer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Trainer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Weather.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Weather.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Weathers/WeatherHail.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Weathers/WeatherHail.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Weathers/WeatherLocust.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Weathers/WeatherLocust.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Weathers/WeatherSandstorm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Weathers/WeatherSandstorm.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pokedex.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Pokedex.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pokedex.csproj.DotSettings" beforeDir="false" afterPath="$PROJECT_DIR$/Pokedex.csproj.DotSettings" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scripts/PokemonGenerator.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/PokemonGenerator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/TestPokemonClass.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/TestPokemonClass.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,15 +68,20 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8f127c529ac692ac38d881fcd71f7daec5e8f45b3e595597089eba57dcb6a/EnumHasFlagTranslator.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/198a6261cebc324728dcc4c178edc5f2894123f711722c80e8557cbfd27651/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Data/pokemon.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ad2a4b807aefd7738e919aa358fa13721e9a4848eb142d8849c2546109d81e1/RuntimeType.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/PokeType.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dbb9b76d07e4477885c165cd6116d8cca23898/be/be7ea28c/IEnumerable`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d9d9faea5e6ed6438a777ef8c6eed41261f81d8e86488ed923ad92564f54e/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="SWEA" />
+  </component>
   <component name="ProjectId" id="27f5yzbor19CMaVPdwedf4dHlu1" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -51,13 +94,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="XThreadsFramesViewSplitterKey" value="0.2268212" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="ReaderModeSettings">
     <option name="showLigatures" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.Pokedex">
+  <component name="RunManager" selected="Python.PokemonGenerator">
     <configuration name="Pokedex" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/bin/Debug/net6.0/Pokedex.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -83,7 +127,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Program Files\Python310\python.exe" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -103,6 +147,31 @@
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8f8b8ec9-e664-4e2f-bfc4-790e34ffcbb2" name="Changes" comment="" />
+      <created>1650282388087</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1650282388087</updated>
+      <workItem from="1650282421951" duration="4974000" />
+      <workItem from="1650295862411" duration="6804000" />
+      <workItem from="1650310316366" duration="11000" />
+      <workItem from="1650310374208" duration="770000" />
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />

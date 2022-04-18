@@ -68,19 +68,21 @@ public class Combat : I_Combat
 
     public I_Player DoCombat()
     {
+        I_Battler[] allPokemons =
+            Players.SelectMany(player => player.Team)
+                   .ToArray();
+        
         // Activate all end of combat abilities, across all pokemons
-        Players.SelectMany(player => player.Team)
-               .ToList()
-               .ForEach(poke => poke.Ability.OnCombatStart());
+        foreach (I_Battler poke in allPokemons)
+            poke.Ability.OnCombatStart();
 
         // While all players can fight, give them a turn
         while (Players.All(player => player.Team.Any(poke => poke.CurrHP > 0)))
             DoTurns();
 
         // Activate all end of combat abilities, across all pokemons
-        Players.SelectMany(player => player.Team)
-               .ToList()
-               .ForEach(poke => poke.Ability.OnCombatEnd());
+        foreach (I_Battler poke in allPokemons)
+            poke.Ability.OnCombatEnd();
 
         // Return the winning player (the one still standing)
         return Players.First(player => player.Team

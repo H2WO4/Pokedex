@@ -39,7 +39,7 @@ public abstract class MoveMultiHit : PokeMove
                     totalHits++;
                 }
                 else
-                    Console.WriteLine($"{Caster.Name}'s {Name} missed {target.Name}\n");
+                    Console.WriteLine($"{Caster}'s {Name} missed {target}\n");
             }
 
             var finalS = totalHits > 1

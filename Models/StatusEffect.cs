@@ -8,17 +8,21 @@ public abstract class StatusEffect
     public string Name { get; }
 
     public int? Timer { get; set; }
+    
+    public I_Battler Origin { get;  }
     #endregion
 
     #region Constructors
     protected StatusEffect
     (
         string name,
+        I_Battler origin,
         int? timer = null
     )
     {
-        Name  = name;
-        Timer = timer;
+        Name   = name;
+        Origin = origin;
+        Timer  = timer;
     }
     #endregion
 
@@ -38,7 +42,7 @@ public abstract class StatusEffect
     /// </summary>
     /// <param name="move">The move used</param>
     /// <returns>True if the attack is canceled</returns>
-    public virtual bool BeforeAttack(I_PokeMove move)
+    public virtual bool BeforeAttack(I_Skill move)
         => false;
 
     /// <summary>
@@ -46,9 +50,19 @@ public abstract class StatusEffect
     /// </summary>
     /// <param name="move">The move used</param>
     /// <returns>True if the attack is canceled</returns>
-    public virtual bool BeforeDefend(I_PokeMove move)
+    public virtual bool BeforeDefend(I_Skill move)
         => false;
 
+    /// <summary>
+    /// Called just after entering combat
+    /// </summary>
+    public virtual void OnEnter() { }
+
+    /// <summary>
+    /// Called just before exiting combat
+    /// </summary>
+    public virtual void OnExit() { }
+    
     /// <summary>
     /// Called when calculating Max HP
     /// </summary>

@@ -1,4 +1,3 @@
-using System.Text;
 
 using Pokedex.Models.PokemonTypes;
 
@@ -69,12 +68,12 @@ public abstract class PokeType
         Affinities.Add(TypeFairy.Singleton, new Dictionary<PokeType, double>());
         Affinities.Add(TypeLight.Singleton, new Dictionary<PokeType, double>());
 
-        Affinities[TypeNormal.Singleton] = 
+        Affinities[TypeNormal.Singleton] =
             new Dictionary<PokeType, double>
             {
-                                               { TypeRock.Singleton, 0.5 }, { TypeGhost.Singleton, 0 },
-                                               { TypeSteel.Singleton, 0.5 }, { TypeFairy.Singleton, 2 },
-                                           };;
+                { TypeRock.Singleton, 0.5 }, { TypeGhost.Singleton, 0 },
+                { TypeSteel.Singleton, 0.5 }, { TypeFairy.Singleton, 2 },
+            };
 
         Affinities[TypeFire.Singleton] =
             new Dictionary<PokeType, double>
@@ -243,13 +242,11 @@ public abstract class PokeType
     }
 
     private static double GetAffinity(PokeType attacker, PokeType defender)
-        => Affinities[attacker]
-           .GetValueOrDefault(defender, 1);
+        => Affinities[attacker].GetValueOrDefault(defender, 1);
 
     public double CalculateAffinity(IEnumerable<PokeType> defenders)
-        => defenders
-          .Select(defender => GetAffinity(this, defender))
-          .Aggregate((a, b) => a * b);
+        => defenders.Select(defender => GetAffinity(this, defender))
+                    .Aggregate((a, b) => a * b);
 
     public override string ToString()
         => $"{Name}";

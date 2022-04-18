@@ -17,7 +17,7 @@ public interface I_Battler
     /// <summary>
     /// Types used for damage calculation
     /// </summary>
-    List<PokeType> Types { get; }
+    IEnumerable<PokeType> Types { get; }
 
     /// <summary>
     /// Moves that the Pokemon can use

@@ -1,3 +1,4 @@
+using Pokedex.Enums;
 using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
@@ -12,6 +13,16 @@ public class WeatherHail : Weather
     #region Properties
     public static WeatherHail Singleton
         => _singleton ??= new WeatherHail();
+
+    protected virtual IEnumerable<PokeType> TypeSelector
+    {
+        get
+        {
+            yield return TypeIce.Singleton;
+            yield return TypeWater.Singleton;
+            yield return TypeLight.Singleton;
+        }
+    }
     #endregion
 
     #region Constructors
@@ -19,22 +30,24 @@ public class WeatherHail : Weather
         : base("Hail")
     {
         TypePower.Add(TypeIce.Singleton, 1.5f);
-
-        TypeSelector.Add(TypeIce.Singleton);
-        TypeSelector.Add(TypeWater.Singleton);
-        TypeSelector.Add(TypeLight.Singleton);
     }
     #endregion
 
     #region Methods
     public override void OnTurnEnd(I_Combat arena)
     {
-        arena.Players
-             .Select(player => player.Active)
-             .Where(poke => poke.Types.Intersect(TypeSelector)
-                                .Any())
-             .ToList()
-             .ForEach(poke => Console.WriteLine($"{poke.Name} is buffeted by the hail!"));
+        IEnumerable<I_Battler> attacked =
+            arena.Players
+                 .Select(player => player.Active)
+                 .Where(poke => poke.Types
+                                     .Intersect(TypeSelector)
+                                     .Any() is false);
+
+        foreach (I_Battler poke in attacked)
+        {
+            Console.WriteLine($"{poke} is buffeted by the hail!");
+            DamageHandler.DoDamageNoCaster(new DamageInfo(DamageClass.Percent, 6.25), poke);
+        }
     }
 
     // Flavor Text

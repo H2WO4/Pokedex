@@ -1,3 +1,4 @@
+using Pokedex.Enums;
 using Pokedex.Interfaces;
 using Pokedex.Models.PokemonTypes;
 
@@ -12,6 +13,16 @@ public class WeatherLocust : Weather
     #region Properties
     public static WeatherLocust Singleton
         => _singleton ??= new WeatherLocust();
+
+    protected virtual IEnumerable<PokeType> TypeSelector
+    {
+        get
+        {
+            yield return TypeBug.Singleton;
+            yield return TypePoison.Singleton;
+            yield return TypeGrass.Singleton;
+        }
+    }
     #endregion
 
     #region Constructors
@@ -19,22 +30,24 @@ public class WeatherLocust : Weather
         : base("Locust Swarm")
     {
         TypePower.Add(TypeBug.Singleton, 1.5f);
-
-        TypeSelector.Add(TypeBug.Singleton);
-        TypeSelector.Add(TypePoison.Singleton);
-        TypeSelector.Add(TypeGrass.Singleton);
     }
     #endregion
 
     #region Methods
     public override void OnTurnEnd(I_Combat arena)
     {
-        arena.Players
-             .Select(player => player.Active)
-             .Where(poke => poke.Types.Intersect(TypeSelector)
-                                .Any())
-             .ToList()
-             .ForEach(poke => Console.WriteLine($"{poke.Name} is buffeted by the locust swarm!"));
+        IEnumerable<I_Battler> attacked =
+            arena.Players
+                 .Select(player => player.Active)
+                 .Where(poke => poke.Types
+                                     .Intersect(TypeSelector)
+                                     .Any() is false);
+
+        foreach (I_Battler poke in attacked)
+        {
+            Console.WriteLine($"{poke} is buffeted by the locust swarm!");
+            DamageHandler.DoDamageNoCaster(new DamageInfo(DamageClass.Percent, 6.25), poke);
+        }
     }
 
     // Flavor Text
