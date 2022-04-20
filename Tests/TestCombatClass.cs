@@ -41,8 +41,8 @@ public class TestCombatClass
                       31, 31);
         arceus.CurrHP = 999;
 
-        var fight = new Combat(("Jean", new I_Battler[] { raichu }),
-                               ("Charles", new I_Battler[] { blastoise, charizard, arceus }));
+        var fight = new Combat(new Trainer("Jean", new I_Battler[] { raichu }),
+                               new Trainer("Charles", new I_Battler[] { blastoise, charizard, arceus }));
 
         // Redirect console
         using var reader = new StreamReader("..\\..\\..\\Tests\\test1_in.txt");

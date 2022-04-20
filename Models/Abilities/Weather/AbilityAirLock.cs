@@ -7,8 +7,8 @@ public class AbilityAirLock : Models.Ability
         : base("Air Lock", origin) { }
     #endregion
 
-    #region Methods
-    public override bool AllowWeather()
+    #region Properties - Conditions
+    public override bool AllowWeather
         => false;
     #endregion
 }

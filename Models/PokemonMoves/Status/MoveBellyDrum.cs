@@ -16,7 +16,7 @@ public class MoveBellyDrum : MoveSelf
 
     public override void OnUse()
     {
-        if (Caster.CurrHP * 100 / Caster.HP() < 50)
+        if (Caster.HP() - Caster.CurrHP >= Caster.CurrHP)
         {
             Console.WriteLine("The move failed!");
             return;
@@ -27,8 +27,10 @@ public class MoveBellyDrum : MoveSelf
 
     protected override void DoAction(I_Battler target)
     {
-        if (target is Pokemon pokeTarget)
-            pokeTarget.ChangeStatBonuses(12, 0, 0, 0,
-                                         0);
+        if (target is not Pokemon pokeTarget)
+            return;
+        
+        pokeTarget.CurrHP -= pokeTarget.HP() / 2;
+        pokeTarget.ChangeStatBonus(Stat.Atk, +12);
     }
 }

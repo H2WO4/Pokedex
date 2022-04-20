@@ -14,7 +14,7 @@ public class WeatherLocust : Weather
     public static WeatherLocust Singleton
         => _singleton ??= new WeatherLocust();
 
-    protected virtual IEnumerable<PokeType> TypeSelector
+    private static IEnumerable<PokeType> TypeSelector
     {
         get
         {

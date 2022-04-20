@@ -7,8 +7,8 @@ public class AbilityCloudNine : Models.Ability
         : base("CloudNine", origin) { }
     #endregion
 
-    #region Methods
-    public override bool AllowWeather()
+    #region Properties - Conditions
+    public override bool AllowWeather
         => false;
     #endregion
 }

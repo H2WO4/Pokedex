@@ -15,8 +15,8 @@ public class MoveFinalGambit : PokeMove
 
     protected override void DoAction(I_Battler target)
     {
-        var damage = Caster.CurrHP;
-        DamageHandler.DoDamage(new DamageInfo(DamageClass.Pure, damage, Type), Caster, target);
+        int damage = Caster.CurrHP;
+        DamageHandler.DoDamage(new DamageInfo(DamageClass.Pure, damage), Caster, target);
         Caster.DoKO();
     }
 }

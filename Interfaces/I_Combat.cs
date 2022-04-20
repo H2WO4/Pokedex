@@ -11,7 +11,7 @@ public interface I_Combat
     /// <summary>
     /// The list of all players in combat
     /// </summary>
-    I_Player[] Players { get; }
+    IEnumerable<I_Player> Players { get; }
 
     /// <summary>
     /// The list of all currently scheduled events

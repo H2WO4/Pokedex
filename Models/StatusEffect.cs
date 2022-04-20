@@ -27,6 +27,29 @@ public abstract class StatusEffect
     #endregion
 
     #region Methods
+    public override string ToString()
+        => Name;
+    #endregion
+    
+    #region Methods - Hooks
+    /// <summary>
+    /// Called whenever damage is dealt
+    /// </summary>
+    /// <param name="dmgInfo">The damage being dealt</param>
+    /// <param name="target">The one receiving the damage</param>
+    /// <returns>True if the damage is cancelled</returns>
+    public virtual bool OnInflictDamage(DamageInfo dmgInfo, I_Battler target)
+        => false;
+
+    /// <summary>
+    /// Called whenever damage is received
+    /// </summary>
+    /// <param name="dmgInfo">The damage being dealt</param>
+    /// <param name="caster">The one dealing the damage</param>
+    /// <returns>True if the damage is cancelled</returns>
+    public virtual bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler? caster = null)
+        => false;
+    
     /// <summary>
     /// Called at the start of the turn
     /// </summary>

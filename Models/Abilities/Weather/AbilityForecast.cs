@@ -26,8 +26,10 @@ public class AbilityForecast : Models.Ability
         => ChangeType(entering);
 
     public override void OnCombatEnd()
-        => typeof(Pokemon).GetProperty("Species")!
-                          .SetValue(this, Castform.Singleton);
+    {
+        typeof(Pokemon).GetProperty("Species")!
+                       .SetValue(this, Castform.Singleton);
+    }
 
     private void ChangeType(Weather current)
     {
@@ -36,7 +38,7 @@ public class AbilityForecast : Models.Ability
 
         Announce();
         bool blockedWeather =
-            Origin.Arena.Players.Any(player => !player.Active.Ability.AllowWeather());
+            Origin.Arena.Players.Any(player => !player.Active.Ability.AllowWeather);
 
         typeof(Pokemon)
            .GetProperty("Species")!

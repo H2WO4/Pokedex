@@ -24,7 +24,7 @@ public interface I_Player
     /// <summary>
     /// The combat instance the fight is happening in
     /// </summary>
-    I_Combat Arena { get; }
+    I_Combat? Arena { get; set; }
     #endregion
 
     #region Methods

@@ -10,6 +10,14 @@ public abstract class Ability
     protected Pokemon Origin { get; }
     #endregion
 
+    #region Properties - Conditions
+    /// <summary>
+    /// Whether this ability eliminates the effect of weather
+    /// </summary>
+    public virtual bool AllowWeather
+        => true;
+    #endregion
+
     #region Constructors
     protected Ability
     (
@@ -197,6 +205,14 @@ public abstract class Ability
         => (atk, def, spAtk, spDef, spd);
 
     /// <summary>
+    /// Called whenever a status is inflicted
+    /// </summary>
+    /// <param name="effect">The status effect applied</param>
+    /// <returns>True if the application is cancelled</returns>
+    public virtual bool OnReceiveStatusEffect(StatusEffect effect)
+        => false;
+
+    /// <summary>
     /// Called at the start of a combat
     /// </summary>
     public virtual void OnCombatStart() { }
@@ -205,13 +221,5 @@ public abstract class Ability
     /// Called at the end of a combat
     /// </summary>
     public virtual void OnCombatEnd() { }
-    #endregion
-
-    #region Methods - Conditions
-    /// <summary>
-    /// Whether this ability eliminates the effect of weather
-    /// </summary>
-    public virtual bool AllowWeather()
-        => true;
     #endregion
 }

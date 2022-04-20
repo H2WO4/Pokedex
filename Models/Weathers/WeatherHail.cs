@@ -14,7 +14,7 @@ public class WeatherHail : Weather
     public static WeatherHail Singleton
         => _singleton ??= new WeatherHail();
 
-    protected virtual IEnumerable<PokeType> TypeSelector
+    private static IEnumerable<PokeType> TypeSelector
     {
         get
         {

@@ -6,7 +6,7 @@ public class ParalysisEffect : StatusEffect
 {
     #region Constructor
     public ParalysisEffect(I_Battler origin)
-        : base("Poison", origin) { }
+        : base("Paralysis", origin) { }
     #endregion
 
     #region Methods

@@ -23,5 +23,16 @@ public class ToxicEffect : StatusEffect
         DamageHandler.DoDamageNoCaster(new DamageInfo(DamageClass.Percent, 6.25 * _turn), Origin);
         _turn++;
     }
+    
+    public static void Apply(I_Battler target)
+    {
+        var  effect = new ToxicEffect(target);
+        bool cancel = target.Ability.OnReceiveStatusEffect(effect);
+
+        if (cancel)
+            return;
+
+        target.StatusEffects.Add(effect);
+    }
     #endregion
 }
