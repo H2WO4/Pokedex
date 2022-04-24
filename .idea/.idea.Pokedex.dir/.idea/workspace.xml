@@ -7,7 +7,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2780b296-9398-4d57-97f4-3903d3e23d18" name="Changes" comment="">
+    <list default="true" id="2780b296-9398-4d57-97f4-3903d3e23d18" name="Changes" comment="HÉRITAGE MULTIPLE !">
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Pokedex.dir/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Pokedex.dir/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Pokedex.dir/.idea/dictionaries/Arthur.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Pokedex.dir/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Pokedex.dir/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Interfaces/Archetypes/I_DoubleHit.cs" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Interfaces/Archetypes/I_Effect.cs" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Interfaces/Archetypes/I_OHKO.cs" afterDir="false" />
@@ -16,6 +21,7 @@
       <change afterPath="$PROJECT_DIR$/Models/Abilities/AbilityNormalize.cs" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Models/Abilities/AbilitySkillLink.cs" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Charge/MoveRazorWind.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Charge/MoveRazorWind2.cs" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveBite.cs" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveBodySlam.cs" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveHeadbutt.cs" afterDir="false" />
@@ -188,6 +194,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ad2a4b807aefd7738e919aa358fa13721e9a4848eb142d8849c2546109d81e1/RuntimeType.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d9d9faea5e6ed6438a777ef8c6eed41261f81d8e86488ed923ad92564f54e/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Data/pokemon.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://E:/Desktop/Programation/Github/Pokedex/Models/Ability.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/PokeType.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
@@ -316,6 +323,7 @@
     <MESSAGE value="ET C'EST LA REFACTORISATION EN MASSE !" />
     <MESSAGE value="ET ON A OUBLIER D'UPDATE LE GITIGNORE" />
     <MESSAGE value="Nettoyage de code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Nettoyage de code" />
+    <MESSAGE value="HÉRITAGE MULTIPLE !" />
+    <option name="LAST_COMMIT_MESSAGE" value="HÉRITAGE MULTIPLE !" />
   </component>
 </project>

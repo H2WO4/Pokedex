@@ -12,3 +12,4 @@ Models/Pokemons/*.cs
 bin/
 obj/
 .vscode/
+.idea/
