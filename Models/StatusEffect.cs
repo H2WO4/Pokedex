@@ -1,4 +1,6 @@
-﻿using Pokedex.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Pokedex.Interfaces;
 
 namespace Pokedex.Models;
 
@@ -9,14 +11,15 @@ public abstract class StatusEffect
 
     public int? Timer { get; set; }
     
-    public I_Battler Origin { get;  }
+    [NotNull]
+    public I_Battler? Origin { get; }
     #endregion
 
     #region Constructors
     protected StatusEffect
     (
         string name,
-        I_Battler origin,
+        I_Battler? origin,
         int? timer = null
     )
     {
@@ -29,6 +32,8 @@ public abstract class StatusEffect
     #region Methods
     public override string ToString()
         => Name;
+    
+    public virtual void Apply(I_Battler target) { }
     #endregion
     
     #region Methods - Hooks

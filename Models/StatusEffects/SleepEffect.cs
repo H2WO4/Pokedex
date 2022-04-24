@@ -1,44 +1,49 @@
 ﻿using Pokedex.Interfaces;
 
-
 namespace Pokedex.Models.StatusEffects;
 
 public class SleepEffect : StatusEffect
 {
-	#region Constructor
-	public SleepEffect(I_Battler origin, int? turns = null)
-		: base("Sleep", origin)
-	{
-		Timer = turns ?? Program.Rnd.Next(1, 4);
-	}
-	#endregion
+    #region Constructor
+    public SleepEffect()
+        : this(null) { }
 
-	#region Methods
-	public override bool BeforeAttack(I_Skill move)
-	{
-		if (Timer != 0)
-		{
-			Console.WriteLine($"{Origin} is asleep!");
-			Timer--;
+    private SleepEffect(I_Battler? origin, int? turns = null)
+        : base("Sleep", origin)
+    {
+        Timer = turns ?? Program.Rnd.Next(1, 4);
+    }
+    #endregion
 
-			return true;
-		}
+    #region Methods
+    public override bool BeforeAttack(I_Skill move)
+    {
+        if (Timer != 0)
+        {
+            Console.WriteLine($"{Origin} is asleep!");
+            Timer--;
 
-		Console.WriteLine($"{Origin} woke up!");
-		Origin.StatusEffects.Remove(this);
+            return true;
+        }
 
-		return false;
-	}
+        Console.WriteLine($"{Origin} woke up!");
+        Origin.StatusEffects.Remove(this);
 
-	public static void Apply(I_Battler target, int? turns = null)
-	{
-		var  effect = new SleepEffect(target, turns);
-		bool cancel = target.Ability.OnReceiveStatusEffect(effect);
+        return false;
+    }
 
-		if (cancel)
-			return;
+    public override void Apply(I_Battler target)
+        => Apply(target, null);
+    
+    public static void Apply(I_Battler target, int? turns)
+    {
+        var  effect = new SleepEffect(target, turns);
+        bool cancel = target.Ability.OnReceiveStatusEffect(effect);
 
-		target.StatusEffects.Add(effect);
-	}
-	#endregion
+        if (cancel)
+            return;
+
+        target.StatusEffects.Add(effect);
+    }
+    #endregion
 }

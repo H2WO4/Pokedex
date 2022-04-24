@@ -2,7 +2,7 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models.Abilities;
 
-public class AbilityColorChange : Models.Ability
+public class AbilityColorChange : Ability
 {
     #region Variables
     private PokeType? _tempType;

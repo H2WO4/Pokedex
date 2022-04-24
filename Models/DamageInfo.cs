@@ -11,15 +11,15 @@ public class DamageInfo
     /// <summary>
     /// The class of damage this is
     /// </summary>
-    public DamageClass Class { get; set; }
+    public DamageClass Class { get; }
 
     /// <summary>
     /// How much damage is being dealt
     /// </summary>
     /// <remarks>
-    /// Pure -> Raw damage number<br />
-    /// Percent -> Percentage of MaxHP<br />
-    /// Calculated -> Multiplier
+    /// Pure → Raw damage number<br />
+    /// Percent → Percentage of MaxHP<br />
+    /// Calculated → Multiplier
     /// </remarks>
     public double Power { get; set; }
 

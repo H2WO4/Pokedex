@@ -1,6 +1,6 @@
 namespace Pokedex.Models.Abilities;
 
-public class AbilityContrary : Models.Ability
+public class AbilityContrary : Ability
 {
     #region Constructors
     public AbilityContrary(Pokemon origin)

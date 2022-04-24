@@ -1,6 +1,6 @@
 ﻿using Pokedex.Enums;
 using Pokedex.Interfaces;
-using Pokedex.Models.PokemonTypes;
+using Pokedex.Models.PokeTypes;
 
 
 namespace Pokedex.Models.StatusEffects;
@@ -8,7 +8,10 @@ namespace Pokedex.Models.StatusEffects;
 public class PoisonEffect : StatusEffect
 {
     #region Constructor
-    public PoisonEffect(I_Battler origin)
+    public PoisonEffect()
+        : this(null) { }
+
+    private PoisonEffect(I_Battler? origin)
         : base("Poison", origin) { }
     #endregion
 
@@ -19,7 +22,7 @@ public class PoisonEffect : StatusEffect
         DamageHandler.DoDamageNoCaster(new DamageInfo(DamageClass.Percent, 12.5), Origin);
     }
     
-    public static void Apply(I_Battler target)
+    public override void Apply(I_Battler target)
     {
         if (target.Types.Contains(TypeSteel.Singleton))
             return;

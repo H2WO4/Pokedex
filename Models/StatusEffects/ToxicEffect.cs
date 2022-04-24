@@ -10,7 +10,10 @@ public class ToxicEffect : StatusEffect
     #endregion
 
     #region Constructor
-    public ToxicEffect(I_Battler origin)
+    public ToxicEffect()
+        : this(null) { }
+
+    private ToxicEffect(I_Battler? origin)
         : base("Toxic Poison", origin) { }
     #endregion
 
@@ -23,8 +26,8 @@ public class ToxicEffect : StatusEffect
         DamageHandler.DoDamageNoCaster(new DamageInfo(DamageClass.Percent, 6.25 * _turn), Origin);
         _turn++;
     }
-    
-    public static void Apply(I_Battler target)
+
+    public override void Apply(I_Battler target)
     {
         var  effect = new ToxicEffect(target);
         bool cancel = target.Ability.OnReceiveStatusEffect(effect);

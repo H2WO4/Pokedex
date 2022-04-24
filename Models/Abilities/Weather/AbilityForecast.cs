@@ -3,7 +3,7 @@ using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models.Abilities;
 
-public class AbilityForecast : Models.Ability
+public class AbilityForecast : Ability
 {
     #region Constructors
     public AbilityForecast(Pokemon origin)

@@ -2,7 +2,7 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models.Abilities;
 
-public class AbilityProtean : Models.Ability
+public class AbilityProtean : Ability
 {
     #region Variables
     private PokeType? _tempType;

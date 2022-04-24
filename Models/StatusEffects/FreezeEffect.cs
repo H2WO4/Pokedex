@@ -1,5 +1,5 @@
 ﻿using Pokedex.Interfaces;
-using Pokedex.Models.PokemonTypes;
+using Pokedex.Models.PokeTypes;
 
 
 namespace Pokedex.Models.StatusEffects;
@@ -7,7 +7,10 @@ namespace Pokedex.Models.StatusEffects;
 public class FreezeEffect : StatusEffect
 {
 	#region Constructor
-	public FreezeEffect(I_Battler origin)
+	public FreezeEffect()
+		: this(null) { }
+
+	private FreezeEffect(I_Battler? origin)
 		: base("Freeze", origin) { }
 	#endregion
 
@@ -36,7 +39,7 @@ public class FreezeEffect : StatusEffect
 		return false;
 	}
 
-	public static void Apply(I_Battler target)
+	public override void Apply(I_Battler target)
 	{
 		if (target.Types.Contains(TypeIce.Singleton))
 			return;

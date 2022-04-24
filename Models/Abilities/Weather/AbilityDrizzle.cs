@@ -2,7 +2,7 @@ using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models.Abilities;
 
-public class AbilityDrizzle : Models.Ability
+public class AbilityDrizzle : Ability
 {
     #region Constructors
     public AbilityDrizzle(Pokemon origin)

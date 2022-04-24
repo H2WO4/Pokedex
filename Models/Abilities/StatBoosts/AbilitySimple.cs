@@ -1,6 +1,6 @@
 namespace Pokedex.Models.Abilities;
 
-public class AbilitySimple : Models.Ability
+public class AbilitySimple : Ability
 {
     #region Constructors
     public AbilitySimple(Pokemon origin)

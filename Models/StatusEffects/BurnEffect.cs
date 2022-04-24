@@ -1,6 +1,6 @@
 ﻿using Pokedex.Enums;
 using Pokedex.Interfaces;
-using Pokedex.Models.PokemonTypes;
+using Pokedex.Models.PokeTypes;
 
 
 namespace Pokedex.Models.StatusEffects;
@@ -8,7 +8,10 @@ namespace Pokedex.Models.StatusEffects;
 public class BurnEffect : StatusEffect
 {
     #region Constructor
-    public BurnEffect(I_Battler origin)
+    public BurnEffect()
+        : this(null) { }
+
+    private BurnEffect(I_Battler? origin)
         : base("Burn", origin) { }
     #endregion
 
@@ -21,7 +24,7 @@ public class BurnEffect : StatusEffect
     public override int ChangeAtk(int atk)
         => atk / 2;
 
-    public static void Apply(I_Battler target)
+    public override void Apply(I_Battler target)
     {
         if (target.Types.Contains(TypeFire.Singleton))
             return;

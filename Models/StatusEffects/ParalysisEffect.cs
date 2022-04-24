@@ -1,11 +1,15 @@
 ﻿using Pokedex.Interfaces;
+using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.StatusEffects;
 
 public class ParalysisEffect : StatusEffect
 {
     #region Constructor
-    public ParalysisEffect(I_Battler origin)
+    public ParalysisEffect()
+        : this(null) { }
+
+    private ParalysisEffect(I_Battler? origin)
         : base("Paralysis", origin) { }
     #endregion
 
@@ -22,5 +26,19 @@ public class ParalysisEffect : StatusEffect
 
     public override int ChangeSpd(int spd)
         => spd / 2;
+    
+    public override void Apply(I_Battler target)
+    {
+        if (target.Types.Contains(TypeElectric.Singleton))
+            return;
+
+        var  effect = new ParalysisEffect(target);
+        bool cancel = target.Ability.OnReceiveStatusEffect(effect);
+
+        if (cancel)
+            return;
+        
+        target.StatusEffects.Add(effect);
+    }
     #endregion
 }

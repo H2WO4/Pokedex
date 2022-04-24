@@ -2,8 +2,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Pokedex.Interfaces;
 using Pokedex.Models;
-using Pokedex.Models.PokemonMoves;
 using Pokedex.Models.Pokemons;
+using Pokedex.Models.PokeMoves;
 
 namespace Pokedex.Tests;
 

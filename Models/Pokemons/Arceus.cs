@@ -1,5 +1,5 @@
-using Pokedex.Models.PokemonTypes;
 using Pokedex.Enums;
+using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.Pokemons
 {

@@ -2,7 +2,7 @@ using Pokedex.Enums;
 
 namespace Pokedex.Models.Abilities;
 
-public class AbilitySpeedBoost : Models.Ability
+public class AbilitySpeedBoost : Ability
 {
     #region Constructors
     public AbilitySpeedBoost(Pokemon origin)

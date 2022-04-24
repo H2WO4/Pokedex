@@ -2,7 +2,7 @@ using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models.Abilities;
 
-public class AbilitySandStream : Models.Ability
+public class AbilitySandStream : Ability
 {
     #region Constructors
     public AbilitySandStream(Pokemon origin)

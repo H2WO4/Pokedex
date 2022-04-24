@@ -2,7 +2,7 @@ using Pokedex.Enums;
 
 namespace Pokedex.Models.Abilities;
 
-public class AbilityIntimidate : Models.Ability
+public class AbilityIntimidate : Ability
 {
     #region Constructors
     public AbilityIntimidate(Pokemon origin)

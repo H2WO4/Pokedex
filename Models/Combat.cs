@@ -60,7 +60,7 @@ public class Combat : I_Combat
 		_playerB = playerB;
 
 		playerA.Arena = this;
-		playerA.Arena = this;
+		playerB.Arena = this;
 
 		_weather = WeatherClear.Singleton;
 	}

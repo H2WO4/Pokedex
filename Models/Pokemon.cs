@@ -2,6 +2,7 @@ using System.Text;
 
 using Pokedex.Enums;
 using Pokedex.Interfaces;
+using Pokedex.Models.Abilities;
 using Pokedex.Models.Events;
 using Pokedex.Utils;
 
@@ -207,7 +208,7 @@ public class Pokemon : I_Battler
         _nature = Natures[Program.Rnd.Next(Natures.Length - 1)];
         CalculateNatureChars();
 
-        Ability = new Abilities.Ability(this);
+        Ability = new Ability___(this);
         SetBoosts(0, 0, 0, 0,
                   0);
 

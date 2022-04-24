@@ -7,7 +7,10 @@ namespace Pokedex.Models.StatusEffects;
 public class ConfusionEffect : StatusEffect
 {
 	#region Constructor
-	public ConfusionEffect(I_Battler origin)
+	public ConfusionEffect()
+		: this(null) { }
+
+	private ConfusionEffect(I_Battler? origin)
 		: base("Confusion", origin)
 	{
 		Timer = Program.Rnd.Next(2, 6);
@@ -37,11 +40,8 @@ public class ConfusionEffect : StatusEffect
 
 		return true;
 	}
-
-	public override int ChangeSpd(int spd)
-		=> spd / 2;
 	
-	public static void Apply(I_Battler target)
+	public override void Apply(I_Battler target)
 	{
 		var  effect = new ConfusionEffect(target);
 		bool cancel = target.Ability.OnReceiveStatusEffect(effect);

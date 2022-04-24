@@ -2,7 +2,7 @@ using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models.Abilities;
 
-public class AbilitySnowWarning : Models.Ability
+public class AbilitySnowWarning : Ability
 {
     #region Constructors
     public AbilitySnowWarning(Pokemon origin)

@@ -1,9 +1,9 @@
 using Pokedex.Interfaces;
-using Pokedex.Models.PokemonTypes;
+using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.Abilities;
 
-public class AbilityLevitate : Models.Ability
+public class AbilityLevitate : Ability
 {
     #region Constructors
     public AbilityLevitate(Pokemon origin)

@@ -2,7 +2,7 @@ using Pokedex.Models.Weathers;
 
 namespace Pokedex.Models.Abilities;
 
-public class AbilityDrougth : Models.Ability
+public class AbilityDrougth : Ability
 {
     #region Constructors
     public AbilityDrougth(Pokemon origin)

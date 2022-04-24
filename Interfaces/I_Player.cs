@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Pokedex.Interfaces;
 
 /// <summary>
@@ -24,6 +26,7 @@ public interface I_Player
     /// <summary>
     /// The combat instance the fight is happening in
     /// </summary>
+    [NotNull]
     I_Combat? Arena { get; set; }
     #endregion
 
@@ -37,7 +40,8 @@ public interface I_Player
     /// Change the player's active Pokemon to the one with the corresponding index
     /// </summary>
     /// <param name="index">The index of the Pokemon to switch to</param>
-    void ChangeActive(int index);
+    /// <param name="forced">Whether this change was intended by the player</param>
+    void ChangeActive(int index, bool forced = false);
 
     /// <summary>
     /// Give control to the player and let them change their active Pokemon

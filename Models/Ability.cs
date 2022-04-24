@@ -110,6 +110,18 @@ public abstract class Ability
         => false;
 
     /// <summary>
+    /// Called after a move is used
+    /// </summary>
+    /// <param name="move">The move used</param>
+    public virtual void AfterAttack(I_Skill move) { }
+
+    /// <summary>
+    /// Called after a move is used
+    /// </summary>
+    /// <param name="move">The move used</param>
+    public virtual void AfterDefend(I_Skill move) { }
+
+    /// <summary>
     /// Called before returning a Pokemon's type
     /// </summary>
     /// <returns>The new types, or null if identical</returns>

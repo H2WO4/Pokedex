@@ -1,9 +1,9 @@
 namespace Pokedex.Models.Abilities;
 
-public class Ability : Models.Ability
+public class Ability___ : Ability
 {
     #region Constructors
-    public Ability(Pokemon origin)
+    public Ability___(Pokemon origin)
         : base("___", origin) { }
     #endregion
 

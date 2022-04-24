@@ -3,7 +3,7 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models.Abilities;
 
-public class AbilityRoughSkin : Models.Ability
+public class AbilityRoughSkin : Ability
 {
     #region Constructors
     public AbilityRoughSkin(Pokemon origin)

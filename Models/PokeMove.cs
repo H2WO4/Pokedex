@@ -19,11 +19,11 @@ public abstract class PokeMove : I_Skill
 	#region Properties
 	public string Name { get; }
 
-	public int? Power { get; protected set; }
+	public int? Power { get; set; }
 
 	public MoveClass Class { get; }
 
-	public int? Accuracy { get; }
+	public int? Accuracy { get; set; }
 
 	public int MaxPP { get; }
 
@@ -31,7 +31,7 @@ public abstract class PokeMove : I_Skill
 
 	public int Priority { get; protected set; }
 
-	public PokeType Type { get; }
+	public PokeType Type { get; set; }
 
 	public I_Battler Caster { get => _caster ?? throw new InvalidOperationException(); set => _caster = value; }
 
@@ -96,29 +96,23 @@ public abstract class PokeMove : I_Skill
 					return;
 				
 				DoAction(target);
+				target.Ability.AfterDefend(this);
 			}
 			else
-				Console.WriteLine($"{Caster}'s {Name} missed {target}\n");
+				OnMiss(target);
 		}
+		
+		Caster.Ability.AfterAttack(this);
 	}
 
-	/// <summary>
-	/// Get the targets of the move
-	/// </summary>
-	/// <returns>All targets to be hit by the move</returns>
-	protected virtual IEnumerable<I_Battler> GetTargets()
+	public IEnumerable<I_Battler> GetTargets()
 	{
 		return Arena.Players
 					.Where(player => player != Caster.Owner)
 					.Select(player => player.Active);
 	}
 
-	/// <summary>
-	/// Checks whether the move hits a target
-	/// </summary>
-	/// <param name="target">The target to check for</param>
-	/// <returns>If the move hits, true, else false</returns>
-	protected virtual bool AccuracyCheck(I_Battler target)
+	public virtual bool AccuracyCheck(I_Battler target)
 	{
 		if (Accuracy == null)
 			return true;
@@ -126,12 +120,7 @@ public abstract class PokeMove : I_Skill
 		return (Accuracy ?? 100) >= Program.Rnd.Next(1, 100);
 	}
 
-	/// <summary>
-	/// Execute the action of the move unto the target
-	/// </summary>
-	/// <param name="target">The target to use</param>
-	/// <exception cref="InvalidOperationException">Thrown if a status move does not override this</exception>
-	protected virtual void DoAction(I_Battler target)
+	public virtual void DoAction(I_Battler target)
 	{
 		// Create the damage
 		DamageInfo dmgInfo =
@@ -149,11 +138,21 @@ public abstract class PokeMove : I_Skill
 
 		// Do the damage
 		bool success = DamageHandler.DoDamage(dmgInfo, Caster, target);
-		// Inform the player if it failed
-		if (!success)
+		
+		// Do bonus effects, or inform the player if it failed
+		if (success)
+			DoBonusEffects(target);
+		else
 			Console.WriteLine("But it failed");
 	}
 
+	public virtual void OnMiss(I_Battler target)
+	{
+		Console.WriteLine($"{Caster}'s {Name} missed {target}\n");
+	}
+
+	public virtual void DoBonusEffects(I_Battler target) { }
+	
 	public virtual void PreAction(MoveEvent @event) { }
 
 	public string GetQuickStatus()

@@ -2,7 +2,7 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models.Abilities;
 
-public class AbilitySturdy : Models.Ability
+public class AbilitySturdy : Ability
 {
     #region Constructors
     public AbilitySturdy(Pokemon origin)

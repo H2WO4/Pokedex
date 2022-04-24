@@ -2,7 +2,7 @@ using Pokedex.Interfaces;
 
 namespace Pokedex.Models.Abilities;
 
-public class AbilityWonderGuard : Models.Ability
+public class AbilityWonderGuard : Ability
 {
     #region Constructors
     public AbilityWonderGuard(Pokemon origin)
