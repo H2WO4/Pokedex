@@ -5,7 +5,7 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveScreech : PokeMove, I_StatChange
+public class MoveScreech : PokeMove, IM_StatChange
 {
     public Stat StatToChange
         => Stat.Def;

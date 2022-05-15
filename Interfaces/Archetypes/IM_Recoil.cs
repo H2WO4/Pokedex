@@ -3,7 +3,7 @@ using Pokedex.Models;
 
 namespace Pokedex.Interfaces.Archetypes;
 
-public interface I_Recoil : I_Skill
+public interface IM_Recoil : I_Skill
 {
     int RecoilPower { get; }
     

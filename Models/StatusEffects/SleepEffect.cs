@@ -1,5 +1,6 @@
 ﻿using Pokedex.Interfaces;
 
+
 namespace Pokedex.Models.StatusEffects;
 
 public class SleepEffect : StatusEffect
@@ -32,18 +33,20 @@ public class SleepEffect : StatusEffect
         return false;
     }
 
-    public override void Apply(I_Battler target)
+    public override bool Apply(I_Battler target)
         => Apply(target, null);
-    
-    public static void Apply(I_Battler target, int? turns)
+
+    public static bool Apply(I_Battler target, int? turns)
     {
         var  effect = new SleepEffect(target, turns);
         bool cancel = target.Ability.OnReceiveStatusEffect(effect);
 
         if (cancel)
-            return;
+            return false;
 
         target.StatusEffects.Add(effect);
+
+        return true;
     }
     #endregion
 }

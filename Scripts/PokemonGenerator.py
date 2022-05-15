@@ -51,7 +51,7 @@ for poke in data.values():
         # Load the template code
         outfile = f"""
 
-using Pokedex.Models.PokemonTypes;
+using Pokedex.Models.PokeTypes;
 using Pokedex.Enums;
 
 namespace Pokedex.Models.Pokemons

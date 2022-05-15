@@ -1,3 +1,6 @@
+using Pokedex.Enums;
+
+
 namespace Pokedex.Models.Abilities;
 
 public class AbilityContrary : Ability
@@ -8,11 +11,10 @@ public class AbilityContrary : Ability
     #endregion
 
     #region Methods
-    public override (int, int, int, int, int) OnStatChange(int atk, int def, int spAtk, int spDef,
-                                                           int spd)
+    public override int OnStatChange(Stat stat, int val)
     {
         Announce();
-        return (-atk, -def, -spAtk, -spDef, -spd);
+        return -val;
     }
     #endregion
 }

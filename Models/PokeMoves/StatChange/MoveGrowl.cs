@@ -5,7 +5,7 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveGrowl : PokeMove, I_StatChange
+public class MoveGrowl : PokeMove, IM_StatChange
 {
     public Stat StatToChange
         => Stat.Atk;

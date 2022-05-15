@@ -7,7 +7,7 @@ using Pokedex.Models.StatusEffects;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveRest : PokeMove, I_Self
+public class MoveRest : PokeMove, IM_TargetSelf
 {
     public MoveRest()
         : base("Rest",

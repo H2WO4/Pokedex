@@ -3,9 +3,10 @@ using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 using Pokedex.Models.StatusEffects;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveTwineedle : PokeMove, I_DoubleHit, I_Effect<PoisonEffect>
+public class MoveTwineedle : PokeMove, IM_DoubleHit, IM_StatusEffectBonus<PoisonEffect>
 {
     public int EffectChance
         => 30;

@@ -1,6 +1,7 @@
 using Pokedex.Enums;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
 public class MoveWaterGun : PokeMove

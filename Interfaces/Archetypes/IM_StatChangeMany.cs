@@ -4,7 +4,7 @@ using Pokedex.Models;
 
 namespace Pokedex.Interfaces.Archetypes;
 
-public interface I_StatChangeMany : I_Skill
+public interface IM_StatChangeMany : I_Skill
 {
     IEnumerable<Stat> StatsToChange { get; }
 

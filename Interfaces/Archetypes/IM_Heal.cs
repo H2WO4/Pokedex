@@ -3,7 +3,7 @@ using Pokedex.Models;
 
 namespace Pokedex.Interfaces.Archetypes;
 
-public interface I_Heal : I_Skill
+public interface IM_Heal : I_Skill
 {
     CalcClass CalcClass { get; }
     

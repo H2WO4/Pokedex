@@ -1,6 +1,6 @@
 namespace Pokedex.Interfaces.Archetypes;
 
-public interface IM_Self : I_Skill
+public interface IM_TargetSelf : I_Skill
 {
     IEnumerable<I_Battler> I_Skill.GetTargets()
     {

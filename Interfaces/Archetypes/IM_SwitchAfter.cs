@@ -2,7 +2,7 @@ using Pokedex.Models.Events;
 
 namespace Pokedex.Interfaces.Archetypes;
 
-public interface I_Switch : I_Skill
+public interface IM_SwitchAfter : I_Skill
 {
     void I_Skill.DoBonusEffects(I_Battler target)
     {

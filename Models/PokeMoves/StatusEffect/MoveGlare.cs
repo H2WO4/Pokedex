@@ -6,7 +6,7 @@ using Pokedex.Models.StatusEffects;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveGlare : PokeMove, I_Effect<ParalysisEffect>
+public class MoveGlare : PokeMove, IM_StatusEffect<ParalysisEffect>
 {
     public MoveGlare()
         : base("Glare",

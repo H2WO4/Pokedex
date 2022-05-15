@@ -23,19 +23,21 @@ public class ToxicEffect : StatusEffect
 
     public override void OnTurnEnd()
     {
-        DamageHandler.DoDamageNoCaster(new DamageInfo(DamageClass.Percent, 6.25 * _turn), Origin);
+        InteractionHandler.DoDamageNoCaster(new DamageInfo(CalcClass.Percent, 6.25 * _turn), Origin);
         _turn++;
     }
 
-    public override void Apply(I_Battler target)
+    public override bool Apply(I_Battler target)
     {
         var  effect = new ToxicEffect(target);
         bool cancel = target.Ability.OnReceiveStatusEffect(effect);
 
         if (cancel)
-            return;
+            return false;
 
         target.StatusEffects.Add(effect);
+
+        return true;
     }
     #endregion
 }

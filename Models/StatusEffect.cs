@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 
 using Pokedex.Interfaces;
 
@@ -13,6 +14,8 @@ public abstract class StatusEffect
     
     [NotNull]
     public I_Battler? Origin { get; }
+    
+    public virtual bool IsDebuff => true;
     #endregion
 
     #region Constructors
@@ -30,10 +33,15 @@ public abstract class StatusEffect
     #endregion
 
     #region Methods
+    /// <summary>
+    /// Add the status effect to the target
+    /// </summary>
+    /// <param name="target">The Pokemon to use</param>
+    /// <returns>True if the status effect was correctly applied</returns>
+    public abstract bool Apply(I_Battler target);
+    
     public override string ToString()
         => Name;
-    
-    public virtual void Apply(I_Battler target) { }
     #endregion
     
     #region Methods - Hooks
@@ -96,6 +104,7 @@ public abstract class StatusEffect
     /// </summary>
     /// <param name="hp">Current calculated max HP</param>
     /// <returns></returns>
+    [Pure]
     public virtual int ChangeHP(int hp)
         => hp;
 
@@ -104,6 +113,7 @@ public abstract class StatusEffect
     /// </summary>
     /// <param name="atk">Current calculated attack</param>
     /// <returns></returns>
+    [Pure]
     public virtual int ChangeAtk(int atk)
         => atk;
 
@@ -112,6 +122,7 @@ public abstract class StatusEffect
     /// </summary>
     /// <param name="def">Current calculated defense</param>
     /// <returns></returns>
+    [Pure]
     public virtual int ChangeDef(int def)
         => def;
 
@@ -120,6 +131,7 @@ public abstract class StatusEffect
     /// </summary>
     /// <param name="spAtk">Current calculated special attack</param>
     /// <returns></returns>
+    [Pure]
     public virtual int ChangeSpAtk(int spAtk)
         => spAtk;
 
@@ -128,6 +140,7 @@ public abstract class StatusEffect
     /// </summary>
     /// <param name="spDef">Current calculated special defense</param>
     /// <returns></returns>
+    [Pure]
     public virtual int ChangeSpDef(int spDef)
         => spDef;
 
@@ -136,6 +149,7 @@ public abstract class StatusEffect
     /// </summary>
     /// <param name="spd">Current calculated speed</param>
     /// <returns></returns>
+    [Pure]
     public virtual int ChangeSpd(int spd)
         => spd;
     #endregion

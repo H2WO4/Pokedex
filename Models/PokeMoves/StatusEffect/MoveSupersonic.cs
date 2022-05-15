@@ -6,7 +6,7 @@ using Pokedex.Models.StatusEffects;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveSupersonic : PokeMove, I_Effect<ConfusionEffect>
+public class MoveSupersonic : PokeMove, IM_StatusEffect<ConfusionEffect>
 {
     public MoveSupersonic()
         : base("Supersonic",

@@ -3,13 +3,14 @@ using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 using Pokedex.Models.StatusEffects;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MovePoisonSting : PokeMove, I_Effect<PoisonEffect>
+public class MovePoisonSting : PokeMove, IM_StatusEffectBonus<PoisonEffect>
 {
     public int EffectChance
         => 30;
-    
+
     public MovePoisonSting()
         : base("Poison Sting",
                MoveClass.Physical,

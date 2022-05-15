@@ -18,24 +18,26 @@ public class BurnEffect : StatusEffect
     #region Methods
     public override void OnTurnEnd()
     {
-        DamageHandler.DoDamageNoCaster(new DamageInfo(DamageClass.Percent, 6.25), Origin);
+        InteractionHandler.DoDamageNoCaster(new DamageInfo(CalcClass.Percent, 6.25), Origin);
     }
 
     public override int ChangeAtk(int atk)
         => atk / 2;
 
-    public override void Apply(I_Battler target)
+    public override bool Apply(I_Battler target)
     {
         if (target.Types.Contains(TypeFire.Singleton))
-            return;
+            return false;
 
         var  effect = new BurnEffect(target);
         bool cancel = target.Ability.OnReceiveStatusEffect(effect);
 
         if (cancel)
-            return;
+            return false;
         
         target.StatusEffects.Add(effect);
+
+        return true;
     }
     #endregion
 }

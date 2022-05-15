@@ -3,7 +3,7 @@ using Pokedex.Models;
 
 namespace Pokedex.Interfaces.Archetypes;
 
-public interface I_Drain : I_Skill
+public interface IM_Drain : I_Skill
 {
     int DrainPower { get; }
 

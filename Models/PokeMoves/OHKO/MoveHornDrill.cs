@@ -2,9 +2,10 @@ using Pokedex.Enums;
 using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveHornDrill : PokeMove, I_OHKO
+public class MoveHornDrill : PokeMove, IM_OHKO
 {
     public MoveHornDrill()
         : base("Horn Drill",

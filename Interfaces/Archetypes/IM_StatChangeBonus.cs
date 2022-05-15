@@ -4,7 +4,7 @@ using Pokedex.Models;
 
 namespace Pokedex.Interfaces.Archetypes;
 
-public interface IM_StatChangeChance : I_Skill
+public interface IM_StatChangeBonus : I_Skill
 {
     Stat StatToChange { get; }
 

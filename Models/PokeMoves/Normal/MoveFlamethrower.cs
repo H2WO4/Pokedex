@@ -6,7 +6,7 @@ using Pokedex.Models.StatusEffects;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveFlamethrower : PokeMove, I_EffectChance<BurnEffect>
+public class MoveFlamethrower : PokeMove, IM_StatusEffectBonus<BurnEffect>
 {
     public int EffectChance
         => 10;

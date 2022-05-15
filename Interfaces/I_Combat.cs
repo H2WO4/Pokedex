@@ -11,17 +11,17 @@ public interface I_Combat
     /// <summary>
     /// The list of all players in combat
     /// </summary>
-    IEnumerable<I_Player> Players { get; }
+    public IEnumerable<I_Player> Players { get; }
 
     /// <summary>
     /// The list of all currently scheduled events
     /// </summary>
-    LinkedList<I_Event> EventQueue { get; }
+    public LinkedList<I_Event> EventQueue { get; }
 
     /// <summary>
     /// The currently active weather on the field
     /// </summary>
-    Weather Weather { get; set; }
+    public Weather Weather { get; set; }
     #endregion
 
     #region Methods
@@ -29,18 +29,18 @@ public interface I_Combat
     /// Add an event to the end of the queue
     /// </summary>
     /// <param name="ev">The event to add</param>
-    void AddToBottom(I_Event ev);
+    public void AddToBottom(I_Event ev);
 
     /// <summary>
     /// Add an event to the start of the queue
     /// </summary>
     /// <param name="ev">The event to add</param>
-    void AddToTop(I_Event ev);
+    public void AddToTop(I_Event ev);
 
     /// <summary>
     /// Called during a full game turn
     /// </summary>
     /// <returns>The player that won the fight</returns>
-    I_Player? DoCombat();
+    public I_Player? DoCombat();
     #endregion
 }

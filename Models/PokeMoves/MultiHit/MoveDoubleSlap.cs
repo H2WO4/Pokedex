@@ -2,9 +2,10 @@ using Pokedex.Enums;
 using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveDoubleSlap : PokeMove, I_MultiHit
+public class MoveDoubleSlap : PokeMove, IM_MultiHit
 {
     public MoveDoubleSlap()
         : base("Double Slap",

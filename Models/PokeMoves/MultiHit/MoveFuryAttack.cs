@@ -2,9 +2,10 @@ using Pokedex.Enums;
 using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveFuryAttack : PokeMove, I_MultiHit
+public class MoveFuryAttack : PokeMove, IM_MultiHit
 {
     public MoveFuryAttack()
         : base("Fury Attack",

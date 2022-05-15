@@ -1,3 +1,6 @@
+using Pokedex.Enums;
+
+
 namespace Pokedex.Models.Abilities;
 
 public class AbilitySimple : Ability
@@ -8,11 +11,10 @@ public class AbilitySimple : Ability
     #endregion
 
     #region Methods
-    public override (int, int, int, int, int) OnStatChange(int atk, int def, int spAtk, int spDef,
-                                                           int spd)
+    public override int OnStatChange(Stat stat, int val)
     {
         Announce();
-        return (2 * atk, 2 * def, 2 * spAtk, 2 * spDef, 2 * spd);
+        return val * 2;
     }
     #endregion
 }

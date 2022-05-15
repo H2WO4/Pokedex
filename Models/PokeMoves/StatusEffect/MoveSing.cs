@@ -6,7 +6,7 @@ using Pokedex.Models.StatusEffects;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveSing : PokeMove, I_Effect<SleepEffect>
+public class MoveSing : PokeMove, IM_StatusEffect<SleepEffect>
 {
     public MoveSing()
         : base("Sing",

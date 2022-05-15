@@ -25,10 +25,12 @@ public class FlinchEffect : StatusEffect
 		Origin.StatusEffects.Remove(this);
 	}
 
-	public override void Apply(I_Battler target)
+	public override bool Apply(I_Battler target)
 	{
 		Console.WriteLine($"{target} flinched!");
 		target.StatusEffects.Add(new FlinchEffect(target) { Timer = 0 });
+
+		return true;
 	}
 	#endregion
 }

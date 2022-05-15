@@ -5,7 +5,7 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveTailWhip : PokeMove, I_StatChange
+public class MoveTailWhip : PokeMove, IM_StatChange
 {
     public Stat StatToChange
         => Stat.Def;

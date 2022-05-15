@@ -20,7 +20,7 @@ public class AbilityRoughSkin : Ability
             return;
 
         Announce();
-        DamageHandler.DoDamage(new DamageInfo(DamageClass.Percent, 6.25), Origin, caster);
+        InteractionHandler.DoDamage(new DamageInfo(CalcClass.Percent, 6.25), Origin, caster);
     }
     #endregion
 }

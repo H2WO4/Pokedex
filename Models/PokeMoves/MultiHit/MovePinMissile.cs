@@ -2,9 +2,10 @@ using Pokedex.Enums;
 using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MovePinMissile : PokeMove, I_MultiHit
+public class MovePinMissile : PokeMove, IM_MultiHit
 {
     public MovePinMissile()
         : base("Pin Missile",

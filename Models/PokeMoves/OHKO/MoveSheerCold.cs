@@ -2,9 +2,10 @@ using Pokedex.Enums;
 using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveSheerCold : PokeMove, I_OHKO
+public class MoveSheerCold : PokeMove, IM_OHKO
 {
     public MoveSheerCold()
         : base("Sheer Cold",

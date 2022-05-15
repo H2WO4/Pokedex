@@ -1,4 +1,7 @@
+using System.Diagnostics.Contracts;
+
 using Pokedex.Enums;
+
 
 namespace Pokedex.Models;
 
@@ -11,7 +14,7 @@ public class DamageInfo
     /// <summary>
     /// The class of damage this is
     /// </summary>
-    public DamageClass Class { get; }
+    public CalcClass Class { get; }
 
     /// <summary>
     /// How much damage is being dealt
@@ -31,12 +34,17 @@ public class DamageInfo
     /// <summary>
     /// The stats used to augment damage
     /// </summary>
-    public Stat AttackStats { get; init; }
+    public Stat AttackStats { get; set; }
 
     /// <summary>
     /// The stats used to reduce damage
     /// </summary>
-    public Stat DefenseStats { get; init; }
+    public Stat DefenseStats { get; set; }
+
+    /// <summary>
+    /// Represent how much of the inflicted damage should be recovered as HP to the attacker
+    /// </summary>
+    public int DrainPower { get; set; }
 
     /// <summary>
     /// Whenever the move makes contact
@@ -45,7 +53,7 @@ public class DamageInfo
     #endregion
 
     #region Constructors
-    public DamageInfo(DamageClass @class, double power, PokeType type = null!)
+    public DamageInfo(CalcClass @class, double power, PokeType type = null!)
     {
         Class = @class;
         Power = power;
@@ -54,28 +62,36 @@ public class DamageInfo
     #endregion
 
     #region Methods
+    [Pure]
     public static DamageInfo CreatePhysical(int power, PokeType type)
-        => new(DamageClass.Calculated, power, type)
+        => new(CalcClass.Calculated, power, type)
            {
-               AttackStats = Stat.Atk, DefenseStats = Stat.Def, Contact = true,
+               AttackStats = Stat.Atk, DefenseStats = Stat.Def,
+               Contact     = true,
            };
 
+    [Pure]
     public static DamageInfo CreatePhysicalNoContact(int power, PokeType type)
-        => new(DamageClass.Calculated, power, type)
+        => new(CalcClass.Calculated, power, type)
            {
-               AttackStats = Stat.Atk, DefenseStats = Stat.Def, Contact = false,
+               AttackStats = Stat.Atk, DefenseStats = Stat.Def,
+               Contact     = false,
            };
 
+    [Pure]
     public static DamageInfo CreateSpecial(int power, PokeType type)
-        => new(DamageClass.Calculated, power, type)
+        => new(CalcClass.Calculated, power, type)
            {
-               AttackStats = Stat.SpAtk, DefenseStats = Stat.SpDef, Contact = false,
+               AttackStats = Stat.SpAtk, DefenseStats = Stat.SpDef,
+               Contact     = false,
            };
 
+    [Pure]
     public static DamageInfo CreateSpecialContact(int power, PokeType type)
-        => new(DamageClass.Calculated, power, type)
+        => new(CalcClass.Calculated, power, type)
            {
-               AttackStats = Stat.SpAtk, DefenseStats = Stat.SpDef, Contact = true,
+               AttackStats = Stat.SpAtk, DefenseStats = Stat.SpDef,
+               Contact     = true,
            };
     #endregion
 }

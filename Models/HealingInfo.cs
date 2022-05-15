@@ -5,13 +5,13 @@ namespace Pokedex.Models;
 /// <summary>
 /// Represent a amount of healing, as well as its properties
 /// </summary>
-public class HealInfo
+public class HealingInfo
 {
     #region Properties
     /// <summary>
     /// The class of heal this is
     /// </summary>
-    public DamageClass Class { get; }
+    public CalcClass Class { get; }
 
     /// <summary>
     /// How much health is being healed
@@ -25,7 +25,7 @@ public class HealInfo
     #endregion
 
     #region Constructors
-    public HealInfo(DamageClass @class, double power)
+    public HealingInfo(CalcClass @class, double power)
     {
         Class = @class;
         Power = power;

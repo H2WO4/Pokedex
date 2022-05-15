@@ -5,7 +5,7 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveLeer : PokeMove, I_StatChange
+public class MoveLeer : PokeMove, IM_StatChange
 {
     public Stat StatToChange
         => Stat.Def;

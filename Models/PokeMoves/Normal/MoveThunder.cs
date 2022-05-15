@@ -3,6 +3,7 @@ using Pokedex.Interfaces;
 using Pokedex.Models.PokeTypes;
 using Pokedex.Models.Weathers;
 
+
 namespace Pokedex.Models.PokeMoves;
 
 public class MoveThunder : PokeMove, I_Skill
@@ -14,12 +15,13 @@ public class MoveThunder : PokeMove, I_Skill
                10, 0, // PP & Priority
                TypeElectric.Singleton) { }
 
-    public bool AccuracyCheck(I_Battler target)
+    bool I_Skill.AccuracyCheck(I_Battler target)
     {
         if (Arena.Weather == WeatherRain.Singleton
          || Arena.Weather == WeatherThunderstorm.Singleton)
             return true;
 
-        return base.AccuracyCheck(target);
+
+        return I_Skill.AccuracyCheck(this, target);
     }
 }

@@ -23,7 +23,7 @@ public class WeatherCloudy : Weather
     #endregion
 
     #region Methods
-    public override double OnDamageGive(double damage, PokeType type)
+    public override double OnDamageGive(in double damage, in PokeType type)
         => TypePower.GetValueOrDefault(type, 0.75f) * damage;
 
     // Flavor Text

@@ -2,9 +2,10 @@ using Pokedex.Enums;
 using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveAbsorb : PokeMove, I_Drain
+public class MoveAbsorb : PokeMove, IM_Drain
 {
     public int DrainPower
         => 50;

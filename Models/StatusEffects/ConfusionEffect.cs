@@ -35,21 +35,23 @@ public class ConfusionEffect : StatusEffect
 			return false;
 		
 		Console.WriteLine($"{Origin} it hurt itself in its confusion!");
-		var dmgInfo = new DamageInfo(DamageClass.Calculated, 40) { AttackStats = Stat.Atk, DefenseStats = Stat.Def };
-		DamageHandler.DoDamageNoCaster(dmgInfo, Origin);
+		var dmgInfo = new DamageInfo(CalcClass.Calculated, 40) { AttackStats = Stat.Atk, DefenseStats = Stat.Def };
+		InteractionHandler.DoDamageNoCaster(dmgInfo, Origin);
 
 		return true;
 	}
 	
-	public override void Apply(I_Battler target)
+	public override bool Apply(I_Battler target)
 	{
 		var  effect = new ConfusionEffect(target);
 		bool cancel = target.Ability.OnReceiveStatusEffect(effect);
 
 		if (cancel)
-			return;
+			return false;
 
 		target.StatusEffects.Add(effect);
+
+		return true;
 	}
 	#endregion
 }

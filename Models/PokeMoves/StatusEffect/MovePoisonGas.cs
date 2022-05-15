@@ -6,7 +6,7 @@ using Pokedex.Models.StatusEffects;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MovePoisonGas : PokeMove, I_Effect<PoisonEffect>
+public class MovePoisonGas : PokeMove, IM_StatusEffect<PoisonEffect>
 {
     public MovePoisonGas()
         : base("Poison Gas",

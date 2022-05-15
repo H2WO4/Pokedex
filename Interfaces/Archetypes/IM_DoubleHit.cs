@@ -1,53 +1,39 @@
 namespace Pokedex.Interfaces.Archetypes;
 
-public interface I_DoubleHit : I_Skill
+public interface IM_DoubleHit : I_Skill
 {
-    void I_Skill.OnUse()
+    void I_Skill.DoTarget(I_Battler target)
     {
-        // Active the caster's ability
-        bool cancel = Caster.Ability.BeforeAttack(this);
-        cancel = Caster.StatusEffects
-                       .Aggregate(cancel, (current, effect) => current || effect.BeforeAttack(this));
+        var totalHits = 0;
 
-        // Cancel the attack if needed
-        if (cancel)
-            return;
-
-        // For each target, if the move hits, deal damage
-        foreach (I_Battler target in GetTargets())
+        for (var i = 0; i < 2; i++)
         {
-            var totalHits = 0;
+            bool hit = AccuracyCheck(target);
 
-            for (var i = 0; i < 2; i++)
+            if (hit)
             {
-                bool hit = AccuracyCheck(target);
+                // Active the target's ability
+                bool cancel = target.Ability.BeforeDefend(this);
+                cancel = target.StatusEffects
+                               .Aggregate(cancel, (current, effect) => current || effect.BeforeDefend(this));
 
-                if (hit)
-                {
-                    // Active the target's ability
-                    cancel = target.Ability.BeforeDefend(this);
-                    cancel = target.StatusEffects
-                                   .Aggregate(cancel, (current, effect) => current || effect.BeforeDefend(this));
+                // Cancel the attack if needed
+                if (cancel)
+                    return;
 
-                    // Cancel the attack if needed
-                    if (cancel)
-                        return;
+                DoAction(target);
+                totalHits++;
 
-                    DoAction(target);
-                    totalHits++;
-
-                    target.Ability.AfterDefend(this);
-                }
-                else
-                    Console.WriteLine($"{Caster}'s {Name} missed {target}\n");
+                // Active the target's ability
+                target.Ability.AfterDefend(this);
             }
-
-            string finalS = totalHits == 1
-                                ? ""
-                                : "s";
-            Console.WriteLine($"Hit {totalHits} time{finalS}");
+            else
+                Console.WriteLine($"{Caster}'s {Name} missed {target}\n");
         }
 
-        Caster.Ability.AfterAttack(this);
+        string finalS = totalHits == 1
+                            ? ""
+                            : "s";
+        Console.WriteLine($"Hit {totalHits} time{finalS}");
     }
 }

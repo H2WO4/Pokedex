@@ -2,9 +2,10 @@ using Pokedex.Enums;
 using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveGuillotine : PokeMove, I_OHKO
+public class MoveGuillotine : PokeMove, IM_OHKO
 {
     public MoveGuillotine()
         : base("Guillotine",

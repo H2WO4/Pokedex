@@ -46,7 +46,7 @@ public class WeatherSandstorm : Weather
         foreach (I_Battler poke in attacked)
         {
             Console.WriteLine($"{poke} is buffeted by the sandstorm!");
-            DamageHandler.DoDamageNoCaster(new DamageInfo(DamageClass.Percent, 6.25), poke);
+            InteractionHandler.DoDamageNoCaster(new DamageInfo(CalcClass.Percent, 6.25), poke);
         }
     }
 

@@ -1,6 +1,5 @@
 using Pokedex.Enums;
 using Pokedex.Interfaces;
-using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 
 

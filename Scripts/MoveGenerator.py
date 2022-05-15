@@ -31,6 +31,7 @@ while moveName := input():
 using Pokedex.Enums;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
 public class Move{moveNameNoSpace} : PokeMove

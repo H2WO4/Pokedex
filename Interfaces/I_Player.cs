@@ -11,41 +11,41 @@ public interface I_Player
     /// <summary>
     /// Name used for display
     /// </summary>
-    string Name { get; }
+    public string Name { get; }
 
     /// <summary>
     /// Pokemon that will execute the orders
     /// </summary>
-    I_Battler Active { get; }
+    public I_Battler Active { get; }
 
     /// <summary>
     /// Pokemons held by the player, including their active one
     /// </summary>
-    I_Battler[] Team { get; }
+    public I_Battler[] Team { get; }
 
     /// <summary>
     /// The combat instance the fight is happening in
     /// </summary>
     [NotNull]
-    I_Combat? Arena { get; set; }
+    public I_Combat? Arena { get; set; }
     #endregion
 
     #region Methods
     /// <summary>
     /// Called during the player's turn
     /// </summary>
-    void PlayTurn();
+    public void PlayTurn();
 
     /// <summary>
     /// Change the player's active Pokemon to the one with the corresponding index
     /// </summary>
     /// <param name="index">The index of the Pokemon to switch to</param>
     /// <param name="forced">Whether this change was intended by the player</param>
-    void ChangeActive(int index, bool forced = false);
+    public void ChangeActive(int index, bool forced = false);
 
     /// <summary>
     /// Give control to the player and let them change their active Pokemon
     /// </summary>
-    void AskActiveChange();
+    public void AskActiveChange();
     #endregion
 }

@@ -39,12 +39,14 @@ public class FreezeEffect : StatusEffect
 		return false;
 	}
 
-	public override void Apply(I_Battler target)
+	public override bool Apply(I_Battler target)
 	{
 		if (target.Types.Contains(TypeIce.Singleton))
-			return;
+			return false;
 
 		target.StatusEffects.Add(new FreezeEffect(target));
+
+		return true;
 	}
 	#endregion
 }

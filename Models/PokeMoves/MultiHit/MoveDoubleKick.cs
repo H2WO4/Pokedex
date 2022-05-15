@@ -2,11 +2,12 @@ using Pokedex.Enums;
 using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveDoubleKick : PokeMove, I_DoubleHit
+public class MoveImDoubleKick : PokeMove, IM_DoubleHit
 {
-    public MoveDoubleKick()
+    public MoveImDoubleKick()
         : base("Double Kick",
                MoveClass.Physical,
                30, 100, // Pow & Acc

@@ -17,7 +17,7 @@ public class MoveEvent : I_Event
     /// <summary>
     /// The move used
     /// </summary>
-    public PokeMove Move { get; }
+    public I_Skill Move { get; }
 
     /// <summary>
     /// In which combat the fight happens in
@@ -29,7 +29,7 @@ public class MoveEvent : I_Event
     public MoveEvent
     (
         I_Battler caster,
-        PokeMove move,
+        I_Skill move,
         I_Combat context
     )
     {
@@ -49,7 +49,7 @@ public class MoveEvent : I_Event
             return;
 
         // Print move usage
-        Console.WriteLine("" + $"{Caster} uses {Move}" + "");
+        Console.WriteLine($"{Caster} uses {Move}");
         Move.OnUse();
     }
 

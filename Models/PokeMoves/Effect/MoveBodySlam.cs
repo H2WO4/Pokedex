@@ -3,9 +3,10 @@ using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 using Pokedex.Models.StatusEffects;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveBodySlam : PokeMove, I_Effect<ParalysisEffect>
+public class MoveBodySlam : PokeMove, IM_StatusEffectBonus<ParalysisEffect>
 {
     public int EffectChance
         => 30;

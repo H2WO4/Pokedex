@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using System.Text;
 
 using Pokedex.Enums;
@@ -5,6 +6,7 @@ using Pokedex.Interfaces;
 using Pokedex.Models.Abilities;
 using Pokedex.Models.Events;
 using Pokedex.Utils;
+
 
 namespace Pokedex.Models;
 
@@ -31,11 +33,13 @@ public class Pokemon : I_Battler
     private static readonly Dictionary<int, double> StageMult =
         new()
         {
-            { -6, 2d / 8 }, { -5, 2d / 7 }, { -4, 2d / 6 },
-            { -3, 2d / 5 }, { -2, 2d / 4 }, { -1, 2d / 3 },
-            { +0, 2d / 2 },
-            { +1, 3d / 2 }, { +2, 4d / 2 }, { +3, 5d / 2 },
-            { +4, 6d / 2 }, { +5, 7d / 2 }, { +6, 8d / 2 },
+            { -6, 2d / 8 }, { -5, 2d / 7 },
+            { -4, 2d / 6 }, { -3, 2d / 5 },
+            { -2, 2d / 4 }, { -1, 2d / 3 },
+            { +0, 2d / 2 }, { +1, 3d / 2 },
+            { +2, 4d / 2 }, { +3, 5d / 2 },
+            { +4, 6d / 2 }, { +5, 7d / 2 },
+            { +6, 8d / 2 },
         };
     #endregion
 
@@ -201,8 +205,9 @@ public class Pokemon : I_Battler
 
         EVs = new Dictionary<Stat, int>
               {
-                  { Stat.HP, 0 }, { Stat.Atk, 0 }, { Stat.Def, 0 },
-                  { Stat.SpAtk, 0 }, { Stat.SpDef, 0 }, { Stat.Spd, 0 },
+                  { Stat.HP, 0 }, { Stat.Atk, 0 },
+                  { Stat.Def, 0 }, { Stat.SpAtk, 0 },
+                  { Stat.SpDef, 0 }, { Stat.Spd, 0 },
               };
 
         _nature = Natures[Program.Rnd.Next(Natures.Length - 1)];
@@ -578,6 +583,7 @@ public class Pokemon : I_Battler
     /// Handles the drawing of the HP bar
     /// </summary>
     /// <returns>String representation of the HP bar</returns>
+    [Pure]
     private string GetHPBar()
     {
         // Get the HP percentage
@@ -692,24 +698,12 @@ public class Pokemon : I_Battler
     /// <param name="stat">The stat boost the change</param>
     /// <param name="val">The value to add</param>
     public void ChangeStatBonus(Stat stat, int val)
-        => StatBoosts[stat] = Math.Clamp(StatBoosts[stat] + val, -6, 6);
-
-    /// <summary>
-    /// Add the input value to the already existing stat boosts
-    /// </summary>
-    public void ChangeStatBonuses(int atk, int def,
-                                  int spAtk, int spDef, int spd)
     {
-        (atk, def, spAtk, spDef, spd) = Ability.OnStatChange(atk, def,
-                                                             spAtk, spDef, spd);
+        val = Ability.OnStatChange(stat, val);
 
-        StatBoosts[Stat.Atk]   = Math.Clamp(StatBoosts[Stat.Atk] + atk, -6, 6);
-        StatBoosts[Stat.Def]   = Math.Clamp(StatBoosts[Stat.Def] + def, -6, 6);
-        StatBoosts[Stat.SpAtk] = Math.Clamp(StatBoosts[Stat.SpAtk] + spAtk, -6, 6);
-        StatBoosts[Stat.SpDef] = Math.Clamp(StatBoosts[Stat.SpDef] + spDef, -6, 6);
-        StatBoosts[Stat.Spd]   = Math.Clamp(StatBoosts[Stat.Spd] + spd, -6, 6);
+        StatBoosts[stat] = Math.Clamp(StatBoosts[stat] + val, -6, 6);
     }
-
+    
     public void DoKO()
     {
         // Set HP to 0

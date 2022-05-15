@@ -27,18 +27,20 @@ public class ParalysisEffect : StatusEffect
     public override int ChangeSpd(int spd)
         => spd / 2;
     
-    public override void Apply(I_Battler target)
+    public override bool Apply(I_Battler target)
     {
         if (target.Types.Contains(TypeElectric.Singleton))
-            return;
+            return false;
 
         var  effect = new ParalysisEffect(target);
         bool cancel = target.Ability.OnReceiveStatusEffect(effect);
 
         if (cancel)
-            return;
+            return false;
         
         target.StatusEffects.Add(effect);
+
+        return true;
     }
     #endregion
 }

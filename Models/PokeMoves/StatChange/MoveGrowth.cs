@@ -5,7 +5,7 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveGrowth : PokeMove, I_Self, I_MultipleStatChange
+public class MoveGrowth : PokeMove, IM_TargetSelf, IM_StatChangeMany
 {
     public IEnumerable<Stat> StatsToChange
     {

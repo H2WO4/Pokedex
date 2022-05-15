@@ -1,7 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 
 using Pokedex.Interfaces;
 using Pokedex.Models.Events;
+
 
 namespace Pokedex.Models;
 
@@ -74,22 +76,27 @@ public class Trainer : I_Player
     private void InterpretCommand(string[] action, out bool endTurn)
     {
         endTurn = false;
-        switch (action.GetValue(0), action.GetValue(1), action.GetValue(2), action.GetValue(3))
+        switch (action.ElementAtOrDefault(0), action.ElementAtOrDefault(1), action.ElementAtOrDefault(2),
+                action.ElementAtOrDefault(3))
         {
-            case ("status", string argWhat, "full" or "detailed", null):
+            case ("status", { } argWhat, "full" or "detailed", null):
                 StatusCommand(argWhat, true);
+
                 break;
 
-            case ("status", string argWhat, null, null):
+            case ("status", { } argWhat, null, null):
                 StatusCommand(argWhat, false);
+
                 break;
 
-            case ("use", string argWhich, null, null):
+            case ("use", { } argWhich, null, null):
                 MoveCommand(argWhich, out endTurn);
+
                 break;
 
-            case ("switch", string argWhich, null, null):
+            case ("switch", { } argWhich, null, null):
                 SwitchCommand(argWhich, out endTurn);
+
                 break;
 
             case ("help", null, null, null):
@@ -97,6 +104,7 @@ public class Trainer : I_Player
                 Console.WriteLine("- use [#move]");
                 Console.WriteLine("- switch [#pokemon]");
                 Console.WriteLine();
+
                 break;
 
             case ("", null, null, null):
@@ -104,6 +112,7 @@ public class Trainer : I_Player
 
             default:
                 Console.WriteLine("Invalid command");
+
                 break;
         }
     }
@@ -120,26 +129,35 @@ public class Trainer : I_Player
         {
             case "active" or "self":
                 SelfStatus(detail);
+
                 break;
 
             case "enemy" or "other" when !detail:
                 OtherStatus();
+
                 break;
 
             case "bench":
                 BenchStatus(detail);
+
                 break;
 
             case "move" or "moves":
                 MoveStatus(detail);
+
                 break;
 
             default:
                 Console.WriteLine("Invalid parameter");
+
                 break;
         }
     }
 
+    /// <summary>
+    /// Sub-method handling the <c>status self ...</c> commands
+    /// </summary>
+    /// <param name="showDetail">Whether details should be shown</param>
     private void SelfStatus(bool showDetail)
     {
         Console.WriteLine(showDetail
@@ -147,6 +165,10 @@ public class Trainer : I_Player
                               : Active.GetQuickStatus());
     }
 
+    /// <summary>
+    /// Sub-method handling the <c>status bench ...</c> commands
+    /// </summary>
+    /// <param name="showDetail">Whether details should be shown</param>
     private void BenchStatus(bool showDetail)
     {
         for (var i = 0; i < Team.Length; i++)
@@ -166,6 +188,9 @@ public class Trainer : I_Player
             Console.WriteLine("No pokemon on the bench");
     }
 
+    /// <summary>
+    /// Sub-method handling the <c>status other</c> command
+    /// </summary>
     private void OtherStatus()
     {
         Arena.Players
@@ -175,6 +200,10 @@ public class Trainer : I_Player
              .ForEach(poke => Console.WriteLine(poke.GetQuickStatus()));
     }
 
+    /// <summary>
+    /// Sub-method handling the <c>status move ...</c> commands
+    /// </summary>
+    /// <param name="showDetail">Whether details should be shown</param>
     private void MoveStatus(bool showDetail)
     {
         for (var i = 0; i < 4; i++)
@@ -204,6 +233,7 @@ public class Trainer : I_Player
         if (!int.TryParse(argWhich, out moveNum))
         {
             Console.WriteLine("Second argument must be a number");
+
             return;
         }
 
@@ -211,6 +241,7 @@ public class Trainer : I_Player
         if (moveNum is < 1 or > 4)
         {
             Console.WriteLine("Invalid move number");
+
             return;
         }
 
@@ -220,12 +251,12 @@ public class Trainer : I_Player
         if (move is null)
         {
             Console.WriteLine("No move is in that slot");
+
             return;
         }
 
         // Create the event
-        var ev = new MoveEvent(Active,
-                               move, Arena);
+        var ev = new MoveEvent(Active, move, Arena);
         // Add it to the queue
         Arena.AddToBottom(ev);
 
@@ -243,6 +274,7 @@ public class Trainer : I_Player
         endTurn = false;
 
         int pokeNum;
+
         if (ValidatePokeNum(argWhich, out pokeNum) is false)
             return;
 
@@ -270,7 +302,7 @@ public class Trainer : I_Player
         Console.WriteLine(forced
                               ? $"{Name} sends out {Active}"
                               : $"{Active} is sent to combat!");
-        
+
         Active.Ability.OnEnter();
         Console.WriteLine();
     }
@@ -319,6 +351,7 @@ public class Trainer : I_Player
         if (!int.TryParse(input, out pokeNum))
         {
             Console.WriteLine("Second argument must be a number");
+
             return false;
         }
 
@@ -329,6 +362,7 @@ public class Trainer : I_Player
          || pokeNum > Team.Length)
         {
             Console.WriteLine("Invalid pokemon number");
+
             return false;
         }
 
@@ -338,6 +372,7 @@ public class Trainer : I_Player
          == 0)
         {
             Console.WriteLine("This pokemon is K.O.");
+
             return false;
         }
 

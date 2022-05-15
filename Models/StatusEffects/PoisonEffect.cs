@@ -19,21 +19,23 @@ public class PoisonEffect : StatusEffect
     public override void OnTurnEnd()
     {
         Console.WriteLine($"{Origin} is poisoned!");
-        DamageHandler.DoDamageNoCaster(new DamageInfo(DamageClass.Percent, 12.5), Origin);
+        InteractionHandler.DoDamageNoCaster(new DamageInfo(CalcClass.Percent, 12.5), Origin);
     }
     
-    public override void Apply(I_Battler target)
+    public override bool Apply(I_Battler target)
     {
         if (target.Types.Contains(TypeSteel.Singleton))
-            return;
+            return false;
         
         var  effect = new PoisonEffect(target);
         bool cancel = target.Ability.OnReceiveStatusEffect(effect);
 
         if (cancel)
-            return;
+            return false;
 
         target.StatusEffects.Add(effect);
+
+        return true;
     }
     #endregion
 }

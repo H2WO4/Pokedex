@@ -2,9 +2,10 @@ using Pokedex.Enums;
 using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveTakeDown : PokeMove, I_Recoil
+public class MoveTakeDown : PokeMove, IM_Recoil
 {
     public int RecoilPower
         => 25;

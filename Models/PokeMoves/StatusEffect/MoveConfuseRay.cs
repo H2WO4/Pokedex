@@ -6,7 +6,7 @@ using Pokedex.Models.StatusEffects;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveConfuseRay : PokeMove, I_Effect<ConfusionEffect>
+public class MoveConfuseRay : PokeMove, IM_StatusEffect<ConfusionEffect>
 {
     public MoveConfuseRay()
         : base("Confuse Ray",

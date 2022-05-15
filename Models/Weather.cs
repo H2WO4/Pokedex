@@ -1,4 +1,7 @@
+using System.Diagnostics.Contracts;
+
 using Pokedex.Interfaces;
+
 
 namespace Pokedex.Models;
 
@@ -33,7 +36,8 @@ public abstract class Weather
     /// <param name="damage">The damage inflicted</param>
     /// <param name="type">The type of the damage</param>
     /// <returns>The new damage value</returns>
-    public virtual double OnDamageGive(double damage, PokeType type)
+    [Pure]
+    public virtual double OnDamageGive(in double damage, in PokeType type)
         => TypePower.GetValueOrDefault(type, 1) * damage;
 
     /// <summary>

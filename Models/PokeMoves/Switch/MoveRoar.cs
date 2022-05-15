@@ -2,9 +2,10 @@ using Pokedex.Enums;
 using Pokedex.Interfaces;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveRoar : PokeMove
+public class MoveRoar : PokeMove, I_Skill
 {
     public MoveRoar()
         : base("Roar",
@@ -13,7 +14,7 @@ public class MoveRoar : PokeMove
                20, -6, // PP & Priority
                TypeNormal.Singleton) { }
 
-    public override void DoAction(I_Battler target)
+    void I_Skill.DoAction(I_Battler target)
     {
         var possibleSwitch = new int[target.Owner.Team.Length];
         int newIndex =

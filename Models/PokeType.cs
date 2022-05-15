@@ -1,4 +1,6 @@
 
+using System.Diagnostics.Contracts;
+
 using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models;
@@ -40,8 +42,6 @@ public abstract class PokeType
          && color.B is >= 0 and <= 255)
             Color = color;
         else throw new ArgumentException("Color channels must be between 0-255");
-
-        Affinities[this] = new Dictionary<PokeType, double>();
     }
     #endregion
 
@@ -241,9 +241,21 @@ public abstract class PokeType
             };
     }
 
+    /// <summary>
+    /// Calculate the affinity between the two types, default to 1 if not defined
+    /// </summary>
+    /// <param name="attacker">The type initiating the attack</param>
+    /// <param name="defender">The type receiving the attack</param>
+    [Pure]
     private static double GetAffinity(PokeType attacker, PokeType defender)
         => Affinities[attacker].GetValueOrDefault(defender, 1);
 
+    /// <summary>
+    /// Calculate the affinity between this type and multiple others
+    /// </summary>
+    /// <param name="defenders">The types to check against</param>
+    /// <returns></returns>
+    [Pure]
     public double CalculateAffinity(IEnumerable<PokeType> defenders)
         => defenders.Select(defender => GetAffinity(this, defender))
                     .Aggregate((a, b) => a * b);

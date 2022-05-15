@@ -2,9 +2,10 @@ using Pokedex.Enums;
 using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveUTurn : PokeMove, I_Switch
+public class MoveUTurn : PokeMove, IM_SwitchAfter
 {
     public MoveUTurn()
         : base("U-Turn",

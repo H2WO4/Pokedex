@@ -5,7 +5,7 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveSharpen : PokeMove, I_Self, I_StatChange
+public class MoveSharpen : PokeMove, IM_TargetSelf, IM_StatChange
 {
     public Stat StatToChange
         => Stat.Atk;

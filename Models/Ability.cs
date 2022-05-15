@@ -1,3 +1,6 @@
+using System.Diagnostics.Contracts;
+
+using Pokedex.Enums;
 using Pokedex.Interfaces;
 
 namespace Pokedex.Models;
@@ -125,6 +128,7 @@ public abstract class Ability
     /// Called before returning a Pokemon's type
     /// </summary>
     /// <returns>The new types, or null if identical</returns>
+    [Pure]
     public virtual IEnumerable<PokeType>? ChangeType()
         => null;
 
@@ -160,6 +164,7 @@ public abstract class Ability
     /// </summary>
     /// <param name="hp">Current calculated max HP</param>
     /// <returns>New max HP value</returns>
+    [Pure]
     public virtual int ChangeHP(int hp)
         => hp;
 
@@ -168,6 +173,7 @@ public abstract class Ability
     /// </summary>
     /// <param name="atk">Current calculated attack</param>
     /// <returns>New attack value</returns>
+    [Pure]
     public virtual int ChangeAtk(int atk)
         => atk;
 
@@ -176,6 +182,7 @@ public abstract class Ability
     /// </summary>
     /// <param name="def">Current calculated defense</param>
     /// <returns>New defense value</returns>
+    [Pure]
     public virtual int ChangeDef(int def)
         => def;
 
@@ -184,6 +191,7 @@ public abstract class Ability
     /// </summary>
     /// <param name="spAtk">Current calculated special attack</param>
     /// <returns>New special attack value</returns>
+    [Pure]
     public virtual int ChangeSpAtk(int spAtk)
         => spAtk;
 
@@ -192,6 +200,7 @@ public abstract class Ability
     /// </summary>
     /// <param name="spDef">Current calculated special defense</param>
     /// <returns>New special defense value</returns>
+    [Pure]
     public virtual int ChangeSpDef(int spDef)
         => spDef;
 
@@ -200,21 +209,19 @@ public abstract class Ability
     /// </summary>
     /// <param name="spd">Current calculated speed</param>
     /// <returns>New calculated speed value</returns>
+    [Pure]
     public virtual int ChangeSpd(int spd)
         => spd;
 
     /// <summary>
     /// Called whenever an additive stat change is made
     /// </summary>
-    /// <param name="atk">The added attack bonus</param>
-    /// <param name="def">The added defense bonus</param>
-    /// <param name="spAtk">The added special attack bonus</param>
-    /// <param name="spDef">The added special defense bonus</param>
-    /// <param name="spd">The added speed bonus</param>
-    /// <returns>Tuple of the new changed bonuses</returns>
-    public virtual (int, int, int, int, int) OnStatChange(int atk, int def,
-                                                          int spAtk, int spDef, int spd)
-        => (atk, def, spAtk, spDef, spd);
+    /// <param name="stat">The stat change acted upon</param>
+    /// <param name="val">The value of the stat change</param>
+    /// <returns>New stat change value</returns>
+    [Pure]
+    public virtual int OnStatChange(Stat stat, int val)
+        => val;
 
     /// <summary>
     /// Called whenever a status is inflicted

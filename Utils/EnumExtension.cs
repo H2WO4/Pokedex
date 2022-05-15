@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using System.Runtime.Intrinsics.X86;
 
 namespace Pokedex.Utils;
@@ -5,11 +6,12 @@ namespace Pokedex.Utils;
 public static class EnumExtension
 {
 	/// <summary>
-	///     Check whenever a given enum value contains a certain flag
+	/// Check whenever a given enum value contains a certain flag
 	/// </summary>
 	/// <param name="input">The enum value to check in</param>
 	/// <param name="flag">The flag to check for</param>
 	/// <typeparam name="T">An int-based Enum</typeparam>
+	[Pure]
 	public static unsafe bool HasFlagUnsafe<T>(this T input, T flag)
 		where T : unmanaged, Enum
 	{
@@ -20,12 +22,13 @@ public static class EnumExtension
 	}
 
 	/// <summary>
-	///     Determines whether a given int-based Enum value is a flag
+	/// Determines whether a given int-based Enum value is a flag
 	/// </summary>
 	/// <remarks>
-	///     Might produce undefined behavior if T is not a flag-Enum.
+	/// Might produce undefined behavior if T is not a flag-Enum.
 	/// </remarks>
 	/// <param name="input">The value to check</param>
+	[Pure]
 	public static unsafe bool IsFlag<T>(this T input)
 		where T : unmanaged, Enum
 	{
@@ -35,10 +38,11 @@ public static class EnumExtension
 	}
 
 	/// <summary>
-	///     Convert an int value to its equivalent Enum value
+	/// Convert an int value to its equivalent Enum value
 	/// </summary>
 	/// <param name="value">The value to convert</param>
 	/// <typeparam name="T">The int-based Enum to convert it to</typeparam>
+	[Pure]
 	public static unsafe T AsEnum<T>(this int value)
 		where T : unmanaged, Enum
 	{
@@ -46,13 +50,14 @@ public static class EnumExtension
 	}
 
 	/// <summary>
-	///     Return all single-flag values of a flag-Enum
+	/// Return all single-flag values of a flag-Enum
 	/// </summary>
 	/// <remarks>
-	///     Might produce undefined behavior if T is not a flag-Enum.
+	/// Might produce undefined behavior if T is not a flag-Enum.
 	/// </remarks>
 	/// <typeparam name="T">The Enum to look in</typeparam>
 	/// <returns></returns>
+	[Pure]
 	public static IEnumerable<T> GetAllFlags<T>()
 		where T : unmanaged, Enum
 	{
@@ -69,10 +74,11 @@ public static class EnumExtension
 	}
 
 	/// <summary>
-	///     Return all flags from a flag enum value
+	/// Return all flags from a flag enum value
 	/// </summary>
 	/// <param name="input">The value the get the flags from</param>
 	/// <returns>An enumerable containing all found flags</returns>
+	[Pure]
 	public static IEnumerable<T> GetFlags<T>(this T input)
 		where T : unmanaged, Enum
 	{

@@ -2,9 +2,10 @@ using Pokedex.Enums;
 using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveAcid : PokeMove, I_StatChangeChance
+public class MoveAcid : PokeMove, IM_StatChangeBonus
 {
     public Stat StatToChange
         => Stat.SpDef;

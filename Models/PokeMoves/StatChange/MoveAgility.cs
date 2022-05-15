@@ -5,7 +5,7 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveAgility : PokeMove, I_Self, I_StatChange
+public class MoveAgility : PokeMove, IM_TargetSelf, IM_StatChange
 {
     public Stat StatToChange
         => Stat.Spd;

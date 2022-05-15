@@ -2,9 +2,10 @@ using Pokedex.Enums;
 using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
 
+
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveFissure : PokeMove, I_OHKO
+public class MoveFissure : PokeMove, IM_OHKO
 {
     public MoveFissure()
         : base("Fissure",
