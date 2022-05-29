@@ -7,7 +7,7 @@ public interface IM_StatusEffectBonus<TEffect> : I_Skill
 {
     int EffectChance { get; }
 
-    void I_Skill.DoBonusEffects(I_Battler target)
+    void I_Skill.DoBonusEffects(double applied, I_Battler target)
     {
         var effect = new TEffect();
 

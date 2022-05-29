@@ -1,11 +1,16 @@
 using Pokedex.Enums;
+using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
+using Pokedex.Models.StatusEffects;
 
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveBoneClub : PokeMove
+public class MoveBoneClub : PokeMove, IM_StatusEffectBonus<FlinchEffect>
 {
+    public int EffectChance
+        => 10;
+
     public MoveBoneClub()
         : base("Bone Club",
                MoveClass.Physical,

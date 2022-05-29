@@ -1,11 +1,16 @@
 using Pokedex.Enums;
+using Pokedex.Interfaces.Archetypes;
 using Pokedex.Models.PokeTypes;
+using Pokedex.Models.StatusEffects;
 
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveDizzyPunch : PokeMove
+public class MoveDizzyPunch : PokeMove, IM_StatusEffectBonus<ConfusionEffect>
 {
+    public int EffectChance
+        => 20;
+
     public MoveDizzyPunch()
         : base("Dizzy Punch",
                MoveClass.Physical,

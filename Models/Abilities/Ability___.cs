@@ -1,5 +1,6 @@
 namespace Pokedex.Models.Abilities;
 
+// ReSharper disable once InconsistentNaming
 public class Ability___ : Ability
 {
     #region Constructors

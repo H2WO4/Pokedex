@@ -1,5 +1,4 @@
 using System.Diagnostics.Contracts;
-
 using Pokedex.Enums;
 using Pokedex.Models;
 using Pokedex.Models.Events;
@@ -122,12 +121,13 @@ public interface I_Skill
     /// <summary>
     /// Return the Info object
     /// </summary>
+    /// <param name="target"></param>
     /// <returns>Either a DamageInfo or an HealingInfo</returns>
     /// <exception cref="InvalidOperationException">
     /// Thrown if a status move does not override this
     /// </exception>
     [Pure]
-    public object CreateInfo()
+    public object CreateInfo(I_Battler target)
     {
         return CreateInfo(this);
     }
@@ -144,8 +144,9 @@ public interface I_Skill
     /// <summary>
     /// Called whenever a move successfully damage its target
     /// </summary>
+    /// <param name="applied">The damage/healing that was done</param>
     /// <param name="target">The target that was stricken</param>
-    public void DoBonusEffects(I_Battler target) { }
+    public void DoBonusEffects(double applied, I_Battler target) { }
 
     /// <summary>
     /// Called before the queue is sorted
@@ -228,8 +229,7 @@ public interface I_Skill
 
             // Active the target's ability
             target.Ability.AfterDefend(skill);
-        }
-        else
+        } else
         {
             // If the skill miss, activate potential special effects
             skill.OnMiss(target);
@@ -262,8 +262,8 @@ public interface I_Skill
     public static void DoAction(I_Skill skill, I_Battler target)
     {
         // Create the damage / healing and execute it
-        bool success =
-            skill.CreateInfo() switch
+        double applied =
+            skill.CreateInfo(target) switch
             {
                 DamageInfo dmgInfo   => InteractionHandler.DoDamage(dmgInfo, skill.Caster, target),
                 HealingInfo healInfo => InteractionHandler.DoHealing(healInfo, target),
@@ -272,8 +272,8 @@ public interface I_Skill
             };
 
         // Do bonus effects, or inform the player if it failed
-        if (success)
-            skill.DoBonusEffects(target);
+        if (applied is not -1)
+            skill.DoBonusEffects(applied, target);
         else
             Console.WriteLine("But it failed");
     }
@@ -292,7 +292,7 @@ public interface I_Skill
         return skill.Class switch
                {
                    MoveClass.Physical => DamageInfo.CreatePhysical(skill.Power ?? 0, skill.Type),
-                   MoveClass.Special  => DamageInfo.CreateSpecial(skill.Power ?? 0, skill.Type),
+                   MoveClass.Special  => DamageInfo.CreateSpecial(skill.Power  ?? 0, skill.Type),
 
                    _ => throw new InvalidOperationException(),
                };

@@ -13,6 +13,6 @@ public class TypeIce : PokeType
 
     #region Constructor
     private TypeIce()
-        : base("Ice", (102, 204, 255)) { }
+        : base("Ice") { }
     #endregion
 }

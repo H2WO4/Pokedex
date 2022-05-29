@@ -13,6 +13,6 @@ public class TypeRock : PokeType
 
     #region Constructor
     private TypeRock()
-        : base("Rock", (187, 170, 102)) { }
+        : base("Rock") { }
     #endregion
 }

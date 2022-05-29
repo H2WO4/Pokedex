@@ -13,6 +13,6 @@ public class TypeGhost : PokeType
 
     #region Constructor
     private TypeGhost()
-        : base("Ghost", (102, 103, 188)) { }
+        : base("Ghost") { }
     #endregion
 }

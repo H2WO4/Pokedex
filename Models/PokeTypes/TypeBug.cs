@@ -13,6 +13,6 @@ public class TypeBug : PokeType
 
     #region Constructor
     private TypeBug()
-        : base("Bug", (170, 187, 34)) { }
+        : base("Bug") { }
     #endregion
 }

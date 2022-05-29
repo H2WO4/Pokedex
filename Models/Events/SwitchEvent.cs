@@ -14,7 +14,7 @@ public class SwitchEvent : I_Event
     /// <summary>
     /// The player who initiated the switch
     /// </summary>
-    public Trainer Origin { get; }
+    public I_Player Origin { get; }
 
     /// <summary>
     /// The Pokemon index to switch into
@@ -31,7 +31,7 @@ public class SwitchEvent : I_Event
     #region Constructors
     public SwitchEvent
     (
-        Trainer originPlayer,
+        I_Player originPlayer,
         int target,
         I_Combat context
     )

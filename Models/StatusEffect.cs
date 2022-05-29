@@ -10,8 +10,8 @@ public abstract class StatusEffect
     #region Properties
     public string Name { get; }
 
-    public int? Timer { get; set; }
-    
+    public int? Timer { get; set; } = null;
+
     [NotNull]
     public I_Battler? Origin { get; }
     
@@ -22,13 +22,11 @@ public abstract class StatusEffect
     protected StatusEffect
     (
         string name,
-        I_Battler? origin,
-        int? timer = null
+        I_Battler? origin
     )
     {
         Name   = name;
         Origin = origin;
-        Timer  = timer;
     }
     #endregion
 
@@ -62,7 +60,7 @@ public abstract class StatusEffect
     /// <returns>True if the damage is cancelled</returns>
     public virtual bool OnReceiveDamage(DamageInfo dmgInfo, I_Battler? caster = null)
         => false;
-    
+
     /// <summary>
     /// Called at the start of the turn
     /// </summary>
@@ -152,5 +150,11 @@ public abstract class StatusEffect
     [Pure]
     public virtual int ChangeSpd(int spd)
         => spd;
+
+    /// <summary>
+    /// Determines whether the owner should skip their turn
+    /// </summary>
+    public virtual bool SkipTurn()
+        => false;
     #endregion
 }

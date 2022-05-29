@@ -13,6 +13,6 @@ public class TypeLight : PokeType
 
     #region Constructor
     private TypeLight()
-        : base("Light", (185, 188, 231)) { }
+        : base("Light") { }
     #endregion
 }

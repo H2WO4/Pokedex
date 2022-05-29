@@ -44,19 +44,11 @@ public static class Program
 
         var fight = new Combat(jean, charles);
 
-        I_Battler bestPoke =
-            jean.Team.OrderByDescending(poke => poke.Moves
-                                                    .Max(move => move?.Type
-                                                                      .CalculateAffinity(charles.Active.Types)))
-                .First();
-
-        Console.WriteLine(Directory.GetCurrentDirectory());
         // Redirect console
-        using var reader = new StreamReader("../../../Tests/test1_in.txt");
+        // using var reader = new StreamReader("../../../Tests/test1_in.txt");
         // var writer = new StringWriter();
         // using var writer = new StreamWriter("../../../Tests/test1_out.txt");
-        Console.SetIn(reader);
-        Console.WriteLine(Console.ReadLine());
+        // Console.SetIn(reader);
         // Console.SetOut(writer);
 
         fight.DoCombat();

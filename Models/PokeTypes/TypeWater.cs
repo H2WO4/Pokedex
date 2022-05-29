@@ -13,6 +13,6 @@ public class TypeWater : PokeType
 
     #region Constructor
     private TypeWater()
-        : base("Water", (78, 154, 255)) { }
+        : base("Water") { }
     #endregion
 }

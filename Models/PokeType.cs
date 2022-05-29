@@ -18,30 +18,16 @@ public abstract class PokeType
     /// <summary>
     /// Name used for display
     /// </summary>
-    public string Name { get; }
-
-    /// <summary>
-    /// Color used for display
-    /// </summary>
-    private (int R, int G, int B) Color { get; }
+    private string Name { get; }
     #endregion
 
     #region Constructor
     protected PokeType
-    (
-        string name,
-        (int R, int G, int B) color
-    )
+        (string name)
     {
         if (name != "")
             Name = name;
         else throw new ArgumentException("Name must not be empty");
-
-        if (color.R is >= 0 and <= 255
-         && color.G is >= 0 and <= 255
-         && color.B is >= 0 and <= 255)
-            Color = color;
-        else throw new ArgumentException("Color channels must be between 0-255");
     }
     #endregion
 

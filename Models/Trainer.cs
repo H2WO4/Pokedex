@@ -1,6 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
-
 using Pokedex.Interfaces;
 using Pokedex.Models.Events;
 
@@ -22,7 +20,7 @@ public class Trainer : I_Player
     public I_Battler Active
         => Team[_activeIndex];
 
-    public I_Battler[] Team { get; }
+    public I_Battler[ ] Team { get; }
 
     [NotNull]
     public I_Combat? Arena { get; set; }
@@ -30,22 +28,21 @@ public class Trainer : I_Player
 
     #region Constructors
     public Trainer(
-        string name,
-        I_Battler[] team
+        string       name,
+        I_Battler[ ] team
     )
     {
         Name = name;
 
         _activeIndex = 0;
 
-        if (team.Any()
-         && team.Length <= 6)
+        if (team.Length is >= 1 and <= 6)
             Team = team;
-        else throw new ArgumentException("Team must have between 1 and 6 Pokemon.");
+        else
+            throw new ArgumentException("Team must have between 1 and 6 Pokemon.");
 
-        Team
-           .ToList()
-           .ForEach(poke => poke.Owner = this);
+        Team.ToList()
+            .ForEach(poke => poke.Owner = this);
     }
     #endregion
 
@@ -61,9 +58,9 @@ public class Trainer : I_Player
         while (!endTurn)
         {
             // Read the command, and split it into words
-            string[] action = Console.ReadLine()!
-                                     .ToLower()
-                                     .Split(' ');
+            string[ ] action = Console.ReadLine()!
+                                      .ToLower()
+                                      .Split(' ');
 
             InterpretCommand(action, out endTurn);
 
@@ -73,7 +70,7 @@ public class Trainer : I_Player
         Active.Ability.OnTurnEnd();
     }
 
-    private void InterpretCommand(string[] action, out bool endTurn)
+    private void InterpretCommand(string[ ] action, out bool endTurn)
     {
         endTurn = false;
         switch (action.ElementAtOrDefault(0), action.ElementAtOrDefault(1), action.ElementAtOrDefault(2),
@@ -181,6 +178,7 @@ public class Trainer : I_Player
                                        .GetFullStatus()
                                     : Team[i]
                                        .GetQuickStatus();
+
             Console.WriteLine($"{i + 1} {pokeStatus}");
         }
 
@@ -215,6 +213,7 @@ public class Trainer : I_Player
                                     : Active.Moves[i]
                                            ?.GetQuickStatus()
                                    ?? "---";
+
             Console.WriteLine($"{i + 1} {moveStatus}");
         }
     }
@@ -281,6 +280,7 @@ public class Trainer : I_Player
         // Create the event
         var ev = new SwitchEvent(this, pokeNum,
                                  Arena);
+
         // Add it to the queue
         Arena.AddToBottom(ev);
 
@@ -315,7 +315,7 @@ public class Trainer : I_Player
         // Print the available pokemons
         var i = 1;
         IEnumerable<I_Battler> availablePokemons =
-            Team.Where(poke => poke != Active)
+            Team.Where(poke => poke        != Active)
                 .Where(poke => poke.CurrHP > 0);
 
         foreach (I_Battler poke in availablePokemons)

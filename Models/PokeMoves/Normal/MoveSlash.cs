@@ -4,12 +4,12 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveHyperFang : PokeMove
+public class MoveSlash : PokeMove
 {
-    public MoveHyperFang()
-        : base("Hyper Fang",
+    public MoveSlash()
+        : base("Slash",
                MoveClass.Physical,
-               80, 90, // Pow & Acc
-               15, 0, // PP & Priority
+               70, 100, // Pow & Acc
+               20, 0, // PP & Priority
                TypeNormal.Singleton) { }
 }

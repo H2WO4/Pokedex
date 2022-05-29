@@ -13,6 +13,6 @@ public class TypeNormal : PokeType
 
     #region Constructor
     private TypeNormal()
-        : base("Normal", (170, 170, 153)) { }
+        : base("Normal") { }
     #endregion
 }

@@ -19,13 +19,13 @@ public static class InteractionHandler
     /// <param name="dmgInfo">What damage to inflict</param>
     /// <param name="caster">The Pokemon initiating the damage</param>
     /// <param name="target">The Pokemon receiving the attack</param>
-    /// <returns>Whether the damage was correctly applied</returns>
-    public static bool DoDamage(DamageInfo dmgInfo, I_Battler caster, I_Battler target)
+    /// <returns>The damage applied, or -1 if the damage was not applied</returns>
+    public static double DoDamage(DamageInfo dmgInfo, I_Battler caster, I_Battler target)
     {
         // If the caster or the target is dead, cancel the damage
         if (caster.CurrHP == 0
          || target.CurrHP == 0)
-            return false;
+            return -1;
 
         // Activate abilities and cancel the damage if necessary
         var cancel = false;
@@ -45,7 +45,7 @@ public static class InteractionHandler
             cancel |= caster.Ability.OnSelfDamage(dmgInfo);
 
         // If any of the abilities asked for damage cancellation, do it
-        if (cancel) return false;
+        if (cancel) return -1;
 
         // Calculate the damage, depending on the class of damage
         double damage = CalculateDamage(dmgInfo, caster, target);
@@ -77,7 +77,7 @@ public static class InteractionHandler
             DoHealing(new HealingInfo(CalcClass.Percent, dmgInfo.DrainPower), caster);
 
         // Indicate that everything went smoothly
-        return true;
+        return damage;
     }
 
     /// <summary>
@@ -86,11 +86,11 @@ public static class InteractionHandler
     /// <param name="dmgInfo">What damage to inflict</param>
     /// <param name="target">The Pokemon receiving the attack</param>
     /// <returns>Whether the damage was correctly applied</returns>
-    public static bool DoDamageNoCaster(DamageInfo dmgInfo, I_Battler target)
+    public static double DoDamageNoCaster(DamageInfo dmgInfo, I_Battler target)
     {
         // If the target is dead, cancel the damage
         if (target.CurrHP == 0)
-            return false;
+            return -1;
 
         // Activate abilities and cancel the damage if necessary
         var cancel = false;
@@ -100,7 +100,7 @@ public static class InteractionHandler
 
 
         // If any of the abilities asked for damage cancellation, do it
-        if (cancel) return false;
+        if (cancel) return -1;
 
         // Calculate the damage, depending on the class of damage
         double damage = CalculateDamage(dmgInfo, null, target);
@@ -123,7 +123,7 @@ public static class InteractionHandler
         target.Ability.AfterReceiveDamage(dmgInfo);
 
         // Indicate that everything went smoothly
-        return true;
+        return damage;
     }
 
     /// <summary>
@@ -137,7 +137,7 @@ public static class InteractionHandler
     /// Thrown if the DamageInfo possess impossible parameters combination
     /// </exception>
     [Pure]
-    private static double CalculateDamage(DamageInfo dmgInfo, I_Battler? caster, I_Battler target)
+    public static double CalculateDamage(DamageInfo dmgInfo, I_Battler? caster, I_Battler target)
     {
         double damage;
         switch (dmgInfo)
@@ -224,11 +224,11 @@ public static class InteractionHandler
     /// <param name="healInfo">What healing to inflict</param>
     /// <param name="target">The Pokemon receiving the healing</param>
     /// <returns>Whether the healing succeeded</returns>
-    public static bool DoHealing(HealingInfo healInfo, I_Battler target)
+    public static double DoHealing(HealingInfo healInfo, I_Battler target)
     {
         // If the target is dead, cancel the healing
         if (target.CurrHP == 0)
-            return false;
+            return -1;
 
         // Calculate the healing
         double healing = CalculateHealing(healInfo, target);
@@ -241,7 +241,7 @@ public static class InteractionHandler
         target.CurrHP += (int) healing;
         
         // Indicate that everything went smoothly
-        return true;
+        return healing;
     }
 
     /// <summary>
@@ -254,7 +254,7 @@ public static class InteractionHandler
     /// Thrown if the HealingInfo possess impossible parameters combination
     /// </exception>
     [Pure]
-    private static double CalculateHealing(HealingInfo healInfo, I_Battler target)
+    public static double CalculateHealing(HealingInfo healInfo, I_Battler target)
     {
         return healInfo switch
                {

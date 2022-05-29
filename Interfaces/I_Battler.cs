@@ -17,6 +17,11 @@ public interface I_Battler
     public string Name { get; }
 
     /// <summary>
+    /// The species the battler belongs to
+    /// </summary>
+    public PokeSpecies Species { get; }
+
+    /// <summary>
     /// Types used for damage calculation
     /// </summary>
     public IEnumerable<PokeType> Types { get; }

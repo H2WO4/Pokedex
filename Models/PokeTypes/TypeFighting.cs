@@ -13,6 +13,6 @@ public class TypeFighting : PokeType
 
     #region Constructor
     private TypeFighting()
-        : base("Fighting", (187, 85, 69)) { }
+        : base("Fighting") { }
     #endregion
 }

@@ -13,6 +13,6 @@ public class TypeDragon : PokeType
 
     #region Constructor
     private TypeDragon()
-        : base("Dragon", (120, 103, 238)) { }
+        : base("Dragon") { }
     #endregion
 }

@@ -9,7 +9,7 @@ public interface IM_Heal : I_Skill
     
     int HealingPower { get; }
 
-    object I_Skill.CreateInfo()
+    object I_Skill.CreateInfo(I_Battler target)
     {
         return new HealingInfo(CalcClass, HealingPower);
     }

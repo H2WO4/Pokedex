@@ -4,12 +4,12 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveBarrage : PokeMove
+public class MoveSwift : PokeMove
 {
-    public MoveBarrage()
-        : base("Barrage",
-               MoveClass.Physical,
-               15, 85, // Pow & Acc
+    public MoveSwift()
+        : base("Swift",
+               MoveClass.Special,
+               60, null, // Pow & Acc
                20, 0, // PP & Priority
                TypeNormal.Singleton) { }
 }

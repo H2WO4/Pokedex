@@ -13,6 +13,6 @@ public class TypeGrass : PokeType
 
     #region Constructor
     private TypeGrass()
-        : base("Grass", (119, 204, 85)) { }
+        : base("Grass") { }
     #endregion
 }

@@ -13,6 +13,6 @@ public class TypeDark : PokeType
 
     #region Constructor
     private TypeDark()
-        : base("Dark", (119, 85, 68)) { }
+        : base("Dark") { }
     #endregion
 }

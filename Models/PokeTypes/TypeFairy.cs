@@ -13,6 +13,6 @@ public class TypeFairy : PokeType
 
     #region Constructor
     private TypeFairy()
-        : base("Fairy", (238, 153, 238)) { }
+        : base("Fairy") { }
     #endregion
 }

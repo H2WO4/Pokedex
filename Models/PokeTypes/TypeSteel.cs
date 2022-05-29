@@ -13,6 +13,6 @@ public class TypeSteel : PokeType
 
     #region Constructor
     private TypeSteel()
-        : base("Steel", (170, 170, 187)) { }
+        : base("Steel") { }
     #endregion
 }

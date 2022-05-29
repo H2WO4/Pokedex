@@ -13,6 +13,6 @@ public class TypePoison : PokeType
 
     #region Constructor
     private TypePoison()
-        : base("Poison", (170, 85, 153)) { }
+        : base("Poison") { }
     #endregion
 }

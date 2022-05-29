@@ -24,7 +24,7 @@ public class FlinchEffect : StatusEffect
 	{
 		Origin.StatusEffects.Remove(this);
 	}
-
+	
 	public override bool Apply(I_Battler target)
 	{
 		Console.WriteLine($"{target} flinched!");

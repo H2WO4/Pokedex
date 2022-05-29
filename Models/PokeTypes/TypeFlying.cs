@@ -13,6 +13,6 @@ public class TypeFlying : PokeType
 
     #region Constructor
     private TypeFlying()
-        : base("Flying", (136, 153, 255)) { }
+        : base("Flying") { }
     #endregion
 }

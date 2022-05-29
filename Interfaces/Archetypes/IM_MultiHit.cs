@@ -29,18 +29,18 @@ public interface IM_MultiHit : I_Skill
                 totalHits++;
 
                 target.Ability.AfterDefend(this);
-            }
-            else
+            } else
                 Console.WriteLine($"{Caster}'s {Name} missed {target}\n");
         }
 
         string finalS = totalHits == 1
                             ? ""
                             : "s";
+
         Console.WriteLine($"Hit {totalHits} time{finalS}");
     }
 
-    private int GenerateHitNumber()
+    protected int GenerateHitNumber()
     {
         if (Caster.Ability is AbilitySkillLink)
             return 5;

@@ -13,6 +13,6 @@ public class TypePsychic : PokeType
 
     #region Constructor
     private TypePsychic()
-        : base("Psychic", (238, 84, 153)) { }
+        : base("Psychic") { }
     #endregion
 }

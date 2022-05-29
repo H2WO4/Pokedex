@@ -13,6 +13,6 @@ public class TypeGround : PokeType
 
     #region Constructor
     private TypeGround()
-        : base("Ground", (221, 187, 85)) { }
+        : base("Ground") { }
     #endregion
 }

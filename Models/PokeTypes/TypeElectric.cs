@@ -13,6 +13,6 @@ public class TypeElectric : PokeType
 
     #region Constructor
     private TypeElectric()
-        : base("Electric", (245, 204, 52)) { }
+        : base("Electric") { }
     #endregion
 }

@@ -13,6 +13,6 @@ public class TypeFire : PokeType
 
     #region Constructor
     private TypeFire()
-        : base("Fire", (236, 66, 37)) { }
+        : base("Fire") { }
     #endregion
 }
