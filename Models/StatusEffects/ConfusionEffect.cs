@@ -35,7 +35,7 @@ public class ConfusionEffect : StatusEffect
 			return false;
 		
 		Console.WriteLine($"{Origin} it hurt itself in its confusion!");
-		var dmgInfo = new DamageInfo(CalcClass.Calculated, 40) { AttackStats = Stat.Atk, DefenseStats = Stat.Def };
+		var dmgInfo = new DamageInfo(CalcClass.Calculated, 40) { AttackStats = Stat.Attack, DefenseStats = Stat.Defense };
 		InteractionHandler.DoDamageNoCaster(dmgInfo, Origin);
 
 		return true;

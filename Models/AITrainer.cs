@@ -10,6 +10,8 @@ namespace Pokedex.Models;
 /// </summary>
 public class AITrainer : I_Player
 {
+    private static readonly Random AIRnd = new Random();
+
     #region Variables
     private int _activeIndex;
     #endregion
@@ -78,8 +80,8 @@ public class AITrainer : I_Player
             if (skill.CreateInfo(opponent.Active) is not DamageInfo dmgInfo)
                 continue;
 
-            var                 exceptedDamage = (int) InteractionHandler.CalculateDamage(dmgInfo, Active, opponent.Active);
-            (int low, int high) hpRange        = GuessHPRange(opponent.Active.Species, opponent.Active.Level);
+            var exceptedDamage = (int) InteractionHandler.CalculateDamage(dmgInfo, Active, opponent.Active);
+            (int low, int high) hpRange = GuessHPRange(opponent.Active.Species, opponent.Active.Level);
 
             if (exceptedDamage >= hpRange.high)
                 sureKill.Add(move);
@@ -128,7 +130,14 @@ public class AITrainer : I_Player
 
     public void AskActiveChange()
     {
-        // TODO
+        // Print the available pokemons
+        int newPokemon = Team.Select((poke, i) => (poke, i))
+                             .Where(pair => pair.poke        != Active)
+                             .Where(pair => pair.poke.CurrHP > 0)
+                             .Select(pair => pair.i)
+                             .MinBy(_ => AIRnd.Next())!;
+
+        ChangeActive(newPokemon);
     }
     #endregion
 }

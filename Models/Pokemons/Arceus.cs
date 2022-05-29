@@ -20,8 +20,8 @@ namespace Pokedex.Models.Pokemons
                    new List<PokeType> { TypeNormal.Singleton },
                    new Dictionary<Stat, int>
                    {
-                       { Stat.HP, 120 }, { Stat.Atk, 120 }, { Stat.Def, 120 },
-                       { Stat.SpAtk, 120 }, { Stat.SpDef, 120 }, { Stat.Spd, 120 },
+                       { Stat.HP, 120 }, { Stat.Attack, 120 }, { Stat.Defense, 120 },
+                       { Stat.SpecialAttack, 120 }, { Stat.SpecialDefense, 120 }, { Stat.Speed, 120 },
                    },
                    4, "Alpha Pokémon", PokeClass.Mythical,
                    32, 3200) { }

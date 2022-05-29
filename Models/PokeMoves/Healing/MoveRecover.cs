@@ -5,7 +5,7 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveRecover : PokeMove, IM_TargetSelf, IM_Heal
+public class MoveRecover : PokeMove, IM_Heal
 {
     public CalcClass CalcClass
         => CalcClass.Percent;

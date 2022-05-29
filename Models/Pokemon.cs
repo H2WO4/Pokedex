@@ -125,31 +125,31 @@ public class Pokemon : I_Battler
     /// The base attack stat of the Pokemon
     /// </summary>
     private int BaseAtk
-        => Species.Stats[Stat.Atk];
+        => Species.Stats[Stat.Attack];
 
     /// <summary>
     /// The base defense stat of the Pokemon
     /// </summary>
     private int BaseDef
-        => Species.Stats[Stat.Def];
+        => Species.Stats[Stat.Defense];
 
     /// <summary>
     /// The base special attack stat of the Pokemon
     /// </summary>
     private int BaseSpAtk
-        => Species.Stats[Stat.SpAtk];
+        => Species.Stats[Stat.SpecialAttack];
 
     /// <summary>
     /// The base special defense stat of the Pokemon
     /// </summary>
     private int BaseSpDef
-        => Species.Stats[Stat.SpDef];
+        => Species.Stats[Stat.SpecialDefense];
 
     /// <summary>
     /// The base speed stat of the Pokemon
     /// </summary>
     private int BaseSpd
-        => Species.Stats[Stat.Spd];
+        => Species.Stats[Stat.Speed];
     
     public PokeSpecies Species { get; }
 
@@ -195,15 +195,15 @@ public class Pokemon : I_Battler
 
         IVs = new Dictionary<Stat, int>
               {
-                  { Stat.HP, Program.Rnd.Next(0,    32) }, { Stat.Atk, Program.Rnd.Next(0,   32) },
-                  { Stat.Def, Program.Rnd.Next(0,   32) }, { Stat.SpAtk, Program.Rnd.Next(0, 32) },
-                  { Stat.SpDef, Program.Rnd.Next(0, 32) }, { Stat.Spd, Program.Rnd.Next(0,   32) },
+                  { Stat.HP, Program.Rnd.Next(0,    32) }, { Stat.Attack, Program.Rnd.Next(0,   32) },
+                  { Stat.Defense, Program.Rnd.Next(0,   32) }, { Stat.SpecialAttack, Program.Rnd.Next(0, 32) },
+                  { Stat.SpecialDefense, Program.Rnd.Next(0, 32) }, { Stat.Speed, Program.Rnd.Next(0,   32) },
               };
 
         EVs = new Dictionary<Stat, int>
               {
-                  { Stat.HP, 0 }, { Stat.Atk, 0 }, { Stat.Def, 0 },
-                  { Stat.SpAtk, 0 }, { Stat.SpDef, 0 }, { Stat.Spd, 0 },
+                  { Stat.HP, 0 }, { Stat.Attack, 0 }, { Stat.Defense, 0 },
+                  { Stat.SpecialAttack, 0 }, { Stat.SpecialDefense, 0 }, { Stat.Speed, 0 },
               };
 
         _nature = Natures[Program.Rnd.Next(Natures.Length - 1)];
@@ -255,8 +255,8 @@ public class Pokemon : I_Battler
     )
         : this(species, level, name, nature)
     {
-        SetEVs(evs[Stat.HP],    evs[Stat.Atk],   evs[Stat.Def],
-               evs[Stat.SpAtk], evs[Stat.SpDef], evs[Stat.Spd]);
+        SetEVs(evs[Stat.HP],    evs[Stat.Attack],   evs[Stat.Defense],
+               evs[Stat.SpecialAttack], evs[Stat.SpecialDefense], evs[Stat.Speed]);
 
         _currHP = HP();
     }
@@ -281,8 +281,8 @@ public class Pokemon : I_Battler
     public int Atk()
     {
         int result = BaseAtk * 2; // Base stat
-        result += IVs[Stat.Atk]; // IVs
-        result += (int) (EVs[Stat.Atk]  / 4d); // EVs
+        result += IVs[Stat.Attack]; // IVs
+        result += (int) (EVs[Stat.Attack]  / 4d); // EVs
         result =  (int) (result * Level / 100d); // Adjust for level
         result += 5; // Flat value
 
@@ -296,7 +296,7 @@ public class Pokemon : I_Battler
 
         result = (int) (result * natureBonus); // Apply Nature
 
-        result = (int) (result * StageMult[StatBoosts[Stat.Atk]]); // Apply stat boost
+        result = (int) (result * StageMult[StatBoosts[Stat.Attack]]); // Apply stat boost
 
         result = Ability.ChangeAtk(result);
         result = StatusEffects
@@ -308,8 +308,8 @@ public class Pokemon : I_Battler
     public int Def()
     {
         int result = BaseDef * 2; // Base stat
-        result += IVs[Stat.Def]; // IVs
-        result += (int) (EVs[Stat.Def]  / 4d); // EVs
+        result += IVs[Stat.Defense]; // IVs
+        result += (int) (EVs[Stat.Defense]  / 4d); // EVs
         result =  (int) (result * Level / 100d); // Adjust for level
         result += 5; // Flat value
 
@@ -323,7 +323,7 @@ public class Pokemon : I_Battler
 
         result = (int) (result * natureBonus); // Apply Nature
 
-        result = (int) (result * StageMult[StatBoosts[Stat.Def]]); // Apply stat boost
+        result = (int) (result * StageMult[StatBoosts[Stat.Defense]]); // Apply stat boost
 
         result = Ability.ChangeDef(result);
         result = StatusEffects
@@ -335,8 +335,8 @@ public class Pokemon : I_Battler
     public int SpAtk()
     {
         int result = BaseSpAtk * 2; // Base stat
-        result += IVs[Stat.SpAtk]; // IVs
-        result += (int) (EVs[Stat.SpAtk] / 4d); // EVs
+        result += IVs[Stat.SpecialAttack]; // IVs
+        result += (int) (EVs[Stat.SpecialAttack] / 4d); // EVs
         result =  (int) (result * Level  / 100d); // Adjust for level
         result += 5; // Flat value
 
@@ -350,7 +350,7 @@ public class Pokemon : I_Battler
 
         result = (int) (result * natureBonus); // Apply Nature
 
-        result = (int) (result * StageMult[StatBoosts[Stat.SpAtk]]); // Apply stat boost
+        result = (int) (result * StageMult[StatBoosts[Stat.SpecialAttack]]); // Apply stat boost
 
         result = Ability.ChangeSpAtk(result);
         result = StatusEffects
@@ -362,8 +362,8 @@ public class Pokemon : I_Battler
     public int SpDef()
     {
         int result = BaseSpDef * 2; // Base stat
-        result += IVs[Stat.SpDef]; // IVs
-        result += (int) (EVs[Stat.SpDef] / 4d); // EVs
+        result += IVs[Stat.SpecialDefense]; // IVs
+        result += (int) (EVs[Stat.SpecialDefense] / 4d); // EVs
         result =  (int) (result * Level  / 100d); // Adjust for level
         result += 5; // Flat value
 
@@ -377,7 +377,7 @@ public class Pokemon : I_Battler
 
         result = (int) (result * natureBonus); // Apply Nature
 
-        result = (int) (result * StageMult[StatBoosts[Stat.SpDef]]); // Apply stat boost
+        result = (int) (result * StageMult[StatBoosts[Stat.SpecialDefense]]); // Apply stat boost
 
         result = Ability.ChangeSpDef(result);
         result = StatusEffects
@@ -389,8 +389,8 @@ public class Pokemon : I_Battler
     public int Spd()
     {
         int result = BaseSpd * 2; // Base stat
-        result += IVs[Stat.Spd]; // IVs
-        result += (int) (EVs[Stat.Spd]  / 4d); // EVs
+        result += IVs[Stat.Speed]; // IVs
+        result += (int) (EVs[Stat.Speed]  / 4d); // EVs
         result =  (int) (result * Level / 100d); // Adjust for level
         result += 5; // Flat value
 
@@ -404,7 +404,7 @@ public class Pokemon : I_Battler
 
         result = (int) (result * natureBonus); // Apply Nature
 
-        result = (int) (result * StageMult[StatBoosts[Stat.Spd]]); // Apply stat boost
+        result = (int) (result * StageMult[StatBoosts[Stat.Speed]]); // Apply stat boost
 
         result = Ability.ChangeSpd(result);
         result = StatusEffects
@@ -419,11 +419,11 @@ public class Pokemon : I_Battler
             stat switch
             {
                 Stat.HP    => HP(),
-                Stat.Atk   => Atk(),
-                Stat.Def   => Def(),
-                Stat.SpAtk => SpAtk(),
-                Stat.SpDef => SpDef(),
-                Stat.Spd   => Spd(),
+                Stat.Attack   => Atk(),
+                Stat.Defense   => Def(),
+                Stat.SpecialAttack => SpAtk(),
+                Stat.SpecialDefense => SpDef(),
+                Stat.Speed   => Spd(),
 
                 _ => throw new ArgumentException("Invalid value"),
             };
@@ -456,11 +456,11 @@ public class Pokemon : I_Battler
                        int spAtk, int spDef, int spd)
     {
         SetIV(Stat.HP,    hp);
-        SetIV(Stat.Atk,   atk);
-        SetIV(Stat.Def,   def);
-        SetIV(Stat.SpAtk, spAtk);
-        SetIV(Stat.SpDef, spDef);
-        SetIV(Stat.Spd,   spd);
+        SetIV(Stat.Attack,   atk);
+        SetIV(Stat.Defense,   def);
+        SetIV(Stat.SpecialAttack, spAtk);
+        SetIV(Stat.SpecialDefense, spDef);
+        SetIV(Stat.Speed,   spd);
 
         // Set the HP to max, in case it was higher
         CurrHP = _currHP;
@@ -522,11 +522,11 @@ public class Pokemon : I_Battler
             throw new ArgumentException("Total EVs cannot surpass 510");
 
         SetEVUnsafe(Stat.HP,    hp);
-        SetEVUnsafe(Stat.Atk,   atk);
-        SetEVUnsafe(Stat.Def,   def);
-        SetEVUnsafe(Stat.SpAtk, spAtk);
-        SetEVUnsafe(Stat.SpDef, spDef);
-        SetEVUnsafe(Stat.Spd,   spd);
+        SetEVUnsafe(Stat.Attack,   atk);
+        SetEVUnsafe(Stat.Defense,   def);
+        SetEVUnsafe(Stat.SpecialAttack, spAtk);
+        SetEVUnsafe(Stat.SpecialDefense, spDef);
+        SetEVUnsafe(Stat.Speed,   spd);
     }
 
     /// <summary>
@@ -568,11 +568,11 @@ public class Pokemon : I_Battler
     public void SetBoosts(int atk,   int def,
                           int spAtk, int spDef, int spd)
     {
-        StatBoosts[Stat.Atk]   = atk;
-        StatBoosts[Stat.Def]   = def;
-        StatBoosts[Stat.SpAtk] = spAtk;
-        StatBoosts[Stat.SpDef] = spDef;
-        StatBoosts[Stat.Spd]   = spd;
+        StatBoosts[Stat.Attack]   = atk;
+        StatBoosts[Stat.Defense]   = def;
+        StatBoosts[Stat.SpecialAttack] = spAtk;
+        StatBoosts[Stat.SpecialDefense] = spDef;
+        StatBoosts[Stat.Speed]   = spd;
     }
 
     /// <summary>

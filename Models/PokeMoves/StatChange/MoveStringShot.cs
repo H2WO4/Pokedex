@@ -7,11 +7,21 @@ namespace Pokedex.Models.PokeMoves;
 
 public class MoveStringShot : PokeMove, IM_StatChange
 {
-    public Stat StatToChange
-        => Stat.Spd;
+    public IEnumerable<Stat> StatsToChange
+    {
+        get
+        {
+            yield return Stat.Speed;
+        }
+    }
 
-    public int ChangeValue
-        => -1;
+    public IEnumerable<int> ChangeValues
+    {
+        get
+        {
+            yield return -2;
+        }
+    }
 
     public MoveStringShot()
         : base("String Shot",

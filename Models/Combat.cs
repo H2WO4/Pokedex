@@ -130,7 +130,7 @@ public class Combat : I_Combat
                       .All(effect => effect.SkipTurn() is false))
                 player.PlayTurn();
 
-            // Console.Clear();
+            Console.Clear();
         }
 
         // Do actions that could reorder the queue

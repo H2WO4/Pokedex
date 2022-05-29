@@ -77,13 +77,13 @@ public class TestPokemonClass
         var arceus = new Pokemon(Arceus.Singleton, 100);
 
         // * Singular EV assignment
-        Assert.ThrowsException<ArgumentException>(() => arceus.SetEV(Stat.Atk, 253),
+        Assert.ThrowsException<ArgumentException>(() => arceus.SetEV(Stat.Attack, 253),
                                                   "EV above 252 was accepted, whereas it should not");
-        Assert.ThrowsException<ArgumentException>(() => arceus.SetEV(Stat.Atk, -1),
+        Assert.ThrowsException<ArgumentException>(() => arceus.SetEV(Stat.Attack, -1),
                                                   "Negative EV was accepted, whereas it should not");
         arceus.SetEVs(100, 100, 100,
                       100, 100, 0);
-        Assert.ThrowsException<ArgumentException>(() => arceus.SetEV(Stat.Spd, 11),
+        Assert.ThrowsException<ArgumentException>(() => arceus.SetEV(Stat.Speed, 11),
                                                   "EV putting total EVs above 510 was accepted, whereas it should not");
 
         // * Multi-EV assignment

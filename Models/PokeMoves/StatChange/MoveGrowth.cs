@@ -5,14 +5,14 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveGrowth : PokeMove, IM_TargetSelf, IM_StatChangeMany
+public class MoveGrowth : PokeMove, IM_StatChange, IM_TargetSelf
 {
     public IEnumerable<Stat> StatsToChange
     {
         get
         {
-            yield return Stat.Atk;
-            yield return Stat.SpAtk;
+            yield return Stat.Attack;
+            yield return Stat.SpecialAttack;
         }
     }
 
@@ -20,8 +20,8 @@ public class MoveGrowth : PokeMove, IM_TargetSelf, IM_StatChangeMany
     {
         get
         {
-            yield return +1;
-            yield return +1;
+            yield return 1;
+            yield return 1;
         }
     }
 

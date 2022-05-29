@@ -6,16 +6,19 @@ namespace Pokedex.Interfaces.Archetypes;
 
 public interface IM_StatChangeBonus : I_Skill
 {
-    Stat StatToChange { get; }
+    IEnumerable<Stat> StatsToChange { get; }
 
-    int ChangeValue { get; }
+    IEnumerable<int> ChangeValues { get; }
 
     int EffectChance { get; }
 
     void I_Skill.DoBonusEffects(double applied, I_Battler target)
     {
-        if (target is Pokemon poke
-         && Program.Rnd.Next(0, 100) < EffectChance)
-            poke.ChangeStatBonus(StatToChange, ChangeValue);
+        if (target is not Pokemon poke
+         || Program.Rnd.Next(0, 100) >= EffectChance)
+            return;
+
+        foreach ((Stat stat, int val) in StatsToChange.Zip(ChangeValues))
+            poke.ChangeStatBonus(stat, val);
     }
 }

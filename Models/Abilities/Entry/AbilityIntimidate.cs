@@ -21,7 +21,7 @@ public class AbilityIntimidate : Ability
                   .OfType<Pokemon>();
 
         foreach (Pokemon poke in opponentPokemons)
-            poke.ChangeStatBonus(Stat.Atk, -1);
+            poke.ChangeStatBonus(Stat.Attack, -1);
     }
     #endregion
 }

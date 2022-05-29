@@ -5,14 +5,24 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveBarrier : PokeMove, IM_TargetSelf, IM_StatChange
+public class MoveBarrier : PokeMove, IM_StatChange, IM_TargetSelf
 {
-    public Stat StatToChange
-        => Stat.Def;
+    public IEnumerable<Stat> StatsToChange
+    {
+        get
+        {
+            yield return Stat.Defense;
+        }
+    }
 
-    public int ChangeValue
-        => +2;
-    
+    public IEnumerable<int> ChangeValues
+    {
+        get
+        {
+            yield return 2;
+        }
+    }
+
     public MoveBarrier()
         : base("Barrier",
                MoveClass.Status,

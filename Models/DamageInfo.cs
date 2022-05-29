@@ -66,7 +66,7 @@ public class DamageInfo
     public static DamageInfo CreatePhysical(int power, PokeType type)
         => new(CalcClass.Calculated, power, type)
            {
-               AttackStats = Stat.Atk, DefenseStats = Stat.Def,
+               AttackStats = Stat.Attack, DefenseStats = Stat.Defense,
                Contact     = true,
            };
 
@@ -74,7 +74,7 @@ public class DamageInfo
     public static DamageInfo CreatePhysicalNoContact(int power, PokeType type)
         => new(CalcClass.Calculated, power, type)
            {
-               AttackStats = Stat.Atk, DefenseStats = Stat.Def,
+               AttackStats = Stat.Attack, DefenseStats = Stat.Defense,
                Contact     = false,
            };
 
@@ -82,7 +82,7 @@ public class DamageInfo
     public static DamageInfo CreateSpecial(int power, PokeType type)
         => new(CalcClass.Calculated, power, type)
            {
-               AttackStats = Stat.SpAtk, DefenseStats = Stat.SpDef,
+               AttackStats = Stat.SpecialAttack, DefenseStats = Stat.SpecialDefense,
                Contact     = false,
            };
 
@@ -90,7 +90,7 @@ public class DamageInfo
     public static DamageInfo CreateSpecialContact(int power, PokeType type)
         => new(CalcClass.Calculated, power, type)
            {
-               AttackStats = Stat.SpAtk, DefenseStats = Stat.SpDef,
+               AttackStats = Stat.SpecialAttack, DefenseStats = Stat.SpecialDefense,
                Contact     = true,
            };
     #endregion

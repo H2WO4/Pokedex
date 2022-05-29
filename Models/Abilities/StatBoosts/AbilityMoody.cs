@@ -13,7 +13,7 @@ public class AbilityMoody : Ability
     public override void OnTurnStart()
     {
         Announce();
-        Stat[] stats = { Stat.Atk, Stat.Def, Stat.SpAtk, Stat.SpDef, Stat.Spd };
+        Stat[] stats = { Stat.Attack, Stat.Defense, Stat.SpecialAttack, Stat.SpecialDefense, Stat.Speed };
 
         Stat plusStat = stats.Where(stat => Origin.StatBoosts[stat] != +6)
                              .OrderBy(_ => Program.Rnd.Next())

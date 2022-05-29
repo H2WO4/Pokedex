@@ -7,11 +7,21 @@ namespace Pokedex.Models.PokeMoves;
 
 public class MoveLeer : PokeMove, IM_StatChange
 {
-    public Stat StatToChange
-        => Stat.Def;
+    public IEnumerable<Stat> StatsToChange
+    {
+        get
+        {
+            yield return Stat.Defense;
+        }
+    }
 
-    public int ChangeValue
-        => -1;
+    public IEnumerable<int> ChangeValues
+    {
+        get
+        {
+            yield return -1;
+        }
+    }
 
     public MoveLeer()
         : base("Leer",

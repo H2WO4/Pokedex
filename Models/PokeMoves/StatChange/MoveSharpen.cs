@@ -5,13 +5,23 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveSharpen : PokeMove, IM_TargetSelf, IM_StatChange
+public class MoveSharpen : PokeMove, IM_StatChange, IM_TargetSelf
 {
-    public Stat StatToChange
-        => Stat.Atk;
+    public IEnumerable<Stat> StatsToChange
+    {
+        get
+        {
+            yield return Stat.Attack;
+        }
+    }
 
-    public int ChangeValue
-        => +1;
+    public IEnumerable<int> ChangeValues
+    {
+        get
+        {
+            yield return 1;
+        }
+    }
 
     public MoveSharpen()
         : base("Sharpen",

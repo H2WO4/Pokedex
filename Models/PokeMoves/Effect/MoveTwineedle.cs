@@ -6,10 +6,10 @@ using Pokedex.Models.StatusEffects;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveTwineedle : PokeMove, IM_DoubleHit, IM_StatusEffectBonus<PoisonEffect>
+public class MoveTwineedle : PokeMove, IM_StatusEffectBonus<PoisonEffect>
 {
     public int EffectChance
-        => 30;
+        => 20;
 
     public MoveTwineedle()
         : base("Twineedle",

@@ -7,117 +7,445 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2780b296-9398-4d57-97f4-3903d3e23d18" name="Changes" comment="HÉRITAGE MULTIPLE !">
-      <change afterPath="$PROJECT_DIR$/Interfaces/Archetypes/IM_RecoilPercent.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Interfaces/Archetypes/IM_SpecialDamage.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Interfaces/Archetypes/IM_StatusEffectRecoil.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/AITrainer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Charge/MoveSolarBeam.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Drain/MoveDreamEater.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Drain/MoveMegaDrain.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveBlizzard.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveConfusion.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveFireBlast.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveIceBeam.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MovePsybeam.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveRockSlide.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveSludge.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveSmog.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveThunderShock.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveThunderbolt.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveTriAttack.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveWaterfall.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveSpikeCannon.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveAuroraBeam.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveBubble.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveBubbleBeam.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveHyperFang.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MovePsychic.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveRockThrow.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveSlash.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveSwift.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/OHKO/MoveSelfDestruct.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/OHKO/MoveSubmission.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recharge/MoveHyperBeam.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveDragonRage.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveFireSpin.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveNightShade.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MovePetalDance.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MovePsywave.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveSeismicToss.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveSkullBash.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveSkyAttack.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveStruggle.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveSuperFang.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/StatusEffects/RechargeEffect.cs" afterDir="false" />
+    <list default="true" id="2780b296-9398-4d57-97f4-3903d3e23d18" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Interfaces/Archetypes/IM_Weather.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveAccelerock.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveAcidDownpourPhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveAcidDownpourSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveAerialAce.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveAeroblast.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveAirCutter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveAllOutPummelingPhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveAllOutPummelingSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveAquaJet.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveAquaTail.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveAttackOrder.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveAuraSphere.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveBlackHoleEclipsePhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveBlackHoleEclipseSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveBloomDoomPhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveBloomDoomSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveBreakneckBlitzPhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveBreakneckBlitzSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveBrutalSwing.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveBulletPunch.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveCatastropika.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveContinentalCrushPhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveContinentalCrushSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveCorkscrewCrashPhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveCorkscrewCrashSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveCrossChop.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveDazzlingGleam.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveDevastatingDrakePhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveDevastatingDrakeSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveDisarmingVoice.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveDragonClaw.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveDragonHammer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveDragonPulse.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveDrillRun.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveFairyWind.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveFeintAttack.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveGigavoltHavocPhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveGigavoltHavocSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveHighHorsepower.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveHydroVortexPhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveHydroVortexSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveHyperVoice.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveIceShard.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveInfernoOverdrivePhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveInfernoOverdriveSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveLandsWrath.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveLeafBlade.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveLeafage.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveMachPunch.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveMagicalLeaf.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveMagnetBomb.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveMaliciousMoonsault.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveMegahorn.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveNeverEndingNightmarePhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveNeverEndingNightmareSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveNightSlash.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveOceanicOperetta.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveOriginPulse.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MovePowerGem.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MovePrecipiceBlades.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MovePsychoCut.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MovePulverizingPancake.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSavageSpinOutPhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSavageSpinOutSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSeedBomb.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveShadowClaw.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveShadowSneak.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveShatteredPsychePhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveShatteredPsycheSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveShockWave.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSinisterArrowRaid.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSmartStrike.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSoulStealing7StarStrike.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSpacialRend.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveStoneEdge.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSubzeroSlammerPhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSubzeroSlammerSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSupersonicSkystrikePhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSupersonicSkystrikeSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveTectonicRagePhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveTectonicRageSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveTwinkleTacklePhysical.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveTwinkleTackleSpecial.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveVacuumWave.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveVitalThrow.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveWingAttack.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveXScissor.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveAcidSpray.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveAncientPower.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveBugBuzz.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveBulldoze.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveChargeBeam.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveClangingScales.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveCloseCombat.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveCrunch.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveCrushClaw.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveDiamondStorm.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveDracoMeteor.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveDragonAscent.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveEarthPower.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveElectroweb.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveEnergyBall.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveFieryDance.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveFireLash.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveFlameCharge.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveFlashCannon.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveFleurCannon.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveFocusBlast.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveGlaciate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveHammerArm.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveHyperspaceFury.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveIceHammer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveIcyWind.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveIronTail.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveLeafStorm.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveLiquidation.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveLowSweep.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveLunge.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveLusterPurge.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveMetalClaw.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveMeteorMash.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveMistBall.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveMoonblast.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveMudShot.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveMysticalFire.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveOminousWind.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveOverheat.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MovePlayRough.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MovePowerUpPunch.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MovePsychoBoost.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveRapidSpin.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveRazorShell.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveRockSmash.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveRockTomb.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveSeedFlare.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveShadowBall.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveShadowBone.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveSilverWind.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveSnarl.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveSteelWing.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveStruggleBug.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveSuperpower.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveTropKick.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveVCreate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Drain/MoveDrainPunch.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Drain/MoveDrainingKiss.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Drain/MoveGigaDrain.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Drain/MoveHornLeech.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Drain/MoveOblivionWing.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Drain/MoveParabolicCharge.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveAirSlash.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveAstonish.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveBlazeKick.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveBlueFlare.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveBoltStrike.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveBounce.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveChatter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveCrossPoison.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveDarkPulse.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveDischarge.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveDragonBreath.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveDragonRush.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveDynamicPunch.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveExtrasensory.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveFireFang.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveFirePunch.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveFlameWheel.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveFlareBlitz.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveForcePalm.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveFreezeDry.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveFreezeShock.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveGunkShot.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveHeartStamp.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveHeatWave.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveHurricane.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveIceBurn.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveIceFang.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveIcePunch.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveIcicleCrash.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveInferno.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveIronHead.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveLavaPlume.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveNeedleArm.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveNuzzle.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MovePoisonFang.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MovePoisonJab.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MovePoisonTail.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MovePowderSnow.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveRelicSong.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveRockClimb.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveSacredFire.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveScald.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveSearingShot.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveSignalBeam.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveSludgeBomb.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveSludgeWave.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveSpark.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveSteamEruption.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveSteamroller.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveStokedSparksurfer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveThunder.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveThunderFang.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveThunderPunch.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveTwister.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveVoltTackle.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveWaterPulse.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveZapCannon.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveZenHeadbutt.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveZingZap.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveFloralHealing.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveHealOrder.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveHealPulse.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveMilkDrink.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveMoonlight.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveMorningSun.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveRoost.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveShoreUp.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveSlackOff.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveSwallow.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveSynthesis.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveArmThrust.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveBoneRush.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveBulletSeed.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveDoubleHit.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveDualChop.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveGearGrind.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveIcicleSpear.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveRockBlast.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveTailSlap.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recharge/MoveBlastBurn.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recharge/MoveFrenzyPlant.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recharge/MoveGigaImpact.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recharge/MoveHydroCannon.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recharge/MovePrismaticLaser.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recharge/MoveRoarOfTime.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recharge/MoveRockWrecker.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recoil/MoveBraveBird.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recoil/MoveHeadCharge.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recoil/MoveHeadSmash.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recoil/MoveLightOfRuin.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recoil/MoveWildCharge.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Recoil/MoveWoodHammer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveAromaticMist.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveAutotomize.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveBabyDollEyes.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveBulkUp.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveCalmMind.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveCaptivate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveCharge.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveCharm.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveConfide.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveCosmicPower.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveCottonGuard.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveCottonSpore.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveDefendOrder.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveDragonDance.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveEerieImpulse.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveExtremeEvoboost.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveFakeTears.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveFeatherDance.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveGearUp.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveGeomancy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveHowl.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveIronDefense.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveMagneticFlux.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveMetalSound.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveNastyPlot.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveNobleRoar.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MovePartingShot.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MovePlayNice.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveQuiverDance.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveRockPolish.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveRototiller.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveScaryFace.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveShiftGear.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveTailGlow.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveTearfulLook.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveTickle.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveVenomDrench.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveWorkUp.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatusEffect/MoveDarkVoid.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatusEffect/MoveGrassWhistle.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatusEffect/MoveSweetKiss.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatusEffect/MoveTeeterDance.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/StatusEffect/MoveWillOWisp.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Switch/MoveVoltSwitch.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Switch/Teleport.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Unique/MoveFoulPlay.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Weather/MoveHail.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Weather/MoveRainDance.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Weather/MoveSandstorm.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/PokeMoves/Weather/MoveSunnyDay.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scripts/MoveGeneratorPlusUltra.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Pokedex.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Pokedex.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/data_moves.py" beforeDir="false" afterPath="$PROJECT_DIR$/Data/data_moves.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Folder.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Folder.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Interfaces/Archetypes/IM_Drain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/Archetypes/IM_Drain.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Interfaces/Archetypes/IM_Heal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/Archetypes/IM_Heal.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Interfaces/Archetypes/IM_MultiHit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/Archetypes/IM_MultiHit.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Interfaces/Archetypes/IM_Recoil.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/Archetypes/IM_Recoil.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enums/Stat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Enums/Stat.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Archetypes/IM_StatChange.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/Archetypes/IM_StatChange.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Interfaces/Archetypes/IM_StatChangeBonus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/Archetypes/IM_StatChangeBonus.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Interfaces/Archetypes/IM_StatusEffectBonus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/Archetypes/IM_StatusEffectBonus.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Interfaces/Archetypes/IM_SwitchAfter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/Archetypes/IM_SwitchAfter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Interfaces/I_Battler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/I_Battler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Interfaces/I_Skill.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/I_Skill.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Abilities/Ability___.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Abilities/Ability___.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Archetypes/IM_StatChangeMany.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/Archetypes/IM_StatChangeBonusUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/AITrainer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/AITrainer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Abilities/Entry/AbilityIntimidate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Abilities/Entry/AbilityIntimidate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Abilities/Passives/AbilitySpeedBoost.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Abilities/Passives/AbilitySpeedBoost.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Abilities/StatBoosts/AbilityMoody.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Abilities/StatBoosts/AbilityMoody.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Models/Combat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Combat.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Events/SwitchEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Events/SwitchEvent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/InteractionHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/InteractionHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveBarrage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveBarrage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveBide.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Charge/MoveBide.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveBoneClub.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveBoneClub.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveBonemerang.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveBonemerang.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveClamp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveClamp.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveConstrict.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveConstrict.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveCounter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveCounter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveCrabhammer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveCrabhammer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveDig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Charge/MoveDig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveDizzyPunch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveDizzyPunch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveDoubleKick.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveDoubleKick.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveDrillPeck.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveDrillPeck.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveEarthquake.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveEarthquake.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveEggBomb.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveEggBomb.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveExplosion.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveExplosion.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveFurySwipes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveFurySwipes.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveHighJumpKick.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveHighJumpKick.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveHyperFang.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveStrength.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveLeechLife.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveLeechLife.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveLick.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveLick.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveLowKick.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveLowKick.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MovePeck.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MovePeck.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveRage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveRage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MoveRazorLeaf.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveRazorLeaf.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveSonicBoom.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveSonicBoom.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeBug.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeBug.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeDark.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeDark.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeDragon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeDragon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeElectric.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeElectric.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeFairy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeFairy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeFighting.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeFighting.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeFire.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeFire.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeFlying.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeFlying.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeGhost.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeGhost.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeGrass.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeGrass.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeGround.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeGround.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeIce.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeIce.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeLight.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeLight.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeNormal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeNormal.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypePoison.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypePoison.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypePsychic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypePsychic.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeRock.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeRock.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeSteel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeSteel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/PokeTypes/TypeWater.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeTypes/TypeWater.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/DamageInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/DamageInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Charge/MoveBide.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Charge/MoveDig.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Charge/MoveFly.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Charge/MoveRazorWind.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Charge/MoveSolarBeam.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Drain/MoveDreamEater.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Drain/MoveDreamEater.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveBlizzard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveBlizzard.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveStomp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveStomp.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveTriAttack.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveTwineedle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveTwineedle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveRecover.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveRecover.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveRest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveSoftBoiled.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Healing/MoveSoftBoiled.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveDoubleKick.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveDoubleKick.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveAcid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveAcid.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveAuroraBeam.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveAuroraBeam.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveBarrage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveBarrage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveBoneClub.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveBoneClub.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveBonemerang.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveBonemerang.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveBubble.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveBubble.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveBubbleBeam.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveBubbleBeam.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveConstrict.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MoveConstrict.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveCrabhammer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveCrabhammer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveCut.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveCut.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveDizzyPunch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveDizzyPunch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveDoubleKick.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveDrillPeck.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveDrillPeck.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveEarthquake.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveEarthquake.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveEggBomb.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveEggBomb.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveEmber.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveEmber.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveExplosion.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveFirePunch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveFlamethrower.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveFlamethrower.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveFurySwipes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/MultiHit/MoveFurySwipes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveGust.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveGust.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveHighJumpKick.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Recoil/MoveHighJumpKick.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveHornAttack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveHornAttack.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveHydroPump.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveHydroPump.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveHyperFang.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveHyperFang.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveIcePunch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveKarateChop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveKarateChop.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveLeechLife.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Drain/MoveLeechLife.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveLick.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Effect/MoveLick.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveMegaKick.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveMegaKick.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveMegaPunch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveMegaPunch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MovePeck.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MovePeck.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MovePound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MovePound.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MovePsychic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/BonusEffect/MovePsychic.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveRazorLeaf.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveRazorLeaf.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveRockThrow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveRockThrow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveScratch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveScratch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveShadowPunch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveShadowPunch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveSlam.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSlam.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveSlash.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSlash.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveStrength.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveStrength.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveSurf.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSurf.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveSwift.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveSwift.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveTackle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveTackle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveThunder.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveThunderPunch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveViceGrip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveViceGrip.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveVineWhip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveVineWhip.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveWaterGun.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveWaterGun.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Normal/MoveWingAttack.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/OHKO/MoveSelfDestruct.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/OHKO/MoveSubmission.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Recoil/MoveSubmission.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Priority/MoveExtremeSpeed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveExtremeSpeed.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Priority/MoveQuickAttack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MoveQuickAttack.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Recoil/MoveJumpKick.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Recoil/MoveJumpKick.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveBind.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveClamp.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveCounter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveDragonRage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Unique/MoveDragonRage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveFacade.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Unique/MoveFacade.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveFinalGambit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Unique/MoveFinalGambit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveFireSpin.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveLowKick.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Unique/MoveLowKick.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveNightShade.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MovePayDay.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MovePetalDance.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MovePsywave.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Unique/MovePsywave.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MovePursuit.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveRage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveSeismicToss.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Unique/MoveSeismicToss.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveSkullBash.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveSkyAttack.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveSonicBoom.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Unique/MoveSonicBoom.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveStruggle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Recoil/MoveStruggle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveSuperFang.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Unique/MoveSuperFang.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveThrash.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/Attack/MoveWrap.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/MoveConversion.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/MoveDisable.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/MoveLeechSeed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Basic/MovePowerWhip.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/MoveLightScreen.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/MoveMetronome.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Unique/MoveMetronome.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/MoveMimic.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/MoveMist.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/MoveReflect.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/MoveSplash.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Unique/MoveSplash.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/MoveSubstitute.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Special/MoveTransform.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveAcidArmor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveAcidArmor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveAgility.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveAgility.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveAmnesia.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveAmnesia.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveBarrier.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveBarrier.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveBellyDrum.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveDefenseCurl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveDefenseCurl.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveGrowl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveGrowl.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveGrowth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveGrowth.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveHarden.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveHarden.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveLeer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveLeer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveMeditate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveMeditate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveScreech.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveScreech.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveSharpen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveSharpen.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveStringShot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveStringShot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveSwordsDance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveSwordsDance.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveTailWhip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveTailWhip.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveWithdraw.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatChange/MoveWithdraw.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/StatusEffect/MoveToxic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/StatusEffect/MoveToxic.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Switch/MoveRoar.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Switch/MoveTeleport.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Switch/MoveUTurn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PokeMoves/Switch/MoveUTurn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Switch/MoveVoltSwitchAfter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PokeMoves/Switch/MoveWhirlwind.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Models/Pokemon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Pokemon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/StatusEffect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/StatusEffect.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/StatusEffects/FlinchEffect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/StatusEffects/FlinchEffect.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Trainer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Trainer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Pokemons/Arceus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Pokemons/Arceus.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/StatusEffects/ConfusionEffect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/StatusEffects/ConfusionEffect.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Weather.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/Weather.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Pokedex.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Pokedex.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Pokedex.csproj.DotSettings" beforeDir="false" afterPath="$PROJECT_DIR$/Pokedex.csproj.DotSettings" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/TestPokemonClass.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/TestPokemonClass.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,13 +463,14 @@
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
-        <option name="accountId" value="364b26ef-7838-48f7-8bd7-613dd5ac8aac" />
+        <option name="accountId" value="9259e708-54d3-47b2-9cca-01d7a1964e7c" />
         <option name="url" value="https://github.com/H2WO4/Pokedex.git" />
       </UrlAndAccount>
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Data/pokemon.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Interfaces/Weather.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/PokeType.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -159,27 +488,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/arthur/Downloads/Pokedex&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/arthur/GitHub/Pokedex/Scripts/MoveGeneratorPlusUltra.py",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReaderModeSettings">
     <option name="showLigatures" value="true" />
   </component>
   <component name="RunManager" selected=".NET Project.Pokedex">
     <configuration name="Pokedex" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/bin/Debug/net6.0/Pokedex.exe" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/bin/Debug/net6.0/Pokedex" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bin/Debug/net6.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -217,6 +546,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="MoveGeneratorPlusUltra" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="rider.module" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python3.10" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scripts/MoveGeneratorPlusUltra.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="PokemonGenerator" type="PythonConfigurationType" factoryName="Python" singleton="false">
       <module name="rider.module" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -240,6 +590,7 @@
     </configuration>
     <list>
       <item itemvalue=".NET Project.Pokedex" />
+      <item itemvalue="Python.MoveGeneratorPlusUltra" />
       <item itemvalue="Python.MoveGenerator" />
       <item itemvalue="Python.PokemonGenerator" />
     </list>
@@ -277,13 +628,22 @@
       <workItem from="1653741495872" duration="224000" />
       <workItem from="1653750880140" duration="1748000" />
       <workItem from="1653823365526" duration="860000" />
-      <workItem from="1653826755918" duration="1039000" />
+      <workItem from="1653826755918" duration="16465000" />
     </task>
+    <task id="LOCAL-00001" summary="Moves Gen I">
+      <created>1653827893341</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1653827893341</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -303,7 +663,8 @@
     <MESSAGE value="ET ON A OUBLIER D'UPDATE LE GITIGNORE" />
     <MESSAGE value="Nettoyage de code" />
     <MESSAGE value="HÉRITAGE MULTIPLE !" />
-    <option name="LAST_COMMIT_MESSAGE" value="HÉRITAGE MULTIPLE !" />
+    <MESSAGE value="Moves Gen I" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moves Gen I" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -4,9 +4,9 @@ namespace Pokedex.Enums;
 public enum Stat
 {
     HP = 1 << 0,
-    Atk = 1 << 1,
-    Def = 1 << 2,
-    SpAtk = 1 << 3,
-    SpDef = 1 << 4,
-    Spd = 1 << 5,
+    Attack = 1 << 1,
+    Defense = 1 << 2,
+    SpecialAttack = 1 << 3,
+    SpecialDefense = 1 << 4,
+    Speed = 1 << 5,
 }

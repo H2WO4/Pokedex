@@ -6,13 +6,16 @@ namespace Pokedex.Interfaces.Archetypes;
 
 public interface IM_StatChange : I_Skill
 {
-    Stat StatToChange { get; }
+    IEnumerable<Stat> StatsToChange { get; }
 
-    int ChangeValue { get; }
+    IEnumerable<int> ChangeValues { get; }
 
     void I_Skill.DoAction(I_Battler target)
     {
-        if (target is Pokemon poke)
-            poke.ChangeStatBonus(StatToChange, ChangeValue);
+        if (target is not Pokemon poke)
+            return;
+        
+        foreach ((Stat stat, int val) in StatsToChange.Zip(ChangeValues))
+            poke.ChangeStatBonus(stat, val);
     }
 }

@@ -13,7 +13,7 @@ public class AbilitySpeedBoost : Ability
     public override void OnTurnEnd()
     {
         Announce();
-        Origin.ChangeStatBonus(Stat.Spd, +1);
+        Origin.ChangeStatBonus(Stat.Speed, +1);
     }
     #endregion
 }

@@ -5,9 +5,9 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveImDoubleKick : PokeMove, IM_DoubleHit
+public class MoveDoubleKick : PokeMove, IM_DoubleHit
 {
-    public MoveImDoubleKick()
+    public MoveDoubleKick()
         : base("Double Kick",
                MoveClass.Physical,
                30, 100, // Pow & Acc

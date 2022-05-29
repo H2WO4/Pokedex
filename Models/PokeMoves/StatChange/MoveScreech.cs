@@ -7,11 +7,21 @@ namespace Pokedex.Models.PokeMoves;
 
 public class MoveScreech : PokeMove, IM_StatChange
 {
-    public Stat StatToChange
-        => Stat.Def;
+    public IEnumerable<Stat> StatsToChange
+    {
+        get
+        {
+            yield return Stat.Defense;
+        }
+    }
 
-    public int ChangeValue
-        => -2;
+    public IEnumerable<int> ChangeValues
+    {
+        get
+        {
+            yield return -2;
+        }
+    }
 
     public MoveScreech()
         : base("Screech",

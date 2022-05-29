@@ -7,11 +7,21 @@ namespace Pokedex.Models.PokeMoves;
 
 public class MoveGrowl : PokeMove, IM_StatChange
 {
-    public Stat StatToChange
-        => Stat.Atk;
+    public IEnumerable<Stat> StatsToChange
+    {
+        get
+        {
+            yield return Stat.Attack;
+        }
+    }
 
-    public int ChangeValue
-        => -1;
+    public IEnumerable<int> ChangeValues
+    {
+        get
+        {
+            yield return -1;
+        }
+    }
 
     public MoveGrowl()
         : base("Growl",

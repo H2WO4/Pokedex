@@ -5,13 +5,23 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveDefenseCurl : PokeMove, IM_TargetSelf, IM_StatChange
+public class MoveDefenseCurl : PokeMove, IM_StatChange, IM_TargetSelf
 {
-    public Stat StatToChange
-        => Stat.Def;
+    public IEnumerable<Stat> StatsToChange
+    {
+        get
+        {
+            yield return Stat.Defense;
+        }
+    }
 
-    public int ChangeValue
-        => +1;
+    public IEnumerable<int> ChangeValues
+    {
+        get
+        {
+            yield return 1;
+        }
+    }
 
     public MoveDefenseCurl()
         : base("Defense Curl",

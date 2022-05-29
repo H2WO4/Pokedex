@@ -6,7 +6,7 @@ using Pokedex.Models.StatusEffects;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveToxic : PokeMove, IM_StatusEffect<ToxicEffect>
+public class MoveToxic : PokeMove, IM_StatusEffect<PoisonEffect>
 {
     public MoveToxic()
         : base("Toxic",

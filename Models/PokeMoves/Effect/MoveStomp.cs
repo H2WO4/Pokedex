@@ -6,7 +6,7 @@ using Pokedex.Models.StatusEffects;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveStomp : PokeMove, IM_StatusEffectBonus<ParalysisEffect>
+public class MoveStomp : PokeMove, IM_StatusEffectBonus<FlinchEffect>
 {
     public int EffectChance
         => 30;

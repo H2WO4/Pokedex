@@ -5,13 +5,23 @@ using Pokedex.Models.PokeTypes;
 
 namespace Pokedex.Models.PokeMoves;
 
-public class MoveSwordsDance : PokeMove, IM_TargetSelf, IM_StatChange
+public class MoveSwordsDance : PokeMove, IM_StatChange, IM_TargetSelf
 {
-    public Stat StatToChange
-        => Stat.Atk;
+    public IEnumerable<Stat> StatsToChange
+    {
+        get
+        {
+            yield return Stat.Attack;
+        }
+    }
 
-    public int ChangeValue
-        => +2;
+    public IEnumerable<int> ChangeValues
+    {
+        get
+        {
+            yield return 2;
+        }
+    }
 
     public MoveSwordsDance()
         : base("Swords Dance",
